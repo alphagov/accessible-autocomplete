@@ -2,6 +2,7 @@ import { h, Component } from 'preact'
 import PropTypes from 'proptypes'
 
 const kc = {
+  13: 'enter',
   38: 'up',
   40: 'down'
 }
@@ -41,6 +42,12 @@ export default class Typeahead extends Component {
     })
   }
 
+  handleSelect () {
+    this.setState({
+      query: this.state.options[this.state.selected]
+    }, () => this.handleFocus(-1))
+  }
+
   handleFocus (selectedIdx) {
     this.setState({
       selected: selectedIdx
@@ -73,6 +80,9 @@ export default class Typeahead extends Component {
         break
       case 'down':
         this.handleDownArrow(evt)
+        break
+      case 'enter':
+        this.handleSelect(evt)
         break
       default:
         break
