@@ -149,6 +149,7 @@ export default class Typeahead extends Component {
   render ({ id = '' }, { options, query, selected }) {
     return <div onKeyDown={ this.handleKeyDown }>
       <input
+        aria-expanded={ options.length > 0 }
         aria-owns={ `${id}-typeahead__listbox` }
         id={ id }
         onInput={ this.handleQueryChange }
