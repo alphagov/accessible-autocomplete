@@ -18,7 +18,7 @@ export default class Home extends Component {
         <h1>Home</h1>
         <p>This is the Home component.</p>
         <label htmlFor='autocomplete'>Country</label>
-        <div>
+        <div style={{ width: '480px' }}>
           <Typeahead
             id='autocomplete'
             source={ suggest }

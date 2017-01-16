@@ -20,3 +20,79 @@ html, body {
 #app {
 	height: 100%;
 }
+
+.form-control {
+  -webkit-appearance: none;
+  background-color: transparent;
+  border-radius: 0;
+  border: 2px solid;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  color: inherit;
+  font-family: Arial, sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.31579;
+  padding: 5px 4px 4px;
+  text-transform: none;
+  width: 100%;
+}
+
+input:focus {
+  outline: 3px solid #ffbf47;
+  outline-offset: 0;
+}
+
+.tt-menu {
+  width: 100%;
+  width: calc(100% - 4px);
+  max-height: 342px;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: #fff;
+  border: 2px solid #6f777b;
+}
+
+.tt-suggestion {
+  position: relative;
+  display: block;
+  margin-bottom: -2px;
+  padding: 8px;
+  border: solid #bfc1c3;
+  border-width: 2px 0;
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 700;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  cursor: pointer;
+}
+
+@media (min-width: 641px) {
+  .tt-suggestion {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
+
+.tt-suggestion:first-of-type {
+  border-top-width: 0;
+}
+
+.tt-suggestion:hover, .tt-suggestion:focus {
+  z-index: 1;
+  background-color: #2b8cc4;
+  border-color: #2b8cc4;
+  color: white;
+}
+
+@media (min-width: 641px) {
+  .tt-menu {
+    width: 50%;
+    width: calc(50% - 4px);
+  }
+}

@@ -96,24 +96,46 @@ export default class Typeahead extends Component {
   }
 
   render ({ id = '' }, { options, query, selected }) {
-    return <div onKeyDown={ this.handleKeyDown }>
+    return <div
+      onKeyDown={ this.handleKeyDown }
+      style={{
+        'display': 'inline-block',
+        'position': 'relative',
+        'width': '100%'
+      }}
+    >
       <input
         aria-activedescendant={ selected ? `${id}-typeahead__option--${selected}` : '' }
         aria-expanded={ options.length > 0 }
         aria-owns={ `${id}-typeahead__listbox` }
+        className='form-control'
         id={ id }
         onInput={ this.handleQueryChange }
         ref={ inputEl => { elementRefs[-1] = inputEl }}
         role='combobox'
+        style={{
+          'position': 'relative',
+          'verticalAlign': 'top'
+        }}
         type='text'
         value={ query }
       />
       <ul
+        className='tt-menu'
         id={ `${id}-typeahead__listbox` }
         role='listbox'
+        style={{
+          'display': (options.length) ? 'block' : 'none',
+          'left': '0px',
+          'position': 'absolute',
+          'top': '100%',
+          'width': '100%',
+          'zIndex': '100'
+        }}
       >
         { options.map((option, idx) =>
             <li
+              className='tt-suggestion'
               id={ `${id}-typeahead__option--${idx}` }
               onClick={ (evt) => this.handleOptionClick(evt, idx) }
               ref={ optionEl => { elementRefs[idx] = optionEl }}
