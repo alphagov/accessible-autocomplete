@@ -2,6 +2,15 @@ import { h, Component } from 'preact'
 import style from './style'
 import Typeahead from '../typeahead'
 
+function suggest (query, syncResults) {
+  const results = [
+    'United Kingdom',
+    'Germany',
+    'France'
+  ]
+  syncResults(query ? results : [])
+}
+
 export default class Home extends Component {
   render () {
     return (
@@ -12,6 +21,7 @@ export default class Home extends Component {
         <div>
           <Typeahead
             id='autocomplete'
+            source={ suggest }
           />
         </div>
       </div>
