@@ -1,6 +1,28 @@
 import { h, Component } from 'preact'
 import PropTypes from 'proptypes'
 
+class Status extends Component {
+  render ({ length }) {
+    const words = {
+      result: (length === 1) ? 'result' : 'results',
+      is: (length === 1) ? 'is' : 'are'
+    }
+
+    return <div
+      aria-live='polite'
+      role='status'
+    >
+      {(length === 0)
+        ? <span />
+        : <span>
+            {length} {words.result} {words.is} available,
+            use arrow keys or swipe to navigate.
+        </span>
+      }
+    </div>
+  }
+}
+
 const kc = {
   13: 'enter',
   38: 'up',
@@ -100,10 +122,10 @@ export default class Typeahead extends Component {
         aria-owns={ `${id}-typeahead__listbox` }
         id={ id }
         onInput={ this.handleQueryChange }
+        ref={ inputEl => { elementRefs[-1] = inputEl }}
         role='combobox'
         type='text'
         value={ query }
-        ref={ inputEl => { elementRefs[-1] = inputEl }}
       />
       <ul
         id={ `${id}-typeahead__listbox` }
@@ -122,6 +144,7 @@ export default class Typeahead extends Component {
           )
         }
       </ul>
+      <Status length={ options.length } />
     </div>
   }
 }
