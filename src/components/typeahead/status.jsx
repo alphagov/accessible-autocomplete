@@ -38,6 +38,18 @@ export default class Status extends Component {
     return <div
       aria-live='polite'
       role='status'
+      style={{
+        border: '0',
+        clip: 'rect(0 0 0 0)',
+        height: '1px',
+        marginBottom: '-1px',
+        marginRight: '-1px',
+        overflow: 'hidden',
+        padding: '0',
+        position: 'absolute',
+        whiteSpace: 'nowrap',
+        width: '1px'
+      }}
     >
       {(cleared)
         ? <span />
