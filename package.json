@@ -75,6 +75,7 @@
     "webpack-dev-server": "^1.15.0"
   },
   "dependencies": {
+    "lodash.debounce": "^4.0.8",
     "preact": "^6.0.0",
     "preact-compat": "^3.0.0",
     "preact-router": "^2.0.0",

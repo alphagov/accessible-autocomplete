@@ -1,8 +1,27 @@
 import { h, Component } from 'preact'
 import PropTypes from 'proptypes'
+import debounce from 'lodash.debounce'
 
 class Status extends Component {
-  render ({ length }) {
+  state = {
+    cleared: true
+  }
+
+  componentWillReceiveProps () {
+    this.setState({
+      cleared: false
+    }, () => {
+      this.clearContent()
+    })
+  }
+
+  clearContent = debounce(() => {
+    this.setState({
+      cleared: true
+    })
+  }, 1000)
+
+  render ({ length }, { cleared }) {
     const words = {
       result: (length === 1) ? 'result' : 'results',
       is: (length === 1) ? 'is' : 'are'
@@ -12,13 +31,16 @@ class Status extends Component {
       aria-live='polite'
       role='status'
     >
-      {(length === 0)
+      {(cleared)
         ? <span />
-        : <span>
+        : (length === 0)
+          ? <span>No search results.</span>
+          : <span>
             {length} {words.result} {words.is} available,
             use arrow keys or swipe to navigate.
-        </span>
+          </span>
       }
+
     </div>
   }
 }
