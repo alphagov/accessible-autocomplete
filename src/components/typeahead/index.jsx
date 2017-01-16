@@ -3,16 +3,24 @@ import PropTypes from 'proptypes'
 import debounce from 'lodash.debounce'
 
 class Status extends Component {
+  static propTypes = {
+    length: PropTypes.number.isRequired
+  }
+
   state = {
     cleared: true
   }
 
-  componentWillReceiveProps () {
-    this.setState({
-      cleared: false
-    }, () => {
-      this.clearContent()
-    })
+  componentWillReceiveProps ({ length }) {
+    const hasChanged = length !== this.props.length
+    const stillNoResults = length === 0
+    if (hasChanged || stillNoResults) {
+      this.setState({
+        cleared: false
+      }, () => {
+        this.clearContent()
+      })
+    }
   }
 
   clearContent = debounce(() => {
