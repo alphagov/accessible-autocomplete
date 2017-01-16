@@ -29,6 +29,7 @@ export default class Typeahead extends Component {
     this.handleUpArrow = this.handleUpArrow.bind(this)
     this.handleDownArrow = this.handleDownArrow.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+    this.handleOptionClick = this.handleOptionClick.bind(this)
   }
 
   handleQueryChange (evt) {
@@ -42,9 +43,13 @@ export default class Typeahead extends Component {
     })
   }
 
-  handleSelect () {
+  handleOptionClick (evt, idx) {
+    this.handleSelect(evt, idx)
+  }
+
+  handleSelect (evt, idx = this.state.selected) {
     this.setState({
-      query: this.state.options[this.state.selected]
+      query: this.state.options[idx]
     }, () => this.handleFocus(-1))
   }
 
@@ -107,6 +112,7 @@ export default class Typeahead extends Component {
         { options.map((option, idx) =>
             <li
               id={ `${id}-typeahead__option--${idx}` }
+              onClick={ (evt) => this.handleOptionClick(evt, idx) }
               ref={ optionEl => { elementRefs[idx] = optionEl }}
               role='option'
               tabindex='-1'
