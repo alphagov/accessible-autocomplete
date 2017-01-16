@@ -1,9 +1,18 @@
 import { h, Component } from 'preact'
+import PropTypes from 'proptypes'
 
 export default class Typeahead extends Component {
-  render () {
+  static propTypes = {
+    id: PropTypes.string
+  }
+
+  render ({ id }) {
     return (
-      <div>Test</div>
+      <input
+        id={ id }
+        type='text'
+        role='combobox'
+      />
     )
   }
 }

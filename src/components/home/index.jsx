@@ -8,7 +8,12 @@ export default class Home extends Component {
       <div class={style.home}>
         <h1>Home</h1>
         <p>This is the Home component.</p>
-        <Typeahead />
+        <label htmlFor='autocomplete'>Country</label>
+        <div>
+          <Typeahead
+            id='autocomplete'
+          />
+        </div>
       </div>
     )
   }
