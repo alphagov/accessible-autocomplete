@@ -110,9 +110,9 @@ export default class Typeahead extends Component {
 
     const Input = () =>
       <input
-        aria-activedescendant={ selected ? `${id}-typeahead__option--${selected}` : '' }
+        aria-activedescendant={ selected ? `${id}__option--${selected}` : '' }
         aria-expanded={ options.length > 0 }
-        aria-owns={ `${id}-typeahead__listbox` }
+        aria-owns={ `${id}__listbox` }
         className='form-control'
         id={ id }
         onInput={ this.handleQueryChange }
@@ -126,7 +126,7 @@ export default class Typeahead extends Component {
     const Menu = ({ children }) =>
       <ul
         className='tt-menu'
-        id={ `${id}-typeahead__listbox` }
+        id={ `${id}__listbox` }
         role='listbox'
         style={{
           'display': (options.length) ? 'block' : 'none',
@@ -143,7 +143,7 @@ export default class Typeahead extends Component {
     const Option = ({ children, idx }) =>
       <li
         className='tt-suggestion'
-        id={ `${id}-typeahead__option--${idx}` }
+        id={ `${id}__option--${idx}` }
         onClick={ (evt) => this.handleOptionClick(evt, idx) }
         ref={ (optionEl) => { elementRefs[idx] = optionEl }}
         role='option'
