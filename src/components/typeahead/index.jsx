@@ -14,76 +14,113 @@ export default class Typeahead extends Component {
     menuOpen: false,
     options: [],
     query: '',
-    selected: -1
+    selected: null
   }
 
   constructor (props) {
     super(props)
 
-    this.handleQueryChange = this.handleQueryChange.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleUpArrow = this.handleUpArrow.bind(this)
     this.handleDownArrow = this.handleDownArrow.bind(this)
-    this.handleOptionClick = this.handleOptionClick.bind(this)
+
+    this.handleOptionBlur = this.handleOptionBlur.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
     this.handleOptionSelect = this.handleOptionSelect.bind(this)
+
     this.handleInputBlur = this.handleInputBlur.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
   }
 
-  handleInputBlur (evt) {
-    console.log('blur')
-  }
-
-  handleInputFocus (evt) {
-    console.log('focus')
-  }
-
-  handleQueryChange (evt) {
+  componentDidUpdate (prevProps, prevState) {
     const { source } = this.props
-    const query = evt.target.value
-    source(query, (options) => {
-      this.setState({
-        menuOpen: true,
-        options,
-        query,
-        selected: -1
+    const { query, selected } = this.state
+
+    const queryEmpty = query.length === 0
+    const queryChanged = prevState.query.length !== query.length
+    const searchForOptions = !queryEmpty && queryChanged
+    if (searchForOptions) {
+      source(query, (options) => {
+        this.setState({ options })
       })
+    }
+
+    const componentLostFocus = selected === null
+    const selectedChanged = prevState.selected !== selected
+    const focusDifferentElement = selectedChanged && !componentLostFocus
+    if (focusDifferentElement) {
+      elementRefs[selected].focus()
+    }
+  }
+
+  handleOptionBlur (evt, idx) {
+    const selectingAnotherOption = this.state.selected !== idx
+    if (!selectingAnotherOption) {
+      this.setState({
+        menuOpen: false,
+        selected: null
+      })
+    }
+  }
+
+  handleInputBlur (evt) {
+    const selectingAnOption = this.state.selected !== -1
+    if (!selectingAnOption) {
+      this.setState({
+        menuOpen: false,
+        selected: null
+      })
+    }
+  }
+
+  handleInputChange (evt) {
+    const query = evt.target.value
+    this.setState({
+      menuOpen: query.length,
+      query
     })
   }
 
-  handleOptionClick (evt, idx) {
-    this.handleOptionSelect(evt, idx)
+  handleInputFocus (evt) {
+    const componentWasNotFocused = this.state.selected === null
+    const queryEmpty = this.state.query.length === 0
+    const openTheMenu = componentWasNotFocused && !queryEmpty
+    this.setState({
+      menuOpen: openTheMenu,
+      selected: -1
+    })
+  }
+
+  handleOptionFocus (evt, idx) {
+    this.setState({ selected: idx })
   }
 
   handleOptionSelect (evt, idx = this.state.selected) {
     this.setState({
-      query: this.state.options[idx]
-    }, () => this.handleOptionFocus(-1))
-  }
-
-  handleOptionFocus (selectedIdx) {
-    this.setState({
-      selected: selectedIdx
+      menuOpen: false,
+      query: this.state.options[idx],
+      selected: -1
     })
-    elementRefs[selectedIdx].focus()
   }
 
   handleUpArrow (evt) {
     evt.preventDefault()
-    const selected = this.state.selected
+    const { menuOpen, selected } = this.state
     const isNotAtTop = selected !== -1
-    if (isNotAtTop) {
-      this.handleOptionFocus(selected - 1)
+    const allowMoveUp = isNotAtTop && menuOpen
+    if (allowMoveUp) {
+      this.handleOptionFocus(null, selected - 1)
     }
   }
 
   handleDownArrow (evt) {
     evt.preventDefault()
-    const selected = this.state.selected
-    const isNotAtBottom = selected !== this.state.options.length - 1
-    if (isNotAtBottom) {
-      this.handleOptionFocus(selected + 1)
+    const { menuOpen, options, selected } = this.state
+    const isNotAtBottom = selected !== options.length - 1
+    const allowMoveDown = isNotAtBottom && menuOpen
+    if (allowMoveDown) {
+      this.handleOptionFocus(null, selected + 1)
     }
   }
 
@@ -124,7 +161,7 @@ export default class Typeahead extends Component {
         id={ id }
         onBlur={ this.handleInputBlur }
         onFocus={ this.handleInputFocus }
-        onInput={ this.handleQueryChange }
+        onInput={ this.handleInputChange }
         role='combobox'
         style={{ 'position': 'relative' }}
         type='text'
@@ -152,8 +189,9 @@ export default class Typeahead extends Component {
       <li
         className='tt-suggestion'
         id={ `${id}__option--${idx}` }
-        onClick={ (evt) => this.handleOptionClick(evt, idx) }
-
+        onBlur={ (evt) => this.handleOptionBlur(evt, idx) }
+        onClick={ (evt) => this.handleOptionSelect(evt, idx) }
+        onMouseOver={ (evt) => this.handleOptionFocus(evt, idx) }
         role='option'
         tabindex='-1'
       >
