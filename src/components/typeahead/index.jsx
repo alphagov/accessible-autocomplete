@@ -100,10 +100,15 @@ export default class Typeahead extends Component {
     const { id = 'typeahead' } = this.props
     const { options, query, selected } = this.state
 
-    return <div
-      onKeyDown={ this.handleKeyDown }
-      style={{ 'position': 'relative' }}
-    >
+    const Wrapper = ({ children }) =>
+      <div
+        onKeyDown={ this.handleKeyDown }
+        style={{ 'position': 'relative' }}
+      >
+        { children }
+      </div>
+
+    const Input = () =>
       <input
         aria-activedescendant={ selected ? `${id}-typeahead__option--${selected}` : '' }
         aria-expanded={ options.length > 0 }
@@ -117,6 +122,8 @@ export default class Typeahead extends Component {
         type='text'
         value={ query }
       />
+
+    const Menu = ({ children }) =>
       <ul
         className='tt-menu'
         id={ `${id}-typeahead__listbox` }
@@ -130,21 +137,31 @@ export default class Typeahead extends Component {
           'zIndex': '100'
         }}
       >
-        { options.map((option, idx) =>
-            <li
-              className='tt-suggestion'
-              id={ `${id}-typeahead__option--${idx}` }
-              onClick={ (evt) => this.handleOptionClick(evt, idx) }
-              ref={ optionEl => { elementRefs[idx] = optionEl }}
-              role='option'
-              tabindex='-1'
-            >
-              { option }
-            </li>
-          )
-        }
+        { children }
       </ul>
-      <Status length={ options.length } />
-    </div>
+
+    const Option = ({ children, idx }) =>
+      <li
+        className='tt-suggestion'
+        id={ `${id}-typeahead__option--${idx}` }
+        onClick={ (evt) => this.handleOptionClick(evt, idx) }
+        ref={ (optionEl) => { elementRefs[idx] = optionEl }}
+        role='option'
+        tabindex='-1'
+      >
+        { children }
+      </li>
+
+    return (
+      <Wrapper>
+        <Input />
+        <Menu>
+          {options.map((optionText, idx) =>
+            <Option idx={ idx }>{ optionText }</Option>
+          )}
+        </Menu>
+        <Status length={ options.length } />
+      </Wrapper>
+    )
   }
 }
