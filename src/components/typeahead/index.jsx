@@ -3,6 +3,7 @@ import Status from './status'
 
 const kc = {
   13: 'enter',
+  27: 'escape',
   38: 'up',
   40: 'down'
 }
@@ -20,6 +21,7 @@ export default class Typeahead extends Component {
   constructor (props) {
     super(props)
 
+    this.handleComponentBlur = this.handleComponentBlur.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleUpArrow = this.handleUpArrow.bind(this)
     this.handleDownArrow = this.handleDownArrow.bind(this)
@@ -54,23 +56,24 @@ export default class Typeahead extends Component {
     }
   }
 
+  handleComponentBlur () {
+    this.setState({
+      menuOpen: false,
+      selected: null
+    })
+  }
+
   handleOptionBlur (evt, idx) {
     const selectingAnotherOption = this.state.selected !== idx
     if (!selectingAnotherOption) {
-      this.setState({
-        menuOpen: false,
-        selected: null
-      })
+      this.handleComponentBlur()
     }
   }
 
   handleInputBlur (evt) {
     const selectingAnOption = this.state.selected !== -1
     if (!selectingAnOption) {
-      this.setState({
-        menuOpen: false,
-        selected: null
-      })
+      this.handleComponentBlur()
     }
   }
 
@@ -134,6 +137,9 @@ export default class Typeahead extends Component {
         break
       case 'enter':
         this.handleOptionSelect(evt)
+        break
+      case 'escape':
+        this.handleComponentBlur(evt)
         break
       default:
         break
