@@ -98,11 +98,7 @@ export default class Typeahead extends Component {
   render ({ id = '' }, { options, query, selected }) {
     return <div
       onKeyDown={ this.handleKeyDown }
-      style={{
-        'display': 'inline-block',
-        'position': 'relative',
-        'width': '100%'
-      }}
+      style={{ 'position': 'relative' }}
     >
       <input
         aria-activedescendant={ selected ? `${id}-typeahead__option--${selected}` : '' }
@@ -113,10 +109,7 @@ export default class Typeahead extends Component {
         onInput={ this.handleQueryChange }
         ref={ inputEl => { elementRefs[-1] = inputEl }}
         role='combobox'
-        style={{
-          'position': 'relative',
-          'verticalAlign': 'top'
-        }}
+        style={{ 'position': 'relative' }}
         type='text'
         value={ query }
       />
@@ -126,7 +119,7 @@ export default class Typeahead extends Component {
         role='listbox'
         style={{
           'display': (options.length) ? 'block' : 'none',
-          'left': '0px',
+          'left': '0',
           'position': 'absolute',
           'top': '100%',
           'width': '100%',
