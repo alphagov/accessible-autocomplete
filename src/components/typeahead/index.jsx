@@ -1,5 +1,4 @@
 import { h, Component } from 'preact'
-import PropTypes from 'proptypes'
 import Status from './status'
 
 const kc = {
@@ -11,11 +10,6 @@ const kc = {
 let elementRefs = {}
 
 export default class Typeahead extends Component {
-  static propTypes = {
-    id: PropTypes.string,
-    source: PropTypes.func.isRequired
-  }
-
   state = {
     options: [],
     query: '',

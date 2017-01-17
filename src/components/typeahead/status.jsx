@@ -1,12 +1,7 @@
 import { h, Component } from 'preact'
-import PropTypes from 'proptypes'
 import debounce from 'lodash.debounce'
 
 export default class Status extends Component {
-  static propTypes = {
-    length: PropTypes.number.isRequired
-  }
-
   state = {
     cleared: true
   }
