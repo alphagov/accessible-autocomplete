@@ -11,6 +11,7 @@ let elementRefs = {}
 
 export default class Typeahead extends Component {
   state = {
+    menuOpen: false,
     options: [],
     query: '',
     selected: -1
@@ -23,8 +24,19 @@ export default class Typeahead extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleUpArrow = this.handleUpArrow.bind(this)
     this.handleDownArrow = this.handleDownArrow.bind(this)
-    this.handleFocus = this.handleFocus.bind(this)
     this.handleOptionClick = this.handleOptionClick.bind(this)
+    this.handleOptionFocus = this.handleOptionFocus.bind(this)
+    this.handleOptionSelect = this.handleOptionSelect.bind(this)
+    this.handleInputBlur = this.handleInputBlur.bind(this)
+    this.handleInputFocus = this.handleInputFocus.bind(this)
+  }
+
+  handleInputBlur (evt) {
+    console.log('blur')
+  }
+
+  handleInputFocus (evt) {
+    console.log('focus')
   }
 
   handleQueryChange (evt) {
@@ -32,6 +44,7 @@ export default class Typeahead extends Component {
     const query = evt.target.value
     source(query, (options) => {
       this.setState({
+        menuOpen: true,
         options,
         query,
         selected: -1
@@ -40,16 +53,16 @@ export default class Typeahead extends Component {
   }
 
   handleOptionClick (evt, idx) {
-    this.handleSelect(evt, idx)
+    this.handleOptionSelect(evt, idx)
   }
 
-  handleSelect (evt, idx = this.state.selected) {
+  handleOptionSelect (evt, idx = this.state.selected) {
     this.setState({
       query: this.state.options[idx]
-    }, () => this.handleFocus(-1))
+    }, () => this.handleOptionFocus(-1))
   }
 
-  handleFocus (selectedIdx) {
+  handleOptionFocus (selectedIdx) {
     this.setState({
       selected: selectedIdx
     })
@@ -61,7 +74,7 @@ export default class Typeahead extends Component {
     const selected = this.state.selected
     const isNotAtTop = selected !== -1
     if (isNotAtTop) {
-      this.handleFocus(selected - 1)
+      this.handleOptionFocus(selected - 1)
     }
   }
 
@@ -70,7 +83,7 @@ export default class Typeahead extends Component {
     const selected = this.state.selected
     const isNotAtBottom = selected !== this.state.options.length - 1
     if (isNotAtBottom) {
-      this.handleFocus(selected + 1)
+      this.handleOptionFocus(selected + 1)
     }
   }
 
@@ -83,7 +96,7 @@ export default class Typeahead extends Component {
         this.handleDownArrow(evt)
         break
       case 'enter':
-        this.handleSelect(evt)
+        this.handleOptionSelect(evt)
         break
       default:
         break
@@ -92,7 +105,7 @@ export default class Typeahead extends Component {
 
   render () {
     const { id = 'typeahead' } = this.props
-    const { options, query, selected } = this.state
+    const { menuOpen, options, query, selected } = this.state
 
     const Wrapper = ({ children }) =>
       <div
@@ -109,6 +122,8 @@ export default class Typeahead extends Component {
         aria-owns={ `${id}__listbox` }
         className='form-control'
         id={ id }
+        onBlur={ this.handleInputBlur }
+        onFocus={ this.handleInputFocus }
         onInput={ this.handleQueryChange }
         role='combobox'
         style={{ 'position': 'relative' }}
@@ -122,7 +137,7 @@ export default class Typeahead extends Component {
         id={ `${id}__listbox` }
         role='listbox'
         style={{
-          'display': (options.length) ? 'block' : 'none',
+          'display': (menuOpen) ? 'block' : 'none',
           'left': '0',
           'position': 'absolute',
           'top': '100%',
