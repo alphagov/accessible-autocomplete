@@ -95,7 +95,7 @@ export default class Typeahead extends Component {
     })
   }
 
-  handleOptionFocus (evt, idx) {
+  handleOptionFocus (idx) {
     this.setState({ selected: idx })
   }
 
@@ -113,7 +113,7 @@ export default class Typeahead extends Component {
     const isNotAtTop = selected !== -1
     const allowMoveUp = isNotAtTop && menuOpen
     if (allowMoveUp) {
-      this.handleOptionFocus(null, selected - 1)
+      this.handleOptionFocus(selected - 1)
     }
   }
 
@@ -123,7 +123,7 @@ export default class Typeahead extends Component {
     const isNotAtBottom = selected !== options.length - 1
     const allowMoveDown = isNotAtBottom && menuOpen
     if (allowMoveDown) {
-      this.handleOptionFocus(null, selected + 1)
+      this.handleOptionFocus(selected + 1)
     }
   }
 
@@ -197,7 +197,7 @@ export default class Typeahead extends Component {
         id={ `${id}__option--${idx}` }
         onBlur={ (evt) => this.handleOptionBlur(evt, idx) }
         onClick={ (evt) => this.handleOptionSelect(evt, idx) }
-        onMouseOver={ (evt) => this.handleOptionFocus(evt, idx) }
+        onMouseOver={ () => this.handleOptionFocus(idx) }
         role='option'
         tabindex='-1'
       >
