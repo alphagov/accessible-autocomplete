@@ -110,13 +110,12 @@ export default class Typeahead extends Component {
 
     const Input = () =>
       <input
-        aria-activedescendant={ selected ? `${id}__option--${selected}` : '' }
+        aria-activedescendant={ selected !== -1 ? `${id}__option--${selected}` : '' }
         aria-expanded={ options.length > 0 }
         aria-owns={ `${id}__listbox` }
         className='form-control'
         id={ id }
         onInput={ this.handleQueryChange }
-        ref={ (inputEl) => { elementRefs[-1] = inputEl }}
         role='combobox'
         style={{ 'position': 'relative' }}
         type='text'
@@ -145,7 +144,7 @@ export default class Typeahead extends Component {
         className='tt-suggestion'
         id={ `${id}__option--${idx}` }
         onClick={ (evt) => this.handleOptionClick(evt, idx) }
-        ref={ (optionEl) => { elementRefs[idx] = optionEl }}
+
         role='option'
         tabindex='-1'
       >
@@ -154,10 +153,17 @@ export default class Typeahead extends Component {
 
     return (
       <Wrapper>
-        <Input />
+        <Input
+          ref={ (inputEl) => { elementRefs[-1] = inputEl }}
+        />
         <Menu>
           {options.map((optionText, idx) =>
-            <Option idx={ idx }>{ optionText }</Option>
+            <Option
+              idx={ idx }
+              ref={ (optionEl) => { elementRefs[idx] = optionEl }}
+            >
+              { optionText }
+            </Option>
           )}
         </Menu>
         <Status length={ options.length } />
