@@ -58,7 +58,6 @@ export default class Status extends Component {
             use arrow keys or swipe to navigate.
           </span>
       }
-
     </div>
   }
 }
