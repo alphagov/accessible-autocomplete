@@ -95,7 +95,10 @@ export default class Typeahead extends Component {
     }
   }
 
-  render ({ id = '' }, { options, query, selected }) {
+  render () {
+    const { id = 'aria' } = this.props
+    const { options, query, selected } = this.state
+
     return <div
       onKeyDown={ this.handleKeyDown }
       style={{ 'position': 'relative' }}

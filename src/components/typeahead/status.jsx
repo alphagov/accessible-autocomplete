@@ -29,7 +29,10 @@ export default class Status extends Component {
     })
   }, 1000)
 
-  render ({ length }, { cleared }) {
+  render () {
+    const { length } = this.props
+    const { cleared } = this.state
+
     const words = {
       result: (length === 1) ? 'result' : 'results',
       is: (length === 1) ? 'is' : 'are'
