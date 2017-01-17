@@ -116,7 +116,7 @@ export default class Typeahead extends Component {
         className='form-control'
         id={ id }
         onInput={ this.handleQueryChange }
-        ref={ inputEl => { elementRefs[-1] = inputEl }}
+        ref={ (inputEl) => { elementRefs[-1] = inputEl }}
         role='combobox'
         style={{ 'position': 'relative' }}
         type='text'
