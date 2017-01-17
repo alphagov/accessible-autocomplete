@@ -34,8 +34,9 @@ export default class Typeahead extends Component {
   }
 
   handleQueryChange (evt) {
+    const { source } = this.props
     const query = evt.target.value
-    this.props.source(query, (options) => {
+    source(query, (options) => {
       this.setState({
         options,
         query,
@@ -96,7 +97,7 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { id = 'aria' } = this.props
+    const { id = 'typeahead' } = this.props
     const { options, query, selected } = this.state
 
     return <div
