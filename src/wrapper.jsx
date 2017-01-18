@@ -1,4 +1,4 @@
-import { h, render } from 'preact' // eslint-disable-line
+import { h, render } from 'preact' /** @jsx h */
 import Typeahead from './typeahead'
 
 if (window) {

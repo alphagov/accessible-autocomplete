@@ -1,5 +1,5 @@
 /* global after, describe, before, beforeEach, expect, it */
-import { h, render, rerender } from 'preact' // eslint-disable-line
+import { h, render } from 'preact' /** @jsx h */
 import Typeahead from '../../src/typeahead'
 
 describe('Typeahead', () => {
