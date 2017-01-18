@@ -1,5 +1,4 @@
 import webpack from 'webpack'
-import autoprefixer from 'autoprefixer'
 import ReplacePlugin from 'replace-bundle-webpack-plugin'
 import path from 'path'
 import V8LazyParseWebpackPlugin from 'v8-lazy-parse-webpack-plugin'
@@ -16,7 +15,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.jsx', '.js', '.json', '.less'],
+    extensions: ['', '.jsx', '.js', '.json'],
     modulesDirectories: [
       path.resolve(__dirname, 'node_modules'),
       'node_modules'
@@ -47,10 +46,6 @@ module.exports = {
       }
     ]
   },
-
-  postcss: () => [
-    autoprefixer({ browsers: 'last 2 versions' })
-  ],
 
   plugins: ([
     new webpack.NoErrorsPlugin(),
