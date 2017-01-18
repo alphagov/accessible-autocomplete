@@ -4,7 +4,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import autoprefixer from 'autoprefixer'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ReplacePlugin from 'replace-bundle-webpack-plugin'
-import OfflinePlugin from 'offline-plugin'
 import path from 'path'
 import V8LazyParseWebpackPlugin from 'v8-lazy-parse-webpack-plugin'
 import ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin'
@@ -14,7 +13,7 @@ const CSS_MAPS = ENV !== 'production'
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  entry: './index.js',
+  entry: './components/typeahead/wrapper.jsx',
 
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -98,10 +97,10 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(ENV)
     }),
-    new HtmlWebpackPlugin({
-      template: './index.ejs',
-      minify: { collapseWhitespace: true }
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: './index.ejs',
+    //   minify: { collapseWhitespace: true }
+    // }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'async'
     }),
@@ -111,39 +110,30 @@ module.exports = {
     ])
   ]).concat(ENV === 'production' ? [
     new V8LazyParseWebpackPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      output: {
-        comments: false
-      },
-      compress: {
-        warnings: false,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true,
-        negate_iife: false
-      }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   output: {
+    //     comments: false
+    //   },
+    //   compress: {
+    //     warnings: false,
+    //     conditionals: true,
+    //     unused: true,
+    //     comparisons: true,
+    //     sequences: true,
+    //     dead_code: true,
+    //     evaluate: true,
+    //     if_return: true,
+    //     join_vars: true,
+    //     negate_iife: false
+    //   }
+    // }),
 
     // strip out babel-helper invariant checks
     new ReplacePlugin([{
       // this is actually the property name https://github.com/kimhou/replace-bundle-webpack-plugin/issues/1
       partten: /throw\s+(new\s+)?[a-zA-Z]+Error\s*\(/g,
       replacement: () => 'return;('
-    }]),
-
-    new OfflinePlugin({
-      relativePaths: false,
-      AppCache: false,
-      ServiceWorker: {
-        events: true
-      },
-      publicPath: '/'
-    })
+    }])
   ] : []),
 
   stats: { colors: true },
