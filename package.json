@@ -10,9 +10,13 @@
     "lint": "standard"
   },
   "keywords": [
-    "preact",
-    "boilerplate",
-    "webpack"
+    "a11y",
+    "accessibility",
+    "autocomplete",
+    "component",
+    "plugin",
+    "typeahead",
+    "widget"
   ],
   "license": "MIT",
   "author": "Theodor Vararu <theo@vararu.org>",
