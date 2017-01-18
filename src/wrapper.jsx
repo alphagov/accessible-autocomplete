@@ -1,5 +1,5 @@
 import { h, render } from 'preact' // eslint-disable-line
-import Typeahead from './index'
+import Typeahead from './typeahead'
 
 if (window) {
   window.AccessibleTypeahead = function ({

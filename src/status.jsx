@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { h, Component } from 'preact' // eslint-disable-line
 import debounce from 'lodash.debounce'
 
 export default class Status extends Component {
