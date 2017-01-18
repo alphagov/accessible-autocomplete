@@ -4,10 +4,7 @@
   "description": "Not another one of these.",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
-    "start": "serve build -s -c 1",
-    "prestart": "npm run build",
     "build": "cross-env NODE_ENV=production webpack -p --progress --display-modules",
-    "prebuild": "mkdirp build",
     "test": "npm run -s lint && npm run -s test:karma",
     "test:karma": "karma start test/karma.conf.js --single-run",
     "lint": "standard"
