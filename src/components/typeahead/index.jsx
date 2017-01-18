@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { h, Component } from 'preact' // eslint-disable-line
 import Status from './status'
 
 const kc = {
@@ -156,7 +156,7 @@ export default class Typeahead extends Component {
 
     const Wrapper = ({ children }) =>
       <div
-        onKeyDown={ this.handleKeyDown }
+        onKeyDown={this.handleKeyDown}
         style={{ 'position': 'relative' }}
       >
         { children }
@@ -164,24 +164,24 @@ export default class Typeahead extends Component {
 
     const Input = () =>
       <input
-        aria-activedescendant={ selected !== -1 ? `${id}__option--${selected}` : '' }
-        aria-expanded={ options.length > 0 }
-        aria-owns={ `${id}__listbox` }
+        aria-activedescendant={selected !== -1 ? `${id}__option--${selected}` : ''}
+        aria-expanded={options.length > 0}
+        aria-owns={`${id}__listbox`}
         className='form-control'
-        id={ id }
-        onBlur={ this.handleInputBlur }
-        onFocus={ this.handleInputFocus }
-        onInput={ this.handleInputChange }
+        id={id}
+        onBlur={this.handleInputBlur}
+        onFocus={this.handleInputFocus}
+        onInput={this.handleInputChange}
         role='combobox'
         style={{ 'position': 'relative' }}
         type='text'
-        value={ query }
+        value={query}
       />
 
     const Menu = ({ children }) =>
       <ul
         className='tt-menu'
-        id={ `${id}__listbox` }
+        id={`${id}__listbox`}
         role='listbox'
         style={{
           'display': (menuOpen) ? 'block' : 'none',
@@ -198,10 +198,10 @@ export default class Typeahead extends Component {
     const Option = ({ children, idx }) =>
       <li
         className='tt-suggestion'
-        id={ `${id}__option--${idx}` }
-        onBlur={ (evt) => this.handleOptionBlur(evt, idx) }
-        onClick={ (evt) => this.handleOptionSelect(evt, idx) }
-        onMouseOver={ () => this.handleOptionFocus(idx) }
+        id={`${id}__option--${idx}`}
+        onBlur={(evt) => this.handleOptionBlur(evt, idx)}
+        onClick={(evt) => this.handleOptionSelect(evt, idx)}
+        onMouseOver={() => this.handleOptionFocus(idx)}
         role='option'
         tabindex='-1'
       >
@@ -211,19 +211,19 @@ export default class Typeahead extends Component {
     return (
       <Wrapper>
         <Input
-          ref={ (inputEl) => { elementRefs[-1] = inputEl }}
+          ref={(inputEl) => { elementRefs[-1] = inputEl }}
         />
         <Menu>
           {options.map((optionText, idx) =>
             <Option
-              idx={ idx }
-              ref={ (optionEl) => { elementRefs[idx] = optionEl }}
+              idx={idx}
+              ref={(optionEl) => { elementRefs[idx] = optionEl }}
             >
               { optionText }
             </Option>
           )}
         </Menu>
-        <Status length={ options.length } />
+        <Status length={options.length} />
       </Wrapper>
     )
   }
