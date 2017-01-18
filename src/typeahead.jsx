@@ -84,7 +84,7 @@ export default class Typeahead extends Component {
   handleInputChange (evt) {
     const query = evt.target.value
     this.setState({
-      menuOpen: query.length,
+      menuOpen: query.length > 0,
       query
     })
   }
