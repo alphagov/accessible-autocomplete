@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accessible Typeahead example</title>
+    <style>
+      /* Example page specific styling. */
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+      }
+
+      main {
+        margin: 0 auto;
+        max-width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Example typeahead</h1>
+      <label for="typeahead">Select your country</label>
+      <div id="tt"></div>
+    </main>
+
+    <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
+    <script type="text/javascript">
+      var element = document.querySelector('#tt')
+
+      var id = 'typeahead'
+
+      function suggest (query, syncResults) {
+        var results = [
+          'France',
+          'Germany',
+          'United Kingdom'
+        ]
+        syncResults(query
+          ? results.filter(function (result) {
+              return result.toLowerCase().indexOf(query.toLowerCase()) !== -1
+            })
+          : []
+        )
+      }
+
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        source: suggest
+      })
+    </script>
+  </body>
+</html>
