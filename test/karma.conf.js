@@ -29,12 +29,12 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
 
     files: [
-      'test/browser/**/*.js'
+      'test/browser/**/*.jsx'
     ],
 
     preprocessors: {
-      'test/**/*.js': ['webpack'],
-      'src/**/*.js': ['webpack'],
+      'test/**/*.jsx': ['webpack'],
+      'src/**/*.jsx': ['webpack'],
       '**/*.js': ['sourcemap']
     },
 
