@@ -1,6 +1,5 @@
 import webpack from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 import autoprefixer from 'autoprefixer'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ReplacePlugin from 'replace-bundle-webpack-plugin'
@@ -97,10 +96,6 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(ENV)
     }),
-    // new HtmlWebpackPlugin({
-    //   template: './index.ejs',
-    //   minify: { collapseWhitespace: true }
-    // }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'async'
     }),
