@@ -8,13 +8,43 @@
 
 - **Accessibility**: Following WAI-ARIA best practices and testing with assistive technologies.
 - **User experience**: Supporting a wide variety of browsers, devices, and user needs.
-- **Compability**: It aims to be easy to integrate into existing services, and uses progressive enhancement. It comes in a zero dependency version that weighs `6.1kb` minified and gzipped.
+- **Compatibility**: It aims to be easy to integrate into existing services, and uses progressive enhancement. It comes in a zero dependency version that weighs `6.1kb` minified and gzipped.
 
-## Installation
+## Installation / Usage
 
-Coming soon.
+### Plain JS
 
-## Usage
+You can include the standalone build by referencing it in your page:
+
+```html
+<script src="https://unpkg.com/accessible-typeahead@1.0.0"></script>
+```
+
+To use it, call the `window.AccessibleTypeahead` function, providing a suggestion engine:
+
+```js
+function suggest (query, syncResults) {
+  var results = [
+    'France',
+    'Germany',
+    'United Kingdom'
+  ]
+  syncResults(query
+    ? results.filter(function (result) {
+        return result.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      })
+    : []
+  )
+}
+
+AccessibleTypeahead({
+  element: document.querySelector('#my-typeahead-container')
+  id: 'my-typeahead',
+  source: suggest
+})
+```
+
+## API Documentation
 
 Coming soon.
 
