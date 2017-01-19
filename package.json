@@ -62,7 +62,7 @@
     "lodash.debounce": "^4.0.8",
     "preact": "^6.0.0"
   },
-  "main": "index.js",
+  "main": "dist/accessible-typeahead.min.js",
   "standard": {
     "parser": "babel-eslint"
   }
