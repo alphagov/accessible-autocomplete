@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accessible Typeahead examples - Basic</title>
+    <style>
+      /* Example page specific styling. */
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+      }
+
+      main {
+        margin: 0 auto;
+        max-width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <style>
+      /* Typeahead styling. */
+      .form-control {
+        -webkit-appearance: none;
+        background-color: transparent;
+        border-radius: 0;
+        border: 2px solid;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        color: inherit;
+        font-family: Arial, sans-serif;
+        font-size: 19px;
+        font-weight: 400;
+        line-height: 1.31579;
+        padding: 5px 4px 4px;
+        text-transform: none;
+        width: 100%;
+      }
+
+      input:focus {
+        outline: 3px solid #ffbf47;
+        outline-offset: 0;
+      }
+
+      .tt-menu {
+        width: 100%;
+        width: calc(100% - 4px);
+        max-height: 342px;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: #fff;
+        border: 2px solid #6f777b;
+      }
+
+      .tt-suggestion {
+        position: relative;
+        display: block;
+        margin-bottom: -2px;
+        padding: 8px;
+        border: solid #bfc1c3;
+        border-width: 2px 0;
+        font-family: "nta", Arial, sans-serif;
+        font-weight: 700;
+        text-transform: none;
+        font-size: 16px;
+        line-height: 1.25;
+        color: #0b0c0c;
+        cursor: pointer;
+      }
+
+      @media (min-width: 641px) {
+        .tt-suggestion {
+          font-size: 19px;
+          line-height: 1.31579;
+        }
+      }
+
+      .tt-suggestion:first-of-type {
+        border-top-width: 0;
+      }
+
+      .tt-suggestion:hover, .tt-suggestion:focus {
+        z-index: 1;
+        background-color: #2b8cc4;
+        border-color: #2b8cc4;
+        color: white;
+      }
+
+      @media (min-width: 641px) {
+        .tt-menu {
+          width: 50%;
+          width: calc(50% - 4px);
+        }
+      }
+    </style>
+
+    <main>
+      <h1>Example typeahead</h1>
+      <label for="typeahead">Select your country</label>
+      <div id="tt"></div>
+    </main>
+
+    <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
+    <script type="text/javascript">
+      var element = document.querySelector('#tt')
+
+      var id = 'typeahead'
+
+      function suggest (query, syncResults) {
+        var results = [
+          'France',
+          'Germany',
+          'United Kingdom'
+        ]
+        syncResults(query
+          ? results.filter(function (result) {
+              return result.toLowerCase().indexOf(query.toLowerCase()) !== -1
+            })
+          : []
+        )
+      }
+
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        source: suggest
+      })
+    </script>
+  </body>
+</html>
