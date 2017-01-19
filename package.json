@@ -20,7 +20,7 @@
     "widget"
   ],
   "license": "MIT",
-  "author": "Theodor Vararu <theo@vararu.org>",
+  "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.14.0",
