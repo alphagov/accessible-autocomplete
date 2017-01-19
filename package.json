@@ -1,6 +1,6 @@
 {
   "name": "accessible-typeahead",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A typeahead component, built to be accessible.",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
