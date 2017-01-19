@@ -1,4 +1,4 @@
-> WARNING: This project is still experimental / under development. Do not use in production.
+> :warning: WARNING: This project is still experimental / under development. Do not use in production. :warning:
 
 # Accessible Typeahead
 
@@ -46,7 +46,39 @@ AccessibleTypeahead({
 
 ## API Documentation
 
-Coming soon.
+> :warning: WARNING: This is a work in progress and will change significantly. :warning:
+
+### `element: HTMLElement`
+
+The container element in which the typeahead will be rendered in.
+
+### `id: String` (optional)
+
+The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
+
+### `source: Function`
+
+Arguments: `query: string, syncResults: Function`
+
+Similar to the [`source` argument for typeahead.js](https://github.com/corejavascript/typeahead.js/blob/47d46b40cb834d8285ac9328c4b436e5eccf7197/doc/jquery_typeahead.md#datasets), a backing data source for suggestions. `query` is what gets typed into the input field, which will callback to `syncResults` synchronously with the array of string results to display in the menu.
+
+An example of a simple suggestion engine:
+
+```js
+function suggest (query, syncResults) {
+  var results = [
+    'France',
+    'Germany',
+    'United Kingdom'
+  ]
+  syncResults(query
+    ? results.filter(function (result) {
+        return result.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      })
+    : []
+  )
+}
+```
 
 ## Why another typeahead?
 
