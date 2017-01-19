@@ -90,4 +90,4 @@ function suggest (query, syncResults) {
 
 ## License
 
-MIT.
+[MIT](LICENSE.txt).
