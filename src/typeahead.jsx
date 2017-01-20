@@ -188,7 +188,6 @@ export default class Typeahead extends Component {
           'left': '0',
           'position': 'absolute',
           'top': '100%',
-          'width': '100%',
           'zIndex': '100'
         }}
       >
