@@ -17,7 +17,7 @@
 You can include the standalone build by referencing it in your page:
 
 ```html
-<script src="https://unpkg.com/accessible-typeahead@0.1.0"></script>
+<script src="https://unpkg.com/accessible-typeahead@0.1.2"></script>
 ```
 
 To use it, call the `window.AccessibleTypeahead` function, providing a suggestion engine:
