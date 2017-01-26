@@ -45,7 +45,10 @@ export default class Typeahead extends Component {
     const searchForOptions = !queryEmpty && queryChanged
     if (searchForOptions) {
       source(query, (options) => {
-        this.setState({ options })
+        this.setState({
+          menuOpen: options.length > 0,
+          options
+        })
       })
     }
 
