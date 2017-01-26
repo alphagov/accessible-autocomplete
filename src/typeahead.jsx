@@ -71,9 +71,9 @@ export default class Typeahead extends Component {
     const { selected } = this.state
     // Safari triggers blur before click, so check if the target of the blur
     // is the currently hovered/focused element.
-    const clickingOnTheSelectedOption = evt.target === elementRefs[selected]
+    const focusingOutsideComponent = evt.relatedTarget === null
     const selectingAnotherOption = selected !== idx
-    if (!selectingAnotherOption && !clickingOnTheSelectedOption) {
+    if (focusingOutsideComponent || !selectingAnotherOption) {
       this.handleComponentBlur()
     }
   }
