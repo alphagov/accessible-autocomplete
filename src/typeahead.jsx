@@ -108,6 +108,13 @@ export default class Typeahead extends Component {
   }
 
   handleOptionSelect (evt, idx = this.state.selected) {
+    if (this.props.autoselect) {
+      const inputSelected = idx === -1
+      if (inputSelected) {
+        idx = 0
+      }
+    }
+
     this.setState({
       menuOpen: false,
       query: this.state.options[idx],
@@ -137,7 +144,10 @@ export default class Typeahead extends Component {
 
   handleEnter (evt) {
     evt.preventDefault()
-    this.handleOptionSelect(evt)
+
+    if (this.state.menuOpen) {
+      this.handleOptionSelect(evt)
+    }
   }
 
   handleKeyDown (evt) {
