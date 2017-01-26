@@ -25,6 +25,7 @@ export default class Typeahead extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleUpArrow = this.handleUpArrow.bind(this)
     this.handleDownArrow = this.handleDownArrow.bind(this)
+    this.handleEnter = this.handleEnter.bind(this)
 
     this.handleOptionBlur = this.handleOptionBlur.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
@@ -131,6 +132,11 @@ export default class Typeahead extends Component {
     }
   }
 
+  handleEnter (evt) {
+    evt.preventDefault()
+    this.handleOptionSelect(evt)
+  }
+
   handleKeyDown (evt) {
     switch (kc[evt.keyCode]) {
       case 'up':
@@ -140,7 +146,7 @@ export default class Typeahead extends Component {
         this.handleDownArrow(evt)
         break
       case 'enter':
-        this.handleOptionSelect(evt)
+        this.handleEnter(evt)
         break
       case 'escape':
         this.handleComponentBlur(evt)
