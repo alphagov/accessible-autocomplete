@@ -219,7 +219,7 @@ export default class Typeahead extends Component {
         id={`${id}__option--${idx}`}
         onBlur={(evt) => this.handleOptionBlur(evt, idx)}
         onClick={(evt) => this.handleOptionSelect(evt, idx)}
-        onMouseOver={() => this.handleOptionFocus(idx)}
+        onMouseMove={() => this.handleOptionFocus(idx)}
         role='option'
         tabindex='-1'
       >
