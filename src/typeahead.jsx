@@ -25,6 +25,7 @@ export default class Typeahead extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleUpArrow = this.handleUpArrow.bind(this)
     this.handleDownArrow = this.handleDownArrow.bind(this)
+    this.handleEnter = this.handleEnter.bind(this)
 
     this.handleOptionBlur = this.handleOptionBlur.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
@@ -44,7 +45,10 @@ export default class Typeahead extends Component {
     const searchForOptions = !queryEmpty && queryChanged
     if (searchForOptions) {
       source(query, (options) => {
-        this.setState({ options })
+        this.setState({
+          menuOpen: options.length > 0,
+          options
+        })
       })
     }
 
@@ -67,9 +71,9 @@ export default class Typeahead extends Component {
     const { selected } = this.state
     // Safari triggers blur before click, so check if the target of the blur
     // is the currently hovered/focused element.
-    const clickingOnTheSelectedOption = evt.target === elementRefs[selected]
+    const focusingOutsideComponent = evt.relatedTarget === null
     const selectingAnotherOption = selected !== idx
-    if (!selectingAnotherOption && !clickingOnTheSelectedOption) {
+    if (focusingOutsideComponent || !selectingAnotherOption) {
       this.handleComponentBlur()
     }
   }
@@ -104,6 +108,13 @@ export default class Typeahead extends Component {
   }
 
   handleOptionSelect (evt, idx = this.state.selected) {
+    if (this.props.autoselect) {
+      const inputSelected = idx === -1
+      if (inputSelected) {
+        idx = 0
+      }
+    }
+
     this.setState({
       menuOpen: false,
       query: this.state.options[idx],
@@ -131,6 +142,14 @@ export default class Typeahead extends Component {
     }
   }
 
+  handleEnter (evt) {
+    evt.preventDefault()
+
+    if (this.state.menuOpen) {
+      this.handleOptionSelect(evt)
+    }
+  }
+
   handleKeyDown (evt) {
     switch (kc[evt.keyCode]) {
       case 'up':
@@ -140,7 +159,7 @@ export default class Typeahead extends Component {
         this.handleDownArrow(evt)
         break
       case 'enter':
-        this.handleOptionSelect(evt)
+        this.handleEnter(evt)
         break
       case 'escape':
         this.handleComponentBlur(evt)
@@ -200,7 +219,7 @@ export default class Typeahead extends Component {
         id={`${id}__option--${idx}`}
         onBlur={(evt) => this.handleOptionBlur(evt, idx)}
         onClick={(evt) => this.handleOptionSelect(evt, idx)}
-        onMouseOver={() => this.handleOptionFocus(idx)}
+        onMouseMove={() => this.handleOptionFocus(idx)}
         role='option'
         tabindex='-1'
       >

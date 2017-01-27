@@ -59,7 +59,17 @@ describe('Typeahead', () => {
         const previousState = {...typeahead.state}
         typeahead.handleInputChange({ target: { value: 'f' } })
         typeahead.componentDidUpdate(previousProps, previousState)
+        expect(typeahead.state.menuOpen).to.equal(true)
         expect(typeahead.state.options).to.contain('France')
+      })
+
+      it('hides menu when no options are available', () => {
+        const previousProps = {...typeahead.props}
+        const previousState = {...typeahead.state}
+        typeahead.handleInputChange({ target: { value: 'aa' } })
+        typeahead.componentDidUpdate(previousProps, previousState)
+        expect(typeahead.state.menuOpen).to.equal(false)
+        expect(typeahead.state.options.length).to.equal(0)
       })
     })
 
