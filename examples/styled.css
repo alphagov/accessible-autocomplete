@@ -1,0 +1,50 @@
+/* Typeahead styling. */
+.form-control {
+  -webkit-appearance: none;
+  border: 2px solid;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding: 4px;
+  width: 100%;
+}
+
+.form-control:focus {
+  outline-offset: 0;
+  outline: 3px solid #ffbf47;
+}
+
+.tt-menu {
+  border: 2px solid #6f777b;
+  margin: 0;
+  max-height: 342px;
+  overflow-x: hidden;
+  padding: 0;
+  width: 100%;
+  width: calc(100% - 4px);
+}
+
+.tt-suggestion {
+  border: solid #bfc1c3;
+  border-width: 1px 0;
+  cursor: pointer;
+  display: block;
+  padding: 4px;
+  position: relative;
+}
+
+.tt-suggestion:first-of-type {
+  border-top-width: 0;
+}
+
+.tt-suggestion:last-of-type {
+  border-bottom-width: 0;
+}
+
+.tt-suggestion:focus {
+  background-color: #2b8cc4;
+  border-color: #2b8cc4;
+  color: white;
+  outline: none;
+  z-index: 1;
+}
