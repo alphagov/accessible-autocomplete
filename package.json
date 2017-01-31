@@ -8,7 +8,10 @@
     "test": "npm run -s lint && npm run -s test:karma",
     "test:dev": "karma start test/karma.conf.js",
     "test:karma": "karma start test/karma.conf.js --single-run",
-    "lint": "standard"
+    "lint": "standard",
+    "preversion": "npm test",
+    "version": "npm run build && git add -A dist",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "a11y",
