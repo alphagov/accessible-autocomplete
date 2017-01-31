@@ -170,7 +170,7 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { id = 'typeahead', cssNamespace = 'typeahead' } = this.props
+    const { id = 'typeahead', cssNamespace = 'typeahead', name = 'input-typeahead' } = this.props
     const { menuOpen, options, query, selected } = this.state
 
     const Wrapper = ({ children }) =>
@@ -188,6 +188,7 @@ export default class Typeahead extends Component {
         aria-owns={`${id}__listbox`}
         className={`${cssNamespace}__input`}
         id={id}
+        name={name}
         onBlur={this.handleInputBlur}
         onFocus={this.handleInputFocus}
         onInput={this.handleInputChange}

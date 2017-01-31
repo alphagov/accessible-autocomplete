@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Add ability to set `name` attribute on input.
+
 ## 0.2.0 - 2017-01-31
 
 - [Breaking] Change the CSS classes to our own instead of the jQuery typeahead ones.

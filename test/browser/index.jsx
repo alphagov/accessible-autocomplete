@@ -40,6 +40,12 @@ describe('Typeahead', () => {
 
         expect(scratch.innerHTML).to.contain('input')
       })
+
+      it('renders an input with a name attribute', () => {
+        render(<Typeahead name='bob' />, scratch)
+
+        expect(scratch.innerHTML).to.contain('name="bob"')
+      })
     })
   })
 

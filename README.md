@@ -68,6 +68,10 @@ The container element in which the typeahead will be rendered in.
 
 The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
 
+### `name: String` (optional, default: `'input-typeahead'`)
+
+The `name` for the typeahead input field, to use with a parent `<form>`.
+
 ### `source: Function`
 
 Arguments: `query: string, syncResults: Function`

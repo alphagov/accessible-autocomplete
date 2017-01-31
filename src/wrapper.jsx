@@ -6,12 +6,14 @@ if (window) {
     cssNamespace,
     element,
     id,
+    name,
     source
   }) {
     render(
       <Typeahead
         cssNamespace={cssNamespace}
         id={id}
+        name={name}
         source={source}
       />,
       element
