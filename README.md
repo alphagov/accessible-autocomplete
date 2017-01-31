@@ -2,7 +2,7 @@
 
 # Accessible Typeahead
 
-[![Build Status](https://travis-ci.org/tvararu/typeahead.svg?branch=master)](https://travis-ci.org/developit/preact-boilerplate)
+[![Build Status](https://travis-ci.org/alphagov/accessible-typeahead.svg?branch=master)](https://travis-ci.org/alphagov/accessible-typeahead)
 
 `accessible-typeahead` is a JavaScript typeahead built from the ground up to be accessible. The design goals are:
 
