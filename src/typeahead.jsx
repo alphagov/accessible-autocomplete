@@ -170,7 +170,7 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { id = 'typeahead' } = this.props
+    const { id = 'typeahead', cssNamespace = 'typeahead' } = this.props
     const { menuOpen, options, query, selected } = this.state
 
     const Wrapper = ({ children }) =>
@@ -186,7 +186,7 @@ export default class Typeahead extends Component {
         aria-activedescendant={selected !== -1 ? `${id}__option--${selected}` : ''}
         aria-expanded={options.length > 0}
         aria-owns={`${id}__listbox`}
-        className='form-control'
+        className={`${cssNamespace}__input`}
         id={id}
         onBlur={this.handleInputBlur}
         onFocus={this.handleInputFocus}
@@ -199,7 +199,7 @@ export default class Typeahead extends Component {
 
     const Menu = ({ children }) =>
       <ul
-        className='tt-menu'
+        className={`${cssNamespace}__menu`}
         id={`${id}__listbox`}
         role='listbox'
         style={{
@@ -215,7 +215,7 @@ export default class Typeahead extends Component {
 
     const Option = ({ children, idx }) =>
       <li
-        className='tt-suggestion'
+        className={`${cssNamespace}__option`}
         id={`${id}__option--${idx}`}
         onBlur={(evt) => this.handleOptionBlur(evt, idx)}
         onClick={(evt) => this.handleOptionSelect(evt, idx)}
