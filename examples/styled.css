@@ -1,0 +1,65 @@
+/* Typeahead styling. */
+.typeahead__input {
+  -webkit-appearance: none;
+  border: 2px solid;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  margin-bottom: 0; /* BUG: Safari 10 seems to add an implicit margin. */
+  width: 100%;
+}
+
+.typeahead__input:focus {
+  outline-offset: 0;
+  outline: 3px solid #ffbf47;
+}
+
+.typeahead__menu {
+  border: 2px solid #6f777b;
+  border-top: 0;
+  margin: 0;
+  max-height: 342px;
+  overflow-x: hidden;
+  padding: 0;
+  width: 100%;
+  width: calc(100% - 4px);
+}
+
+.typeahead__option {
+  border: solid #bfc1c3;
+  border-width: 1px 0;
+  cursor: pointer;
+  display: block;
+  position: relative;
+}
+
+.typeahead__option:first-of-type {
+  border-top-width: 0;
+}
+
+.typeahead__option:last-of-type {
+  border-bottom-width: 0;
+}
+
+.typeahead__option:focus {
+  background-color: #2b8cc4;
+  border-color: #2b8cc4;
+  color: white;
+  outline: none;
+  z-index: 1;
+}
+
+.typeahead__input,
+.typeahead__option {
+  font-size: 16px;
+  line-height: 1.25;
+  padding: 4px;
+}
+
+@media (min-width: 641px) {
+  .typeahead__input,
+  .typeahead__option {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
