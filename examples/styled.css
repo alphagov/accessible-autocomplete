@@ -1,5 +1,5 @@
 /* Typeahead styling. */
-.form-control {
+.typeahead__input {
   -webkit-appearance: none;
   border: 2px solid;
   box-sizing: border-box;
@@ -9,12 +9,12 @@
   width: 100%;
 }
 
-.form-control:focus {
+.typeahead__input:focus {
   outline-offset: 0;
   outline: 3px solid #ffbf47;
 }
 
-.tt-menu {
+.typeahead__menu {
   border: 2px solid #6f777b;
   margin: 0;
   max-height: 342px;
@@ -24,7 +24,7 @@
   width: calc(100% - 4px);
 }
 
-.tt-suggestion {
+.typeahead__option {
   border: solid #bfc1c3;
   border-width: 1px 0;
   cursor: pointer;
@@ -33,15 +33,15 @@
   position: relative;
 }
 
-.tt-suggestion:first-of-type {
+.typeahead__option:first-of-type {
   border-top-width: 0;
 }
 
-.tt-suggestion:last-of-type {
+.typeahead__option:last-of-type {
   border-bottom-width: 0;
 }
 
-.tt-suggestion:focus {
+.typeahead__option:focus {
   background-color: #2b8cc4;
   border-color: #2b8cc4;
   color: white;
