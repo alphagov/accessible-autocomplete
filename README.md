@@ -68,7 +68,7 @@ The container element in which the typeahead will be rendered in.
 
 The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
 
-### `source: Functiong`
+### `source: Function`
 
 Arguments: `query: string, syncResults: Function`
 
