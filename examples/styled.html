@@ -14,6 +14,13 @@
         margin: 0 auto;
         max-width: 600px;
       }
+
+
+      @media (min-width: 641px) {
+        .typeahead-wrapper {
+          width: 50%
+        }
+      }
     </style>
     <link rel="stylesheet" href="styled.css">
   </head>
@@ -22,7 +29,7 @@
     <main>
       <h1>Example typeahead</h1>
       <label for="typeahead">Select your country</label>
-      <div id="tt"></div>
+      <div id="tt" class="typeahead-wrapper"></div>
     </main>
 
     <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
