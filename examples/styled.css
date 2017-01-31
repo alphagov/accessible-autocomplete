@@ -15,6 +15,7 @@
 }
 
 .typeahead__menu {
+  background-color: #fff;
   border: 2px solid #6f777b;
   border-top: 0;
   margin: 0;
@@ -46,7 +47,6 @@
   border-color: #2b8cc4;
   color: white;
   outline: none;
-  z-index: 1;
 }
 
 .typeahead__input,
