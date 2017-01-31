@@ -5,7 +5,6 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  padding: 4px;
   width: 100%;
 }
 
@@ -29,7 +28,6 @@
   border-width: 1px 0;
   cursor: pointer;
   display: block;
-  padding: 4px;
   position: relative;
 }
 
@@ -47,4 +45,19 @@
   color: white;
   outline: none;
   z-index: 1;
+}
+
+.typeahead__input,
+.typeahead__option {
+  font-size: 16px;
+  line-height: 1.25;
+  padding: 4px;
+}
+
+@media (min-width: 641px) {
+  .typeahead__input,
+  .typeahead__option {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
 }
