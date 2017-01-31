@@ -48,11 +48,17 @@ AccessibleTypeahead({
 
 > :warning: WARNING: This is a work in progress and will change significantly. :warning:
 
+### `cssNamespace: string` (optional, default: `'typeahead'`)
+
+The default CSS classes use [BEM](http://getbem.com/) with `typeahead` as the block name. If you already have CSS rules for `.typeahead--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
+
+TODO: Better styling docs.
+
 ### `element: HTMLElement`
 
 The container element in which the typeahead will be rendered in.
 
-### `id: String` (optional)
+### `id: String` (optional, default: `'typeahead'`)
 
 The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
 
