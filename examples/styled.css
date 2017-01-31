@@ -16,6 +16,7 @@
 
 .typeahead__menu {
   border: 2px solid #6f777b;
+  border-top: 0;
   margin: 0;
   max-height: 342px;
   overflow-x: hidden;
