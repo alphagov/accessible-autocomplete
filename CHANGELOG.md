@@ -4,6 +4,12 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Allow importing styling from file in `examples/styled.css`.
+- Change the CSS classes to our own instead of the jQuery typeahead ones.
+- Tweak the styled example to fix two Safari bugs:
+  - fix scroll bar appearing in menu where none is necessary;
+  - fix weird margin separating the input from the menu.
+
 ## 0.1.3 - 2017-01-31
 
 - Don't apply focused CSS on hover, change handler to MouseOver instead of MouseMove.
