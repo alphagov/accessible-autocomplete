@@ -8,7 +8,7 @@
 
 - **Accessibility**: Following WAI-ARIA best practices and testing with assistive technologies.
 - **User experience**: Supporting a wide variety of browsers, devices, and user needs.
-- **Compatibility**: It aims to be easy to integrate into existing services, and uses progressive enhancement. It comes in a zero dependency version that weighs `6.1kb` minified and gzipped.
+- **Compatibility**: It aims to be easy to integrate into existing services, and uses progressive enhancement. It comes in a zero dependency version that weighs `6.4kb` minified and gzipped.
 
 ## Installation / Usage
 
@@ -62,7 +62,7 @@ The container element in which the typeahead will be rendered in.
 
 The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
 
-### `source: Function`
+### `source: Functiong`
 
 Arguments: `query: string, syncResults: Function`
 
