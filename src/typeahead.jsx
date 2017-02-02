@@ -10,6 +10,10 @@ const kc = {
 
 let elementRefs = {}
 
+function isIosDevice () {
+  return navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g)
+}
+
 export default class Typeahead extends Component {
   state = {
     menuOpen: false,
@@ -37,21 +41,7 @@ export default class Typeahead extends Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const { source } = this.props
-    const { query, selected } = this.state
-
-    const queryEmpty = query.length === 0
-    const queryChanged = prevState.query.length !== query.length
-    const searchForOptions = !queryEmpty && queryChanged
-    if (searchForOptions) {
-      source(query, (options) => {
-        this.setState({
-          menuOpen: options.length > 0,
-          options
-        })
-      })
-    }
-
+    const { selected } = this.state
     const componentLostFocus = selected === null
     const selectedChanged = prevState.selected !== selected
     const focusDifferentElement = selectedChanged && !componentLostFocus
@@ -60,9 +50,9 @@ export default class Typeahead extends Component {
     }
   }
 
-  handleComponentBlur () {
+  handleComponentBlur (options) {
     this.setState({
-      menuOpen: false,
+      menuOpen: !!(options && options.menuOpen),
       selected: null
     })
   }
@@ -81,26 +71,36 @@ export default class Typeahead extends Component {
   handleInputBlur (evt) {
     const selectingAnOption = this.state.selected !== -1
     if (!selectingAnOption) {
-      this.handleComponentBlur()
+      const focusingOutsideComponent = evt.relatedTarget === null
+      const menuAlreadyOpen = this.state.menuOpen === true
+      const keepMenuOpen = menuAlreadyOpen && isIosDevice() && focusingOutsideComponent
+      this.handleComponentBlur({
+        menuOpen: keepMenuOpen
+      })
     }
   }
 
   handleInputChange (evt) {
+    const { source } = this.props
     const query = evt.target.value
-    this.setState({
-      menuOpen: query.length > 0,
-      query
-    })
+    const queryEmpty = query.length === 0
+    const queryChanged = this.state.query.length !== query.length
+
+    this.setState({ query })
+
+    const searchForOptions = !queryEmpty && queryChanged
+    if (searchForOptions) {
+      source(query, (options) => {
+        this.setState({
+          menuOpen: options.length > 0,
+          options
+        })
+      })
+    }
   }
 
   handleInputFocus (evt) {
-    const componentWasNotFocused = this.state.selected === null
-    const queryEmpty = this.state.query.length === 0
-    const openTheMenu = componentWasNotFocused && !queryEmpty
-    this.setState({
-      menuOpen: openTheMenu,
-      selected: -1
-    })
+    this.setState({ selected: -1 })
   }
 
   handleOptionFocus (idx) {

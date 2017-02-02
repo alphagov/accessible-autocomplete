@@ -4,6 +4,7 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Don't close menu when closing the keyboard on iOS, to allow VoiceOver users the ability to select from the available options.
 - Add ability to set `name` attribute on input.
 
 ## 0.2.0 - 2017-01-31

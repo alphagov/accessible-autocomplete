@@ -80,10 +80,10 @@ describe('Typeahead', () => {
     })
 
     describe('focusing input', () => {
-      it('displays menu when something is typed in', () => {
+      it('does not display menu when something is typed in', () => {
         typeahead.setState({ query: 'f' })
         typeahead.handleInputFocus()
-        expect(typeahead.state.menuOpen).to.equal(true)
+        expect(typeahead.state.menuOpen).to.equal(false)
         expect(typeahead.state.selected).to.equal(-1)
       })
 
@@ -98,7 +98,7 @@ describe('Typeahead', () => {
     describe('blurring input', () => {
       it('unfocuses component', () => {
         typeahead.setState({ menuOpen: true, options: ['France'], selected: -1 })
-        typeahead.handleInputBlur()
+        typeahead.handleInputBlur({ relatedTarget: null })
         expect(typeahead.state.menuOpen).to.equal(false)
         expect(typeahead.state.selected).to.equal(null)
       })
