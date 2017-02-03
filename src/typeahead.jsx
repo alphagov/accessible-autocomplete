@@ -192,11 +192,16 @@ export default class Typeahead extends Component {
 
   handleDownArrow (evt) {
     evt.preventDefault()
+    const { autoselect } = this.props
     const { menuOpen, options, selected } = this.state
     const isNotAtBottom = selected !== options.length - 1
-    const allowMoveDown = isNotAtBottom && menuOpen
+    const moreThanOneOption = options.length > 1
+    const allowMoveDown = isNotAtBottom && menuOpen && (!autoselect || autoselect && moreThanOneOption)
     if (allowMoveDown) {
-      this.handleOptionFocus(selected + 1)
+      const inputSelected = selected === -1
+      const jumpToSecond = autoselect && inputSelected
+      const nextSelected = jumpToSecond ? 1 : selected + 1
+      this.handleOptionFocus(nextSelected)
     }
   }
 
