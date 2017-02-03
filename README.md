@@ -17,13 +17,13 @@
 You can include the standalone build by referencing it in your page:
 
 ```html
-<script src="https://unpkg.com/accessible-typeahead@0.2.0"></script>
+<script src="https://unpkg.com/accessible-typeahead@0.2.1"></script>
 ```
 
 You can use the [stylesheet from the "styled" example](examples/styled.css) by adding this to your `<head>`:
 
 ```html
-<link rel="stylesheet" src="https://unpkg.com/accessible-typeahead@0.2.0/examples/styled.css"></script>
+<link rel="stylesheet" src="https://unpkg.com/accessible-typeahead@0.2.1/examples/styled.css"></script>
 ```
 
 To use it, call the `window.AccessibleTypeahead` function, providing a suggestion engine:
