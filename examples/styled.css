@@ -43,7 +43,7 @@
   border-bottom-width: 0;
 }
 
-.typeahead__option:focus {
+.typeahead__option--focused {
   background-color: #005EA5;
   border-color: #005EA5;
   color: white;
