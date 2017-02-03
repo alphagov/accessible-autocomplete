@@ -39,12 +39,22 @@ describe('Typeahead', () => {
         render(<Typeahead />, scratch)
 
         expect(scratch.innerHTML).to.contain('input')
+        expect(scratch.innerHTML).to.contain('class="typeahead__input"')
+        expect(scratch.innerHTML).to.contain('class="typeahead__menu"')
+        expect(scratch.innerHTML).to.contain('name="input-typeahead"')
       })
 
       it('renders an input with a name attribute', () => {
         render(<Typeahead name='bob' />, scratch)
 
         expect(scratch.innerHTML).to.contain('name="bob"')
+      })
+
+      it('renders an input with a custom CSS namespace', () => {
+        render(<Typeahead cssNamespace='bob' />, scratch)
+
+        expect(scratch.innerHTML).to.contain('class="bob__input"')
+        expect(scratch.innerHTML).to.contain('class="bob__menu"')
       })
     })
   })
