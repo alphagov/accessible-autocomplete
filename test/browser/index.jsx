@@ -71,6 +71,12 @@ describe('Typeahead', () => {
         expect(typeahead.state.menuOpen).to.equal(false)
         expect(typeahead.state.options.length).to.equal(0)
       })
+
+      it('hides menu when query becomes empty', () => {
+        typeahead.setState({ query: 'f', options: ['France'], menuOpen: true })
+        typeahead.handleInputChange({ target: { value: '' } })
+        expect(typeahead.state.menuOpen).to.equal(false)
+      })
     })
 
     describe('focusing input', () => {
