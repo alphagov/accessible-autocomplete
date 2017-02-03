@@ -96,6 +96,8 @@ export default class Typeahead extends Component {
           options
         })
       })
+    } else if (queryEmpty) {
+      this.setState({ menuOpen: false })
     }
   }
 
