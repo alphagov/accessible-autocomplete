@@ -3,6 +3,7 @@ import Typeahead from './typeahead'
 
 if (window) {
   window.AccessibleTypeahead = function ({
+    autoselect,
     cssNamespace,
     element,
     id,
@@ -12,6 +13,7 @@ if (window) {
   }) {
     render(
       <Typeahead
+        autoselect={autoselect}
         cssNamespace={cssNamespace}
         id={id}
         minLength={minLength}
