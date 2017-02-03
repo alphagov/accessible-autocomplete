@@ -15,7 +15,6 @@
         max-width: 600px;
       }
 
-
       @media (min-width: 641px) {
         .typeahead-wrapper {
           width: 50%
@@ -29,13 +28,17 @@
     <main>
       <h1>Example typeahead</h1>
 
-      <h2>Basic typeahead</h2>
-      <label for="typeahead-1">Select your country</label>
-      <div id="tt-1" class="typeahead-wrapper"></div>
+      <h2>Default options</h2>
+      <label for="typeahead-default">Select your country</label>
+      <div id="tt-default" class="typeahead-wrapper"></div>
 
       <h2>minLength = 2</h2>
-      <label for="typeahead-2">Select your country</label>
-      <div id="tt-2" class="typeahead-wrapper"></div>
+      <label for="typeahead-minLength">Select your country</label>
+      <div id="tt-minLength" class="typeahead-wrapper"></div>
+
+      <h2>autoselect = true</h2>
+      <label for="typeahead-autoselect">Select your country</label>
+      <div id="tt-autoselect" class="typeahead-wrapper"></div>
     </main>
 
     <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
@@ -54,23 +57,35 @@
         )
       }
     </script>
+
     <script type="text/javascript">
-      var element = document.querySelector('#tt-1')
-      var id = 'typeahead-1'
+      var element = document.querySelector('#tt-default')
+      var id = 'typeahead-default'
       AccessibleTypeahead({
         element: element,
         id: id,
         source: suggest
       })
     </script>
+
     <script type="text/javascript">
-      element = document.querySelector('#tt-2')
-      id = 'typeahead-2'
+      element = document.querySelector('#tt-minLength')
+      id = 'typeahead-minLength'
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        minLength: 2,
+        source: suggest
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-autoselect')
+      id = 'typeahead-autoselect'
       AccessibleTypeahead({
         autoselect: true,
         element: element,
         id: id,
-        minLength: 2,
         source: suggest
       })
     </script>
