@@ -14,6 +14,7 @@ function isIosDevice () {
 
 export default class Typeahead extends Component {
   static defaultProps = {
+    autoselect: false,
     cssNamespace: 'typeahead',
     id: 'typeahead',
     minLength: 0,
@@ -227,7 +228,7 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { cssNamespace, id, minLength, name } = this.props
+    const { autoselect, cssNamespace, id, minLength, name } = this.props
     const { menuOpen, options, query, selected } = this.state
 
     const Wrapper = ({ children }) =>
@@ -273,7 +274,12 @@ export default class Typeahead extends Component {
 
     const Option = ({ children, idx }) => {
       const cn = `${cssNamespace}__option`
-      const cns = `${cn}${selected === idx ? ` ${cn}--focused` : ''}`
+      const inputIsFocused = selected === -1
+      const isFirstOption = idx === 0
+      const autofocus = autoselect && inputIsFocused && isFirstOption
+      const optionIsFocused = selected === idx
+      const focusThisOption = autofocus || optionIsFocused
+      const cns = `${cn}${focusThisOption ? ` ${cn}--focused` : ''}`
       return <li
         aria-selected={selected === idx}
         className={cns}
