@@ -48,6 +48,12 @@ export default class Typeahead extends Component {
     if (focusDifferentElement) {
       elementRefs[selected].focus()
     }
+    const focusedInput = selected === -1
+    const selectAll = selectedChanged && focusedInput
+    if (selectAll) {
+      const inputEl = elementRefs[-1]
+      inputEl.setSelectionRange(0, inputEl.value.length)
+    }
   }
 
   handleComponentBlur (options) {
