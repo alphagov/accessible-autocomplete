@@ -65,20 +65,21 @@ export default class Typeahead extends Component {
   }
 
   handleOptionFocusOut (evt, idx) {
-    const { selected } = this.state
+    const { menuOpen, selected } = this.state
     const focusingOutsideComponent = evt.relatedTarget === null
     const selectingAnotherOption = selected !== idx
+    const keepMenuOpen = menuOpen && isIosDevice()
     if (focusingOutsideComponent || !selectingAnotherOption) {
-      this.handleComponentBlur()
+      this.handleComponentBlur({
+        menuOpen: keepMenuOpen
+      })
     }
   }
 
   handleInputBlur (evt) {
     const selectingAnOption = this.state.selected !== -1
     if (!selectingAnOption) {
-      const focusingOutsideComponent = evt.relatedTarget === null
-      const menuAlreadyOpen = this.state.menuOpen === true
-      const keepMenuOpen = menuAlreadyOpen && isIosDevice() && focusingOutsideComponent
+      const keepMenuOpen = this.state.menuOpen && isIosDevice()
       this.handleComponentBlur({
         menuOpen: keepMenuOpen
       })
