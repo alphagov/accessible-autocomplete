@@ -192,7 +192,7 @@ export default class Typeahead extends Component {
     const Input = () =>
       <input
         aria-activedescendant={selected !== -1 ? `${id}__option--${selected}` : ''}
-        aria-expanded={options.length > 0}
+        aria-expanded={menuOpen}
         aria-owns={`${id}__listbox`}
         className={`${cssNamespace}__input`}
         id={id}
