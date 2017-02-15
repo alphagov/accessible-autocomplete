@@ -224,6 +224,7 @@ export default class Typeahead extends Component {
 
     const Option = ({ children, idx }) =>
       <li
+        aria-selected={selected === idx}
         className={`${cssNamespace}__option`}
         id={`${id}__option--${idx}`}
         onClick={(evt) => this.handleOptionSelect(evt, idx)}
