@@ -31,7 +31,7 @@ export default class Typeahead extends Component {
     this.handleDownArrow = this.handleDownArrow.bind(this)
     this.handleEnter = this.handleEnter.bind(this)
 
-    this.handleOptionBlur = this.handleOptionBlur.bind(this)
+    this.handleOptionFocusOut = this.handleOptionFocusOut.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
     this.handleOptionSelect = this.handleOptionSelect.bind(this)
 
@@ -63,7 +63,7 @@ export default class Typeahead extends Component {
     })
   }
 
-  handleOptionBlur (evt, idx) {
+  handleOptionFocusOut (evt, idx) {
     const { selected } = this.state
     // Safari triggers blur before click, so check if the target of the blur
     // is the currently hovered/focused element.
@@ -226,8 +226,8 @@ export default class Typeahead extends Component {
       <li
         className={`${cssNamespace}__option`}
         id={`${id}__option--${idx}`}
-        onBlur={(evt) => this.handleOptionBlur(evt, idx)}
         onClick={(evt) => this.handleOptionSelect(evt, idx)}
+        onFocusOut={(evt) => this.handleOptionFocusOut(evt, idx)}
         onMouseMove={() => this.handleOptionFocus(idx)}
         role='option'
         tabindex='-1'

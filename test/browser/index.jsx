@@ -112,10 +112,10 @@ describe('Typeahead', () => {
       })
     })
 
-    describe('blurring option', () => {
+    describe('focusing out option', () => {
       it('unfocuses component', () => {
         typeahead.setState({ menuOpen: true, options: ['France'], selected: 0 })
-        typeahead.handleOptionBlur({ target: 'mock' }, 0)
+        typeahead.handleOptionFocusOut({ target: 'mock' }, 0)
         expect(typeahead.state.menuOpen).to.equal(false)
         expect(typeahead.state.selected).to.equal(null)
       })
