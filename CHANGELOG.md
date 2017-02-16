@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 0.2.2 - 2017-02-16
+
 - Fix focus/blur events on IE11.
 - Fix value of `aria-expanded` attribute to be based on `menuOpen`.
 - Remove `aria-activedescendant` attribute when no option selected.
