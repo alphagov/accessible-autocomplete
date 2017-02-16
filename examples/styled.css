@@ -44,8 +44,8 @@
 }
 
 .typeahead__option:focus {
-  background-color: #2b8cc4;
-  border-color: #2b8cc4;
+  background-color: #005EA5;
+  border-color: #005EA5;
   color: white;
   outline: none;
 }

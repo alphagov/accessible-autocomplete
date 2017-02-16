@@ -31,8 +31,9 @@ export default class Typeahead extends Component {
     this.handleDownArrow = this.handleDownArrow.bind(this)
     this.handleEnter = this.handleEnter.bind(this)
 
-    this.handleOptionBlur = this.handleOptionBlur.bind(this)
+    this.handleOptionFocusOut = this.handleOptionFocusOut.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
+    this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
     this.handleOptionSelect = this.handleOptionSelect.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
@@ -63,23 +64,22 @@ export default class Typeahead extends Component {
     })
   }
 
-  handleOptionBlur (evt, idx) {
-    const { selected } = this.state
-    // Safari triggers blur before click, so check if the target of the blur
-    // is the currently hovered/focused element.
+  handleOptionFocusOut (evt, idx) {
+    const { menuOpen, selected } = this.state
     const focusingOutsideComponent = evt.relatedTarget === null
     const selectingAnotherOption = selected !== idx
+    const keepMenuOpen = menuOpen && isIosDevice()
     if (focusingOutsideComponent || !selectingAnotherOption) {
-      this.handleComponentBlur()
+      this.handleComponentBlur({
+        menuOpen: keepMenuOpen
+      })
     }
   }
 
   handleInputBlur (evt) {
     const selectingAnOption = this.state.selected !== -1
     if (!selectingAnOption) {
-      const focusingOutsideComponent = evt.relatedTarget === null
-      const menuAlreadyOpen = this.state.menuOpen === true
-      const keepMenuOpen = menuAlreadyOpen && isIosDevice() && focusingOutsideComponent
+      const keepMenuOpen = this.state.menuOpen && isIosDevice()
       this.handleComponentBlur({
         menuOpen: keepMenuOpen
       })
@@ -128,6 +128,16 @@ export default class Typeahead extends Component {
       query: this.state.options[idx],
       selected: -1
     })
+  }
+
+  handleOptionMouseDown (evt) {
+    // Safari triggers focusOut before click, but if you
+    // preventDefault on mouseDown, you can stop that from happening.
+    // If this is removed, clicking on an option in Safari will trigger
+    // `handleOptionFocusOut`, which closes the menu, and the click will
+    // trigger on the element underneath instead.
+    // See: http://stackoverflow.com/questions/7621711/how-to-prevent-blur-running-when-clicking-a-link-in-jquery
+    evt.preventDefault()
   }
 
   handleUpArrow (evt) {
@@ -191,8 +201,8 @@ export default class Typeahead extends Component {
 
     const Input = () =>
       <input
-        aria-activedescendant={selected !== -1 ? `${id}__option--${selected}` : ''}
-        aria-expanded={options.length > 0}
+        aria-activedescendant={selected !== -1 && selected !== null ? `${id}__option--${selected}` : false}
+        aria-expanded={menuOpen}
         aria-owns={`${id}__listbox`}
         className={`${cssNamespace}__input`}
         id={id}
@@ -224,10 +234,12 @@ export default class Typeahead extends Component {
 
     const Option = ({ children, idx }) =>
       <li
+        aria-selected={selected === idx}
         className={`${cssNamespace}__option`}
         id={`${id}__option--${idx}`}
-        onBlur={(evt) => this.handleOptionBlur(evt, idx)}
         onClick={(evt) => this.handleOptionSelect(evt, idx)}
+        onFocusOut={(evt) => this.handleOptionFocusOut(evt, idx)}
+        onMouseDown={this.handleOptionMouseDown}
         onMouseMove={() => this.handleOptionFocus(idx)}
         role='option'
         tabindex='-1'
