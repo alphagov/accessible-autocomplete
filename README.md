@@ -10,6 +10,8 @@
 - **User experience**: Supporting a wide variety of browsers, devices, and user needs.
 - **Compatibility**: It aims to be easy to integrate into existing services, and uses progressive enhancement. It comes in a zero dependency version that weighs `6.4kb` minified and gzipped.
 
+[Try out the examples!](https://alphagov.github.io/accessible-typeahead/examples/)
+
 ## Installation / Usage
 
 ### Plain JS
