@@ -4,6 +4,13 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Fix focus/blur events on IE11.
+- Fix value of `aria-expanded` attribute to be based on `menuOpen`.
+- Remove `aria-activedescendant` attribute when no option selected.
+- Set `aria-selected` on options when they are focused.
+- Fix clicking on options on Safari.
+- Use a darker blue in the styled example for better contrast ratios.
+- Don't close menu when blurring options or input on iOS, to allow VoiceOver users the ability to select from the available options.
 - Autoselect entire text region when focusing into the input.
 
 ## 0.2.1 - 2017-02-03
