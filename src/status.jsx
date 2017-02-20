@@ -55,7 +55,7 @@ export default class Status extends Component {
           ? <span>No search results.</span>
           : <span>
             {length} {words.result} {words.is} available,
-            use arrow keys or swipe to navigate.
+            use arrow keys or swipe to navigate, use enter key or double tap to select a result.
           </span>
       }
     </div>
