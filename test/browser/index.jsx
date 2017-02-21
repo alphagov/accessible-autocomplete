@@ -77,6 +77,28 @@ describe('Typeahead', () => {
         typeahead.handleInputChange({ target: { value: '' } })
         expect(typeahead.state.menuOpen).to.equal(false)
       })
+
+      describe('with minLength', () => {
+        beforeEach(() => {
+          typeahead = new Typeahead({
+            id: 'test',
+            source: suggest,
+            minLength: 2
+          })
+        })
+
+        it('doesn\'t search when under limit', () => {
+          typeahead.handleInputChange({ target: { value: 'f' } })
+          expect(typeahead.state.menuOpen).to.equal(false)
+          expect(typeahead.state.options.length).to.equal(0)
+        })
+
+        it('does search when over limit', () => {
+          typeahead.handleInputChange({ target: { value: 'fra' } })
+          expect(typeahead.state.menuOpen).to.equal(true)
+          expect(typeahead.state.options).to.contain('France')
+        })
+      })
     })
 
     describe('focusing input', () => {

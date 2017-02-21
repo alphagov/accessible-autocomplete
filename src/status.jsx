@@ -25,13 +25,16 @@ export default class Status extends Component {
   }, 1000)
 
   render () {
-    const { length } = this.props
+    const { length, queryLength, minQueryLength } = this.props
     const { cleared } = this.state
 
     const words = {
       result: (length === 1) ? 'result' : 'results',
       is: (length === 1) ? 'is' : 'are'
     }
+
+    const queryTooShort = queryLength < minQueryLength
+    const noResults = length === 0
 
     return <div
       aria-live='polite'
@@ -51,12 +54,14 @@ export default class Status extends Component {
     >
       {(cleared)
         ? <span />
-        : (length === 0)
-          ? <span>No search results.</span>
-          : <span>
-            {length} {words.result} {words.is} available,
-            use arrow keys or swipe to navigate.
-          </span>
+        : (queryTooShort)
+          ? <span>Type in {minQueryLength} or more characters for results.</span>
+          : (noResults)
+            ? <span>No search results.</span>
+            : <span>
+              {length} {words.result} {words.is} available,
+              use arrow keys or swipe to navigate.
+            </span>
       }
     </div>
   }

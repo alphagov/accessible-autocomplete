@@ -4,6 +4,9 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Add `minLength` property, which:
+  - Tells the aria region to display text that the user should type in more characters;
+  - Doesn't call the `source` until that lower limit is reached.
 - Select text only when component is unfocused.
 
 ## 0.2.2 - 2017-02-16
