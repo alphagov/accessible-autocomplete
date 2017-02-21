@@ -88,14 +88,15 @@ export default class Typeahead extends Component {
   }
 
   handleInputChange (evt) {
-    const { source } = this.props
+    const { minLength = 0, source } = this.props
     const query = evt.target.value
     const queryEmpty = query.length === 0
     const queryChanged = this.state.query.length !== query.length
+    const queryLongEnough = query.length >= minLength
 
     this.setState({ query })
 
-    const searchForOptions = !queryEmpty && queryChanged
+    const searchForOptions = !queryEmpty && queryChanged && queryLongEnough
     if (searchForOptions) {
       source(query, (options) => {
         this.setState({
@@ -189,7 +190,12 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { id = 'typeahead', cssNamespace = 'typeahead', name = 'input-typeahead' } = this.props
+    const {
+      cssNamespace = 'typeahead',
+      id = 'typeahead',
+      minLength = 0,
+      name = 'input-typeahead'
+    } = this.props
     const { menuOpen, options, query, selected } = this.state
 
     const Wrapper = ({ children }) =>
@@ -263,7 +269,11 @@ export default class Typeahead extends Component {
             </Option>
           )}
         </Menu>
-        <Status length={options.length} />
+        <Status
+          length={options.length}
+          queryLength={query.length}
+          minQueryLength={minLength}
+        />
       </Wrapper>
     )
   }

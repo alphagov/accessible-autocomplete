@@ -6,6 +6,7 @@ if (window) {
     cssNamespace,
     element,
     id,
+    minLength,
     name,
     source
   }) {
@@ -13,6 +14,7 @@ if (window) {
       <Typeahead
         cssNamespace={cssNamespace}
         id={id}
+        minLength={minLength}
         name={name}
         source={source}
       />,
