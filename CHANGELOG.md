@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 0.2.3 - 2017-02-21
+
 - Add `minLength` property, which:
   - Tells the aria region to display text that the user should type in more characters;
   - Doesn't call the `source` until that lower limit is reached.
