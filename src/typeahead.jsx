@@ -50,7 +50,8 @@ export default class Typeahead extends Component {
       elementRefs[selected].focus()
     }
     const focusedInput = selected === -1
-    const selectAll = selectedChanged && focusedInput
+    const componentGainedFocus = selectedChanged && prevState.selected === null
+    const selectAll = focusedInput && componentGainedFocus
     if (selectAll) {
       const inputEl = elementRefs[-1]
       inputEl.setSelectionRange(0, inputEl.value.length)

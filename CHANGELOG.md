@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Select text only when component is unfocused.
+
 ## 0.2.2 - 2017-02-16
 
 - Fix focus/blur events on IE11.
