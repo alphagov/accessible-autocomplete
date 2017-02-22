@@ -194,7 +194,8 @@ export default class Typeahead extends Component {
       cssNamespace = 'typeahead',
       id = 'typeahead',
       minLength = 0,
-      name = 'input-typeahead'
+      name = 'input-typeahead',
+      verbosity = 0
     } = this.props
     const { menuOpen, options, query, selected } = this.state
 
@@ -273,6 +274,7 @@ export default class Typeahead extends Component {
           length={options.length}
           queryLength={query.length}
           minQueryLength={minLength}
+          verbosity={verbosity}
         />
       </Wrapper>
     )

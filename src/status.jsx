@@ -25,12 +25,25 @@ export default class Status extends Component {
   }, 1000)
 
   render () {
-    const { length, queryLength, minQueryLength } = this.props
+    const { length, queryLength, minQueryLength, verbosity } = this.props
     const { cleared } = this.state
 
     const words = {
       result: (length === 1) ? 'result' : 'results',
       is: (length === 1) ? 'is' : 'are'
+    }
+
+    let helpText = ''
+    switch (verbosity) {
+      case 0:
+        helpText = `${length} ${words.result} ${words.is} available.`
+        break
+      case 1:
+        helpText = `${length} ${words.result} ${words.is} available. Use arrow keys or swipe to navigate.`
+        break
+      case 2:
+        helpText = `${length} ${words.result} ${words.is} available. Use arrow keys to navigate, use enter key to select a result.`
+        break
     }
 
     const queryTooShort = queryLength < minQueryLength
@@ -58,10 +71,7 @@ export default class Status extends Component {
           ? <span>Type in {minQueryLength} or more characters for results.</span>
           : (noResults)
             ? <span>No search results.</span>
-            : <span>
-              {length} {words.result} {words.is} available,
-              use arrow keys or swipe to navigate.
-            </span>
+            : <span>{helpText}</span>
       }
     </div>
   }

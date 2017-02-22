@@ -36,6 +36,18 @@
       <h2>minLength = 2</h2>
       <label for="typeahead-2">Select your country</label>
       <div id="tt-2" class="typeahead-wrapper"></div>
+
+      <h2>verbosity = 0</h2>
+      <label for="typeahead-3">Select your country</label>
+      <div id="tt-3" class="typeahead-wrapper"></div>
+
+      <h2>verbosity = 1</h2>
+      <label for="typeahead-4">Select your country</label>
+      <div id="tt-4" class="typeahead-wrapper"></div>
+
+      <h2>verbosity = 2</h2>
+      <label for="typeahead-5">Select your country</label>
+      <div id="tt-5" class="typeahead-wrapper"></div>
     </main>
 
     <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
@@ -54,6 +66,7 @@
         )
       }
     </script>
+
     <script type="text/javascript">
       var element = document.querySelector('#tt-1')
       var id = 'typeahead-1'
@@ -63,6 +76,7 @@
         source: suggest
       })
     </script>
+
     <script type="text/javascript">
       element = document.querySelector('#tt-2')
       id = 'typeahead-2'
@@ -71,6 +85,39 @@
         id: id,
         minLength: 2,
         source: suggest
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-3')
+      id = 'typeahead-3'
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        source: suggest,
+        verbosity: 0
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-4')
+      id = 'typeahead-4'
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        source: suggest,
+        verbosity: 1
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-5')
+      id = 'typeahead-5'
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        source: suggest,
+        verbosity: 2
       })
     </script>
   </body>

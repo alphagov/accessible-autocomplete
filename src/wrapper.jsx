@@ -8,7 +8,8 @@ if (window) {
     id,
     minLength,
     name,
-    source
+    source,
+    verbosity
   }) {
     render(
       <Typeahead
@@ -17,6 +18,7 @@ if (window) {
         minLength={minLength}
         name={name}
         source={source}
+        verbosity={verbosity}
       />,
       element
     )
