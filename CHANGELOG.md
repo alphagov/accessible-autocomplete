@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Poll the input element periodically to pick up value changes. This makes it more resilient to direct modifications from applications like Dragon, or from interventions from other JavaScript snippets.
+
 ## 0.2.3 - 2017-02-21
 
 - Add `minLength` property, which:

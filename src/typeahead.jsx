@@ -46,6 +46,36 @@ export default class Typeahead extends Component {
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
+
+    this.pollInputElement = this.pollInputElement.bind(this)
+    this.getDirectInputChanges = this.getDirectInputChanges.bind(this)
+  }
+
+  componentDidMount () {
+    this.pollInputElement()
+  }
+
+  componentWillUnmount () {
+    clearTimeout(this.$pollInput)
+  }
+
+  // Applications like Dragon NaturallySpeaking will modify the
+  // `input` field by directly changing its `.value`. These events
+  // don't trigger our JavaScript event listeners, so we need to poll
+  // to handle when and if they occur.
+  pollInputElement () {
+    this.getDirectInputChanges()
+    this.$pollInput = setTimeout(() => {
+      this.pollInputElement()
+    }, 100)
+  }
+
+  getDirectInputChanges () {
+    const inputRef = this.elementRefs[-1]
+    const queryHasChanged = inputRef.value !== this.state.query
+    if (queryHasChanged) {
+      this.handleInputChange({ target: { value: inputRef.value } })
+    }
   }
 
   componentDidUpdate (prevProps, prevState) {
