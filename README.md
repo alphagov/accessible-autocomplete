@@ -56,7 +56,7 @@ AccessibleTypeahead({
 
 > :warning: WARNING: This is a work in progress and will change significantly. :warning:
 
-### `cssNamespace: string` (optional, default: `'typeahead'`)
+### `cssNamespace: String` (optional, default: `'typeahead'`)
 
 The default CSS classes use [BEM](http://getbem.com/) with `typeahead` as the block name. If you already have CSS rules for `.typeahead--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
 
@@ -69,6 +69,10 @@ The container element in which the typeahead will be rendered in.
 ### `id: String` (optional, default: `'typeahead'`)
 
 The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
+
+### `minLength: Number` (optional, default: `0`)
+
+The minimum number of characters that should be entered before the typeahead will attempt to suggest options. When the query length is under this, the aria status region will also provide helpful text to the user informing them they should type in more.
 
 ### `name: String` (optional, default: `'input-typeahead'`)
 
