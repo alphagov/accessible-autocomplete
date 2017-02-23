@@ -15,6 +15,13 @@ function isIosDevice () {
 }
 
 export default class Typeahead extends Component {
+  static defaultProps = {
+    cssNamespace: 'typeahead',
+    id: 'typeahead',
+    minLength: 0,
+    name: 'input-typeahead'
+  }
+
   state = {
     menuOpen: false,
     options: [],
@@ -88,7 +95,7 @@ export default class Typeahead extends Component {
   }
 
   handleInputChange (evt) {
-    const { minLength = 0, source } = this.props
+    const { minLength, source } = this.props
     const query = evt.target.value
     const queryEmpty = query.length === 0
     const queryChanged = this.state.query.length !== query.length
@@ -190,12 +197,7 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const {
-      cssNamespace = 'typeahead',
-      id = 'typeahead',
-      minLength = 0,
-      name = 'input-typeahead'
-    } = this.props
+    const { cssNamespace, id, minLength, name } = this.props
     const { menuOpen, options, query, selected } = this.state
 
     const Wrapper = ({ children }) =>
