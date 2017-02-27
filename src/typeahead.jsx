@@ -8,8 +8,6 @@ const kc = {
   40: 'down'
 }
 
-let elementRefs = {}
-
 function isIosDevice () {
   return navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g)
 }
@@ -21,6 +19,8 @@ export default class Typeahead extends Component {
     minLength: 0,
     name: 'input-typeahead'
   }
+
+  elementRefs = {}
 
   state = {
     menuOpen: false,
@@ -46,6 +46,36 @@ export default class Typeahead extends Component {
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
+
+    this.pollInputElement = this.pollInputElement.bind(this)
+    this.getDirectInputChanges = this.getDirectInputChanges.bind(this)
+  }
+
+  componentDidMount () {
+    this.pollInputElement()
+  }
+
+  componentWillUnmount () {
+    clearTimeout(this.$pollInput)
+  }
+
+  // Applications like Dragon NaturallySpeaking will modify the
+  // `input` field by directly changing its `.value`. These events
+  // don't trigger our JavaScript event listeners, so we need to poll
+  // to handle when and if they occur.
+  pollInputElement () {
+    this.getDirectInputChanges()
+    this.$pollInput = setTimeout(() => {
+      this.pollInputElement()
+    }, 100)
+  }
+
+  getDirectInputChanges () {
+    const inputRef = this.elementRefs[-1]
+    const queryHasChanged = inputRef.value !== this.state.query
+    if (queryHasChanged) {
+      this.handleInputChange({ target: { value: inputRef.value } })
+    }
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -54,13 +84,13 @@ export default class Typeahead extends Component {
     const selectedChanged = prevState.selected !== selected
     const focusDifferentElement = selectedChanged && !componentLostFocus
     if (focusDifferentElement) {
-      elementRefs[selected].focus()
+      this.elementRefs[selected].focus()
     }
     const focusedInput = selected === -1
     const componentGainedFocus = selectedChanged && prevState.selected === null
     const selectAll = focusedInput && componentGainedFocus
     if (selectAll) {
-      const inputEl = elementRefs[-1]
+      const inputEl = this.elementRefs[-1]
       inputEl.setSelectionRange(0, inputEl.value.length)
     }
   }
@@ -259,13 +289,13 @@ export default class Typeahead extends Component {
     return (
       <Wrapper>
         <Input
-          ref={(inputEl) => { elementRefs[-1] = inputEl }}
+          ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
         />
         <Menu>
           {options.map((optionText, idx) =>
             <Option
               idx={idx}
-              ref={(optionEl) => { elementRefs[idx] = optionEl }}
+              ref={(optionEl) => { this.elementRefs[idx] = optionEl }}
             >
               { optionText }
             </Option>
