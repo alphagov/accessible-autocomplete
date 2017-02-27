@@ -54,6 +54,7 @@ describe('Typeahead', () => {
 
     beforeEach(() => {
       typeahead = new Typeahead({
+        ...Typeahead.defaultProps,
         id: 'test',
         source: suggest
       })
@@ -81,6 +82,7 @@ describe('Typeahead', () => {
       describe('with minLength', () => {
         beforeEach(() => {
           typeahead = new Typeahead({
+            ...Typeahead.defaultProps,
             id: 'test',
             source: suggest,
             minLength: 2
