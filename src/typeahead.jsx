@@ -39,10 +39,10 @@ export default class Typeahead extends Component {
     this.handleDownArrow = this.handleDownArrow.bind(this)
     this.handleEnter = this.handleEnter.bind(this)
 
+    this.handleOptionClick = this.handleOptionClick.bind(this)
     this.handleOptionFocusOut = this.handleOptionFocusOut.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
     this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
-    this.handleOptionSelect = this.handleOptionSelect.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -155,7 +155,7 @@ export default class Typeahead extends Component {
     this.setState({ selected: idx })
   }
 
-  handleOptionSelect (evt, idx = this.state.selected) {
+  handleOptionClick (evt, idx = this.state.selected) {
     if (this.props.autoselect) {
       const inputSelected = idx === -1
       if (inputSelected) {
@@ -209,7 +209,7 @@ export default class Typeahead extends Component {
     evt.preventDefault()
 
     if (this.state.menuOpen) {
-      this.handleOptionSelect(evt)
+      this.handleOptionClick(evt)
     }
   }
 
@@ -289,7 +289,7 @@ export default class Typeahead extends Component {
         aria-selected={selected === idx}
         className={cns}
         id={`${id}__option--${idx}`}
-        onClick={(evt) => this.handleOptionSelect(evt, idx)}
+        onClick={(evt) => this.handleOptionClick(evt, idx)}
         onFocusOut={(evt) => this.handleOptionFocusOut(evt, idx)}
         onMouseDown={this.handleOptionMouseDown}
         onMouseMove={() => this.handleOptionFocus(idx)}
