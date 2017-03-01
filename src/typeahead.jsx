@@ -155,14 +155,7 @@ export default class Typeahead extends Component {
     this.setState({ focused: idx })
   }
 
-  handleOptionClick (evt, idx = this.state.focused) {
-    if (this.props.autoselect) {
-      const inputFocused = idx === -1
-      if (inputFocused) {
-        idx = 0
-      }
-    }
-
+  handleOptionClick (evt, idx) {
     this.setState({
       menuOpen: false,
       query: this.state.options[idx],
@@ -209,7 +202,7 @@ export default class Typeahead extends Component {
     evt.preventDefault()
 
     if (this.state.menuOpen) {
-      this.handleOptionClick(evt)
+      this.handleOptionClick(evt, this.state.focused)
     }
   }
 
