@@ -24,10 +24,11 @@ export default class Typeahead extends Component {
   elementRefs = {}
 
   state = {
+    focused: null,
     menuOpen: false,
     options: [],
     query: '',
-    focused: null
+    selected: null
   }
 
   constructor (props) {
@@ -148,18 +149,25 @@ export default class Typeahead extends Component {
   }
 
   handleInputFocus (evt) {
-    this.setState({ focused: -1 })
+    this.setState({
+      focused: -1,
+      selected: -1
+    })
   }
 
   handleOptionFocus (idx) {
-    this.setState({ focused: idx })
+    this.setState({
+      focused: idx,
+      selected: idx
+    })
   }
 
   handleOptionClick (evt, idx) {
     this.setState({
+      focused: -1,
       menuOpen: false,
       query: this.state.options[idx],
-      focused: -1
+      selected: -1
     })
   }
 
@@ -185,16 +193,11 @@ export default class Typeahead extends Component {
 
   handleDownArrow (evt) {
     evt.preventDefault()
-    const { autoselect } = this.props
     const { menuOpen, options, focused } = this.state
     const isNotAtBottom = focused !== options.length - 1
-    const moreThanOneOption = options.length > 1
-    const allowMoveDown = isNotAtBottom && menuOpen && (!autoselect || autoselect && moreThanOneOption)
+    const allowMoveDown = isNotAtBottom && menuOpen
     if (allowMoveDown) {
-      const inputFocused = focused === -1
-      const jumpToSecond = autoselect && inputFocused
-      const nextFocused = jumpToSecond ? 1 : focused + 1
-      this.handleOptionFocus(nextFocused)
+      this.handleOptionFocus(focused + 1)
     }
   }
 
@@ -226,8 +229,8 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { autoselect, cssNamespace, id, minLength, name } = this.props
-    const { menuOpen, options, query, focused } = this.state
+    const { cssNamespace, id, minLength, name } = this.props
+    const { focused, menuOpen, options, query, selected } = this.state
 
     const Wrapper = ({ children }) =>
       <div
@@ -272,11 +275,7 @@ export default class Typeahead extends Component {
 
     const Option = ({ children, idx }) => {
       const cn = `${cssNamespace}__option`
-      const inputIsFocused = focused === -1
-      const isFirstOption = idx === 0
-      const autofocus = autoselect && inputIsFocused && isFirstOption
-      const optionIsFocused = focused === idx
-      const focusThisOption = autofocus || optionIsFocused
+      const focusThisOption = focused === idx || selected === idx
       const cns = `${cn}${focusThisOption ? ` ${cn}--focused` : ''}`
       return <li
         aria-selected={focused === idx}
