@@ -99,8 +99,9 @@ export default class Typeahead extends Component {
 
   handleComponentBlur (options) {
     this.setState({
+      focused: null,
       menuOpen: !!(options && options.menuOpen),
-      focused: null
+      selected: null
     })
   }
 
@@ -127,7 +128,7 @@ export default class Typeahead extends Component {
   }
 
   handleInputChange (evt) {
-    const { minLength, source } = this.props
+    const { autoselect, minLength, source } = this.props
     const query = evt.target.value
     const queryEmpty = query.length === 0
     const queryChanged = this.state.query.length !== query.length
@@ -138,9 +139,11 @@ export default class Typeahead extends Component {
     const searchForOptions = !queryEmpty && queryChanged && queryLongEnough
     if (searchForOptions) {
       source(query, (options) => {
+        const optionsAvailable = options.length > 0
         this.setState({
-          menuOpen: options.length > 0,
-          options
+          menuOpen: optionsAvailable,
+          options,
+          selected: (autoselect && optionsAvailable) ? 0 : -1
         })
       })
     } else if (queryEmpty) {
@@ -193,11 +196,11 @@ export default class Typeahead extends Component {
 
   handleDownArrow (evt) {
     evt.preventDefault()
-    const { menuOpen, options, focused } = this.state
-    const isNotAtBottom = focused !== options.length - 1
+    const { menuOpen, options, selected } = this.state
+    const isNotAtBottom = selected !== options.length - 1
     const allowMoveDown = isNotAtBottom && menuOpen
     if (allowMoveDown) {
-      this.handleOptionFocus(focused + 1)
+      this.handleOptionFocus(selected + 1)
     }
   }
 
@@ -205,7 +208,7 @@ export default class Typeahead extends Component {
     evt.preventDefault()
 
     if (this.state.menuOpen) {
-      this.handleOptionClick(evt, this.state.focused)
+      this.handleOptionClick(evt, this.state.selected)
     }
   }
 
