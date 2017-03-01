@@ -25,7 +25,7 @@ export default class Status extends Component {
   }, 1000)
 
   render () {
-    const { length, queryLength, minQueryLength } = this.props
+    const { length, queryLength, minQueryLength, selectedOption } = this.props
     const { cleared } = this.state
 
     const words = {
@@ -59,8 +59,10 @@ export default class Status extends Component {
           : (noResults)
             ? <span>No search results.</span>
             : <span>
-              {length} {words.result} {words.is} available,
-              use arrow keys or swipe to navigate.
+              {length} {words.result} {words.is} available. {(selectedOption)
+                ? <span>{selectedOption} (1 of {length}) is selected.</span>
+                : <span />
+              }
             </span>
       }
     </div>

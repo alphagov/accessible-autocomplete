@@ -314,6 +314,7 @@ export default class Typeahead extends Component {
           length={options.length}
           queryLength={query.length}
           minQueryLength={minLength}
+          selectedOption={options[selected]}
         />
       </Wrapper>
     )
