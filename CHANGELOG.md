@@ -4,6 +4,7 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Display "No options found" when there are no results.
 - Add `autoselect` property. This refactors the `:focused` CSS class to `--focused`, but because previous styling should still work as before, is not a breaking change.
 - Poll the input element periodically to pick up value changes. This makes it more resilient to direct modifications from applications like Dragon, or from interventions from other JavaScript snippets.
 

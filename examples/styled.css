@@ -50,6 +50,10 @@
   outline: none;
 }
 
+.typeahead__option--no-results {
+  cursor: not-allowed;
+}
+
 .typeahead__input,
 .typeahead__option {
   font-size: 16px;

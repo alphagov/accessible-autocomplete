@@ -235,6 +235,11 @@ export default class Typeahead extends Component {
     const { cssNamespace, id, minLength, name } = this.props
     const { focused, menuOpen, options, query, selected } = this.state
 
+    const noOptionsAvailable = options.length === 0
+    const queryNotEmpty = query.length !== 0
+    const queryLongEnough = query.length >= minLength
+    const showNoOptionsFound = noOptionsAvailable && queryNotEmpty && queryLongEnough
+
     const Wrapper = ({ children }) =>
       <div
         onKeyDown={this.handleKeyDown}
@@ -266,7 +271,7 @@ export default class Typeahead extends Component {
         id={`${id}__listbox`}
         role='listbox'
         style={{
-          'display': (menuOpen) ? 'block' : 'none',
+          'display': (menuOpen || showNoOptionsFound) ? 'block' : 'none',
           'left': '0',
           'position': 'absolute',
           'top': '100%',
@@ -275,6 +280,13 @@ export default class Typeahead extends Component {
       >
         { children }
       </ul>
+
+    const NoOptionsFound = () =>
+      <li
+        className={`${cssNamespace}__option ${cssNamespace}__option--no-results`}
+      >
+        No options found.
+      </li>
 
     const Option = ({ children, idx }) => {
       const cn = `${cssNamespace}__option`
@@ -309,6 +321,7 @@ export default class Typeahead extends Component {
               { optionText }
             </Option>
           )}
+          {showNoOptionsFound && <NoOptionsFound />}
         </Menu>
         <Status
           length={options.length}
