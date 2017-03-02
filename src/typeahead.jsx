@@ -81,7 +81,8 @@ export default class Typeahead extends Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const { focused } = this.state
+    const { autoselect } = this.props
+    const { focused, options, query } = this.state
     const componentLostFocus = focused === null
     const focusedChanged = prevState.focused !== focused
     const focusDifferentElement = focusedChanged && !componentLostFocus
@@ -94,6 +95,12 @@ export default class Typeahead extends Component {
     if (selectAllText) {
       const inputEl = this.elementRefs[focused]
       inputEl.setSelectionRange(0, inputEl.value.length)
+    }
+    const selectedOption = options[0]
+    const hasAutocompletedQuery = autoselect && selectedOption
+    if (hasAutocompletedQuery) {
+      const inputEl = this.elementRefs[focused]
+      inputEl.setSelectionRange(query.length, selectedOption.length)
     }
   }
 
@@ -134,16 +141,20 @@ export default class Typeahead extends Component {
     const queryChanged = this.state.query.length !== query.length
     const queryLongEnough = query.length >= minLength
 
-    this.setState({ query })
+    const notChangedByMoreThanOne = query.length - this.state.query.length <= 1
+    if (notChangedByMoreThanOne) {
+      this.setState({ query })
+    }
 
     const searchForOptions = !queryEmpty && queryChanged && queryLongEnough
     if (searchForOptions) {
       source(query, (options) => {
         const optionsAvailable = options.length > 0
+        const selectFirstOption = autoselect && optionsAvailable
         this.setState({
           menuOpen: optionsAvailable,
           options,
-          selected: (autoselect && optionsAvailable) ? 0 : -1
+          selected: selectFirstOption ? 0 : -1
         })
       })
     } else if (queryEmpty) {
@@ -267,8 +278,13 @@ export default class Typeahead extends Component {
       />
     }
 
-    const Input = () =>
-      <input
+    const Input = () => {
+      const selectedOption = options[0]
+      const optionBeginsWithQuery = selectedOption && selectedOption.toLowerCase().indexOf(query.toLowerCase()) === 0
+      const hintedQuery = (autoselect && optionBeginsWithQuery)
+        ? query + selectedOption.substr(query.length)
+        : query
+      return <input
         aria-activedescendant={focused !== -1 && focused !== null ? `${id}__option--${focused}` : false}
         aria-expanded={menuOpen}
         aria-owns={`${id}__listbox`}
@@ -281,8 +297,9 @@ export default class Typeahead extends Component {
         role='combobox'
         style={{ 'position': 'relative' }}
         type='text'
-        value={query}
+        value={hintedQuery}
       />
+    }
 
     const Menu = ({ children }) =>
       <ul
