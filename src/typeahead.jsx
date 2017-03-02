@@ -147,7 +147,10 @@ export default class Typeahead extends Component {
         })
       })
     } else if (queryEmpty) {
-      this.setState({ menuOpen: false })
+      this.setState({
+        menuOpen: false,
+        options: []
+      })
     }
   }
 
