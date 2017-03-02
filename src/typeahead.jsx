@@ -239,10 +239,11 @@ export default class Typeahead extends Component {
     const { autoselect, cssNamespace, id, minLength, name } = this.props
     const { focused, menuOpen, options, query, selected } = this.state
 
+    const inputFocused = focused === -1
     const noOptionsAvailable = options.length === 0
     const queryNotEmpty = query.length !== 0
     const queryLongEnough = query.length >= minLength
-    const showNoOptionsFound = noOptionsAvailable && queryNotEmpty && queryLongEnough
+    const showNoOptionsFound = inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
 
     const Wrapper = ({ children }) =>
       <div
