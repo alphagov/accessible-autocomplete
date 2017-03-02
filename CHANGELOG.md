@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Turn off native browser autocomplete so it doesn't interfere with typeahead overlay.
+
 ## 0.2.4 - 2017-03-02
 
 - Display "No options found" when there are no results.
