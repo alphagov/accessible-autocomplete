@@ -232,7 +232,7 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { cssNamespace, id, minLength, name } = this.props
+    const { autoselect, cssNamespace, id, minLength, name } = this.props
     const { focused, menuOpen, options, query, selected } = this.state
 
     const noOptionsAvailable = options.length === 0
@@ -247,6 +247,20 @@ export default class Typeahead extends Component {
       >
         { children }
       </div>
+
+    const Hint = () => {
+      const selectedOption = options[selected]
+      const optionBeginsWithQuery = selectedOption && selectedOption.toLowerCase().indexOf(query.toLowerCase()) === 0
+      const hintValue = (optionBeginsWithQuery && autoselect)
+        ? query + selectedOption.substr(query.length)
+        : ''
+      return <input
+        className={`${cssNamespace}__hint`}
+        readonly
+        tabindex='-1'
+        value={hintValue}
+      />
+    }
 
     const Input = () =>
       <input
@@ -309,6 +323,7 @@ export default class Typeahead extends Component {
 
     return (
       <Wrapper>
+        <Hint />
         <Input
           ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
         />
