@@ -56,6 +56,10 @@ AccessibleTypeahead({
 
 > :warning: WARNING: This is a work in progress and will change significantly. :warning:
 
+### `autoselect: boolean` (optional, default: `false`)
+
+Set to true to highlight the first option when the user types in something and receives results. Pressing enter will select it.
+
 ### `cssNamespace: String` (optional, default: `'typeahead'`)
 
 The default CSS classes use [BEM](http://getbem.com/) with `typeahead` as the block name. If you already have CSS rules for `.typeahead--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
