@@ -29,4 +29,5 @@ vim CHANGELOG.md # Update changelog, put all unreleased changes under new headin
 vim README.md # Update readme, bump all hard-coded version numbers, file size if necessary.
 git commit -am "Update readme and changelog"
 git push
+npm publish
 ```
