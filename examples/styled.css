@@ -1,4 +1,5 @@
 /* Typeahead styling. */
+.typeahead__hint,
 .typeahead__input {
   -webkit-appearance: none;
   border: 2px solid;
@@ -8,6 +9,15 @@
   -webkit-box-sizing: border-box;
   margin-bottom: 0; /* BUG: Safari 10 on macOS seems to add an implicit margin. */
   width: 100%;
+}
+
+.typeahead__input {
+  background-color: transparent;
+}
+
+.typeahead__hint {
+  position: absolute;
+  color: #BFC1C3;
 }
 
 .typeahead__input:focus {
@@ -54,6 +64,7 @@
   cursor: not-allowed;
 }
 
+.typeahead__hint,
 .typeahead__input,
 .typeahead__option {
   font-size: 16px;
@@ -62,6 +73,7 @@
 }
 
 @media (min-width: 641px) {
+  .typeahead__hint,
   .typeahead__input,
   .typeahead__option {
     font-size: 19px;

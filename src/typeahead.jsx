@@ -147,7 +147,10 @@ export default class Typeahead extends Component {
         })
       })
     } else if (queryEmpty) {
-      this.setState({ menuOpen: false })
+      this.setState({
+        menuOpen: false,
+        options: []
+      })
     }
   }
 
@@ -206,8 +209,9 @@ export default class Typeahead extends Component {
 
   handleEnter (evt) {
     evt.preventDefault()
+    const hasSelectedOption = this.state.selected >= 0
 
-    if (this.state.menuOpen) {
+    if (this.state.menuOpen && hasSelectedOption) {
       this.handleOptionClick(evt, this.state.selected)
     }
   }
@@ -232,13 +236,14 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { cssNamespace, id, minLength, name } = this.props
+    const { autoselect, cssNamespace, id, minLength, name } = this.props
     const { focused, menuOpen, options, query, selected } = this.state
 
+    const inputFocused = focused === -1
     const noOptionsAvailable = options.length === 0
     const queryNotEmpty = query.length !== 0
     const queryLongEnough = query.length >= minLength
-    const showNoOptionsFound = noOptionsAvailable && queryNotEmpty && queryLongEnough
+    const showNoOptionsFound = inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
 
     const Wrapper = ({ children }) =>
       <div
@@ -247,6 +252,20 @@ export default class Typeahead extends Component {
       >
         { children }
       </div>
+
+    const Hint = () => {
+      const selectedOption = options[selected]
+      const optionBeginsWithQuery = selectedOption && selectedOption.toLowerCase().indexOf(query.toLowerCase()) === 0
+      const hintValue = (optionBeginsWithQuery && autoselect)
+        ? query + selectedOption.substr(query.length)
+        : ''
+      return <input
+        className={`${cssNamespace}__hint`}
+        readonly
+        tabindex='-1'
+        value={hintValue}
+      />
+    }
 
     const Input = () =>
       <input
@@ -309,6 +328,7 @@ export default class Typeahead extends Component {
 
     return (
       <Wrapper>
+        <Hint />
         <Input
           ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
         />
