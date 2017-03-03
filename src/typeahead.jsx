@@ -272,6 +272,7 @@ export default class Typeahead extends Component {
         aria-activedescendant={focused !== -1 && focused !== null ? `${id}__option--${focused}` : false}
         aria-expanded={menuOpen}
         aria-owns={`${id}__listbox`}
+        autocomplete='off'
         className={`${cssNamespace}__input`}
         id={id}
         name={name}
