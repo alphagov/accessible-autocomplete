@@ -46,6 +46,8 @@ export default class Typeahead extends Component {
     this.handleOptionFocusOut = this.handleOptionFocusOut.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
     this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
+    this.handleOptionMouseMove = this.handleOptionMouseMove.bind(this)
+    this.handleOptionMouseOut = this.handleOptionMouseOut.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -74,6 +76,10 @@ export default class Typeahead extends Component {
     }, 100)
   }
 
+  hasAutoselect () {
+    return isIosDevice() ? false : this.props.autoselect
+  }
+
   getDirectInputChanges () {
     const inputRef = this.elementRefs[-1]
     const queryHasChanged = inputRef.value !== this.state.query
@@ -99,38 +105,47 @@ export default class Typeahead extends Component {
     }
   }
 
-  handleComponentBlur (options) {
+  handleComponentBlur (newState) {
+    const { query } = this.state
     this.setState({
       focused: null,
-      menuOpen: !!(options && options.menuOpen),
+      menuOpen: newState.menuOpen || false,
+      query: newState.query || query,
       selected: null
     })
   }
 
   handleOptionFocusOut (evt, idx) {
-    const { menuOpen, focused } = this.state
+    const { focused, menuOpen, options, selected } = this.state
     const focusingOutsideComponent = evt.relatedTarget === null
-    const focusingAnotherOption = focused !== idx
-    const keepMenuOpen = menuOpen && isIosDevice()
-    if (focusingOutsideComponent || !focusingAnotherOption) {
+    const focusingInput = evt.relatedTarget === this.elementRefs[-1]
+    const focusingAnotherOption = focused !== idx && focused !== -1
+    const blurComponent = focusingOutsideComponent || !(focusingAnotherOption || focusingInput)
+    if (blurComponent) {
+      const keepMenuOpen = menuOpen && isIosDevice()
       this.handleComponentBlur({
-        menuOpen: keepMenuOpen
+        menuOpen: keepMenuOpen,
+        query: options[selected]
       })
     }
   }
 
   handleInputBlur (evt) {
-    const focusingAnOption = this.state.focused !== -1
+    const { focused, menuOpen, options, query, selected } = this.state
+    const focusingAnOption = focused !== -1
     if (!focusingAnOption) {
-      const keepMenuOpen = this.state.menuOpen && isIosDevice()
+      const keepMenuOpen = menuOpen && isIosDevice()
+      const newQuery = isIosDevice() ? query : options[selected]
       this.handleComponentBlur({
-        menuOpen: keepMenuOpen
+        menuOpen: keepMenuOpen,
+        query: newQuery
       })
     }
   }
 
   handleInputChange (evt) {
-    const { autoselect, minLength, source } = this.props
+    const { minLength, source } = this.props
+    const autoselect = this.hasAutoselect()
     const query = evt.target.value
     const queryEmpty = query.length === 0
     const queryChanged = this.state.query.length !== query.length
@@ -168,6 +183,25 @@ export default class Typeahead extends Component {
       focused: idx,
       selected: idx
     })
+  }
+
+  handleOptionMouseMove (idx) {
+    this.setState({
+      focused: idx
+    })
+  }
+
+  handleOptionMouseOut (evt, idx) {
+    const previousOption = this.elementRefs[idx - 1]
+    const nextOption = this.elementRefs[idx + 1]
+    const toElement = evt.toElement
+    const movingToAnotherOption = toElement === previousOption || toElement === nextOption
+    const focusBackOnSelectedOption = !movingToAnotherOption
+    if (focusBackOnSelectedOption) {
+      this.setState({
+        focused: this.state.selected
+      })
+    }
   }
 
   handleOptionClick (evt, idx) {
@@ -230,7 +264,9 @@ export default class Typeahead extends Component {
         this.handleEnter(evt)
         break
       case 'escape':
-        this.handleComponentBlur(evt)
+        this.handleComponentBlur({
+          query: this.state.query
+        })
         break
       default:
         break
@@ -238,8 +274,9 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { autoselect, cssNamespace, displayMenu, id, minLength, name } = this.props
+    const { cssNamespace, displayMenu, id, minLength, name } = this.props
     const { focused, menuOpen, options, query, selected } = this.state
+    const autoselect = this.hasAutoselect()
 
     const inputFocused = focused === -1
     const noOptionsAvailable = options.length === 0
@@ -308,7 +345,8 @@ export default class Typeahead extends Component {
 
     const Option = ({ children, idx }) => {
       const cn = `${cssNamespace}__option`
-      const cnModFocused = (focused === idx || selected === idx) ? ` ${cn}--focused` : ''
+      const showFocused = focused === -1 ? selected === idx : focused === idx
+      const cnModFocused = showFocused ? ` ${cn}--focused` : ''
       const cnModOdd = (idx % 2) ? ` ${cn}--odd` : ''
       const cns = `${cn}${cnModFocused}${cnModOdd}`
       return <li
@@ -318,7 +356,8 @@ export default class Typeahead extends Component {
         onClick={(evt) => this.handleOptionClick(evt, idx)}
         onFocusOut={(evt) => this.handleOptionFocusOut(evt, idx)}
         onMouseDown={this.handleOptionMouseDown}
-        onMouseMove={() => this.handleOptionFocus(idx)}
+        onMouseMove={() => this.handleOptionMouseMove(idx)}
+        onMouseOut={(evt) => this.handleOptionMouseOut(evt, idx)}
         role='option'
         tabindex='-1'
       >
