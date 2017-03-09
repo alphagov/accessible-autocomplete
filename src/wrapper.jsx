@@ -5,6 +5,7 @@ if (window) {
   window.AccessibleTypeahead = function ({
     autoselect,
     cssNamespace,
+    displayMenu,
     element,
     id,
     minLength,
@@ -15,6 +16,7 @@ if (window) {
       <Typeahead
         autoselect={autoselect}
         cssNamespace={cssNamespace}
+        displayMenu={displayMenu}
         id={id}
         minLength={minLength}
         name={name}

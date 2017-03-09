@@ -16,6 +16,7 @@ export default class Typeahead extends Component {
   static defaultProps = {
     autoselect: false,
     cssNamespace: 'typeahead',
+    displayMenu: 'inline',
     id: 'typeahead',
     minLength: 0,
     name: 'input-typeahead'
@@ -236,7 +237,7 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { autoselect, cssNamespace, id, minLength, name } = this.props
+    const { autoselect, cssNamespace, displayMenu, id, minLength, name } = this.props
     const { focused, menuOpen, options, query, selected } = this.state
 
     const inputFocused = focused === -1
@@ -247,8 +248,8 @@ export default class Typeahead extends Component {
 
     const Wrapper = ({ children }) =>
       <div
+        className={`${cssNamespace}__wrapper`}
         onKeyDown={this.handleKeyDown}
-        style={{ 'position': 'relative' }}
       >
         { children }
       </div>
@@ -280,26 +281,22 @@ export default class Typeahead extends Component {
         onFocus={this.handleInputFocus}
         onInput={this.handleInputChange}
         role='combobox'
-        style={{ 'position': 'relative' }}
         type='text'
         value={query}
       />
 
-    const Menu = ({ children }) =>
-      <ul
-        className={`${cssNamespace}__menu`}
+    const Menu = ({ children }) => {
+      const cn = `${cssNamespace}__menu`
+      const cnModDisplay = `${cn}--${(menuOpen || showNoOptionsFound) ? 'visible' : 'hidden'}`
+      const cns = `${cn} ${cn}--${displayMenu} ${cnModDisplay}`
+      return <ul
+        className={cns}
         id={`${id}__listbox`}
         role='listbox'
-        style={{
-          'display': (menuOpen || showNoOptionsFound) ? 'block' : 'none',
-          'left': '0',
-          'position': 'absolute',
-          'top': '100%',
-          'zIndex': '100'
-        }}
       >
         { children }
       </ul>
+    }
 
     const NoOptionsFound = () =>
       <li
@@ -310,8 +307,9 @@ export default class Typeahead extends Component {
 
     const Option = ({ children, idx }) => {
       const cn = `${cssNamespace}__option`
-      const focusThisOption = focused === idx || selected === idx
-      const cns = `${cn}${focusThisOption ? ` ${cn}--focused` : ''}`
+      const cnModFocused = (focused === idx || selected === idx) ? ` ${cn}--focused` : ''
+      const cnModOdd = (idx % 2) ? ` ${cn}--odd` : ''
+      const cns = `${cn}${cnModFocused}${cnModOdd}`
       return <li
         aria-selected={focused === idx}
         className={cns}

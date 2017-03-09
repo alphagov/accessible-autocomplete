@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- [Breaking] Add `displayMenu` property. The default is `inline` which was not the previous default.
+- CSS colour changes, and more properties moved away from inline styles.
 - Turn off native browser autocomplete so it doesn't interfere with typeahead overlay.
 
 ## 0.2.4 - 2017-03-02

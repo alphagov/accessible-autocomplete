@@ -1,4 +1,7 @@
-/* Typeahead styling. */
+.typeahead__wrapper {
+  position: relative;
+}
+
 .typeahead__hint,
 .typeahead__input {
   -webkit-appearance: none;
@@ -13,6 +16,7 @@
 
 .typeahead__input {
   background-color: transparent;
+  position: relative;
 }
 
 .typeahead__hint {
@@ -27,8 +31,9 @@
 
 .typeahead__menu {
   background-color: #fff;
-  border: 2px solid #6f777b;
+  border: 2px solid #0B0C0C;
   border-top: 0;
+  color: #34384B;
   margin: 0;
   max-height: 342px;
   overflow-x: hidden;
@@ -37,8 +42,28 @@
   width: calc(100% - 4px);
 }
 
+.typeahead__menu--visible {
+  display: block;
+}
+
+.typeahead__menu--hidden {
+  display: none;
+}
+
+.typeahead__menu--overlay {
+  box-shadow: rgba(0, 0, 0, 0.256863) 0px 2px 6px;
+  left: 0;
+  position: absolute;
+  top: 100%;
+  z-index: 100;
+}
+
+.typeahead__menu--inline {
+  position: relative;
+}
+
 .typeahead__option {
-  border: solid #bfc1c3;
+  border-bottom: solid #BFC1C3;
   border-width: 1px 0;
   cursor: pointer;
   display: block;
@@ -51,6 +76,10 @@
 
 .typeahead__option:last-of-type {
   border-bottom-width: 0;
+}
+
+.typeahead__option--odd {
+  background-color: #FAFAFA;
 }
 
 .typeahead__option--focused {
