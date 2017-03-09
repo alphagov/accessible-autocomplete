@@ -16,6 +16,7 @@ export default class Typeahead extends Component {
   static defaultProps = {
     autoselect: false,
     cssNamespace: 'typeahead',
+    defaultValue: '',
     displayMenu: 'inline',
     id: 'typeahead',
     minLength: 0,
@@ -24,16 +25,16 @@ export default class Typeahead extends Component {
 
   elementRefs = {}
 
-  state = {
-    focused: null,
-    menuOpen: false,
-    options: [],
-    query: '',
-    selected: null
-  }
-
   constructor (props) {
     super(props)
+
+    this.state = {
+      focused: null,
+      menuOpen: false,
+      options: props.defaultValue ? [props.defaultValue] : [],
+      query: props.defaultValue,
+      selected: null
+    }
 
     this.handleComponentBlur = this.handleComponentBlur.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
