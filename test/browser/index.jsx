@@ -134,6 +134,23 @@ describe('Typeahead', () => {
         expect(typeahead.state.menuOpen).to.equal(false)
         expect(typeahead.state.focused).to.equal(-1)
       })
+
+      describe('with defaultValue', () => {
+        beforeEach(() => {
+          typeahead = new Typeahead({
+            ...Typeahead.defaultProps,
+            defaultValue: 'France',
+            id: 'test',
+            source: suggest
+          })
+        })
+
+        it('is prefilled', () => {
+          expect(typeahead.state.options.length).to.equal(1)
+          expect(typeahead.state.options[0]).to.equal('France')
+          expect(typeahead.state.query).to.equal('France')
+        })
+      })
     })
 
     describe('blurring input', () => {

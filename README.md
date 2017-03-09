@@ -66,6 +66,10 @@ The default CSS classes use [BEM](http://getbem.com/) with `typeahead` as the bl
 
 TODO: Better styling docs.
 
+### `defaultValue: String` (optional)
+
+Specify a string to prefill the typeahead with.
+
 ### `displayMenu: String` (optional, default: `'inline'`, possible values: `oneOf(['inline', 'overlay']`)
 
 You can set this property to specify the way the menu should appear, whether inline or as an overlay.

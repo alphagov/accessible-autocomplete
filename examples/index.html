@@ -42,6 +42,10 @@
       <h2>autoselect = true</h2>
       <label for="typeahead-autoselect">Select your country</label>
       <div id="tt-autoselect" class="typeahead-wrapper"></div>
+
+      <h2>defaultValue = 'Germany'</h2>
+      <label for="typeahead-defaultValue">Select your country</label>
+      <div id="tt-defaultValue" class="typeahead-wrapper"></div>
     </main>
 
     <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
@@ -98,6 +102,17 @@
       id = 'typeahead-overlay'
       AccessibleTypeahead({
         displayMenu: 'overlay',
+        element: element,
+        id: id,
+        source: suggest
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-defaultValue')
+      id = 'typeahead-defaultValue'
+      AccessibleTypeahead({
+        defaultValue: 'Germany',
         element: element,
         id: id,
         source: suggest
