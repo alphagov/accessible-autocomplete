@@ -287,13 +287,12 @@ export default class Typeahead extends Component {
 
     const Menu = ({ children }) =>
       <ul
-        className={`${cssNamespace}__menu`}
+        className={`${cssNamespace}__menu ${cssNamespace}__menu--inline`}
         id={`${id}__listbox`}
         role='listbox'
         style={{
           'display': (menuOpen || showNoOptionsFound) ? 'block' : 'none',
           'left': '0',
-          'position': 'absolute',
           'top': '100%',
           'zIndex': '100'
         }}
@@ -310,8 +309,9 @@ export default class Typeahead extends Component {
 
     const Option = ({ children, idx }) => {
       const cn = `${cssNamespace}__option`
-      const focusThisOption = focused === idx || selected === idx
-      const cns = `${cn}${focusThisOption ? ` ${cn}--focused` : ''}`
+      const cnModFocused = (focused === idx || selected === idx) ? ` ${cn}--focused` : ''
+      const cnModOdd = (idx % 2) ? ` ${cn}--odd` : ''
+      const cns = `${cn}${cnModFocused}${cnModOdd}`
       return <li
         aria-selected={focused === idx}
         className={cns}
