@@ -248,8 +248,8 @@ export default class Typeahead extends Component {
 
     const Wrapper = ({ children }) =>
       <div
+        className={`${cssNamespace}__wrapper`}
         onKeyDown={this.handleKeyDown}
-        style={{ 'position': 'relative' }}
       >
         { children }
       </div>
@@ -281,24 +281,18 @@ export default class Typeahead extends Component {
         onFocus={this.handleInputFocus}
         onInput={this.handleInputChange}
         role='combobox'
-        style={{ 'position': 'relative' }}
         type='text'
         value={query}
       />
 
     const Menu = ({ children }) => {
       const cn = `${cssNamespace}__menu`
-      const cns = `${cn} ${cn}--${displayMenu}`
+      const cnModDisplay = `${cn}--${(menuOpen || showNoOptionsFound) ? 'visible' : 'hidden'}`
+      const cns = `${cn} ${cn}--${displayMenu} ${cnModDisplay}`
       return <ul
         className={cns}
         id={`${id}__listbox`}
         role='listbox'
-        style={{
-          'display': (menuOpen || showNoOptionsFound) ? 'block' : 'none',
-          'left': '0',
-          'top': '100%',
-          'zIndex': '100'
-        }}
       >
         { children }
       </ul>

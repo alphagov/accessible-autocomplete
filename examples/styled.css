@@ -1,4 +1,7 @@
-/* Typeahead styling. */
+.typeahead__wrapper {
+  position: relative;
+}
+
 .typeahead__hint,
 .typeahead__input {
   -webkit-appearance: none;
@@ -13,6 +16,7 @@
 
 .typeahead__input {
   background-color: transparent;
+  position: relative;
 }
 
 .typeahead__hint {
@@ -38,9 +42,20 @@
   width: calc(100% - 4px);
 }
 
+.typeahead__menu--visible {
+  display: block;
+}
+
+.typeahead__menu--hidden {
+  display: none;
+}
+
 .typeahead__menu--overlay {
-  position: absolute;
   box-shadow: rgba(0, 0, 0, 0.256863) 0px 2px 6px;
+  left: 0;
+  position: absolute;
+  top: 100%;
+  z-index: 100;
 }
 
 .typeahead__menu--inline {

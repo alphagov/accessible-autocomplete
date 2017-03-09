@@ -40,7 +40,7 @@ describe('Typeahead', () => {
 
         expect(scratch.innerHTML).to.contain('input')
         expect(scratch.innerHTML).to.contain('class="typeahead__input"')
-        expect(scratch.innerHTML).to.contain('class="typeahead__menu"')
+        expect(scratch.innerHTML).to.contain('class="typeahead__menu')
         expect(scratch.innerHTML).to.contain('name="input-typeahead"')
       })
 
@@ -54,7 +54,7 @@ describe('Typeahead', () => {
         render(<Typeahead cssNamespace='bob' />, scratch)
 
         expect(scratch.innerHTML).to.contain('class="bob__input"')
-        expect(scratch.innerHTML).to.contain('class="bob__menu"')
+        expect(scratch.innerHTML).to.contain('class="bob__menu')
       })
     })
   })
