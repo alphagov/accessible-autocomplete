@@ -20,8 +20,8 @@
 }
 
 .typeahead__hint {
-  position: absolute;
   color: #BFC1C3;
+  position: absolute;
 }
 
 .typeahead__input:focus {
@@ -90,6 +90,8 @@
 }
 
 .typeahead__option--no-results {
+  background-color: #FAFAFA;
+  color: #646b6f;
   cursor: not-allowed;
 }
 
