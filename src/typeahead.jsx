@@ -16,6 +16,7 @@ export default class Typeahead extends Component {
   static defaultProps = {
     autoselect: false,
     cssNamespace: 'typeahead',
+    displayMenu: 'inline',
     id: 'typeahead',
     minLength: 0,
     name: 'input-typeahead'
@@ -236,7 +237,7 @@ export default class Typeahead extends Component {
   }
 
   render () {
-    const { autoselect, cssNamespace, id, minLength, name } = this.props
+    const { autoselect, cssNamespace, displayMenu, id, minLength, name } = this.props
     const { focused, menuOpen, options, query, selected } = this.state
 
     const inputFocused = focused === -1
@@ -285,9 +286,11 @@ export default class Typeahead extends Component {
         value={query}
       />
 
-    const Menu = ({ children }) =>
-      <ul
-        className={`${cssNamespace}__menu ${cssNamespace}__menu--inline`}
+    const Menu = ({ children }) => {
+      const cn = `${cssNamespace}__menu`
+      const cns = `${cn} ${cn}--${displayMenu}`
+      return <ul
+        className={cns}
         id={`${id}__listbox`}
         role='listbox'
         style={{
@@ -299,6 +302,7 @@ export default class Typeahead extends Component {
       >
         { children }
       </ul>
+    }
 
     const NoOptionsFound = () =>
       <li
