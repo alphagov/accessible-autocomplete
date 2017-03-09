@@ -117,6 +117,13 @@ describe('Typeahead', () => {
           expect(typeahead.state.menuOpen).to.equal(true)
           expect(typeahead.state.options).to.contain('France')
         })
+
+        it('hides results when going under limit', () => {
+          typeahead.setState({ menuOpen: true, query: 'fr', options: ['France'] })
+          typeahead.handleInputChange({ target: { value: 'f' } })
+          expect(typeahead.state.menuOpen).to.equal(false)
+          expect(typeahead.state.options.length).to.equal(0)
+        })
       })
     })
 
@@ -133,6 +140,16 @@ describe('Typeahead', () => {
         typeahead.handleInputFocus()
         expect(typeahead.state.menuOpen).to.equal(false)
         expect(typeahead.state.focused).to.equal(-1)
+      })
+
+      describe('with option selected', () => {
+        it('leaves menu open, does not change query', () => {
+          typeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: 0, selected: 0 })
+          typeahead.handleInputFocus()
+          expect(typeahead.state.focused).to.equal(-1)
+          expect(typeahead.state.menuOpen).to.equal(true)
+          expect(typeahead.state.query).to.equal('fr')
+        })
       })
 
       describe('with defaultValue', () => {
@@ -155,10 +172,21 @@ describe('Typeahead', () => {
 
     describe('blurring input', () => {
       it('unfocuses component', () => {
-        typeahead.setState({ menuOpen: true, options: ['France'], focused: -1 })
+        typeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: -1, selected: -1 })
         typeahead.handleInputBlur({ relatedTarget: null })
-        expect(typeahead.state.menuOpen).to.equal(false)
         expect(typeahead.state.focused).to.equal(null)
+        expect(typeahead.state.menuOpen).to.equal(false)
+        expect(typeahead.state.query).to.equal('fr')
+      })
+
+      describe('autoselect', () => {
+        it('unfocuses component, updates query', () => {
+          autoselectTypeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: -1, selected: 0 })
+          autoselectTypeahead.handleInputBlur({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+          expect(autoselectTypeahead.state.focused).to.equal(null)
+          expect(autoselectTypeahead.state.menuOpen).to.equal(false)
+          expect(autoselectTypeahead.state.query).to.equal('France')
+        })
       })
     })
 
@@ -171,11 +199,42 @@ describe('Typeahead', () => {
     })
 
     describe('focusing out option', () => {
-      it('unfocuses component', () => {
-        typeahead.setState({ menuOpen: true, options: ['France'], focused: 0 })
-        typeahead.handleOptionFocusOut({ target: 'mock' }, 0)
-        expect(typeahead.state.menuOpen).to.equal(false)
-        expect(typeahead.state.focused).to.equal(null)
+      describe('with input selected', () => {
+        it('unfocuses component, does not change query', () => {
+          typeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: 0, selected: -1 })
+          typeahead.handleOptionFocusOut({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+          expect(typeahead.state.focused).to.equal(null)
+          expect(typeahead.state.menuOpen).to.equal(false)
+          expect(typeahead.state.query).to.equal('fr')
+        })
+      })
+
+      describe('with option selected', () => {
+        it('unfocuses component, updates query', () => {
+          typeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: 0, selected: 0 })
+          typeahead.handleOptionFocusOut({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+          expect(typeahead.state.focused).to.equal(null)
+          expect(typeahead.state.menuOpen).to.equal(false)
+          expect(typeahead.state.query).to.equal('France')
+        })
+      })
+    })
+
+    describe('hovering option', () => {
+      it('sets the option as focused, does not change selected', () => {
+        typeahead.setState({ options: ['France'], focused: -1, selected: -1 })
+        typeahead.handleOptionMouseMove(0)
+        expect(typeahead.state.focused).to.equal(0)
+        expect(typeahead.state.selected).to.equal(-1)
+      })
+    })
+
+    describe('hovering out option', () => {
+      it('sets focus back on selected', () => {
+        typeahead.setState({ options: ['France'], focused: 0, selected: -1 })
+        typeahead.handleOptionMouseOut({ toElement: 'mock' }, 0)
+        expect(typeahead.state.focused).to.equal(-1)
+        expect(typeahead.state.selected).to.equal(-1)
       })
     })
 
@@ -256,22 +315,39 @@ describe('Typeahead', () => {
 
     describe('enter key', () => {
       describe('on an option', () => {
-        it('closes the menu, sets the query, focuses the input', () => {
+        it('prevents default, closes the menu, sets the query, focuses the input', () => {
+          let preventedDefault = false
           typeahead.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
-          typeahead.handleKeyDown({ preventDefault: () => {}, keyCode: 13 })
+          typeahead.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
           expect(typeahead.state.menuOpen).to.equal(false)
           expect(typeahead.state.query).to.equal('France')
           expect(typeahead.state.focused).to.equal(-1)
           expect(typeahead.state.selected).to.equal(-1)
+          expect(preventedDefault).to.equal(true)
         })
       })
 
       describe('on the input', () => {
-        it('does nothing', () => {
-          typeahead.setState({ menuOpen: true, options: ['France'], focused: -1, selected: -1 })
-          const stateBefore = typeahead.state
-          typeahead.handleKeyDown({ preventDefault: () => {}, keyCode: 13 })
-          expect(typeahead.state).to.equal(stateBefore)
+        describe('with menu opened', () => {
+          it('prevents default, does nothing', () => {
+            let preventedDefault = false
+            typeahead.setState({ menuOpen: true, options: [], query: 'asd', focused: -1, selected: -1 })
+            const stateBefore = typeahead.state
+            typeahead.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
+            expect(typeahead.state).to.equal(stateBefore)
+            expect(preventedDefault).to.equal(true)
+          })
+        })
+
+        describe('with menu closed', () => {
+          it('bubbles, does not prevent default', () => {
+            let preventedDefault = false
+            typeahead.setState({ menuOpen: false, options: ['France'], focused: -1, selected: -1 })
+            const stateBefore = typeahead.state
+            typeahead.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
+            expect(typeahead.state).to.equal(stateBefore)
+            expect(preventedDefault).to.equal(false)
+          })
         })
 
         describe('autoselect', () => {
