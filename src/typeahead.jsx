@@ -244,11 +244,12 @@ export default class Typeahead extends Component {
   }
 
   handleEnter (evt) {
-    evt.preventDefault()
-    const hasSelectedOption = this.state.selected >= 0
-
-    if (this.state.menuOpen && hasSelectedOption) {
-      this.handleOptionClick(evt, this.state.selected)
+    if (this.state.menuOpen) {
+      evt.preventDefault()
+      const hasSelectedOption = this.state.selected >= 0
+      if (hasSelectedOption) {
+        this.handleOptionClick(evt, this.state.selected)
+      }
     }
   }
 

@@ -308,22 +308,39 @@ describe('Typeahead', () => {
 
     describe('enter key', () => {
       describe('on an option', () => {
-        it('closes the menu, sets the query, focuses the input', () => {
+        it('prevents default, closes the menu, sets the query, focuses the input', () => {
+          let preventedDefault = false
           typeahead.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
-          typeahead.handleKeyDown({ preventDefault: () => {}, keyCode: 13 })
+          typeahead.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
           expect(typeahead.state.menuOpen).to.equal(false)
           expect(typeahead.state.query).to.equal('France')
           expect(typeahead.state.focused).to.equal(-1)
           expect(typeahead.state.selected).to.equal(-1)
+          expect(preventedDefault).to.equal(true)
         })
       })
 
       describe('on the input', () => {
-        it('does nothing', () => {
-          typeahead.setState({ menuOpen: true, options: ['France'], focused: -1, selected: -1 })
-          const stateBefore = typeahead.state
-          typeahead.handleKeyDown({ preventDefault: () => {}, keyCode: 13 })
-          expect(typeahead.state).to.equal(stateBefore)
+        describe('with menu opened', () => {
+          it('prevents default, does nothing', () => {
+            let preventedDefault = false
+            typeahead.setState({ menuOpen: true, options: [], query: 'asd', focused: -1, selected: -1 })
+            const stateBefore = typeahead.state
+            typeahead.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
+            expect(typeahead.state).to.equal(stateBefore)
+            expect(preventedDefault).to.equal(true)
+          })
+        })
+
+        describe('with menu closed', () => {
+          it('bubbles, does not prevent default', () => {
+            let preventedDefault = false
+            typeahead.setState({ menuOpen: false, options: ['France'], focused: -1, selected: -1 })
+            const stateBefore = typeahead.state
+            typeahead.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
+            expect(typeahead.state).to.equal(stateBefore)
+            expect(preventedDefault).to.equal(false)
+          })
         })
 
         describe('autoselect', () => {
