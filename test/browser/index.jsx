@@ -117,6 +117,13 @@ describe('Typeahead', () => {
           expect(typeahead.state.menuOpen).to.equal(true)
           expect(typeahead.state.options).to.contain('France')
         })
+
+        it('hides results when going under limit', () => {
+          typeahead.setState({ menuOpen: true, query: 'fr', options: ['France'] })
+          typeahead.handleInputChange({ target: { value: 'f' } })
+          expect(typeahead.state.menuOpen).to.equal(false)
+          expect(typeahead.state.options.length).to.equal(0)
+        })
       })
     })
 

@@ -163,7 +163,7 @@ export default class Typeahead extends Component {
           selected: (autoselect && optionsAvailable) ? 0 : -1
         })
       })
-    } else if (queryEmpty) {
+    } else if (queryEmpty || !queryLongEnough) {
       this.setState({
         menuOpen: false,
         options: []
