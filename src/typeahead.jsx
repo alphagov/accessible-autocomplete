@@ -302,7 +302,7 @@ export default class Typeahead extends Component {
       <li
         className={`${cssNamespace}__option ${cssNamespace}__option--no-results`}
       >
-        No options found.
+        No results found
       </li>
 
     const Option = ({ children, idx }) => {
