@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 0.3.1 - 2017-03-09
+
 - Add ability to specify a `defaultValue` to prefill the input.
 - When user has selected an option with the keyboard, blurring will select.
 - When user has no selected but autoselect is on, blurring will select.
