@@ -25,7 +25,7 @@ You can include the standalone build by referencing it in your page:
 You can use the [stylesheet from the "styled" example](examples/styled.css) by adding this to your `<head>`:
 
 ```html
-<link rel="stylesheet" src="https://unpkg.com/accessible-typeahead@0.3.1/examples/styled.css"></script>
+<link rel="stylesheet" href="https://unpkg.com/accessible-typeahead@0.3.1/examples/styled.css">
 ```
 
 To use it, call the `window.AccessibleTypeahead` function, providing a suggestion engine:
@@ -56,11 +56,11 @@ AccessibleTypeahead({
 
 > :warning: WARNING: This is a work in progress and will change significantly. :warning:
 
-### `autoselect: boolean` (optional, default: `false`)
+### `autoselect: boolean` (optional, default: `false`)
 
 Set to true to highlight the first option when the user types in something and receives results. Pressing enter will select it.
 
-### `cssNamespace: String` (optional, default: `'typeahead'`)
+### `cssNamespace: String` (optional, default: `'typeahead'`)
 
 The default CSS classes use [BEM](http://getbem.com/) with `typeahead` as the block name. If you already have CSS rules for `.typeahead--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
 
@@ -74,23 +74,23 @@ Specify a string to prefill the typeahead with.
 
 You can set this property to specify the way the menu should appear, whether inline or as an overlay.
 
-### `element: HTMLElement`
+### `element: HTMLElement`
 
 The container element in which the typeahead will be rendered in.
 
-### `id: String` (optional, default: `'typeahead'`)
+### `id: String` (optional, default: `'typeahead'`)
 
 The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
 
-### `minLength: Number` (optional, default: `0`)
+### `minLength: Number` (optional, default: `0`)
 
 The minimum number of characters that should be entered before the typeahead will attempt to suggest options. When the query length is under this, the aria status region will also provide helpful text to the user informing them they should type in more.
 
-### `name: String` (optional, default: `'input-typeahead'`)
+### `name: String` (optional, default: `'input-typeahead'`)
 
 The `name` for the typeahead input field, to use with a parent `<form>`.
 
-### `source: Function`
+### `source: Function`
 
 Arguments: `query: string, syncResults: Function`
 
