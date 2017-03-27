@@ -46,7 +46,7 @@ function suggest (query, syncResults) {
 }
 
 AccessibleTypeahead({
-  element: document.querySelector('#my-typeahead-container')
+  element: document.querySelector('#my-typeahead-container'),
   id: 'my-typeahead',
   source: suggest
 })
