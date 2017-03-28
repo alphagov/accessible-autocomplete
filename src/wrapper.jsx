@@ -36,55 +36,33 @@ const createSimpleEngine = results => (query, syncResults) => {
   syncResults(filteredResults)
 }
 
-AccessibleTypeahead.enhanceSelectElement = ({
-  autoselect,
-  cssNamespace,
-  displayMenu,
-  id,
-  minLength,
-  name,
-  onSelect,
-  selectElement,
-  source
-}) => {
-  if (!source) {
-    const availableOptions = Array.prototype.map.call(selectElement.options, o => o.innerHTML)
-    source = createSimpleEngine(availableOptions)
+AccessibleTypeahead.enhanceSelectElement = (opts) => {
+  // Set defaults.
+  if (!opts.source) {
+    const availableOptions = Array.prototype.map.call(opts.selectElement.options, o => o.innerHTML)
+    opts.source = createSimpleEngine(availableOptions)
   }
+  opts.onSelect = opts.onSelect || (query => {
+    const requestedOption = Array.prototype.filter.call(opts.selectElement.options, o => o.innerHTML === query)[0]
+    if (requestedOption) { requestedOption.selected = true }
+  })
+  opts.name = opts.name || ''
+  opts.id = opts.id || opts.selectElement.id
 
-  if (!onSelect) {
-    onSelect = (query) => {
-      const requestedOption = Array.prototype.filter.call(selectElement.options, o => o.innerHTML === query)[0]
-      if (requestedOption) { requestedOption.selected = true }
-    }
-  }
-
-  name = name || ''
-  id = id || selectElement.id
-
-  const selectedOption = Array.prototype.filter.call(selectElement.options, o => o.selected)[0]
+  const selectedOption = Array.prototype.filter.call(opts.selectElement.options, o => o.selected)[0]
   const defaultValue = selectedOption ? selectedOption.innerHTML : ''
 
   const element = document.createElement('span')
-  selectElement.insertAdjacentElement('afterend', element)
+  opts.selectElement.insertAdjacentElement('afterend', element)
 
-  render(
-    <Typeahead
-      autoselect={autoselect}
-      cssNamespace={cssNamespace}
-      defaultValue={defaultValue}
-      displayMenu={displayMenu}
-      id={id}
-      minLength={minLength}
-      name={name}
-      onSelect={onSelect}
-      source={source}
-    />,
-    element
-  )
+  AccessibleTypeahead({
+    ...opts,
+    defaultValue: defaultValue,
+    element: element
+  })
 
-  selectElement.style.display = 'none'
-  selectElement.id = selectElement.id + '-select'
+  opts.selectElement.style.display = 'none'
+  opts.selectElement.id = opts.selectElement.id + '-select'
 }
 
 if (window) {
