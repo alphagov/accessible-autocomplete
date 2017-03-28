@@ -20,7 +20,8 @@ export default class Typeahead extends Component {
     displayMenu: 'inline',
     id: 'typeahead',
     minLength: 0,
-    name: 'input-typeahead'
+    name: 'input-typeahead',
+    onSelect: () => {}
   }
 
   elementRefs = {}
@@ -107,12 +108,14 @@ export default class Typeahead extends Component {
 
   handleComponentBlur (newState) {
     const { query } = this.state
+    const newQuery = newState.query || query
     this.setState({
       focused: null,
       menuOpen: newState.menuOpen || false,
-      query: newState.query || query,
+      query: newQuery,
       selected: null
     })
+    this.props.onSelect(newQuery)
   }
 
   handleOptionFocusOut (evt, idx) {
@@ -205,12 +208,14 @@ export default class Typeahead extends Component {
   }
 
   handleOptionClick (evt, idx) {
+    const newQuery = this.state.options[idx]
     this.setState({
       focused: -1,
       menuOpen: false,
-      query: this.state.options[idx],
+      query: newQuery,
       selected: -1
     })
+    this.props.onSelect(newQuery)
   }
 
   handleOptionMouseDown (evt) {
