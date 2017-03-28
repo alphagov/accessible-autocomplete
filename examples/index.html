@@ -46,6 +46,16 @@
       <h2>defaultValue = 'Germany'</h2>
       <label for="typeahead-defaultValue">Select your country</label>
       <div id="tt-defaultValue" class="typeahead-wrapper"></div>
+
+      <h2>Progressive enhancement</h2>
+      <label for="typeahead-progressiveEnhancement">Select your country</label>
+      <div class="typeahead-wrapper">
+        <select id="typeahead-progressiveEnhancement">
+          <option value="fr">France</option>
+          <option value="de">Germany</option>
+          <option value="gb" selected>United Kingdom</option>
+        </select>
+      </div>
     </main>
 
     <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
@@ -116,6 +126,13 @@
         element: element,
         id: id,
         source: suggest
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#typeahead-progressiveEnhancement')
+      AccessibleTypeahead.enhanceSelectElement({
+        selectElement: element
       })
     </script>
   </body>

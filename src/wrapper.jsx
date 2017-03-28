@@ -40,7 +40,10 @@ AccessibleTypeahead.enhanceSelectElement = ({
   autoselect,
   cssNamespace,
   displayMenu,
+  id,
   minLength,
+  name,
+  onSelect,
   selectElement,
   source
 }) => {
@@ -49,20 +52,21 @@ AccessibleTypeahead.enhanceSelectElement = ({
     source = createSimpleEngine(availableOptions)
   }
 
+  if (!onSelect) {
+    onSelect = (query) => {
+      const requestedOption = Array.prototype.filter.call(selectElement.options, o => o.innerHTML === query)[0]
+      if (requestedOption) { requestedOption.selected = true }
+    }
+  }
+
+  name = name || ''
+  id = id || selectElement.id
+
   const selectedOption = Array.prototype.filter.call(selectElement.options, o => o.selected)[0]
   const defaultValue = selectedOption ? selectedOption.innerHTML : ''
 
-  const name = ''
-
-  const id = selectElement.id
-
   const element = document.createElement('span')
   selectElement.insertAdjacentElement('afterend', element)
-
-  const onSelect = (query) => {
-    const requestedOption = Array.prototype.filter.call(selectElement.options, o => o.innerHTML === query)[0]
-    if (requestedOption) { requestedOption.selected = true }
-  }
 
   render(
     <Typeahead
