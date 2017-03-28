@@ -118,6 +118,12 @@ The minimum number of characters that should be entered before the typeahead wil
 
 The `name` for the typeahead input field, to use with a parent `<form>`.
 
+#### `onSelect: Function` (default: `() => {}`)
+
+Arguments: `query: string`
+
+This function will be called when the user selects an option, with the option they've selected.
+
 ## Progressive enhancement
 
 If your typeahead is meant to select from a small list of options (a few hundreds), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
