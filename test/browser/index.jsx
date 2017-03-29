@@ -60,7 +60,7 @@ describe('Typeahead', () => {
   })
 
   describe('behaviour', () => {
-    let typeahead, autoselectTypeahead
+    let typeahead, autoselectTypeahead, onSelectTypeahead, onSelectTriggered, autoselectOnSelectTypeahead
 
     beforeEach(() => {
       typeahead = new Typeahead({
@@ -73,6 +73,22 @@ describe('Typeahead', () => {
         ...Typeahead.defaultProps,
         autoselect: true,
         id: 'test2',
+        source: suggest
+      })
+
+      onSelectTriggered = false
+      onSelectTypeahead = new Typeahead({
+        ...Typeahead.defaultProps,
+        id: 'test3',
+        onSelect: () => { onSelectTriggered = true },
+        source: suggest
+      })
+
+      autoselectOnSelectTypeahead = new Typeahead({
+        ...Typeahead.defaultProps,
+        autoselect: true,
+        id: 'test4',
+        onSelect: () => { onSelectTriggered = true },
         source: suggest
       })
     })
@@ -179,13 +195,14 @@ describe('Typeahead', () => {
         expect(typeahead.state.query).to.equal('fr')
       })
 
-      describe('autoselect', () => {
-        it('unfocuses component, updates query', () => {
-          autoselectTypeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: -1, selected: 0 })
-          autoselectTypeahead.handleInputBlur({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
-          expect(autoselectTypeahead.state.focused).to.equal(null)
-          expect(autoselectTypeahead.state.menuOpen).to.equal(false)
-          expect(autoselectTypeahead.state.query).to.equal('France')
+      describe('with autoselect and onSelect', () => {
+        it('unfocuses component, updates query, triggers onSelect', () => {
+          autoselectOnSelectTypeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: -1, selected: 0 })
+          autoselectOnSelectTypeahead.handleInputBlur({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+          expect(autoselectOnSelectTypeahead.state.focused).to.equal(null)
+          expect(autoselectOnSelectTypeahead.state.menuOpen).to.equal(false)
+          expect(autoselectOnSelectTypeahead.state.query).to.equal('France')
+          expect(onSelectTriggered).to.equal(true)
         })
       })
     })
@@ -315,15 +332,16 @@ describe('Typeahead', () => {
 
     describe('enter key', () => {
       describe('on an option', () => {
-        it('prevents default, closes the menu, sets the query, focuses the input', () => {
+        it('prevents default, closes the menu, sets the query, focuses the input, triggers onSelect', () => {
           let preventedDefault = false
-          typeahead.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
-          typeahead.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
-          expect(typeahead.state.menuOpen).to.equal(false)
-          expect(typeahead.state.query).to.equal('France')
-          expect(typeahead.state.focused).to.equal(-1)
-          expect(typeahead.state.selected).to.equal(-1)
+          onSelectTypeahead.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
+          onSelectTypeahead.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
+          expect(onSelectTypeahead.state.menuOpen).to.equal(false)
+          expect(onSelectTypeahead.state.query).to.equal('France')
+          expect(onSelectTypeahead.state.focused).to.equal(-1)
+          expect(onSelectTypeahead.state.selected).to.equal(-1)
           expect(preventedDefault).to.equal(true)
+          expect(onSelectTriggered).to.equal(true)
         })
       })
 

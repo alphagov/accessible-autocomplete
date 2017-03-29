@@ -1,30 +1,70 @@
 import { h, render } from 'preact' /** @jsx h */
 import Typeahead from './typeahead'
 
-if (window) {
-  window.AccessibleTypeahead = function ({
-    autoselect,
-    cssNamespace,
-    defaultValue,
-    displayMenu,
-    element,
-    id,
-    minLength,
-    name,
-    source
-  }) {
-    render(
-      <Typeahead
-        autoselect={autoselect}
-        cssNamespace={cssNamespace}
-        defaultValue={defaultValue}
-        displayMenu={displayMenu}
-        id={id}
-        minLength={minLength}
-        name={name}
-        source={source}
-      />,
-      element
-    )
+function AccessibleTypeahead ({
+  autoselect,
+  cssNamespace,
+  defaultValue,
+  displayMenu,
+  element,
+  id,
+  minLength,
+  name,
+  onSelect,
+  source
+}) {
+  render(
+    <Typeahead
+      autoselect={autoselect}
+      cssNamespace={cssNamespace}
+      defaultValue={defaultValue}
+      displayMenu={displayMenu}
+      id={id}
+      minLength={minLength}
+      name={name}
+      onSelect={onSelect}
+      source={source}
+    />,
+    element
+  )
+}
+
+const createSimpleEngine = results => (query, syncResults) => {
+  const filteredResults = query
+    ? results.filter(r => r.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+    : []
+  syncResults(filteredResults)
+}
+
+AccessibleTypeahead.enhanceSelectElement = (opts) => {
+  // Set defaults.
+  if (!opts.source) {
+    const availableOptions = Array.prototype.map.call(opts.selectElement.options, o => o.innerHTML)
+    opts.source = createSimpleEngine(availableOptions)
   }
+  opts.onSelect = opts.onSelect || (query => {
+    const requestedOption = Array.prototype.filter.call(opts.selectElement.options, o => o.innerHTML === query)[0]
+    if (requestedOption) { requestedOption.selected = true }
+  })
+  opts.name = opts.name || ''
+  opts.id = opts.id || opts.selectElement.id
+
+  const selectedOption = Array.prototype.filter.call(opts.selectElement.options, o => o.selected)[0]
+  const defaultValue = selectedOption ? selectedOption.innerHTML : ''
+
+  const element = document.createElement('span')
+  opts.selectElement.insertAdjacentElement('afterend', element)
+
+  AccessibleTypeahead({
+    ...opts,
+    defaultValue: defaultValue,
+    element: element
+  })
+
+  opts.selectElement.style.display = 'none'
+  opts.selectElement.id = opts.selectElement.id + '-select'
+}
+
+if (window) {
+  window.AccessibleTypeahead = AccessibleTypeahead
 }

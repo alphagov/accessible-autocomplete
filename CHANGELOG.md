@@ -4,6 +4,9 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Add `AccessibleTypeahead.enhanceSelectElement` function.
+- Add `onSelect` property.
+
 ## 0.3.1 - 2017-03-09
 
 - Add ability to specify a `defaultValue` to prefill the input.

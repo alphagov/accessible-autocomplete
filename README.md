@@ -56,41 +56,13 @@ AccessibleTypeahead({
 
 > :warning: WARNING: This is a work in progress and will change significantly. :warning:
 
-### `autoselect: boolean` (optional, default: `false`)
+### Required options
 
-Set to true to highlight the first option when the user types in something and receives results. Pressing enter will select it.
-
-### `cssNamespace: String` (optional, default: `'typeahead'`)
-
-The default CSS classes use [BEM](http://getbem.com/) with `typeahead` as the block name. If you already have CSS rules for `.typeahead--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
-
-TODO: Better styling docs.
-
-### `defaultValue: String` (optional)
-
-Specify a string to prefill the typeahead with.
-
-### `displayMenu: String` (optional, default: `'inline'`, possible values: `oneOf(['inline', 'overlay']`)
-
-You can set this property to specify the way the menu should appear, whether inline or as an overlay.
-
-### `element: HTMLElement`
+#### `element: HTMLElement`
 
 The container element in which the typeahead will be rendered in.
 
-### `id: String` (optional, default: `'typeahead'`)
-
-The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
-
-### `minLength: Number` (optional, default: `0`)
-
-The minimum number of characters that should be entered before the typeahead will attempt to suggest options. When the query length is under this, the aria status region will also provide helpful text to the user informing them they should type in more.
-
-### `name: String` (optional, default: `'input-typeahead'`)
-
-The `name` for the typeahead input field, to use with a parent `<form>`.
-
-### `source: Function`
+#### `source: Function`
 
 Arguments: `query: string, syncResults: Function`
 
@@ -113,6 +85,84 @@ function suggest (query, syncResults) {
   )
 }
 ```
+
+### Other options
+
+#### `autoselect: boolean` (default: `false`)
+
+Set to true to highlight the first option when the user types in something and receives results. Pressing enter will select it.
+
+#### `cssNamespace: String` (default: `'typeahead'`)
+
+The default CSS classes use [BEM](http://getbem.com/) with `typeahead` as the block name. If you already have CSS rules for `.typeahead--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
+
+TODO: Better styling docs.
+
+#### `defaultValue: String` (default: `''`)
+
+Specify a string to prefill the typeahead with.
+
+#### `displayMenu: String` (default: `'inline'`, possible values: `oneOf(['inline', 'overlay']`)
+
+You can set this property to specify the way the menu should appear, whether inline or as an overlay.
+
+#### `id: String` (default: `'typeahead'`)
+
+The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
+
+#### `minLength: Number` (default: `0`)
+
+The minimum number of characters that should be entered before the typeahead will attempt to suggest options. When the query length is under this, the aria status region will also provide helpful text to the user informing them they should type in more.
+
+#### `name: String` (default: `'input-typeahead'`)
+
+The `name` for the typeahead input field, to use with a parent `<form>`.
+
+#### `onSelect: Function` (default: `() => {}`)
+
+Arguments: `query: string`
+
+This function will be called when the user selects an option, with the option they've selected.
+
+## Progressive enhancement
+
+If your typeahead is meant to select from a small list of options (a few hundreds), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
+
+If you have the following HTML:
+
+```html
+<select id="location-picker">
+  <option value="fr">France</option>
+  <option value="de">Germany</option>
+  <option value="gb" selected>United Kingdom</option>
+</select>
+```
+
+You can use the `AccessibleTypeahead.enhanceSelectElement` function to enhance it into a typeahead:
+
+```js
+AccessibleTypeahead.enhanceSelectElement({
+  selectElement: document.querySelector('#location-picker')
+})
+```
+
+This will:
+
+- Place a typeahead input field adjacent to the specified `<select>`
+- Set the typeahead `defaultValue` to the `option[selected]` if any
+- Default the typeahead `id` to the `<select>`'s `id`
+- Default the typeahead `name` attribute to `''` to prevent it being included in form submissions
+- Default the typeahead `source` to a basic one that uses any existing `<option>`s from the `<select>`
+- Hide the `<select>` using inline `display: none`
+- Set the `<select>`'s id to `${id}-select` to decouple from any `<label>`
+- Upon selecting a value in the typeahead, update the original `<select>`
+
+This function takes the same options as `AccessibleTypeahead`, with two differences:
+
+- `selectElement` is used instead of `element`
+- `defaultValue` is not used, it's inferred from the `option[selected]` if any
+
+> **Note**: The `AccessibleTypeahead.enhanceSelectElement` function is fairly light and wraps the public API for `AccessibleTypeahead`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.jsx) and seeing if you can write your own.
 
 ## Why another typeahead?
 
