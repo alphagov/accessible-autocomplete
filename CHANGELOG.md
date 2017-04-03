@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 0.3.2 - 2017-04-03
+
 - Add `AccessibleTypeahead.enhanceSelectElement` function.
 - Add `onSelect` property.
 
