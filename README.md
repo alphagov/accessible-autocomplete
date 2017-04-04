@@ -19,13 +19,13 @@
 You can include the standalone build by referencing it in your page:
 
 ```html
-<script src="https://unpkg.com/accessible-typeahead@0.3.2"></script>
+<script src="https://unpkg.com/accessible-typeahead@0.3.3"></script>
 ```
 
 You can use the [stylesheet from the "styled" example](examples/styled.css) by adding this to your `<head>`:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/accessible-typeahead@0.3.2/examples/styled.css" />
+<link rel="stylesheet" href="https://unpkg.com/accessible-typeahead@0.3.3/examples/styled.css" />
 ```
 
 To use it, call the `window.AccessibleTypeahead` function, providing a suggestion engine:
@@ -136,7 +136,7 @@ Type: `PropTypes.string`
 
 The `name` for the typeahead input field, to use with a parent `<form>`.
 
-#### `onSelect: Function` (default: `() => {}`)
+#### `onSelect` (default: `() => {}`)
 
 Type: `PropTypes.func`
 
@@ -144,7 +144,7 @@ Arguments: `query: string`
 
 This function will be called when the user selects an option, with the option they've selected.
 
-#### `templates: Object` (default: `undefined`)
+#### `templates` (default: `undefined`)
 
 Type:
 ```js
