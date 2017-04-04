@@ -77,10 +77,6 @@ export default class Typeahead extends Component {
     }, 100)
   }
 
-  hasAutoselect () {
-    return isIosDevice() ? false : this.props.autoselect
-  }
-
   getDirectInputChanges () {
     const inputRef = this.elementRefs[-1]
     const queryHasChanged = inputRef.value !== this.state.query
@@ -104,6 +100,10 @@ export default class Typeahead extends Component {
       const inputEl = this.elementRefs[focused]
       inputEl.setSelectionRange(0, inputEl.value.length)
     }
+  }
+
+  hasAutoselect () {
+    return isIosDevice() ? false : this.props.autoselect
   }
 
   handleComponentBlur (newState) {
