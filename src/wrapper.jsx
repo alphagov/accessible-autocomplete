@@ -11,7 +11,8 @@ function AccessibleTypeahead ({
   minLength,
   name,
   onSelect,
-  source
+  source,
+  templates
 }) {
   render(
     <Typeahead
@@ -24,6 +25,7 @@ function AccessibleTypeahead ({
       name={name}
       onSelect={onSelect}
       source={source}
+      templates={templates}
     />,
     element
   )

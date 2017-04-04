@@ -106,6 +106,18 @@ export default class Typeahead extends Component {
     return isIosDevice() ? false : this.props.autoselect
   }
 
+  // This template is used when converting from a state.options object into a state.query.
+  templateInputValue (value) {
+    const inputValueTemplate = this.props.templates && this.props.templates.inputValue
+    return inputValueTemplate ? inputValueTemplate(value) : value
+  }
+
+  // This template is used when displaying results / suggestions.
+  templateSuggestion (value) {
+    const suggestionTemplate = this.props.templates && this.props.templates.suggestion
+    return suggestionTemplate ? suggestionTemplate(value) : value
+  }
+
   handleComponentBlur (newState) {
     const { query } = this.state
     const newQuery = newState.query || query
@@ -128,7 +140,7 @@ export default class Typeahead extends Component {
       const keepMenuOpen = menuOpen && isIosDevice()
       this.handleComponentBlur({
         menuOpen: keepMenuOpen,
-        query: options[selected]
+        query: this.templateInputValue(options[selected])
       })
     }
   }
@@ -138,7 +150,7 @@ export default class Typeahead extends Component {
     const focusingAnOption = focused !== -1
     if (!focusingAnOption) {
       const keepMenuOpen = menuOpen && isIosDevice()
-      const newQuery = isIosDevice() ? query : options[selected]
+      const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
       this.handleComponentBlur({
         menuOpen: keepMenuOpen,
         query: newQuery
@@ -208,7 +220,7 @@ export default class Typeahead extends Component {
   }
 
   handleOptionClick (evt, idx) {
-    const newQuery = this.state.options[idx]
+    const newQuery = this.templateInputValue(this.state.options[idx])
     this.setState({
       focused: -1,
       menuOpen: false,
@@ -299,7 +311,7 @@ export default class Typeahead extends Component {
       </div>
 
     const Hint = () => {
-      const selectedOption = options[selected]
+      const selectedOption = this.templateInputValue(options[selected])
       const optionBeginsWithQuery = selectedOption && selectedOption.toLowerCase().indexOf(query.toLowerCase()) === 0
       const hintValue = (optionBeginsWithQuery && autoselect)
         ? query + selectedOption.substr(query.length)
@@ -349,7 +361,7 @@ export default class Typeahead extends Component {
         No results found
       </li>
 
-    const Option = ({ children, idx }) => {
+    const Option = ({ dangerouslySetInnerHTML, idx }) => {
       const cn = `${cssNamespace}__option`
       const showFocused = focused === -1 ? selected === idx : focused === idx
       const cnModFocused = showFocused ? ` ${cn}--focused` : ''
@@ -358,6 +370,7 @@ export default class Typeahead extends Component {
       return <li
         aria-selected={focused === idx}
         className={cns}
+        dangerouslySetInnerHTML={dangerouslySetInnerHTML}
         id={`${id}__option--${idx}`}
         onClick={(evt) => this.handleOptionClick(evt, idx)}
         onFocusOut={(evt) => this.handleOptionFocusOut(evt, idx)}
@@ -366,9 +379,7 @@ export default class Typeahead extends Component {
         onMouseOut={(evt) => this.handleOptionMouseOut(evt, idx)}
         role='option'
         tabindex='-1'
-      >
-        { children }
-      </li>
+      />
     }
 
     return (
@@ -378,13 +389,12 @@ export default class Typeahead extends Component {
           ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
         />
         <Menu>
-          {options.map((optionText, idx) =>
+          {options.map((opt, idx) =>
             <Option
+              dangerouslySetInnerHTML={{ __html: this.templateSuggestion(opt) }}
               idx={idx}
               ref={(optionEl) => { this.elementRefs[idx] = optionEl }}
-            >
-              { optionText }
-            </Option>
+            />
           )}
           {showNoOptionsFound && <NoOptionsFound />}
         </Menu>
@@ -392,7 +402,7 @@ export default class Typeahead extends Component {
           length={options.length}
           queryLength={query.length}
           minQueryLength={minLength}
-          selectedOption={options[selected]}
+          selectedOption={this.templateInputValue(options[selected])}
         />
       </Wrapper>
     )

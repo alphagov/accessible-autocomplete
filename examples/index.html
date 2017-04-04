@@ -68,6 +68,16 @@
           <option value="gb" selected>United Kingdom</option>
         </select>
       </div>
+
+      <h2>Custom results</h2>
+      <p>
+        This example demonstrates how to allow users to search for a country by either
+        its english name or its endonym. The suggestions are user-defined objects and
+        they are displayed using a user-defined template. Confirming a suggestion will
+        populate the input with the english country name.
+      </p>
+      <label for="typeahead-customTemplates">Select your country</label>
+      <div id="tt-customTemplates" class="typeahead-wrapper"></div>
     </main>
 
     <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
@@ -145,6 +155,45 @@
       element = document.querySelector('#typeahead-progressiveEnhancement')
       AccessibleTypeahead.enhanceSelectElement({
         selectElement: element
+      })
+    </script>
+
+    <script type="text/javascript">
+      function customSuggest (query, syncResults) {
+        var results = [
+          { endonymLang: 'fr', endonym: 'République Française', name: 'France' },
+          { endonymLang: 'de', endonym: 'Deutschland', name: 'Germany' },
+          { endonymLang: 'en', endonym: 'Great Britain', name: 'United Kingdom' }
+        ]
+        syncResults(query
+          ? results.filter(function (result) {
+              var resultContains = result.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+              var endonymContains = result.endonym.toLowerCase().indexOf(query.toLowerCase()) !== -1
+              return resultContains || endonymContains
+            })
+          : []
+        )
+      }
+
+      function inputValueTemplate (result) {
+        return result && result.name
+      }
+
+      function suggestionTemplate (result) {
+        return result && '<strong>' + result.name + '</strong>' +
+          ' (<span lang=' + result.endonymLang + '>' + result.endonym + '</span>)'
+      }
+
+      element = document.querySelector('#tt-customTemplates')
+      id = 'typeahead-customTemplates'
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        source: customSuggest,
+        templates: {
+          inputValue: inputValueTemplate,
+          suggestion: suggestionTemplate
+        }
       })
     </script>
   </body>

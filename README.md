@@ -144,6 +144,22 @@ Arguments: `query: string`
 
 This function will be called when the user selects an option, with the option they've selected.
 
+#### `templates: Object` (default: `undefined`)
+
+Type:
+```js
+PropTypes.shape({
+  inputValue: PropTypes.func,
+  suggestion: PropTypes.func
+})
+```
+
+This object defines templates (functions) that are used for displaying parts of the typeahead.
+
+`inputValue` is a function that receives one argument, the currently selected suggestion. It is used to populate the value of the input field, and should return a string.
+
+`suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
+
 ## Progressive enhancement
 
 If your typeahead is meant to select from a small list of options (a few hundreds), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
