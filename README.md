@@ -58,11 +58,15 @@ AccessibleTypeahead({
 
 ### Required options
 
-#### `element: HTMLElement`
+#### `element`
+
+Type: `PropTypes.instanceOf(HTMLElement)`
 
 The container element in which the typeahead will be rendered in.
 
-#### `source: Function`
+#### `source`
+
+Type: `PropTypes.func`
 
 Arguments: `query: string, syncResults: Function`
 
@@ -88,41 +92,73 @@ function suggest (query, syncResults) {
 
 ### Other options
 
-#### `autoselect: boolean` (default: `false`)
+#### `autoselect` (default: `false`)
+
+Type: `PropTypes.bool`
 
 Set to true to highlight the first option when the user types in something and receives results. Pressing enter will select it.
 
-#### `cssNamespace: String` (default: `'typeahead'`)
+#### `cssNamespace` (default: `'typeahead'`)
+
+Type: `PropTypes.string`
 
 The default CSS classes use [BEM](http://getbem.com/) with `typeahead` as the block name. If you already have CSS rules for `.typeahead--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
 
 TODO: Better styling docs.
 
-#### `defaultValue: String` (default: `''`)
+#### `defaultValue` (default: `''`)
+
+Type: `PropTypes.string`
 
 Specify a string to prefill the typeahead with.
 
-#### `displayMenu: String` (default: `'inline'`, possible values: `oneOf(['inline', 'overlay']`)
+#### `displayMenu` (default: `'inline'`)
+
+Type: `PropTypes.oneOf(['inline', 'overlay'])`
 
 You can set this property to specify the way the menu should appear, whether inline or as an overlay.
 
-#### `id: String` (default: `'typeahead'`)
+#### `id` (default: `'typeahead'`)
+
+Type: `PropTypes.string`
 
 The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
 
-#### `minLength: Number` (default: `0`)
+#### `minLength` (default: `0`)
+
+Type: `PropTypes.number`
 
 The minimum number of characters that should be entered before the typeahead will attempt to suggest options. When the query length is under this, the aria status region will also provide helpful text to the user informing them they should type in more.
 
-#### `name: String` (default: `'input-typeahead'`)
+#### `name` (default: `'input-typeahead'`)
+
+Type: `PropTypes.string`
 
 The `name` for the typeahead input field, to use with a parent `<form>`.
 
 #### `onSelect: Function` (default: `() => {}`)
 
+Type: `PropTypes.func`
+
 Arguments: `query: string`
 
 This function will be called when the user selects an option, with the option they've selected.
+
+#### `templates: Object` (default: `undefined`)
+
+Type:
+```js
+PropTypes.shape({
+  inputValue: PropTypes.func,
+  suggestion: PropTypes.func
+})
+```
+
+This object defines templates (functions) that are used for displaying parts of the typeahead.
+
+`inputValue` is a function that receives one argument, the currently selected suggestion. It is used to populate the value of the input field, and should return a string.
+
+`suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
 
 ## Progressive enhancement
 

@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Add `templates.inputValue` and `templates.suggestion` properties. These allow users to override how the suggestions are displayed.
+
 ## 0.3.2 - 2017-04-03
 
 - Add `AccessibleTypeahead.enhanceSelectElement` function.

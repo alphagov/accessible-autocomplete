@@ -28,26 +28,38 @@
       <h1>Accessible Typeahead examples</h1>
 
       <h2>Default options</h2>
+      <p>This illustrates usage without any optional parameters.</p>
       <label for="typeahead-default">Select your country</label>
       <div id="tt-default" class="typeahead-wrapper"></div>
 
       <h2>minLength = 2</h2>
+      <p>
+        This option will prevent displaying suggestions if less than 2 characters are
+        typed in.
+      </p>
       <label for="typeahead-minLength">Select your country</label>
       <div id="tt-minLength" class="typeahead-wrapper"></div>
 
       <h2>displayMenu = 'overlay'</h2>
+      <p>This option will display the menu as an absolutely positioned overlay.</p>
       <label for="typeahead-overlay">Select your country</label>
       <div id="tt-overlay" class="typeahead-wrapper"></div>
 
       <h2>autoselect = true</h2>
+      <p>This option will automatically select the first suggestion.</p>
       <label for="typeahead-autoselect">Select your country</label>
       <div id="tt-autoselect" class="typeahead-wrapper"></div>
 
       <h2>defaultValue = 'Germany'</h2>
+      <p>This option will prefill the input with a value.</p>
       <label for="typeahead-defaultValue">Select your country</label>
       <div id="tt-defaultValue" class="typeahead-wrapper"></div>
 
       <h2>Progressive enhancement</h2>
+      <p>
+        This example demonstrates how to turn a server-rendered <code>&lt;select&gt;</code> element
+        into a typeahead. Turn off JavaScript to see the <code>&lt;select&gt;</code> element.
+      </p>
       <label for="typeahead-progressiveEnhancement">Select your country</label>
       <div class="typeahead-wrapper">
         <select id="typeahead-progressiveEnhancement">
@@ -56,6 +68,16 @@
           <option value="gb" selected>United Kingdom</option>
         </select>
       </div>
+
+      <h2>Custom results</h2>
+      <p>
+        This example demonstrates how to allow users to search for a country by either
+        its english name or its endonym. The suggestions are user-defined objects and
+        they are displayed using a user-defined template. Confirming a suggestion will
+        populate the input with the english country name.
+      </p>
+      <label for="typeahead-customTemplates">Select your country</label>
+      <div id="tt-customTemplates" class="typeahead-wrapper"></div>
     </main>
 
     <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
@@ -133,6 +155,45 @@
       element = document.querySelector('#typeahead-progressiveEnhancement')
       AccessibleTypeahead.enhanceSelectElement({
         selectElement: element
+      })
+    </script>
+
+    <script type="text/javascript">
+      function customSuggest (query, syncResults) {
+        var results = [
+          { endonymLang: 'fr', endonym: 'République Française', name: 'France' },
+          { endonymLang: 'de', endonym: 'Deutschland', name: 'Germany' },
+          { endonymLang: 'en', endonym: 'Great Britain', name: 'United Kingdom' }
+        ]
+        syncResults(query
+          ? results.filter(function (result) {
+              var resultContains = result.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+              var endonymContains = result.endonym.toLowerCase().indexOf(query.toLowerCase()) !== -1
+              return resultContains || endonymContains
+            })
+          : []
+        )
+      }
+
+      function inputValueTemplate (result) {
+        return result && result.name
+      }
+
+      function suggestionTemplate (result) {
+        return result && '<strong>' + result.name + '</strong>' +
+          ' (<span lang=' + result.endonymLang + '>' + result.endonym + '</span>)'
+      }
+
+      element = document.querySelector('#tt-customTemplates')
+      id = 'typeahead-customTemplates'
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        source: customSuggest,
+        templates: {
+          inputValue: inputValueTemplate,
+          suggestion: suggestionTemplate
+        }
       })
     </script>
   </body>
