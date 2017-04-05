@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Pass actual selected object into `onSelect`.
+
 ## 0.3.3 - 2017-04-04
 
 - Add `templates.inputValue` and `templates.suggestion` properties. These allow users to override how the suggestions are displayed.

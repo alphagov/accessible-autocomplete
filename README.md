@@ -140,7 +140,7 @@ The `name` for the typeahead input field, to use with a parent `<form>`.
 
 Type: `PropTypes.func`
 
-Arguments: `query: string`
+Arguments: `selected: Object`
 
 This function will be called when the user selects an option, with the option they've selected.
 

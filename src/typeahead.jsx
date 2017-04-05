@@ -119,15 +119,15 @@ export default class Typeahead extends Component {
   }
 
   handleComponentBlur (newState) {
-    const { query } = this.state
+    const { options, query, selected } = this.state
     const newQuery = newState.query || query
+    this.props.onSelect(options[selected])
     this.setState({
       focused: null,
       menuOpen: newState.menuOpen || false,
       query: newQuery,
       selected: null
     })
-    this.props.onSelect(newQuery)
   }
 
   handleOptionFocusOut (evt, idx) {
@@ -220,14 +220,15 @@ export default class Typeahead extends Component {
   }
 
   handleOptionClick (evt, idx) {
-    const newQuery = this.templateInputValue(this.state.options[idx])
+    const selectedOption = this.state.options[idx]
+    const newQuery = this.templateInputValue(selectedOption)
+    this.props.onSelect(selectedOption)
     this.setState({
       focused: -1,
       menuOpen: false,
       query: newQuery,
       selected: -1
     })
-    this.props.onSelect(newQuery)
   }
 
   handleOptionMouseDown (evt) {
