@@ -57,6 +57,15 @@
       <label for="typeahead-defaultValue">Select your country</label>
       <div id="tt-defaultValue" class="typeahead-wrapper"></div>
 
+      <h3><code>selectOnBlur: false</code></h3>
+      <p>
+        This option will toggle automatically confirming a selection on blur. In the other
+        examples, if you select an option using the arrow keys and then click out, it will
+        confirm the selection.
+      </p>
+      <label for="typeahead-selectOnBlur">Select your country</label>
+      <div id="tt-selectOnBlur" class="typeahead-wrapper"></div>
+
       <h2>Advanced features</h2>
 
       <h3>Progressive enhancement</h3>
@@ -200,6 +209,17 @@
           inputValue: inputValueTemplate,
           suggestion: suggestionTemplate
         }
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-selectOnBlur')
+      id = 'typeahead-selectOnBlur'
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        selectOnBlur: false,
+        source: suggest
       })
     </script>
   </body>
