@@ -6,6 +6,7 @@ _(add items here for easier creation of next log entry)_
 
 - Pass actual selected object into `onSelect`.
 - Add `selectOnBlur` property to allow users to disable this behaviour.
+- Add `placeholder` property.
 
 ## 0.3.3 - 2017-04-04
 

@@ -166,6 +166,12 @@ This object defines templates (functions) that are used for displaying parts of 
 
 `suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
 
+#### `placeholder` (default: `''`)
+
+Type: `PropTypes.string`
+
+This option will populate the `placeholder` attribute on the input element.
+
 ## Progressive enhancement
 
 If your typeahead is meant to select from a small list of options (a few hundreds), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.

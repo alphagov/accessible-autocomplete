@@ -66,6 +66,11 @@
       <label for="typeahead-selectOnBlur">Select your country</label>
       <div id="tt-selectOnBlur" class="typeahead-wrapper"></div>
 
+      <h3><code>placeholder: 'Search for a country'</code></h3>
+      <p>This option will populate the placeholder attribute on the input element.</p>
+      <label for="typeahead-placeholder">Select your country</label>
+      <div id="tt-placeholder" class="typeahead-wrapper"></div>
+
       <h2>Advanced features</h2>
 
       <h3>Progressive enhancement</h3>
@@ -219,6 +224,17 @@
         element: element,
         id: id,
         selectOnBlur: false,
+        source: suggest
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-placeholder')
+      id = 'typeahead-placeholder'
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        placeholder: 'Search for a country',
         source: suggest
       })
     </script>
