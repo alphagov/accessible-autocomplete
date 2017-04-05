@@ -11,6 +11,7 @@ function AccessibleTypeahead ({
   minLength,
   name,
   onSelect,
+  selectOnBlur,
   source,
   templates
 }) {
@@ -24,6 +25,7 @@ function AccessibleTypeahead ({
       minLength={minLength}
       name={name}
       onSelect={onSelect}
+      selectOnBlur={selectOnBlur}
       source={source}
       templates={templates}
     />,

@@ -21,7 +21,8 @@ export default class Typeahead extends Component {
     id: 'typeahead',
     minLength: 0,
     name: 'input-typeahead',
-    onSelect: () => {}
+    onSelect: () => {},
+    selectOnBlur: true
   }
 
   elementRefs = {}
@@ -120,8 +121,13 @@ export default class Typeahead extends Component {
 
   handleComponentBlur (newState) {
     const { options, query, selected } = this.state
-    const newQuery = newState.query || query
-    this.props.onSelect(options[selected])
+    let newQuery
+    if (this.props.selectOnBlur) {
+      newQuery = newState.query || query
+      this.props.onSelect(options[selected])
+    } else {
+      newQuery = query
+    }
     this.setState({
       focused: null,
       menuOpen: newState.menuOpen || false,
