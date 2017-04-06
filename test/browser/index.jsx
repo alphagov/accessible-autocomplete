@@ -269,18 +269,20 @@ describe('Typeahead', () => {
     })
 
     describe('hovering option', () => {
-      it('sets the option as focused, does not change selected', () => {
-        typeahead.setState({ options: ['France'], focused: -1, selected: -1 })
-        typeahead.handleOptionMouseMove(0)
-        expect(typeahead.state.focused).to.equal(0)
+      it('sets the option as hovered, does not change focused, does not change selected', () => {
+        typeahead.setState({ options: ['France'], hovered: null, focused: -1, selected: -1 })
+        typeahead.handleOptionMouseEnter({}, 0)
+        expect(typeahead.state.hovered).to.equal(0)
+        expect(typeahead.state.focused).to.equal(-1)
         expect(typeahead.state.selected).to.equal(-1)
       })
     })
 
     describe('hovering out option', () => {
-      it('sets focus back on selected', () => {
-        typeahead.setState({ options: ['France'], focused: 0, selected: -1 })
+      it('sets focus back on selected, sets hovered to null', () => {
+        typeahead.setState({ options: ['France'], hovered: 0, focused: -1, selected: -1 })
         typeahead.handleOptionMouseOut({ toElement: 'mock' }, 0)
+        expect(typeahead.state.hovered).to.equal(null)
         expect(typeahead.state.focused).to.equal(-1)
         expect(typeahead.state.selected).to.equal(-1)
       })

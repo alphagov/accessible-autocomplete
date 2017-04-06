@@ -4,6 +4,7 @@
 
 _(add items here for easier creation of next log entry)_
 
+- [Breaking] Don't focus suggestions when hovering them, add `:hover` CSS class.
 - Add `showNoOptionsFound` property to allow users to disable this behaviour.
 - Pass through unrecognised key events to input, allowing users to continue typing when they are focusing an option.
 
