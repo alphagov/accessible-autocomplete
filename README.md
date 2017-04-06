@@ -182,7 +182,7 @@ If you have the following HTML:
 <select id="location-picker">
   <option value="fr">France</option>
   <option value="de">Germany</option>
-  <option value="gb" selected>United Kingdom</option>
+  <option value="gb">United Kingdom</option>
 </select>
 ```
 
@@ -197,7 +197,6 @@ AccessibleTypeahead.enhanceSelectElement({
 This will:
 
 - Place a typeahead input field adjacent to the specified `<select>`
-- Set the typeahead `defaultValue` to the `option[selected]` if any
 - Default the typeahead `id` to the `<select>`'s `id`
 - Default the typeahead `name` attribute to `''` to prevent it being included in form submissions
 - Default the typeahead `source` to a basic one that uses any existing `<option>`s from the `<select>`
@@ -205,10 +204,9 @@ This will:
 - Set the `<select>`'s id to `${id}-select` to decouple from any `<label>`
 - Upon selecting a value in the typeahead, update the original `<select>`
 
-This function takes the same options as `AccessibleTypeahead`, with two differences:
+This function takes the same options as `AccessibleTypeahead`, with the only difference being that it uses `selectElement` instead of `element`, which needs to be an instance of `HTMLSelectElement`.
 
-- `selectElement` is used instead of `element`
-- `defaultValue` is not used, it's inferred from the `option[selected]` if any
+**Tip**: To prefill the typeahead with an `option[selected]`, you can use the `defaultValue` option.
 
 > **Note**: The `AccessibleTypeahead.enhanceSelectElement` function is fairly light and wraps the public API for `AccessibleTypeahead`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.jsx) and seeing if you can write your own.
 

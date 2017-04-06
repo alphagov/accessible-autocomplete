@@ -55,15 +55,11 @@ AccessibleTypeahead.enhanceSelectElement = (opts) => {
   opts.name = opts.name || ''
   opts.id = opts.id || opts.selectElement.id
 
-  const selectedOption = Array.prototype.filter.call(opts.selectElement.options, o => o.selected)[0]
-  const defaultValue = selectedOption ? selectedOption.innerHTML : ''
-
   const element = document.createElement('span')
   opts.selectElement.insertAdjacentElement('afterend', element)
 
   AccessibleTypeahead({
     ...opts,
-    defaultValue: defaultValue,
     element: element
   })
 
