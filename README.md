@@ -140,9 +140,15 @@ The `name` for the typeahead input field, to use with a parent `<form>`.
 
 Type: `PropTypes.func`
 
-Arguments: `query: string`
+Arguments: `selected: Object`
 
 This function will be called when the user selects an option, with the option they've selected.
+
+#### `selectOnBlur` (default: `true`)
+
+Type: `PropTypes.bool`
+
+Set this value to `false` to stop the typeahead from automatically confirming a value when it has been selected using autoselect or the keyboard and the user "blurs" (clicks outside of the component).
 
 #### `templates` (default: `undefined`)
 

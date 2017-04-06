@@ -60,7 +60,8 @@ describe('Typeahead', () => {
   })
 
   describe('behaviour', () => {
-    let typeahead, autoselectTypeahead, onSelectTypeahead, onSelectTriggered, autoselectOnSelectTypeahead
+    let typeahead, autoselectTypeahead, onSelectTypeahead, onSelectTriggered,
+      autoselectOnSelectTypeahead, selectOnBlurTypeahead
 
     beforeEach(() => {
       typeahead = new Typeahead({
@@ -89,6 +90,14 @@ describe('Typeahead', () => {
         autoselect: true,
         id: 'test4',
         onSelect: () => { onSelectTriggered = true },
+        source: suggest
+      })
+
+      selectOnBlurTypeahead = new Typeahead({
+        ...Typeahead.defaultProps,
+        id: 'test5',
+        onSelect: () => { onSelectTriggered = true },
+        selectOnBlur: false,
         source: suggest
       })
     })
@@ -205,6 +214,17 @@ describe('Typeahead', () => {
           expect(onSelectTriggered).to.equal(true)
         })
       })
+
+      describe('with selectOnBlur false', () => {
+        it('unfocuses component, does not touch query, does not trigger onSelect', () => {
+          selectOnBlurTypeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: -1, selected: 0 })
+          selectOnBlurTypeahead.handleInputBlur({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+          expect(selectOnBlurTypeahead.state.focused).to.equal(null)
+          expect(selectOnBlurTypeahead.state.menuOpen).to.equal(false)
+          expect(selectOnBlurTypeahead.state.query).to.equal('fr')
+          expect(onSelectTriggered).to.equal(false)
+        })
+      })
     })
 
     describe('focusing option', () => {
@@ -227,12 +247,23 @@ describe('Typeahead', () => {
       })
 
       describe('with option selected', () => {
-        it('unfocuses component, updates query', () => {
-          typeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: 0, selected: 0 })
-          typeahead.handleOptionFocusOut({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
-          expect(typeahead.state.focused).to.equal(null)
-          expect(typeahead.state.menuOpen).to.equal(false)
-          expect(typeahead.state.query).to.equal('France')
+        describe('with selectOnBlur true', () => {
+          it('unfocuses component, updates query', () => {
+            typeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: 0, selected: 0 })
+            typeahead.handleOptionFocusOut({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+            expect(typeahead.state.focused).to.equal(null)
+            expect(typeahead.state.menuOpen).to.equal(false)
+            expect(typeahead.state.query).to.equal('France')
+          })
+        })
+        describe('with selectOnBlur false', () => {
+          it('unfocuses component, does not update query', () => {
+            selectOnBlurTypeahead.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: 0, selected: 0 })
+            selectOnBlurTypeahead.handleOptionFocusOut({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+            expect(selectOnBlurTypeahead.state.focused).to.equal(null)
+            expect(selectOnBlurTypeahead.state.menuOpen).to.equal(false)
+            expect(selectOnBlurTypeahead.state.query).to.equal('fr')
+          })
         })
       })
     })
