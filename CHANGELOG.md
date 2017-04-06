@@ -5,6 +5,7 @@
 _(add items here for easier creation of next log entry)_
 
 - Add `showNoOptionsFound` property to allow users to disable this behaviour.
+- Pass through unrecognised key events to input, allowing users to continue typing when they are focusing an option.
 
 ## 0.3.5 - 2017-04-06
 

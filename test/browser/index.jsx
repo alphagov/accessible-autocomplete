@@ -411,5 +411,25 @@ describe('Typeahead', () => {
         })
       })
     })
+
+    describe('a printable key', () => {
+      it('on an option, focuses the input', () => {
+        typeahead.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
+        typeahead.elementRefs[-1] = 'input element'
+        typeahead.handleKeyDown({ target: 'not the input element', keyCode: 65 })
+        expect(typeahead.state.focused).to.equal(-1)
+        expect(typeahead.state.selected).to.equal(-1)
+      })
+    })
+
+    describe('an unrecognised key', () => {
+      it('does nothing', () => {
+        typeahead.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
+        typeahead.elementRefs[-1] = 'input element'
+        typeahead.handleKeyDown({ target: 'not the input element', keyCode: 4242 })
+        expect(typeahead.state.focused).to.equal(0)
+        expect(typeahead.state.selected).to.equal(0)
+      })
+    })
   })
 })

@@ -12,6 +12,17 @@ function isIosDevice () {
   return navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g)
 }
 
+function isPrintableKeyCode (keyCode) {
+  return (
+    (keyCode > 47 && keyCode < 58) ||   // number keys
+    keyCode === 32 || keyCode === 8 ||  // spacebar or backspace
+    (keyCode > 64 && keyCode < 91) ||   // letter keys
+    (keyCode > 95 && keyCode < 112) ||  // numpad keys
+    (keyCode > 185 && keyCode < 193) || // ;=,-./` (in order)
+    (keyCode > 218 && keyCode < 223)    // [\]' (in order)
+  )
+}
+
 export default class Typeahead extends Component {
   static defaultProps = {
     autoselect: false,
@@ -45,6 +56,7 @@ export default class Typeahead extends Component {
     this.handleUpArrow = this.handleUpArrow.bind(this)
     this.handleDownArrow = this.handleDownArrow.bind(this)
     this.handleEnter = this.handleEnter.bind(this)
+    this.handlePrintableKey = this.handlePrintableKey.bind(this)
 
     this.handleOptionClick = this.handleOptionClick.bind(this)
     this.handleOptionFocusOut = this.handleOptionFocusOut.bind(this)
@@ -279,6 +291,14 @@ export default class Typeahead extends Component {
     }
   }
 
+  handlePrintableKey (evt) {
+    const inputEl = this.elementRefs[-1]
+    const eventIsOnInput = evt.target === inputEl
+    if (!eventIsOnInput) {
+      this.handleInputFocus()
+    }
+  }
+
   handleKeyDown (evt) {
     switch (kc[evt.keyCode]) {
       case 'up':
@@ -296,6 +316,9 @@ export default class Typeahead extends Component {
         })
         break
       default:
+        if (isPrintableKeyCode(evt.keyCode)) {
+          this.handlePrintableKey(evt)
+        }
         break
     }
   }
@@ -334,13 +357,17 @@ export default class Typeahead extends Component {
       />
     }
 
-    const Input = () =>
-      <input
+    const Input = () => {
+      const cn = `${cssNamespace}__input`
+      const componentIsFocused = focused !== null
+      const cnModFocused = componentIsFocused ? ` ${cn}--focused` : ''
+      const cns = `${cn}${cnModFocused}`
+      return <input
         aria-activedescendant={focused !== -1 && focused !== null ? `${id}__option--${focused}` : false}
         aria-expanded={menuOpen}
         aria-owns={`${id}__listbox`}
         autocomplete='off'
-        className={`${cssNamespace}__input`}
+        className={cns}
         id={id}
         name={name}
         onBlur={this.handleInputBlur}
@@ -351,6 +378,7 @@ export default class Typeahead extends Component {
         type='text'
         value={query}
       />
+    }
 
     const Menu = ({ children }) => {
       const cn = `${cssNamespace}__menu`
