@@ -82,7 +82,8 @@
   background-color: #FAFAFA;
 }
 
-.typeahead__option--focused {
+.typeahead__option--focused,
+.typeahead__option:hover {
   background-color: #005EA5;
   border-color: #005EA5;
   color: white;
