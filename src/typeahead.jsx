@@ -21,6 +21,7 @@ export default class Typeahead extends Component {
     id: 'typeahead',
     minLength: 0,
     name: 'input-typeahead',
+    placeholder: '',
     onSelect: () => {},
     selectOnBlur: true
   }
@@ -343,6 +344,7 @@ export default class Typeahead extends Component {
         onBlur={this.handleInputBlur}
         onFocus={this.handleInputFocus}
         onInput={this.handleInputChange}
+        placeholder={this.props.placeholder}
         role='combobox'
         type='text'
         value={query}
