@@ -4,7 +4,9 @@
 
 _(add items here for easier creation of next log entry)_
 
-- Don't prepopulate `defaultValue` in `enhanceSelectElement`.
+## 0.4.0 - 2017-04-06
+
+- [Breaking] Don't prepopulate `defaultValue` in `enhanceSelectElement`.
 
 ## 0.3.4 - 2017-04-06
 
