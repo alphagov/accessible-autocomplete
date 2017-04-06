@@ -24,7 +24,7 @@
   position: absolute;
 }
 
-.typeahead__input:focus {
+.typeahead__input--focused {
   outline-offset: 0;
   outline: 3px solid #ffbf47;
 }
