@@ -4,7 +4,7 @@
 
 _(add items here for easier creation of next log entry)_
 
-## 0.4.0 - 2017-04-06
+## 0.3.5 - 2017-04-06
 
 - [Breaking] Don't prepopulate `defaultValue` in `enhanceSelectElement`.
 
