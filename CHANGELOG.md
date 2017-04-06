@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Add `showNoOptionsFound` property to allow users to disable this behaviour.
+
 ## 0.3.5 - 2017-04-06
 
 - Don't prepopulate `defaultValue` in `enhanceSelectElement`.

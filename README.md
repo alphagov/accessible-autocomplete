@@ -150,6 +150,12 @@ Type: `PropTypes.bool`
 
 Set this value to `false` to stop the typeahead from automatically confirming a value when it has been selected using autoselect or the keyboard and the user "blurs" (clicks outside of the component).
 
+### `showNoOptionsFound` (default: `true`)
+
+Type: `PropTypes.bool`
+
+Set this value to `false` to not display the "No options found" template when there are no results available. Some typeaheads might intermittently display results between different search term roots (like one based on [lunrjs](http://lunrjs.com/)), and as such wouldn't need to use this.
+
 #### `templates` (default: `undefined`)
 
 Type:

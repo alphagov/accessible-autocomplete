@@ -13,6 +13,7 @@ function AccessibleTypeahead ({
   onSelect,
   placeholder,
   selectOnBlur,
+  showNoOptionsFound,
   source,
   templates
 }) {
@@ -28,6 +29,7 @@ function AccessibleTypeahead ({
       onSelect={onSelect}
       placeholder={placeholder}
       selectOnBlur={selectOnBlur}
+      showNoOptionsFound={showNoOptionsFound}
       source={source}
       templates={templates}
     />,

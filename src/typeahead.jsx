@@ -23,7 +23,8 @@ export default class Typeahead extends Component {
     name: 'input-typeahead',
     placeholder: '',
     onSelect: () => {},
-    selectOnBlur: true
+    selectOnBlur: true,
+    showNoOptionsFound: true
   }
 
   elementRefs = {}
@@ -308,7 +309,8 @@ export default class Typeahead extends Component {
     const noOptionsAvailable = options.length === 0
     const queryNotEmpty = query.length !== 0
     const queryLongEnough = query.length >= minLength
-    const showNoOptionsFound = inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
+    const showNoOptionsFound = this.props.showNoOptionsFound &&
+      inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
 
     const Wrapper = ({ children }) =>
       <div

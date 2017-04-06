@@ -71,6 +71,11 @@
       <label for="typeahead-placeholder">Select your country</label>
       <div id="tt-placeholder" class="typeahead-wrapper"></div>
 
+      <h3><code>showNoOptionsFound: false</code></h3>
+      <p>This option will toggle displaying the "No options found" message.</p>
+      <label for="typeahead-showNoOptionsFound">Select your country</label>
+      <div id="tt-showNoOptionsFound" class="typeahead-wrapper"></div>
+
       <h2>Advanced features</h2>
 
       <h3>Progressive enhancement</h3>
@@ -489,6 +494,17 @@
         element: element,
         id: id,
         placeholder: 'Search for a country',
+        source: suggest
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-showNoOptionsFound')
+      id = 'typeahead-showNoOptionsFound'
+      AccessibleTypeahead({
+        element: element,
+        id: id,
+        showNoOptionsFound: false,
         source: suggest
       })
     </script>
