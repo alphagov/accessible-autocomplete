@@ -19,11 +19,7 @@ module.exports = {
     modulesDirectories: [
       path.resolve(__dirname, 'node_modules'),
       'node_modules'
-    ],
-    alias: {
-      'react': 'preact-compat',
-      'react-dom': 'preact-compat'
-    }
+    ]
   },
 
   module: {
