@@ -15,7 +15,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.jsx', '.js', '.json'],
+    extensions: ['', '.jsx', '.js'],
     modulesDirectories: [
       path.resolve(__dirname, 'node_modules'),
       'node_modules'
@@ -39,10 +39,6 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel'
-      },
-      {
-        test: /\.json$/,
-        loader: 'json'
       }
     ]
   },
