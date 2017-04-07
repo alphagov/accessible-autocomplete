@@ -54,8 +54,8 @@ AccessibleTypeahead.enhanceSelectElement = (opts) => {
     const requestedOption = Array.prototype.filter.call(opts.selectElement.options, o => o.innerHTML === query)[0]
     if (requestedOption) { requestedOption.selected = true }
   })
-  opts.name = opts.name || ''
-  opts.id = opts.id || opts.selectElement.id
+  opts.name = opts.name || opts.selectElement.name || ''
+  opts.id = opts.id || opts.selectElement.id || ''
 
   const element = document.createElement('span')
   opts.selectElement.insertAdjacentElement('afterend', element)
