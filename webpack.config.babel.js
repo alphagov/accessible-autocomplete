@@ -6,7 +6,7 @@ const ENV = process.env.NODE_ENV || 'development'
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  entry: './wrapper.js',
+  entry: ['./wrapper.js'],
 
   output: {
     path: path.resolve(__dirname, 'dist'),
