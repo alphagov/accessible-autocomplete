@@ -54,6 +54,9 @@ AccessibleTypeahead.enhanceSelectElement = (opts) => {
     const requestedOption = Array.prototype.filter.call(opts.selectElement.options, o => o.innerHTML === query)[0]
     if (requestedOption) { requestedOption.selected = true }
   })
+  if (!opts.defaultValue) {
+    opts.defaultValue = opts.selectElement.options[opts.selectElement.options.selectedIndex].innerHTML
+  }
   opts.name = opts.name || opts.selectElement.name || ''
   opts.id = opts.id || opts.selectElement.id || ''
 

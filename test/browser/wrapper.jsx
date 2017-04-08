@@ -1,21 +1,21 @@
 /* global describe, expect, it */
 import Wrapper from '../../src/wrapper'
 
-const injectSelectToEnhanceIntoDOM = (id) => {
-  const options = {
-    fr: 'France',
-    de: 'Germany',
-    gb: 'United Kingdom'
+const injectSelectToEnhanceIntoDOM = (id, name, options, selectedOption) => {
+  var maybeCurrentInstance = document.getElementById(id)
+  if (maybeCurrentInstance) {
+    document.body.removeChild(maybeCurrentInstance)
   }
 
   var $select = document.createElement('select')
   $select.id = id
-  $select.name = id
+  $select.name = name
 
   for (var optionKey in options) {
     var option = document.createElement('option')
     option.value = optionKey
     option.text = options[optionKey]
+    option.selected = (selectedOption === optionKey)
     $select.appendChild(option)
   }
 
@@ -28,8 +28,15 @@ describe('Wrapper', () => {
     expect(typeof window.AccessibleTypeahead).to.equal('function')
   })
   it('can enhance a select element', () => {
-    const id = 'location-picker'
-    injectSelectToEnhanceIntoDOM(id)
+    const id = 'location-picker-id'
+    const name = 'location-picker-name'
+    const options = {
+      fr: 'France',
+      de: 'Germany',
+      gb: 'United Kingdom'
+    }
+    const selectedOption = 'gb'
+    injectSelectToEnhanceIntoDOM(id, name, options, selectedOption)
 
     window.AccessibleTypeahead.enhanceSelectElement({
       selectElement: document.querySelector('#' + id)
@@ -40,6 +47,9 @@ describe('Wrapper', () => {
 
     const typeaheadInstance = typeaheadInstances[0]
     expect(typeaheadInstance.innerHTML).to.contain(`id="${id}"`)
-    expect(typeaheadInstance.innerHTML).to.contain(`name="${id}"`)
+    expect(typeaheadInstance.innerHTML).to.contain(`name="${name}"`)
+
+    const typeaheadOption = typeaheadInstance.querySelector('.typeahead__option')
+    expect(typeaheadOption.textContent).to.equal(options[selectedOption])
   })
 })
