@@ -24,6 +24,8 @@ accessibleTypeahead.enhanceSelectElement = (opts) => {
   })
   if (!opts.defaultValue) {
     opts.defaultValue = opts.selectElement.options[opts.selectElement.options.selectedIndex].innerHTML
+  } else {
+    opts.selectElement.value = opts.defaultValue
   }
   opts.name = opts.name || opts.selectElement.name || ''
   opts.id = opts.id || opts.selectElement.id || ''
