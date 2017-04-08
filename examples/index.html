@@ -8,17 +8,42 @@
       /* Example page specific styling. */
       html {
         font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #111;
+        background: #FFF;
+      }
+
+      body {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        line-height: normal;
+      }
+
+      label {
+        display: block;
+        margin-bottom: .5rem;
+      }
+
+      code {
+        background: #efefef;
+        font-weight: normal;
+        font-family: monospace;
+        padding-left: .5em;
+        padding-right: .5em;
       }
 
       main {
         margin: 0 auto;
-        max-width: 600px;
+        max-width: 40em;
       }
 
-      @media (min-width: 641px) {
-        .typeahead-wrapper {
-          width: 50%
-        }
+      .typeahead-wrapper {
+        max-width: 20em;
+        margin-bottom: 4rem;
       }
     </style>
     <link rel="stylesheet" href="styled.css">
@@ -29,12 +54,12 @@
 
       <h2>Options</h2>
 
-      <h3><code>element, id, source</code></h3>
+      <h3><code>{ element, id, source }</code></h3>
       <p>This illustrates usage with only the required arguments.</p>
       <label for="typeahead-default">Select your country</label>
       <div id="tt-default" class="typeahead-wrapper"></div>
 
-      <h3><code>minLength: 2</code></h3>
+      <h3><code>{ minLength: 2 }</code></h3>
       <p>
         This option will prevent displaying suggestions if less than 2 characters are
         typed in.
@@ -42,22 +67,22 @@
       <label for="typeahead-minLength">Select your country</label>
       <div id="tt-minLength" class="typeahead-wrapper"></div>
 
-      <h3><code>displayMenu: 'overlay'</code></h3>
+      <h3><code>{ displayMenu: 'overlay' }</code></h3>
       <p>This option will display the menu as an absolutely positioned overlay.</p>
       <label for="typeahead-overlay">Select your country</label>
       <div id="tt-overlay" class="typeahead-wrapper"></div>
 
-      <h3><code>autoselect: true</code></h3>
+      <h3><code>{ autoselect: true }</code></h3>
       <p>This option will automatically select the first suggestion.</p>
       <label for="typeahead-autoselect">Select your country</label>
       <div id="tt-autoselect" class="typeahead-wrapper"></div>
 
-      <h3><code>defaultValue: 'Germany'</code></h3>
+      <h3><code>{ defaultValue: 'Germany' }</code></h3>
       <p>This option will prefill the input with a value.</p>
       <label for="typeahead-defaultValue">Select your country</label>
       <div id="tt-defaultValue" class="typeahead-wrapper"></div>
 
-      <h3><code>selectOnBlur: false</code></h3>
+      <h3><code>{ selectOnBlur: false }</code></h3>
       <p>
         This option will toggle automatically confirming a selection on blur. In the other
         examples, if you select an option using the arrow keys and then click out, it will
@@ -66,12 +91,12 @@
       <label for="typeahead-selectOnBlur">Select your country</label>
       <div id="tt-selectOnBlur" class="typeahead-wrapper"></div>
 
-      <h3><code>placeholder: 'Search for a country'</code></h3>
+      <h3><code>{ placeholder: 'Search for a country' }</code></h3>
       <p>This option will populate the placeholder attribute on the input element.</p>
       <label for="typeahead-placeholder">Select your country</label>
       <div id="tt-placeholder" class="typeahead-wrapper"></div>
 
-      <h3><code>showNoOptionsFound: false</code></h3>
+      <h3><code>{ showNoOptionsFound: false }</code></h3>
       <p>This option will toggle displaying the "No options found" message.</p>
       <label for="typeahead-showNoOptionsFound">Select your country</label>
       <div id="tt-showNoOptionsFound" class="typeahead-wrapper"></div>
