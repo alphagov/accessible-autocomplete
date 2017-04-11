@@ -150,7 +150,7 @@ Type: `PropTypes.bool`
 
 Set this value to `false` to stop the typeahead from automatically confirming a value when it has been selected using autoselect or the keyboard and the user "blurs" (clicks outside of the component).
 
-### `showNoOptionsFound` (default: `true`)
+#### `showNoOptionsFound` (default: `true`)
 
 Type: `PropTypes.bool`
 
