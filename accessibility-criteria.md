@@ -16,22 +16,22 @@ They are useful if you are evaluating `accessible-typeahead`, or a different aut
 
 The field with autocomplete must:
 
-- Be focusable with a keyboard
-- Indicate when it has keyboard focus
-- Inform the user that it is an editable field
-- Inform the user if there is a pre-filled value
-- Inform the user that autocomplete is available
-- Explain how to use autocomplete
-- Inform the user that content has been expanded
-- Inform the user that N number of matches have been displayed
-- Inform the user as the number of matches changes
-- Enable the user to navigate the available matches using touch or keyboard
-- Inform the user when a match is selected
-- (Optional) Inform the user which number the currently selected match is (1 of 3 for example)
-- Inform the user if a match is pre-selected
-- Enable the user to confirm the selected match
-- Inform the user when a match is confirmed
-- Return focus to the editable field when a selected match is confirmed
+1. Be focusable with a keyboard
+1. Indicate when it has keyboard focus
+1. Inform the user that it is an editable field
+1. Inform the user if there is a pre-filled value
+1. Inform the user that autocomplete is available
+1. Explain how to use autocomplete
+1. Inform the user that content has been expanded
+1. Inform the user that N number of matches have been displayed
+1. Inform the user as the number of matches changes
+1. Enable the user to navigate the available matches using touch or keyboard
+1. Inform the user when a match is selected
+1. (Optional) Inform the user which number the currently selected match is (1 of 3 for example)
+1. Inform the user if a match is pre-selected
+1. Enable the user to confirm the selected match
+1. Inform the user when a match is confirmed
+1. Return focus to the editable field when a selected match is confirmed
 
 Helpful definitions:
 
