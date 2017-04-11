@@ -209,8 +209,7 @@ export default class Typeahead extends Component {
 
   handleInputFocus (evt) {
     this.setState({
-      focused: -1,
-      selected: -1
+      focused: -1
     })
   }
 
@@ -258,11 +257,11 @@ export default class Typeahead extends Component {
 
   handleUpArrow (evt) {
     evt.preventDefault()
-    const { menuOpen, focused } = this.state
-    const isNotAtTop = focused !== -1
+    const { menuOpen, selected } = this.state
+    const isNotAtTop = selected !== -1
     const allowMoveUp = isNotAtTop && menuOpen
     if (allowMoveUp) {
-      this.handleOptionFocus(focused - 1)
+      this.handleOptionFocus(selected - 1)
     }
   }
 
