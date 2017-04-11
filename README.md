@@ -8,7 +8,7 @@
 
 - **Accessibility**: Following WAI-ARIA best practices and testing with assistive technologies.
 - **User experience**: Supporting a wide variety of browsers, devices, and user needs.
-- **Compatibility**: It aims to be easy to integrate into existing services, and uses progressive enhancement. It comes in a zero dependency version that weighs `7.1kb` minified and gzipped.
+- **Compatibility**: It aims to be easy to integrate into existing services, and uses progressive enhancement. It comes in a zero dependency version that weighs `7.8kb` minified and gzipped.
 
 [Try out the examples!](https://alphagov.github.io/accessible-typeahead/examples/)
 
@@ -19,13 +19,13 @@
 You can include the standalone build by referencing it in your page:
 
 ```html
-<script src="https://unpkg.com/accessible-typeahead@0.3.5"></script>
+<script src="https://unpkg.com/accessible-typeahead@0.4.0"></script>
 ```
 
 You can use the [stylesheet from the "styled" example](examples/styled.css) by adding this to your `<head>`:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/accessible-typeahead@0.3.5/examples/styled.css" />
+<link rel="stylesheet" href="https://unpkg.com/accessible-typeahead@0.4.0/examples/styled.css" />
 ```
 
 To use it, call the `window.AccessibleTypeahead` function, providing a suggestion engine:
