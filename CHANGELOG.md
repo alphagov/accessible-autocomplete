@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 0.4.1 - 2017-04-26
+
 - Minify `styled.css` for production.
 
 ## 0.4.0 - 2017-04-11
