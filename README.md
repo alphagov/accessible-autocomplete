@@ -229,6 +229,23 @@ This function takes the same options as `accessibleTypeahead`, with the only dif
 
 > **Note**: The `accessibleTypeahead.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleTypeahead`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
 
+## Analytics & Tracking
+
+The following events get triggered on he input element during the life cycle of the typeahead:
+
+- `onSelect` - This function will be called when the user selects an option, with the option they've selected.
+
+Example usage:
+
+```js
+AccessibleTypeahead({
+  // …
+  onSelect: (val) => {
+    track(val)
+  }
+})
+```
+
 ## Why another typeahead?
 
 `accessible-typeahead` was built after studying many existing solutions and prototyping patches to fix user experience or accessibility issues. It draws heavy inspiration from the following (and a lot of others):
