@@ -1,7 +1,20 @@
 {
   "name": "accessible-typeahead",
   "version": "0.4.1",
+  "main": "dist/accessible-typeahead.min.js",
   "description": "A typeahead component, built to be accessible.",
+  "repository": "alphagov/accessible-typeahead",
+  "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
+  "license": "MIT",
+  "keywords": [
+    "a11y",
+    "accessibility",
+    "autocomplete",
+    "component",
+    "plugin",
+    "typeahead",
+    "widget"
+  ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
     "build": "npm run build:js && npm run build:css",
@@ -15,17 +28,6 @@
     "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags"
   },
-  "keywords": [
-    "a11y",
-    "accessibility",
-    "autocomplete",
-    "component",
-    "plugin",
-    "typeahead",
-    "widget"
-  ],
-  "license": "MIT",
-  "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
   "devDependencies": {
     "babel-core": "^6.14.0",
     "babel-eslint": "^7.0.0",
@@ -65,7 +67,6 @@
     "lodash.debounce": "^4.0.8",
     "preact": "^6.0.0"
   },
-  "main": "dist/accessible-typeahead.min.js",
   "standard": {
     "parser": "babel-eslint"
   }
