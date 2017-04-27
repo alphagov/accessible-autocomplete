@@ -28,6 +28,10 @@
     "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags"
   },
+  "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "preact": "^6.0.0"
+  },
   "devDependencies": {
     "babel-core": "^6.14.0",
     "babel-eslint": "^7.0.0",
@@ -62,10 +66,6 @@
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.0",
     "webpack-sources": "^0.1.4"
-  },
-  "dependencies": {
-    "lodash.debounce": "^4.0.8",
-    "preact": "^6.0.0"
   },
   "standard": {
     "parser": "babel-eslint"
