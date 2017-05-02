@@ -93,12 +93,6 @@ module.exports = {
     contentBase: './examples',
     historyApiFallback: true,
     open: true,
-    proxy: {
-      // OPTIONAL: proxy configuration:
-      // '/optional-prefix/**': { // path pattern to rewrite
-      //   target: 'http://target-host.com',
-      //   pathRewrite: path => path.replace(/^\/[^\/]+\//, '')   // strip first path segment
-      // }
-    }
+    watchContentBase: true
   }
 }
