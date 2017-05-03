@@ -2,6 +2,7 @@
   "name": "accessible-typeahead",
   "version": "0.4.1",
   "main": "dist/accessible-typeahead.min.js",
+  "style": "dist/styled.min.css",
   "description": "A typeahead component, built to be accessible.",
   "repository": "alphagov/accessible-typeahead",
   "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
