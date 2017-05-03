@@ -9,7 +9,7 @@ const kc = {
 }
 
 function isIosDevice () {
-  return navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g)
+  return !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
 }
 
 function isPrintableKeyCode (keyCode) {
@@ -65,6 +65,7 @@ export default class Typeahead extends Component {
     this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
     this.handleOptionMouseEnter = this.handleOptionMouseEnter.bind(this)
     this.handleOptionMouseOut = this.handleOptionMouseOut.bind(this)
+    this.handleOptionTouchEnd = this.handleOptionTouchEnd.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -231,6 +232,10 @@ export default class Typeahead extends Component {
     this.setState({
       hovered: null
     })
+  }
+
+  handleOptionTouchEnd (evt, idx) {
+    this.handleOptionClick(evt, idx)
   }
 
   handleOptionClick (evt, idx) {
@@ -410,6 +415,7 @@ export default class Typeahead extends Component {
         onMouseDown={this.handleOptionMouseDown}
         onMouseEnter={(evt) => this.handleOptionMouseEnter(evt, idx)}
         onMouseOut={(evt) => this.handleOptionMouseOut(evt, idx)}
+        onTouchEnd={(evt) => this.handleOptionTouchEnd(evt, idx)}
         role='option'
         tabindex='-1'
       />

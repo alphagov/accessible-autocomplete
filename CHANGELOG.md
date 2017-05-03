@@ -5,6 +5,7 @@
 _(add items here for easier creation of next log entry)_
 
 - Add support for UMD/commonjs module definition.
+- Add touchEnd handler for iOS and touch devices, fixes custom suggestions.
 
 ## 0.4.1 - 2017-04-26
 
