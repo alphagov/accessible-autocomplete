@@ -52,6 +52,25 @@ AccessibleTypeahead({
 })
 ```
 
+### As an npm module
+
+If you are using npm and browserify, webpack or similar to bundle your client side code, you can require the `accessible-typeahead` module.
+
+```js
+const AccessibleTypeahead = require('accessible-typeahead');
+
+function suggest (query, syncResults) {
+  /// ...
+}
+
+AccessibleTypeahead({
+  element: document.querySelector('#my-typeahead-container'),
+  id: 'my-typeahead',
+  source: suggest
+})
+```
+
+
 ## API Documentation
 
 > :warning: WARNING: This is a work in progress and will change significantly. :warning:
