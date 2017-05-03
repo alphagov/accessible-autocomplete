@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 0.4.2 - 2017-05-03
+
 - Add touchEnd handler for iOS and touch devices, fixes custom suggestions.
 - Add `style` declaration in package.json
 - Add support for UMD/commonjs module definition.
