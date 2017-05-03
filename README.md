@@ -191,11 +191,13 @@ This object defines templates (functions) that are used for displaying parts of 
 
 `suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
 
-#### `placeholder` (default: `''`)
+#### `placeholder` (default: `''`, :warning: not recommended :warning:)
 
 Type: `PropTypes.string`
 
 This option will populate the `placeholder` attribute on the input element.
+
+We think [placeholders have usability issues](http://adamsilver.io/articles/placeholders-are-problematic/) and that there are [better alternatives to input placeholder text](https://govuk-elements.herokuapp.com/form-elements/#form-hint-text), so we do not recommend using this option.
 
 ## Progressive enhancement
 
