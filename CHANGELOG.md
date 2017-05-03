@@ -5,6 +5,7 @@
 _(add items here for easier creation of next log entry)_
 
 - Add touchEnd handler for iOS and touch devices, fixes custom suggestions.
+- Add `style` declaration in package.json
 
 ## 0.4.1 - 2017-04-26
 
