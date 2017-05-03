@@ -69,6 +69,4 @@ AccessibleTypeahead.enhanceSelectElement = (opts) => {
   opts.selectElement.id = opts.selectElement.id + '-select'
 }
 
-if (window) {
-  window.AccessibleTypeahead = AccessibleTypeahead
-}
+module.exports = AccessibleTypeahead
