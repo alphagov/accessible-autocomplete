@@ -9,7 +9,7 @@ const kc = {
 }
 
 function isIosDevice () {
-  return navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g)
+  return !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
 }
 
 function isPrintableKeyCode (keyCode) {
