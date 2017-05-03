@@ -23,7 +23,8 @@ The field with autocomplete must:
 1. Inform the user that autocomplete is available
 1. Explain how to use autocomplete
 1. Inform the user that content has been expanded
-1. Inform the user that N number of matches have been displayed
+1. Inform the user when there are matches, or if there are no matches
+1. (Optional) Inform the user how many matches are currently available
 1. Inform the user as the number of matches changes
 1. Enable the user to navigate the available matches using touch or keyboard
 1. Inform the user when a match is selected
