@@ -2,10 +2,10 @@ require('babel-register')
 var webpack = require('../webpack.config.babel.js')
 var path = require('path')
 
-webpack.module.loaders.push({
+webpack.module.rules.push({
   test: /\.jsx?$/,
-  loader: 'isparta',
-  include: path.resolve(__dirname, '../src')
+  include: path.resolve(__dirname, '../src'),
+  loader: 'isparta-loader'
 })
 
 module.exports = function (config) {

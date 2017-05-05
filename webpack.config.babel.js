@@ -17,32 +17,31 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.jsx', '.js'],
-    modulesDirectories: [
+    extensions: ['.jsx', '.js'],
+    modules: [
       path.resolve(__dirname, 'node_modules'),
       'node_modules'
     ]
   },
 
   module: {
-    preLoaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        exclude: path.resolve(__dirname, 'src'),
-        loader: 'source-map'
-      }
-    ],
-    loaders: [
+        include: path.resolve(__dirname, 'src'),
+        enforce: 'pre',
+        loader: 'source-map-loader'
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: 'babel-loader'
       }
     ]
   },
 
   plugins: ([
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(ENV)
     })
@@ -90,7 +89,6 @@ module.exports = {
   devServer: {
     port: process.env.PORT || 8080,
     host: 'localhost',
-    colors: true,
     publicPath: '/dist/',
     contentBase: './examples',
     historyApiFallback: true,
