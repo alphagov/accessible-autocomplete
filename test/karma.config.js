@@ -29,7 +29,7 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
 
     files: [
-      'test/browser/**/*.jsx'
+      'test/functional/**/*.jsx'
     ],
 
     preprocessors: {
