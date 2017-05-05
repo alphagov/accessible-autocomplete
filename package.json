@@ -64,9 +64,8 @@
     "source-map-loader": "^0.1.5",
     "standard": "^8.6.0",
     "v8-lazy-parse-webpack-plugin": "^0.3.0",
-    "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.15.0",
-    "webpack-sources": "^0.1.4"
+    "webpack": "^2.5.0",
+    "webpack-dev-server": "^2.4.5"
   },
   "standard": {
     "parser": "babel-eslint"
