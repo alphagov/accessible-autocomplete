@@ -227,7 +227,7 @@ This function takes the same options as `accessibleTypeahead`, with the only dif
 
 **Tip**: To prefill the typeahead with an `option[selected]`, you can use the `defaultValue` option.
 
-> **Note**: The `accessibleTypeahead.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleTypeahead`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.jsx) and seeing if you can write your own.
+> **Note**: The `accessibleTypeahead.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleTypeahead`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
 
 ## Why another typeahead?
 

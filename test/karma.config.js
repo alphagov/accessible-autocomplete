@@ -3,7 +3,7 @@ var webpack = require('../webpack.config.babel.js')
 var path = require('path')
 
 webpack.module.rules.push({
-  test: /\.jsx?$/,
+  test: /\.js?$/,
   include: path.resolve(__dirname, '../src'),
   loader: 'isparta-loader'
 })
@@ -29,12 +29,12 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
 
     files: [
-      'test/functional/**/*.jsx'
+      'test/functional/**/*.js'
     ],
 
     preprocessors: {
-      'test/**/*.jsx': ['webpack'],
-      'src/**/*.jsx': ['webpack'],
+      'test/**/*.js': ['webpack'],
+      'src/**/*.js': ['webpack'],
       '**/*.js': ['sourcemap']
     },
 
