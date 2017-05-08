@@ -1,4 +1,4 @@
-/* global before, browser, describe, it */
+/* global afterEach, before, browser, describe, it */
 const expect = require('chai').expect
 
 describe('Accessible Typeahead page', () => {
@@ -53,5 +53,17 @@ describe('Accessible Typeahead page', () => {
       expect(browser.hasFocus(input)).to.equal(true)
       expect(browser.getValue(input)).to.equal('Italy')
     })
+  })
+
+  afterEach(function () {
+    const testFailed = this.currentTest.state === 'failed'
+    if (testFailed) {
+      const timestamp = +new Date()
+      const browserName = browser.desiredCapabilities.browserName
+      const testTitle = this.currentTest.title.replace(/\W/g, '-')
+      const filename = `./screenshots/${timestamp}-${browserName}-${testTitle}.png`
+      browser.saveScreenshot(filename)
+      console.log(`Test failed, created: ${filename}`)
+    }
   })
 })
