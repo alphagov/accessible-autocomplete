@@ -7,6 +7,7 @@ const services = ['webpack', 'static-server']
 const sauceEnabled = process.env.SAUCE_ENABLED === 'true'
 const sauceUser = process.env.SAUCE_USERNAME
 const sauceKey = process.env.SAUCE_ACCESS_KEY
+const buildNumber = process.env.TRAVIS_BUILD_NUMBER
 const sauceConfig = sauceEnabled
   ? {
     user: sauceUser,
@@ -14,7 +15,31 @@ const sauceConfig = sauceEnabled
     capabilities: [
       {
         browserName: 'chrome',
-        build: process.env.TRAVIS_BUILD_NUMBER
+        build: buildNumber,
+        platform: 'Windows 10'
+      },
+      {
+        browserName: 'firefox',
+        build: buildNumber,
+        platform: 'Linux'
+      },
+      {
+        browserName: 'internet explorer',
+        build: buildNumber,
+        platform: 'Windows 10',
+        version: '11.103'
+      },
+      {
+        browserName: 'internet explorer',
+        build: buildNumber,
+        platform: 'Windows 7',
+        version: '10'
+      },
+      {
+        browserName: 'internet explorer',
+        build: buildNumber,
+        platform: 'Windows 7',
+        version: '9'
       }
     ],
     services: services.concat(['sauce']),
@@ -32,6 +57,7 @@ exports.config = Object.assign({
   services: services.concat(['phantomjs']),
   reporters: ['spec'],
   framework: 'mocha',
+  mochaOpts: { timeout: 30 * 1000 },
   webpackConfig,
   staticServerFolders: [
     { mount: '/', path: './examples' },
