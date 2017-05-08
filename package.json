@@ -17,7 +17,7 @@
     "widget"
   ],
   "scripts": {
-    "build:css": "csso examples/styled.css -o dist/styled.min.css",
+    "build:css": "csso examples/styled.css -o dist/accessible-typeahead.min.css",
     "build:js": "cross-env NODE_ENV=production webpack -p --progress --display-modules",
     "build": "run-p 'build:*'",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
