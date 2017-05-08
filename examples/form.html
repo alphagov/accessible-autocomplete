@@ -642,7 +642,7 @@
     <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
     <script type="text/javascript">
       var selectEl = document.querySelector('#last-country')
-      AccessibleTypeahead.enhanceSelectElement({
+      accessibleTypeahead.enhanceSelectElement({
         autoselect: true,
         defaultValue: selectEl.options[selectEl.options.selectedIndex].innerHTML,
         minLength: 2,
@@ -650,7 +650,7 @@
       })
 
       selectEl = document.querySelector('#passport-country')
-      AccessibleTypeahead.enhanceSelectElement({
+      accessibleTypeahead.enhanceSelectElement({
         autoselect: true,
         defaultValue: selectEl.options[selectEl.options.selectedIndex].innerHTML,
         minLength: 2,

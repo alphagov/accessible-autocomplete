@@ -1,7 +1,7 @@
 import { h, render } from 'preact' /** @jsx h */
 import Typeahead from './typeahead'
 
-function AccessibleTypeahead ({
+function accessibleTypeahead ({
   autoselect,
   cssNamespace,
   defaultValue,
@@ -44,7 +44,7 @@ const createSimpleEngine = results => (query, syncResults) => {
   syncResults(filteredResults)
 }
 
-AccessibleTypeahead.enhanceSelectElement = (opts) => {
+accessibleTypeahead.enhanceSelectElement = (opts) => {
   // Set defaults.
   if (!opts.source) {
     const availableOptions = Array.prototype.map.call(opts.selectElement.options, o => o.innerHTML)
@@ -60,7 +60,7 @@ AccessibleTypeahead.enhanceSelectElement = (opts) => {
   const element = document.createElement('span')
   opts.selectElement.insertAdjacentElement('afterend', element)
 
-  AccessibleTypeahead({
+  accessibleTypeahead({
     ...opts,
     element: element
   })
@@ -69,4 +69,4 @@ AccessibleTypeahead.enhanceSelectElement = (opts) => {
   opts.selectElement.id = opts.selectElement.id + '-select'
 }
 
-module.exports = AccessibleTypeahead
+module.exports = accessibleTypeahead
