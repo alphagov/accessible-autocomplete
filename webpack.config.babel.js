@@ -6,7 +6,7 @@ const ENV = process.env.NODE_ENV || 'development'
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  entry: './wrapper.jsx',
+  entry: './wrapper.js',
 
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -17,7 +17,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.jsx', '.js'],
+    extensions: ['.js'],
     modules: [
       path.resolve(__dirname, 'node_modules'),
       'node_modules'
@@ -27,13 +27,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         include: path.resolve(__dirname, 'src'),
         enforce: 'pre',
         loader: 'source-map-loader'
       },
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       }
