@@ -29,7 +29,7 @@ npm install --save accessible-typeahead
 Import it using a module system like Webpack:
 
 ```js
-import AccessibleTypeahead from 'accessible-typeahead'
+import accessibleTypeahead from 'accessible-typeahead'
 ```
 
 Or using a script tag:
@@ -38,7 +38,7 @@ Or using a script tag:
 <script type="text/javascript" src="node_modules/accessible-typeahead/dist/accessible-typeahead.min.js"></script>
 ```
 
-And then call the `AccessibleTypeahead` function, providing a suggestion engine:
+And then call the `accessibleTypeahead` function, providing a suggestion engine:
 
 ```js
 function suggest (query, syncResults) {
@@ -50,7 +50,7 @@ function suggest (query, syncResults) {
   syncResults(results.filter(result => result.indexOf(query) !== -1))
 }
 
-AccessibleTypeahead({
+accessibleTypeahead({
   element: document.querySelector('#my-typeahead-container'),
   id: 'my-typeahead',
   source: suggest
@@ -205,10 +205,10 @@ If you have the following HTML:
 </select>
 ```
 
-You can use the `AccessibleTypeahead.enhanceSelectElement` function to enhance it into a typeahead:
+You can use the `accessibleTypeahead.enhanceSelectElement` function to enhance it into a typeahead:
 
 ```js
-AccessibleTypeahead.enhanceSelectElement({
+accessibleTypeahead.enhanceSelectElement({
   selectElement: document.querySelector('#location-picker')
 })
 ```
@@ -223,11 +223,11 @@ This will:
 - Set the `<select>`'s id to `${id}-select` to decouple from any `<label>`
 - Upon selecting a value in the typeahead, update the original `<select>`
 
-This function takes the same options as `AccessibleTypeahead`, with the only difference being that it uses `selectElement` instead of `element`, which needs to be an instance of `HTMLSelectElement`.
+This function takes the same options as `accessibleTypeahead`, with the only difference being that it uses `selectElement` instead of `element`, which needs to be an instance of `HTMLSelectElement`.
 
 **Tip**: To prefill the typeahead with an `option[selected]`, you can use the `defaultValue` option.
 
-> **Note**: The `AccessibleTypeahead.enhanceSelectElement` function is fairly light and wraps the public API for `AccessibleTypeahead`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.jsx) and seeing if you can write your own.
+> **Note**: The `accessibleTypeahead.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleTypeahead`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.jsx) and seeing if you can write your own.
 
 ## Why another typeahead?
 

@@ -111,7 +111,7 @@
         This example demonstrates how to turn a server-rendered <code>&lt;select&gt;</code> element
         into a typeahead. Turn off JavaScript to see the <code>&lt;select&gt;</code> element.
       </p>
-      <p>Uses <code>AccessibleTypeahead.enhanceSelectElement</code>.</p>
+      <p>Uses <code>accessibleTypeahead.enhanceSelectElement</code>.</p>
       <label for="typeahead-progressiveEnhancement">Select your country</label>
       <div class="typeahead-wrapper">
         <select id="typeahead-progressiveEnhancement">
@@ -406,7 +406,7 @@
     <script type="text/javascript">
       var element = document.querySelector('#tt-default')
       var id = 'typeahead-default'
-      AccessibleTypeahead({
+      accessibleTypeahead({
         element: element,
         id: id,
         source: suggest
@@ -416,7 +416,7 @@
     <script type="text/javascript">
       element = document.querySelector('#tt-minLength')
       id = 'typeahead-minLength'
-      AccessibleTypeahead({
+      accessibleTypeahead({
         element: element,
         id: id,
         minLength: 2,
@@ -427,7 +427,7 @@
     <script type="text/javascript">
       element = document.querySelector('#tt-autoselect')
       id = 'typeahead-autoselect'
-      AccessibleTypeahead({
+      accessibleTypeahead({
         autoselect: true,
         element: element,
         id: id,
@@ -438,7 +438,7 @@
     <script type="text/javascript">
       element = document.querySelector('#tt-overlay')
       id = 'typeahead-overlay'
-      AccessibleTypeahead({
+      accessibleTypeahead({
         displayMenu: 'overlay',
         element: element,
         id: id,
@@ -449,7 +449,7 @@
     <script type="text/javascript">
       element = document.querySelector('#tt-defaultValue')
       id = 'typeahead-defaultValue'
-      AccessibleTypeahead({
+      accessibleTypeahead({
         defaultValue: 'Germany',
         element: element,
         id: id,
@@ -459,7 +459,7 @@
 
     <script type="text/javascript">
       element = document.querySelector('#typeahead-progressiveEnhancement')
-      AccessibleTypeahead.enhanceSelectElement({
+      accessibleTypeahead.enhanceSelectElement({
         defaultValue: element.options[element.options.selectedIndex].innerHTML,
         selectElement: element
       })
@@ -493,7 +493,7 @@
 
       element = document.querySelector('#tt-customTemplates')
       id = 'typeahead-customTemplates'
-      AccessibleTypeahead({
+      accessibleTypeahead({
         element: element,
         id: id,
         source: customSuggest,
@@ -507,7 +507,7 @@
     <script type="text/javascript">
       element = document.querySelector('#tt-selectOnBlur')
       id = 'typeahead-selectOnBlur'
-      AccessibleTypeahead({
+      accessibleTypeahead({
         element: element,
         id: id,
         selectOnBlur: false,
@@ -518,7 +518,7 @@
     <script type="text/javascript">
       element = document.querySelector('#tt-placeholder')
       id = 'typeahead-placeholder'
-      AccessibleTypeahead({
+      accessibleTypeahead({
         element: element,
         id: id,
         placeholder: 'Search for a country',
@@ -529,7 +529,7 @@
     <script type="text/javascript">
       element = document.querySelector('#tt-showNoOptionsFound')
       id = 'typeahead-showNoOptionsFound'
-      AccessibleTypeahead({
+      accessibleTypeahead({
         element: element,
         id: id,
         showNoOptionsFound: false,
