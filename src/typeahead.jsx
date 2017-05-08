@@ -8,6 +8,13 @@ const kc = {
   40: 'down'
 }
 
+// Based on https://github.com/ausi/Feature-detection-technique-for-pointer-events
+const hasPointerEvents = (() => {
+  const element = document.createElement('x')
+  element.style.cssText = 'pointer-events:auto'
+  return element.style.pointerEvents === 'auto'
+})()
+
 function isIosDevice () {
   return !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
 }
@@ -423,7 +430,7 @@ export default class Typeahead extends Component {
 
     return (
       <Wrapper>
-        <Hint />
+        {hasPointerEvents && <Hint />}
         <Input
           ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
         />
