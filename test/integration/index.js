@@ -1,4 +1,4 @@
-/* global afterEach, before, browser, describe, it */
+/* global afterEach, before, beforeEach, browser, describe, it */
 const expect = require('chai').expect
 
 describe('Accessible Typeahead page', () => {
@@ -17,7 +17,7 @@ describe('Accessible Typeahead page', () => {
     const menu = `${input} + ul`
     const firstOption = `${menu} > li:first-child`
 
-    before(() => {
+    beforeEach(() => {
       browser.setValue(input, '') // Prevent autofilling, IE likes to do this.
     })
 
@@ -31,27 +31,36 @@ describe('Accessible Typeahead page', () => {
       expect(browser.hasFocus(input)).to.equal(true)
     })
 
-    it('should allow typing', () => {
-      browser.keys(['i', 't', 'a'])
-      expect(browser.getValue(input)).to.equal('ita')
-    })
-
     it('should display suggestions', () => {
+      browser.click(input)
+      browser.setValue(input, 'ita')
       browser.waitForVisible(menu)
       expect(browser.isVisible(menu)).to.equal(true)
     })
 
-    it('should allow selecting an option', () => {
-      browser.keys(['ArrowDown'])
-      expect(browser.hasFocus(input)).to.equal(false)
-      expect(browser.hasFocus(firstOption)).to.equal(true)
-    })
+    describe('keyboard use', () => {
+      it('should allow typing', () => {
+        browser.click(input)
+        browser.keys(['i', 't', 'a'])
+        expect(browser.getValue(input)).to.equal('ita')
+      })
 
-    it('should allow confirming an option', () => {
-      browser.keys(['Enter'])
-      browser.waitUntil(() => browser.getValue(input) !== 'ita')
-      expect(browser.hasFocus(input)).to.equal(true)
-      expect(browser.getValue(input)).to.equal('Italy')
+      it('should allow selecting an option', () => {
+        browser.click(input)
+        browser.setValue(input, 'ita')
+        browser.keys(['ArrowDown'])
+        expect(browser.hasFocus(input)).to.equal(false)
+        expect(browser.hasFocus(firstOption)).to.equal(true)
+      })
+
+      it('should allow confirming an option', () => {
+        browser.click(input)
+        browser.setValue(input, 'ita')
+        browser.keys(['ArrowDown', 'Enter'])
+        browser.waitUntil(() => browser.getValue(input) !== 'ita')
+        expect(browser.hasFocus(input)).to.equal(true)
+        expect(browser.getValue(input)).to.equal('Italy')
+      })
     })
   })
 
