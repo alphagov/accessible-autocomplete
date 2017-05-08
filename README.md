@@ -2,49 +2,52 @@
 
 # Accessible Typeahead
 
+[![npm version](https://img.shields.io/npm/v/accessible-typeahead.svg)](http://npm.im/accessible-typeahead)
 [![Build Status](https://travis-ci.org/alphagov/accessible-typeahead.svg?branch=master)](https://travis-ci.org/alphagov/accessible-typeahead)
+[![gzip size](http://img.badgesize.io/https://unpkg.com/accessible-typeahead/dist/accessible-typeahead.min.js?compression=gzip)](https://unpkg.com/accessible-typeahead/dist/accessible-typeahead.min.js)
 
-[![Build Status](https://saucelabs.com/browser-matrix/tvararu-alphagov.svg)](https://saucelabs.com/beta/builds/400dab9dd2534dfcb7e82cf3ba7c8ce6)
+[![Sauce Labs Build Status](https://saucelabs.com/browser-matrix/tvararu-alphagov.svg)](https://saucelabs.com/u/tvararu-alphagov)
 
 `accessible-typeahead` is a JavaScript typeahead built from the ground up to be accessible. The design goals are:
 
 - **Accessibility**: Following WAI-ARIA best practices and testing with assistive technologies.
-- **User experience**: Supporting a wide variety of browsers, devices, and user needs.
-- **Compatibility**: It aims to be easy to integrate into existing services, and uses progressive enhancement. It comes in a zero dependency version that weighs `7.8kb` minified and gzipped.
+- **User experience**: Supporting a wide variety of user needs.
+- **Compatibility**: Working with as many browsers, devices, and assistive technologies as possible.
 
 [Try out the examples!](https://alphagov.github.io/accessible-typeahead/examples/)
 
 ## Installation / Usage
 
-### Plain JS
+### Using npm
 
-You can include the standalone build by referencing it in your page:
+Install it by running:
 
-```html
-<script type="text/javascript" src="https://unpkg.com/accessible-typeahead@0.4.2"></script>
+```bash
+npm install --save accessible-typeahead
 ```
 
-You can use the [stylesheet from the "styled" example](examples/styled.css) by adding this to your `<head>`:
+Import it using a module system like Webpack:
 
-```html
-<link rel="stylesheet" href="https://unpkg.com/accessible-typeahead@0.4.2/dist/styled.min.css" />
+```js
+import AccessibleTypeahead from 'accessible-typeahead'
 ```
 
-To use it, call the `window.AccessibleTypeahead` function, providing a suggestion engine:
+Or using a script tag:
+
+```html
+<script type="text/javascript" src="node_modules/accessible-typeahead/dist/accessible-typeahead.min.js"></script>
+```
+
+And then call the `AccessibleTypeahead` function, providing a suggestion engine:
 
 ```js
 function suggest (query, syncResults) {
-  var results = [
+  const results = [
     'France',
     'Germany',
     'United Kingdom'
   ]
-  syncResults(query
-    ? results.filter(function (result) {
-        return result.toLowerCase().indexOf(query.toLowerCase()) !== -1
-      })
-    : []
-  )
+  syncResults(results.filter(result => result.indexOf(query) !== -1))
 }
 
 AccessibleTypeahead({
@@ -54,24 +57,11 @@ AccessibleTypeahead({
 })
 ```
 
-### As an npm module
+Don't forget to include the stylesheet:
 
-If you are using npm and browserify, webpack or similar to bundle your client side code, you can require the `accessible-typeahead` module.
-
-```js
-const AccessibleTypeahead = require('accessible-typeahead');
-
-function suggest (query, syncResults) {
-  /// ...
-}
-
-AccessibleTypeahead({
-  element: document.querySelector('#my-typeahead-container'),
-  id: 'my-typeahead',
-  source: suggest
-})
+```html
+<link rel="stylesheet" href="node_modules/accessible-typeahead/dist/styled.min.css" />
 ```
-
 
 ## API Documentation
 
