@@ -6,6 +6,7 @@ _(add items here for easier creation of next log entry)_
 
 - Test the typeahead with end to end tests.
 - Don't display hints on browsers that don't support pointer-events.
+- [Breaking] Rename `dist/styled.min.css` to `dist/accessible-typeahead.min.css`
 
 ## 0.4.2 - 2017-05-03
 

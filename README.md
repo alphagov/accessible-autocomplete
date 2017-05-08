@@ -60,7 +60,7 @@ AccessibleTypeahead({
 Don't forget to include the stylesheet:
 
 ```html
-<link rel="stylesheet" href="node_modules/accessible-typeahead/dist/styled.min.css" />
+<link rel="stylesheet" href="node_modules/accessible-typeahead/dist/accessible-typeahead.min.css" />
 ```
 
 ## API Documentation
