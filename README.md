@@ -4,6 +4,8 @@
 
 [![Build Status](https://travis-ci.org/alphagov/accessible-typeahead.svg?branch=master)](https://travis-ci.org/alphagov/accessible-typeahead)
 
+[![Build Status](https://saucelabs.com/browser-matrix/tvararu-alphagov.svg)](https://saucelabs.com/beta/builds/400dab9dd2534dfcb7e82cf3ba7c8ce6)
+
 `accessible-typeahead` is a JavaScript typeahead built from the ground up to be accessible. The design goals are:
 
 - **Accessibility**: Following WAI-ARIA best practices and testing with assistive technologies.
@@ -244,6 +246,12 @@ This function takes the same options as `AccessibleTypeahead`, with the only dif
 - [ljwatson/design-patterns](http://ljwatson.github.io/design-patterns/autocomplete/index.html): great accessible experience
 - [corejavascript/corejs-typeahead](https://github.com/corejavascript/typeahead.js): flexible typeahead/suggestion engine architecture
 - [JamieAppleseed/selectToAutocomplete](https://github.com/JamieAppleseed/selectToAutocomplete): ease of use
+
+## Developing locally
+
+Check out the [CONTRIBUTING](CONTRIBUTING.md) guide for instructions.
+
+If you want to help and want to get more familiar with the codebase, try starting with the ["good for beginners"](https://github.com/alphagov/accessible-typeahead/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+for+beginners%22) issues.
 
 ## License
 
