@@ -1,40 +1,8 @@
 import { h, render } from 'preact' /** @jsx h */
 import Typeahead from './typeahead'
 
-function accessibleTypeahead ({
-  autoselect,
-  cssNamespace,
-  defaultValue,
-  displayMenu,
-  element,
-  id,
-  minLength,
-  name,
-  onSelect,
-  placeholder,
-  selectOnBlur,
-  showNoOptionsFound,
-  source,
-  templates
-}) {
-  render(
-    <Typeahead
-      autoselect={autoselect}
-      cssNamespace={cssNamespace}
-      defaultValue={defaultValue}
-      displayMenu={displayMenu}
-      id={id}
-      minLength={minLength}
-      name={name}
-      onSelect={onSelect}
-      placeholder={placeholder}
-      selectOnBlur={selectOnBlur}
-      showNoOptionsFound={showNoOptionsFound}
-      source={source}
-      templates={templates}
-    />,
-    element
-  )
+function accessibleTypeahead (opts) {
+  render(<Typeahead {...opts} />, opts.element)
 }
 
 const createSimpleEngine = results => (query, syncResults) => {
