@@ -4,6 +4,9 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Test the typeahead with end to end tests.
+- Don't display hints on browsers that don't support pointer-events.
+
 ## 0.4.2 - 2017-05-03
 
 - Add touchEnd handler for iOS and touch devices, fixes custom suggestions.
