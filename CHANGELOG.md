@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Default `defaultValue` when progressively enhancing.
+
 ## 0.5.0 - 2017-05-09
 
 - Test the typeahead with end to end tests.
