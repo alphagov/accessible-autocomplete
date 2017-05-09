@@ -9,6 +9,8 @@ _(add items here for easier creation of next log entry)_
 - [Breaking] Rename `dist/styled.min.css` to `dist/accessible-typeahead.min.css`.
 - [Breaking] Rename library main export from `AccessibleTypeahead` to `accessibleTypeahead`
 - Fix aria status region to more reliably trigger when the number of results stay the same.
+- Fix hint rendering and being picked up by assistive technologies.
+- More aria status region above input so it's more easily picked while navigating.
 
 ## 0.4.2 - 2017-05-03
 
