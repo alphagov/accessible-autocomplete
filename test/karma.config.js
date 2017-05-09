@@ -14,15 +14,11 @@ module.exports = function (config) {
     frameworks: ['mocha', 'chai-sinon'],
     reporters: ['mocha', 'coverage'],
     coverageReporter: {
+      dir: 'coverage',
       reporters: [
-        {
-          type: 'text-summary'
-        },
-        {
-          type: 'html',
-          dir: 'coverage',
-          subdir: '.'
-        }
+        { type: 'text-summary' },
+        { type: 'html', subdir: 'html' },
+        { type: 'lcov', subdir: 'lcov' }
       ]
     },
 
