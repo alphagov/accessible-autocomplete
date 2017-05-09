@@ -430,6 +430,12 @@ export default class Typeahead extends Component {
 
     return (
       <Wrapper>
+        <Status
+          length={options.length}
+          queryLength={query.length}
+          minQueryLength={minLength}
+          selectedOption={this.templateInputValue(options[selected])}
+        />
         {hasPointerEvents && <Hint />}
         <Input
           ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
@@ -444,12 +450,6 @@ export default class Typeahead extends Component {
           )}
           {showNoOptionsFound && <NoOptionsFound />}
         </Menu>
-        <Status
-          length={options.length}
-          queryLength={query.length}
-          minQueryLength={minLength}
-          selectedOption={this.templateInputValue(options[selected])}
-        />
       </Wrapper>
     )
   }
