@@ -1,6 +1,6 @@
 {
   "name": "accessible-typeahead",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "main": "dist/accessible-typeahead.min.js",
   "style": "dist/styled.min.css",
   "description": "A typeahead component, built to be accessible.",
