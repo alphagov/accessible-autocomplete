@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/accessible-typeahead.svg)](http://npm.im/accessible-typeahead)
 [![Build Status](https://travis-ci.org/alphagov/accessible-typeahead.svg?branch=master)](https://travis-ci.org/alphagov/accessible-typeahead)
+[![Coverage Status](https://coveralls.io/repos/github/alphagov/accessible-typeahead/badge.svg?branch=master)](https://coveralls.io/github/alphagov/accessible-typeahead?branch=master)
 [![gzip size](http://img.badgesize.io/https://unpkg.com/accessible-typeahead/dist/accessible-typeahead.min.js?compression=gzip)](https://unpkg.com/accessible-typeahead/dist/accessible-typeahead.min.js)
 
 [![Sauce Labs Build Status](https://saucelabs.com/browser-matrix/tvararu-alphagov.svg)](https://saucelabs.com/u/tvararu-alphagov)
