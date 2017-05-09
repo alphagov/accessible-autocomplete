@@ -93,6 +93,7 @@ module.exports = {
     contentBase: './examples',
     historyApiFallback: true,
     open: true,
-    watchContentBase: true
+    watchContentBase: true,
+    disableHostCheck: true
   }
 }
