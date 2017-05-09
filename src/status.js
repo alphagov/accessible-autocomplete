@@ -1,32 +1,20 @@
 import { h, Component } from 'preact' /** @jsx h */
-import debounce from 'lodash.debounce'
 
 export default class Status extends Component {
   state = {
-    cleared: true
+    bump: false
   }
 
-  componentWillReceiveProps ({ length }) {
-    const hasChanged = length !== this.props.length
-    const stillNoResults = length === 0
-    if (hasChanged || stillNoResults) {
-      this.setState({
-        cleared: false
-      }, () => {
-        this.clearContent()
-      })
+  componentWillReceiveProps ({ queryLength }) {
+    const hasChanged = queryLength !== this.props.queryLength
+    if (hasChanged) {
+      this.setState(({ bump }) => ({ bump: !bump }))
     }
   }
 
-  clearContent = debounce(() => {
-    this.setState({
-      cleared: true
-    })
-  }, 1000)
-
   render () {
     const { length, queryLength, minQueryLength, selectedOption } = this.props
-    const { cleared } = this.state
+    const { bump } = this.state
 
     const words = {
       result: (length === 1) ? 'result' : 'results',
@@ -37,6 +25,7 @@ export default class Status extends Component {
     const noResults = length === 0
 
     return <div
+      aria-atomic='true'
       aria-live='polite'
       role='status'
       style={{
@@ -52,19 +41,18 @@ export default class Status extends Component {
         width: '1px'
       }}
     >
-      {(cleared)
-        ? <span />
-        : (queryTooShort)
-          ? <span>Type in {minQueryLength} or more characters for results.</span>
-          : (noResults)
-            ? <span>No search results.</span>
-            : <span>
-              {length} {words.result} {words.is} available. {(selectedOption)
-                ? <span>{selectedOption} (1 of {length}) is selected.</span>
-                : <span />
-              }
-            </span>
+      {(queryTooShort)
+        ? <span>Type in {minQueryLength} or more characters for results.</span>
+        : (noResults)
+          ? <span>No search results.</span>
+          : <span>
+            {length} {words.result} {words.is} available. {(selectedOption)
+              ? <span>{selectedOption} (1 of {length}) is selected.</span>
+              : null
+            }
+          </span>
       }
+      <span>{bump ? ',' : ',,'}</span>
     </div>
   }
 }

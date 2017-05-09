@@ -31,7 +31,6 @@
     "wdio": "wdio test/wdio.config.js && git checkout dist/"
   },
   "dependencies": {
-    "lodash.debounce": "^4.0.8",
     "preact": "^6.0.0"
   },
   "devDependencies": {
