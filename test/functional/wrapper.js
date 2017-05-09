@@ -1,5 +1,5 @@
 /* global before, beforeEach, after, describe, expect, it */
-import Wrapper from '../../src/wrapper'
+import accessibleTypeahead from '../../src/wrapper'
 
 const injectSelectToEnhanceIntoDOM = (element, id, name, options, selectedOption) => {
   var $select = document.createElement('select')
@@ -39,11 +39,6 @@ describe('Wrapper', () => {
     scratch = null
   })
 
-  it('exposes global on window', () => {
-    expect(typeof Wrapper).to.equal('object')
-    expect(typeof window.AccessibleTypeahead).to.equal('function')
-  })
-
   it('can enhance a select element', () => {
     const id = 'location-picker-id'
     const name = 'location-picker-name'
@@ -55,7 +50,7 @@ describe('Wrapper', () => {
     const selectedOption = 'gb'
     injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
 
-    window.AccessibleTypeahead.enhanceSelectElement({
+    accessibleTypeahead.enhanceSelectElement({
       selectElement: document.querySelector('#' + id)
     })
 
@@ -80,7 +75,7 @@ describe('Wrapper', () => {
     }
     injectSelectToEnhanceIntoDOM(scratch, id, name, options)
 
-    window.AccessibleTypeahead.enhanceSelectElement({
+    accessibleTypeahead.enhanceSelectElement({
       selectElement: document.querySelector('select')
     })
 
@@ -103,7 +98,7 @@ describe('Wrapper', () => {
     const selectedOption = 'gb'
     injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
 
-    window.AccessibleTypeahead.enhanceSelectElement({
+    accessibleTypeahead.enhanceSelectElement({
       defaultValue: 'France',
       selectElement: document.querySelector('#' + id)
     })
@@ -124,7 +119,7 @@ describe('Wrapper', () => {
     }
     injectSelectToEnhanceIntoDOM(scratch, id, name, options)
 
-    window.AccessibleTypeahead.enhanceSelectElement({
+    accessibleTypeahead.enhanceSelectElement({
       selectElement: document.querySelector('#' + id)
     })
 
@@ -158,7 +153,7 @@ describe('Wrapper', () => {
     const selectedOption = 'gb'
     injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
 
-    window.AccessibleTypeahead.enhanceSelectElement({
+    accessibleTypeahead.enhanceSelectElement({
       defaultValue: 'de',
       selectElement: document.querySelector('#' + id)
     })
