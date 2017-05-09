@@ -216,6 +216,7 @@ accessibleTypeahead.enhanceSelectElement({
 This will:
 
 - Place a typeahead input field adjacent to the specified `<select>`
+- Default the typeahead `defaultValue` to the select's `option[selected]`
 - Default the typeahead `id` to the `<select>`'s `id`
 - Default the typeahead `name` attribute to `''` to prevent it being included in form submissions
 - Default the typeahead `source` to a basic one that uses any existing `<option>`s from the `<select>`
@@ -224,8 +225,6 @@ This will:
 - Upon selecting a value in the typeahead, update the original `<select>`
 
 This function takes the same options as `accessibleTypeahead`, with the only difference being that it uses `selectElement` instead of `element`, which needs to be an instance of `HTMLSelectElement`.
-
-**Tip**: To prefill the typeahead with an `option[selected]`, you can use the `defaultValue` option.
 
 > **Note**: The `accessibleTypeahead.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleTypeahead`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
 
