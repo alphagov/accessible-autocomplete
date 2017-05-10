@@ -1,5 +1,3 @@
-> :warning: WARNING: This project is still experimental / under development. Do not use in production. :warning:
-
 # Accessible autocomplete
 
 [![npm version](https://img.shields.io/npm/v/accessible-autocomplete.svg)](http://npm.im/accessible-autocomplete)
@@ -67,8 +65,6 @@ Don't forget to include the stylesheet:
 ```
 
 ## API documentation
-
-> :warning: WARNING: This is a work in progress and will change significantly. :warning:
 
 ### Required options
 
