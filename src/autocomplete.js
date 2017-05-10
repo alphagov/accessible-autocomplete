@@ -40,7 +40,7 @@ export default class Autocomplete extends Component {
     minLength: 0,
     name: 'input-autocomplete',
     placeholder: '',
-    onSelect: () => {},
+    onConfirm: () => {},
     selectOnBlur: true,
     showNoOptionsFound: true
   }
@@ -147,7 +147,7 @@ export default class Autocomplete extends Component {
     let newQuery
     if (this.props.selectOnBlur) {
       newQuery = newState.query || query
-      this.props.onSelect(options[selected])
+      this.props.onConfirm(options[selected])
     } else {
       newQuery = query
     }
@@ -248,7 +248,7 @@ export default class Autocomplete extends Component {
   handleOptionClick (evt, idx) {
     const selectedOption = this.state.options[idx]
     const newQuery = this.templateInputValue(selectedOption)
-    this.props.onSelect(selectedOption)
+    this.props.onConfirm(selectedOption)
     this.setState({
       focused: -1,
       menuOpen: false,

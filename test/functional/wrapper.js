@@ -177,7 +177,7 @@ describe('Wrapper', () => {
     }, 250)
   })
 
-  it('onSelect updates original select', (done) => {
+  it('onConfirm updates original select', (done) => {
     const id = 'location-picker-id'
     const name = 'location-picker-name'
     const options = {
