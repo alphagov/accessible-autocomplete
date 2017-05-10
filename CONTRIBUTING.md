@@ -48,10 +48,8 @@ Failed integration tests should output screenshots to the `./screenshots/` folde
 ## Cutting a new release
 
 ```bash
-npm version <major|minor|patch>
 vim CHANGELOG.md # Update changelog, put all unreleased changes under new heading.
-vim README.md # Update readme, bump all hard-coded version numbers, file size if necessary.
-git commit -am "Update readme and changelog"
-git push
+git commit -am "Update changelog"
+npm version <major|minor|patch>
 npm publish
 ```
