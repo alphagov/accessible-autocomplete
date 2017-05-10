@@ -39,6 +39,14 @@ describe('Wrapper', () => {
     scratch = null
   })
 
+  it('throws an error when called on nonexistent selectElement', () => {
+    expect(
+      accessibleTypeahead.enhanceSelectElement.bind(null, {
+        selectElement: document.querySelector('#nothing')
+      })
+    ).to.throw('selectElement is not defined')
+  })
+
   it('can enhance a select element', () => {
     const id = 'location-picker-id'
     const name = 'location-picker-name'

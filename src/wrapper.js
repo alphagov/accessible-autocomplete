@@ -2,6 +2,12 @@ import { h, render } from 'preact' /** @jsx h */
 import Typeahead from './typeahead'
 
 function accessibleTypeahead (opts) {
+  if (!opts.element) {
+    throw new Error('element is not defined')
+  }
+  if (!opts.source) {
+    throw new Error('source is not defined')
+  }
   render(<Typeahead {...opts} />, opts.element)
 }
 
@@ -13,6 +19,9 @@ const createSimpleEngine = results => (query, syncResults) => {
 }
 
 accessibleTypeahead.enhanceSelectElement = (opts) => {
+  if (!opts.selectElement) {
+    throw new Error('selectElement is not defined')
+  }
   // Set defaults.
   if (!opts.source) {
     const availableOptions = Array.prototype.map.call(opts.selectElement.options, o => o.innerHTML)
