@@ -4,6 +4,11 @@
 
 _(add items here for easier creation of next log entry)_
 
+- [Breaking] Default `autoselect` to `true` when using `enhanceSelectElement`.
+- [Breaking] Make `id` a required attribute.
+- [Breaking] Rename `onSelect` to `onConfirm`.
+- [Breaking] Rename `selectOnBlur` to `confirmOnBlur`.
+
 ## 0.6.0 - 2017-05-10
 
 - [Breaking] Rename component from `accessible-typeahead` to `accessible-autocomplete`.
