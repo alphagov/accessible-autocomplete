@@ -1,6 +1,6 @@
 {
   "name": "accessible-autocomplete",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "main": "dist/accessible-autocomplete.min.js",
   "style": "dist/styled.min.css",
   "description": "An autocomplete component, built to be accessible.",
