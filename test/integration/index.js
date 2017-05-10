@@ -1,5 +1,12 @@
 /* global afterEach, before, beforeEach, browser, describe, it */
 const expect = require('chai').expect
+const {browserName, version} = browser.desiredCapabilities
+const isChrome = browserName === 'chrome'
+const isFireFox = browserName === 'firefox'
+const isIE = browserName === 'internet explorer'
+// const isIE9 = isIE && version === '9'
+// const isIE10 = isIE && version === '10'
+// const isIE11 = isIE && version === '11.103'
 
 describe('Accessible Autocomplete page', () => {
   before(() => {
@@ -41,14 +48,14 @@ describe('Accessible Autocomplete page', () => {
     describe('keyboard use', () => {
       it('should allow typing', () => {
         browser.click(input)
-        browser.keys(['i', 't', 'a'])
+        browser.addValue(input, 'ita')
         expect(browser.getValue(input)).to.equal('ita')
       })
 
       it('should allow selecting an option', () => {
         browser.click(input)
         browser.setValue(input, 'ita')
-        browser.keys(['ArrowDown'])
+        browser.addValue(input, ['ArrowDown'])
         expect(browser.hasFocus(input)).to.equal(false)
         expect(browser.hasFocus(firstOption)).to.equal(true)
       })
@@ -56,10 +63,53 @@ describe('Accessible Autocomplete page', () => {
       it('should allow confirming an option', () => {
         browser.click(input)
         browser.setValue(input, 'ita')
-        browser.keys(['ArrowDown', 'Enter'])
+        browser.addValue(input, ['ArrowDown', 'Enter'])
         browser.waitUntil(() => browser.getValue(input) !== 'ita')
         expect(browser.hasFocus(input)).to.equal(true)
         expect(browser.getValue(input)).to.equal('Italy')
+      })
+    })
+
+    describe('mouse use', () => {
+      it('should allow confirming an option', () => {
+        browser.click(input)
+        browser.setValue(input, 'ita')
+        browser.click(firstOption)
+        expect(browser.hasFocus(input)).to.equal(true)
+        expect(browser.getValue(input)).to.equal('Italy')
+      })
+    })
+  })
+
+  describe('custom templates example', function () {
+    this.retries(3)
+
+    const input = 'input#autocomplete-customTemplates'
+    const menu = `${input} + ul`
+    const firstOption = `${menu} > li:first-child`
+    const firstOptionInnerElement = `${firstOption} > strong`
+
+    beforeEach(() => {
+      browser.setValue(input, '') // Prevent autofilling, IE likes to do this.
+    })
+
+    describe('mouse use', () => {
+      it('should allow confirming an option by clicking on child elements', () => {
+        browser.setValue(input, 'uni')
+        if (isChrome) {
+          const errorRegex = /Other element would receive the click/
+          expect(browser.click.bind(browser, firstOptionInnerElement)).to.throw(errorRegex)
+          expect(browser.hasFocus(input)).to.equal(true)
+          expect(browser.getValue(input)).to.equal('uni')
+        }
+        if (isFireFox) {
+          browser.click(firstOptionInnerElement)
+          expect(browser.hasFocus(input)).to.equal(true)
+          expect(browser.getValue(input)).to.equal('United Kingdom')
+        }
+        if (isIE) {
+          // FIXME.
+        }
       })
     })
   })
@@ -68,9 +118,9 @@ describe('Accessible Autocomplete page', () => {
     const testFailed = this.currentTest.state === 'failed'
     if (testFailed) {
       const timestamp = +new Date()
-      const browserName = browser.desiredCapabilities.browserName
+      const browser = isIE ? `ie${version}` : browserName
       const testTitle = this.currentTest.title.replace(/\W/g, '-')
-      const filename = `./screenshots/${timestamp}-${browserName}-${testTitle}.png`
+      const filename = `./screenshots/${timestamp}-${browser}-${testTitle}.png`
       browser.saveScreenshot(filename)
       console.log(`Test failed, created: ${filename}`)
     }

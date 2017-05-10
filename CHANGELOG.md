@@ -8,6 +8,7 @@ _(add items here for easier creation of next log entry)_
 - [Breaking] Make `id` a required attribute.
 - [Breaking] Rename `onSelect` to `onConfirm`.
 - [Breaking] Rename `selectOnBlur` to `confirmOnBlur`.
+- Fix an issue where users couldn't click on custom suggestions on Chrome.
 
 ## 0.6.0 - 2017-05-10
 
