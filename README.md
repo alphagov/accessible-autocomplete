@@ -124,9 +124,7 @@ The autocomplete will confirm the currently selected option when the user clicks
 
 Type: `string`
 
-The default CSS classes use [BEM](http://getbem.com/) with `autocomplete` as the block name. If you already have CSS rules for `.autocomplete--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
-
-TODO: Better styling docs.
+Use this property to override the [BEM](http://getbem.com/) block name that the JavaScript component will use. You will need to rewrite the CSS class names to use your specified block name.
 
 #### `defaultValue` (default: `''`)
 
