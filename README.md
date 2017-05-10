@@ -1,6 +1,6 @@
 > :warning: WARNING: This project is still experimental / under development. Do not use in production. :warning:
 
-# Accessible Autocomplete
+# Accessible autocomplete
 
 [![npm version](https://img.shields.io/npm/v/accessible-autocomplete.svg)](http://npm.im/accessible-autocomplete)
 [![Build Status](https://travis-ci.org/alphagov/accessible-autocomplete.svg?branch=master)](https://travis-ci.org/alphagov/accessible-autocomplete)
@@ -18,7 +18,7 @@
 
 [Try out the examples!](https://alphagov.github.io/accessible-autocomplete/examples/)
 
-## Installation / Usage
+## Installation / usage
 
 ### Using npm
 
@@ -66,7 +66,7 @@ Don't forget to include the stylesheet:
 <link rel="stylesheet" href="node_modules/accessible-autocomplete/dist/accessible-autocomplete.min.css" />
 ```
 
-## API Documentation
+## API documentation
 
 > :warning: WARNING: This is a work in progress and will change significantly. :warning:
 
@@ -74,13 +74,19 @@ Don't forget to include the stylesheet:
 
 #### `element`
 
-Type: `PropTypes.instanceOf(HTMLElement)`
+Type: `HTMLElement`
 
 The container element in which the autocomplete will be rendered in.
 
+#### `id` (default: `'autocomplete'`)
+
+Type: `string`
+
+The `id` to assign to the autocomplete input field, to use with a `<label for=id>`. Not required if using `enhanceSelectElement`.
+
 #### `source`
 
-Type: `PropTypes.func`
+Type: `Function`
 
 Arguments: `query: string, populateResults: Function`
 
@@ -104,13 +110,19 @@ function suggest (query, populateResults) {
 
 #### `autoselect` (default: `false`)
 
-Type: `PropTypes.bool`
+Type: `Boolean`
 
 Set to true to highlight the first option when the user types in something and receives results. Pressing enter will select it.
 
+#### `confirmOnBlur` (default: `true`)
+
+Type: `Boolean`
+
+The autocomplete will confirm the currently selected option when the user clicks outside of the component. Set to `false` to disable.
+
 #### `cssNamespace` (default: `'autocomplete'`)
 
-Type: `PropTypes.string`
+Type: `string`
 
 The default CSS classes use [BEM](http://getbem.com/) with `autocomplete` as the block name. If you already have CSS rules for `.autocomplete--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
 
@@ -118,81 +130,70 @@ TODO: Better styling docs.
 
 #### `defaultValue` (default: `''`)
 
-Type: `PropTypes.string`
+Type: `string`
 
 Specify a string to prefill the autocomplete with.
 
 #### `displayMenu` (default: `'inline'`)
 
-Type: `PropTypes.oneOf(['inline', 'overlay'])`
+Type: `'inline' | 'overlay'`
 
 You can set this property to specify the way the menu should appear, whether inline or as an overlay.
 
-#### `id` (default: `'autocomplete'`)
-
-Type: `PropTypes.string`
-
-The `id` for the autocomplete input field, to use with a `<label for=id>`. Required if you're instantiating more than one autocomplete in one page.
-
 #### `minLength` (default: `0`)
 
-Type: `PropTypes.number`
+Type: `number`
 
 The minimum number of characters that should be entered before the autocomplete will attempt to suggest options. When the query length is under this, the aria status region will also provide helpful text to the user informing them they should type in more.
 
 #### `name` (default: `'input-autocomplete'`)
 
-Type: `PropTypes.string`
+Type: `string`
 
 The `name` for the autocomplete input field, to use with a parent `<form>`.
 
-#### `onSelect` (default: `() => {}`)
+#### `onConfirm` (default: `() => {}`)
 
-Type: `PropTypes.func`
+Type: `Function`
 
-Arguments: `selected: Object`
+Arguments: `confirmed: Object`
 
-This function will be called when the user selects an option, with the option they've selected.
+This function will be called when the user confirms an option, with the option they've confirmed.
 
-#### `selectOnBlur` (default: `true`)
+#### `placeholder` (default: `''`) :warning: not recommended :warning:
 
-Type: `PropTypes.bool`
-
-Set this value to `false` to stop the autocomplete from automatically confirming a value when it has been selected using autoselect or the keyboard and the user "blurs" (clicks outside of the component).
-
-#### `showNoOptionsFound` (default: `true`)
-
-Type: `PropTypes.bool`
-
-Set this value to `false` to not display the "No options found" template when there are no results available. Some autocompletes might intermittently display results between different search term roots (like one based on [lunrjs](http://lunrjs.com/)), and as such wouldn't need to use this.
-
-#### `templates` (default: `undefined`)
-
-Type:
-```js
-PropTypes.shape({
-  inputValue: PropTypes.func,
-  suggestion: PropTypes.func
-})
-```
-
-This object defines templates (functions) that are used for displaying parts of the autocomplete.
-
-`inputValue` is a function that receives one argument, the currently selected suggestion. It is used to populate the value of the input field, and should return a string.
-
-`suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
-
-#### `placeholder` (default: `''`, :warning: not recommended :warning:)
-
-Type: `PropTypes.string`
+Type: `string`
 
 This option will populate the `placeholder` attribute on the input element.
 
 We think [placeholders have usability issues](http://adamsilver.io/articles/placeholders-are-problematic/) and that there are [better alternatives to input placeholder text](https://govuk-elements.herokuapp.com/form-elements/#form-hint-text), so we do not recommend using this option.
 
+#### `showNoResultsFound` (default: `true`)
+
+Type: `Boolean`
+
+The autocomplete will display a "No results found" template when there are no results. Set to `false` to disable.
+
+#### `templates` (default: `undefined`)
+
+Type:
+
+```js
+{
+  inputValue: Function,
+  suggestion: Function
+}
+```
+
+This object defines templates (functions) that are used for displaying parts of the autocomplete.
+
+`inputValue` is a function that receives one argument, the currently selected suggestion. It returns the string value to be inserted into the input.
+
+`suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
+
 ## Progressive enhancement
 
-If your autocomplete is meant to select from a small list of options (a few hundreds), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
+If your autocomplete is meant to select from a small list of options (a few hundred), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
 
 If you have the following HTML:
 
@@ -214,31 +215,31 @@ accessibleAutocomplete.enhanceSelectElement({
 
 This will:
 
-- Place an autocomplete input field adjacent to the specified `<select>`
+- Place an autocomplete input field after the specified `<select>`
 - Default the autocomplete `defaultValue` to the select's `option[selected]`
 - Default the autocomplete `id` to the `<select>`'s `id`
 - Default the autocomplete `name` attribute to `''` to prevent it being included in form submissions
-- Default the autocomplete `source` to a basic one that uses any existing `<option>`s from the `<select>`
+- Default the autocomplete `source` to use existing `<option>`s from the `<select>`
 - Hide the `<select>` using inline `display: none`
-- Set the `<select>`'s id to `${id}-select` to decouple from any `<label>`
-- Upon selecting a value in the autocomplete, update the original `<select>`
+- Set the `<select>`'s `id` to `${id}-select` to decouple from any `<label>`
+- Upon confirming a value in the autocomplete, update the original `<select>`
 
 This function takes the same options as `accessibleAutocomplete`, with the only difference being that it uses `selectElement` instead of `element`, which needs to be an instance of `HTMLSelectElement`.
 
 > **Note**: The `accessibleAutocomplete.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleAutocomplete`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
 
-## Analytics & Tracking
+## Analytics and tracking
 
-The following events get triggered on he input element during the life cycle of the autocomplete:
+The following events get triggered on the input element during the life cycle of the autocomplete:
 
-- `onSelect` - This function will be called when the user selects an option, with the option they've selected.
+- `onConfirm` - This function will be called when the user confirms an option, with the option they've chosen.
 
 Example usage:
 
 ```js
 accessibleAutocomplete({
-  // …
-  onSelect: (val) => {
+  // additional options
+  onConfirm: (val) => {
     track(val)
   }
 })
