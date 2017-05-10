@@ -4,9 +4,10 @@
 
 _(add items here for easier creation of next log entry)_
 
+- [Breaking] Rename component from `accessible-typeahead` to `accessible-autocomplete`.
 - Default `defaultValue` when progressively enhancing.
 - Throw an error when `enhanceSelectElement` is called without a `selectElement`.
-- Throw errors when `accessibleTypeahead` is called without `element` or `source`.
+- Throw errors when `accessibleAutocomplete` is called without `element` or `source`.
 
 ## 0.5.0 - 2017-05-09
 
