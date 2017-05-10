@@ -1,19 +1,19 @@
 /* global afterEach, before, beforeEach, browser, describe, it */
 const expect = require('chai').expect
 
-describe('Accessible Typeahead page', () => {
+describe('Accessible Autocomplete page', () => {
   before(() => {
     browser.url('/')
   })
 
   it('should have the right title', () => {
-    expect(browser.getTitle()).to.equal('Accessible Typeahead examples')
+    expect(browser.getTitle()).to.equal('Accessible Autocomplete examples')
   })
 
   describe('basic example', function () {
     this.retries(3)
 
-    const input = 'input#typeahead-default'
+    const input = 'input#autocomplete-default'
     const menu = `${input} + ul`
     const firstOption = `${menu} > li:first-child`
 

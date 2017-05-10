@@ -1,5 +1,5 @@
 /* global before, beforeEach, after, describe, expect, it */
-import accessibleTypeahead from '../../src/wrapper'
+import accessibleAutocomplete from '../../src/wrapper'
 
 const injectSelectToEnhanceIntoDOM = (element, id, name, options, selectedOption) => {
   var $select = document.createElement('select')
@@ -41,7 +41,7 @@ describe('Wrapper', () => {
 
   it('throws an error when called on nonexistent element', () => {
     expect(
-      accessibleTypeahead.bind(null, {
+      accessibleAutocomplete.bind(null, {
         element: document.querySelector('#nothing'),
         source: () => {}
       })
@@ -60,7 +60,7 @@ describe('Wrapper', () => {
     injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
 
     expect(
-      accessibleTypeahead.bind(null, {
+      accessibleAutocomplete.bind(null, {
         element: document.querySelector('#' + id)
       })
     ).to.throw('source is not defined')
@@ -68,7 +68,7 @@ describe('Wrapper', () => {
 
   it('throws an error when called on nonexistent selectElement', () => {
     expect(
-      accessibleTypeahead.enhanceSelectElement.bind(null, {
+      accessibleAutocomplete.enhanceSelectElement.bind(null, {
         selectElement: document.querySelector('#nothing')
       })
     ).to.throw('selectElement is not defined')
@@ -85,19 +85,19 @@ describe('Wrapper', () => {
     const selectedOption = 'gb'
     injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
 
-    accessibleTypeahead.enhanceSelectElement({
+    accessibleAutocomplete.enhanceSelectElement({
       selectElement: document.querySelector('#' + id)
     })
 
-    const typeaheadInstances = document.querySelectorAll('.typeahead__wrapper')
-    expect(typeaheadInstances.length).to.equal(1)
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    expect(autocompleteInstances.length).to.equal(1)
 
-    const typeaheadInstance = typeaheadInstances[0]
-    expect(typeaheadInstance.innerHTML).to.contain(`id="${id}"`)
-    expect(typeaheadInstance.innerHTML).to.contain(`name="${name}"`)
+    const autocompleteInstance = autocompleteInstances[0]
+    expect(autocompleteInstance.innerHTML).to.contain(`id="${id}"`)
+    expect(autocompleteInstance.innerHTML).to.contain(`name="${name}"`)
 
-    const typeaheadOption = typeaheadInstance.querySelector('.typeahead__option')
-    expect(typeaheadOption.textContent).to.equal(options[selectedOption])
+    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
+    expect(autocompleteOption.textContent).to.equal(options[selectedOption])
   })
 
   it('can enhance a select element no name', () => {
@@ -110,16 +110,16 @@ describe('Wrapper', () => {
     }
     injectSelectToEnhanceIntoDOM(scratch, id, name, options)
 
-    accessibleTypeahead.enhanceSelectElement({
+    accessibleAutocomplete.enhanceSelectElement({
       selectElement: document.querySelector('select')
     })
 
-    const typeaheadInstances = document.querySelectorAll('.typeahead__wrapper')
-    expect(typeaheadInstances.length).to.equal(1)
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    expect(autocompleteInstances.length).to.equal(1)
 
-    const typeaheadInstance = typeaheadInstances[0]
-    expect(typeaheadInstance.innerHTML).to.contain(`id=""`)
-    expect(typeaheadInstance.innerHTML).to.contain(`name=""`)
+    const autocompleteInstance = autocompleteInstances[0]
+    expect(autocompleteInstance.innerHTML).to.contain(`id=""`)
+    expect(autocompleteInstance.innerHTML).to.contain(`name=""`)
   })
 
   it('can overwrite selectedOption with defaultValue', () => {
@@ -133,15 +133,15 @@ describe('Wrapper', () => {
     const selectedOption = 'gb'
     injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
 
-    accessibleTypeahead.enhanceSelectElement({
+    accessibleAutocomplete.enhanceSelectElement({
       defaultValue: 'France',
       selectElement: document.querySelector('#' + id)
     })
 
-    const typeaheadInstances = document.querySelectorAll('.typeahead__wrapper')
-    const typeaheadInstance = typeaheadInstances[0]
-    const typeaheadOption = typeaheadInstance.querySelector('.typeahead__option')
-    expect(typeaheadOption.textContent).to.equal('France')
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
+    expect(autocompleteOption.textContent).to.equal('France')
   })
 
   it('has all options when typing', (done) => {
@@ -154,24 +154,24 @@ describe('Wrapper', () => {
     }
     injectSelectToEnhanceIntoDOM(scratch, id, name, options)
 
-    accessibleTypeahead.enhanceSelectElement({
+    accessibleAutocomplete.enhanceSelectElement({
       selectElement: document.querySelector('#' + id)
     })
 
-    const typeaheadInstances = document.querySelectorAll('.typeahead__wrapper')
-    const typeaheadInstance = typeaheadInstances[0]
-    const typeaheadInput = typeaheadInstance.querySelector('.typeahead__input')
-    const typeaheadOption = typeaheadInstance.querySelector('.typeahead__option')
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
 
     // Using setTimeouts here since changes in values take a while to reflect in lists
-    typeaheadInput.value = 'Fran'
-    expect(typeaheadOption.textContent).to.equal('France')
-    typeaheadInput.value = 'Ger'
+    autocompleteInput.value = 'Fran'
+    expect(autocompleteOption.textContent).to.equal('France')
+    autocompleteInput.value = 'Ger'
     setTimeout(() => {
-      expect(typeaheadOption.textContent).to.equal('Germany')
-      typeaheadInput.value = 'United'
+      expect(autocompleteOption.textContent).to.equal('Germany')
+      autocompleteInput.value = 'United'
       setTimeout(() => {
-        expect(typeaheadOption.textContent).to.equal('United Kingdom')
+        expect(autocompleteOption.textContent).to.equal('United Kingdom')
         done()
       }, 250)
     }, 250)
@@ -188,24 +188,24 @@ describe('Wrapper', () => {
     const selectedOption = 'gb'
     injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
 
-    accessibleTypeahead.enhanceSelectElement({
+    accessibleAutocomplete.enhanceSelectElement({
       defaultValue: 'de',
       selectElement: document.querySelector('#' + id)
     })
 
-    const typeaheadInstances = document.querySelectorAll('.typeahead__wrapper')
-    const typeaheadInstance = typeaheadInstances[0]
-    const typeaheadInput = typeaheadInstance.querySelector('.typeahead__input')
-    const typeaheadOption = typeaheadInstance.querySelector('.typeahead__option')
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
 
     const originalSelectElement = document.querySelector(`#${id}-select`)
     // Check the defaultValue has been reflected on the original selectElement
     expect(originalSelectElement.value).to.equal('de')
     // Using setTimeouts here since changes in values take a while to reflect in lists
-    typeaheadInput.value = 'United'
+    autocompleteInput.value = 'United'
     setTimeout(() => {
-      expect(typeaheadOption.textContent).to.equal('United Kingdom')
-      typeaheadOption.click()
+      expect(autocompleteOption.textContent).to.equal('United Kingdom')
+      autocompleteOption.click()
       expect(originalSelectElement.value).to.equal('gb')
       done()
     }, 250)

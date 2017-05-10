@@ -1,9 +1,9 @@
-.typeahead__wrapper {
+.autocomplete__wrapper {
   position: relative;
 }
 
-.typeahead__hint,
-.typeahead__input {
+.autocomplete__hint,
+.autocomplete__input {
   -webkit-appearance: none;
   border: 2px solid;
   border-radius: 0; /* Safari 10 on iOS adds implicit border rounding. */
@@ -14,22 +14,22 @@
   width: 100%;
 }
 
-.typeahead__input {
+.autocomplete__input {
   background-color: transparent;
   position: relative;
 }
 
-.typeahead__hint {
+.autocomplete__hint {
   color: #BFC1C3;
   position: absolute;
 }
 
-.typeahead__input--focused {
+.autocomplete__input--focused {
   outline-offset: 0;
   outline: 3px solid #ffbf47;
 }
 
-.typeahead__menu {
+.autocomplete__menu {
   background-color: #fff;
   border: 2px solid #0B0C0C;
   border-top: 0;
@@ -42,15 +42,15 @@
   width: calc(100% - 4px);
 }
 
-.typeahead__menu--visible {
+.autocomplete__menu--visible {
   display: block;
 }
 
-.typeahead__menu--hidden {
+.autocomplete__menu--hidden {
   display: none;
 }
 
-.typeahead__menu--overlay {
+.autocomplete__menu--overlay {
   box-shadow: rgba(0, 0, 0, 0.256863) 0px 2px 6px;
   left: 0;
   position: absolute;
@@ -58,11 +58,11 @@
   z-index: 100;
 }
 
-.typeahead__menu--inline {
+.autocomplete__menu--inline {
   position: relative;
 }
 
-.typeahead__option {
+.autocomplete__option {
   border-bottom: solid #BFC1C3;
   border-width: 1px 0;
   cursor: pointer;
@@ -70,44 +70,44 @@
   position: relative;
 }
 
-.typeahead__option:first-of-type {
+.autocomplete__option:first-of-type {
   border-top-width: 0;
 }
 
-.typeahead__option:last-of-type {
+.autocomplete__option:last-of-type {
   border-bottom-width: 0;
 }
 
-.typeahead__option--odd {
+.autocomplete__option--odd {
   background-color: #FAFAFA;
 }
 
-.typeahead__option--focused,
-.typeahead__option:hover {
+.autocomplete__option--focused,
+.autocomplete__option:hover {
   background-color: #005EA5;
   border-color: #005EA5;
   color: white;
   outline: none;
 }
 
-.typeahead__option--no-results {
+.autocomplete__option--no-results {
   background-color: #FAFAFA;
   color: #646b6f;
   cursor: not-allowed;
 }
 
-.typeahead__hint,
-.typeahead__input,
-.typeahead__option {
+.autocomplete__hint,
+.autocomplete__input,
+.autocomplete__option {
   font-size: 16px;
   line-height: 1.25;
   padding: 4px;
 }
 
 @media (min-width: 641px) {
-  .typeahead__hint,
-  .typeahead__input,
-  .typeahead__option {
+  .autocomplete__hint,
+  .autocomplete__input,
+  .autocomplete__option {
     font-size: 19px;
     line-height: 1.31579;
   }

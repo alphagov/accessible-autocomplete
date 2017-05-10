@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Accessible Typeahead examples</title>
+    <title>Accessible Autocomplete examples</title>
     <style>
       /* Example page specific styling. */
       html {
@@ -42,7 +42,7 @@
         margin-right: auto;
       }
 
-      .typeahead-wrapper {
+      .autocomplete-wrapper {
         max-width: 20em;
         margin-bottom: 4rem;
       }
@@ -51,7 +51,7 @@
   </head>
   <body>
     <main>
-      <h1>Accessible Typeahead examples</h1>
+      <h1>Accessible Autocomplete examples</h1>
 
       <p><a href="form.html">Example in a real HTML form that you can submit</a></p>
 
@@ -59,31 +59,31 @@
 
       <h3><code>{ element, id, source }</code></h3>
       <p>This illustrates usage with only the required arguments.</p>
-      <label for="typeahead-default">Select your country</label>
-      <div id="tt-default" class="typeahead-wrapper"></div>
+      <label for="autocomplete-default">Select your country</label>
+      <div id="tt-default" class="autocomplete-wrapper"></div>
 
       <h3><code>{ minLength: 2 }</code></h3>
       <p>
         This option will prevent displaying suggestions if less than 2 characters are
         typed in.
       </p>
-      <label for="typeahead-minLength">Select your country</label>
-      <div id="tt-minLength" class="typeahead-wrapper"></div>
+      <label for="autocomplete-minLength">Select your country</label>
+      <div id="tt-minLength" class="autocomplete-wrapper"></div>
 
       <h3><code>{ displayMenu: 'overlay' }</code></h3>
       <p>This option will display the menu as an absolutely positioned overlay.</p>
-      <label for="typeahead-overlay">Select your country</label>
-      <div id="tt-overlay" class="typeahead-wrapper"></div>
+      <label for="autocomplete-overlay">Select your country</label>
+      <div id="tt-overlay" class="autocomplete-wrapper"></div>
 
       <h3><code>{ autoselect: true }</code></h3>
       <p>This option will automatically select the first suggestion.</p>
-      <label for="typeahead-autoselect">Select your country</label>
-      <div id="tt-autoselect" class="typeahead-wrapper"></div>
+      <label for="autocomplete-autoselect">Select your country</label>
+      <div id="tt-autoselect" class="autocomplete-wrapper"></div>
 
       <h3><code>{ defaultValue: 'Germany' }</code></h3>
       <p>This option will prefill the input with a value.</p>
-      <label for="typeahead-defaultValue">Select your country</label>
-      <div id="tt-defaultValue" class="typeahead-wrapper"></div>
+      <label for="autocomplete-defaultValue">Select your country</label>
+      <div id="tt-defaultValue" class="autocomplete-wrapper"></div>
 
       <h3><code>{ selectOnBlur: false }</code></h3>
       <p>
@@ -91,30 +91,30 @@
         examples, if you select an option using the arrow keys and then click out, it will
         confirm the selection.
       </p>
-      <label for="typeahead-selectOnBlur">Select your country</label>
-      <div id="tt-selectOnBlur" class="typeahead-wrapper"></div>
+      <label for="autocomplete-selectOnBlur">Select your country</label>
+      <div id="tt-selectOnBlur" class="autocomplete-wrapper"></div>
 
       <h3><code>{ placeholder: 'Search for a country' }</code></h3>
       <p>This option will populate the placeholder attribute on the input element.</p>
-      <label for="typeahead-placeholder">Select your country</label>
-      <div id="tt-placeholder" class="typeahead-wrapper"></div>
+      <label for="autocomplete-placeholder">Select your country</label>
+      <div id="tt-placeholder" class="autocomplete-wrapper"></div>
 
       <h3><code>{ showNoOptionsFound: false }</code></h3>
       <p>This option will toggle displaying the "No options found" message.</p>
-      <label for="typeahead-showNoOptionsFound">Select your country</label>
-      <div id="tt-showNoOptionsFound" class="typeahead-wrapper"></div>
+      <label for="autocomplete-showNoOptionsFound">Select your country</label>
+      <div id="tt-showNoOptionsFound" class="autocomplete-wrapper"></div>
 
       <h2>Advanced features</h2>
 
       <h3>Progressive enhancement</h3>
       <p>
         This example demonstrates how to turn a server-rendered <code>&lt;select&gt;</code> element
-        into a typeahead. Turn off JavaScript to see the <code>&lt;select&gt;</code> element.
+        into a autocomplete. Turn off JavaScript to see the <code>&lt;select&gt;</code> element.
       </p>
-      <p>Uses <code>accessibleTypeahead.enhanceSelectElement</code>.</p>
-      <label for="typeahead-progressiveEnhancement">Select your country</label>
-      <div class="typeahead-wrapper">
-        <select id="typeahead-progressiveEnhancement">
+      <p>Uses <code>accessibleAutocomplete.enhanceSelectElement</code>.</p>
+      <label for="autocomplete-progressiveEnhancement">Select your country</label>
+      <div class="autocomplete-wrapper">
+        <select id="autocomplete-progressiveEnhancement">
           <option value="fr">France</option>
           <option value="de">Germany</option>
           <option value="gb" selected>United Kingdom</option>
@@ -129,11 +129,11 @@
         populate the input with the english country name.
       </p>
       <p>Uses the <code>{ templates: { inputValue, suggestion } }</code> options.</p>
-      <label for="typeahead-customTemplates">Select your country</label>
-      <div id="tt-customTemplates" class="typeahead-wrapper"></div>
+      <label for="autocomplete-customTemplates">Select your country</label>
+      <div id="tt-customTemplates" class="autocomplete-wrapper"></div>
     </main>
 
-    <script type="text/javascript" src="../dist/accessible-typeahead.min.js"></script>
+    <script type="text/javascript" src="../dist/accessible-autocomplete.min.js"></script>
     <script type="text/javascript">
       function suggest (query, syncResults) {
         var results = [
@@ -405,8 +405,8 @@
 
     <script type="text/javascript">
       var element = document.querySelector('#tt-default')
-      var id = 'typeahead-default'
-      accessibleTypeahead({
+      var id = 'autocomplete-default'
+      accessibleAutocomplete({
         element: element,
         id: id,
         source: suggest
@@ -415,8 +415,8 @@
 
     <script type="text/javascript">
       element = document.querySelector('#tt-minLength')
-      id = 'typeahead-minLength'
-      accessibleTypeahead({
+      id = 'autocomplete-minLength'
+      accessibleAutocomplete({
         element: element,
         id: id,
         minLength: 2,
@@ -426,8 +426,8 @@
 
     <script type="text/javascript">
       element = document.querySelector('#tt-autoselect')
-      id = 'typeahead-autoselect'
-      accessibleTypeahead({
+      id = 'autocomplete-autoselect'
+      accessibleAutocomplete({
         autoselect: true,
         element: element,
         id: id,
@@ -437,8 +437,8 @@
 
     <script type="text/javascript">
       element = document.querySelector('#tt-overlay')
-      id = 'typeahead-overlay'
-      accessibleTypeahead({
+      id = 'autocomplete-overlay'
+      accessibleAutocomplete({
         displayMenu: 'overlay',
         element: element,
         id: id,
@@ -448,8 +448,8 @@
 
     <script type="text/javascript">
       element = document.querySelector('#tt-defaultValue')
-      id = 'typeahead-defaultValue'
-      accessibleTypeahead({
+      id = 'autocomplete-defaultValue'
+      accessibleAutocomplete({
         defaultValue: 'Germany',
         element: element,
         id: id,
@@ -458,8 +458,8 @@
     </script>
 
     <script type="text/javascript">
-      element = document.querySelector('#typeahead-progressiveEnhancement')
-      accessibleTypeahead.enhanceSelectElement({
+      element = document.querySelector('#autocomplete-progressiveEnhancement')
+      accessibleAutocomplete.enhanceSelectElement({
         selectElement: element
       })
     </script>
@@ -491,8 +491,8 @@
       }
 
       element = document.querySelector('#tt-customTemplates')
-      id = 'typeahead-customTemplates'
-      accessibleTypeahead({
+      id = 'autocomplete-customTemplates'
+      accessibleAutocomplete({
         element: element,
         id: id,
         source: customSuggest,
@@ -505,8 +505,8 @@
 
     <script type="text/javascript">
       element = document.querySelector('#tt-selectOnBlur')
-      id = 'typeahead-selectOnBlur'
-      accessibleTypeahead({
+      id = 'autocomplete-selectOnBlur'
+      accessibleAutocomplete({
         element: element,
         id: id,
         selectOnBlur: false,
@@ -516,8 +516,8 @@
 
     <script type="text/javascript">
       element = document.querySelector('#tt-placeholder')
-      id = 'typeahead-placeholder'
-      accessibleTypeahead({
+      id = 'autocomplete-placeholder'
+      accessibleAutocomplete({
         element: element,
         id: id,
         placeholder: 'Search for a country',
@@ -527,8 +527,8 @@
 
     <script type="text/javascript">
       element = document.querySelector('#tt-showNoOptionsFound')
-      id = 'typeahead-showNoOptionsFound'
-      accessibleTypeahead({
+      id = 'autocomplete-showNoOptionsFound'
+      accessibleAutocomplete({
         element: element,
         id: id,
         showNoOptionsFound: false,

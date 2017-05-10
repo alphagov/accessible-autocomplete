@@ -1,22 +1,22 @@
 > :warning: WARNING: This project is still experimental / under development. Do not use in production. :warning:
 
-# Accessible Typeahead
+# Accessible Autocomplete
 
-[![npm version](https://img.shields.io/npm/v/accessible-typeahead.svg)](http://npm.im/accessible-typeahead)
-[![Build Status](https://travis-ci.org/alphagov/accessible-typeahead.svg?branch=master)](https://travis-ci.org/alphagov/accessible-typeahead)
-[![Coverage Status](https://coveralls.io/repos/github/alphagov/accessible-typeahead/badge.svg?branch=master)](https://coveralls.io/github/alphagov/accessible-typeahead?branch=master)
+[![npm version](https://img.shields.io/npm/v/accessible-autocomplete.svg)](http://npm.im/accessible-autocomplete)
+[![Build Status](https://travis-ci.org/alphagov/accessible-autocomplete.svg?branch=master)](https://travis-ci.org/alphagov/accessible-autocomplete)
+[![Coverage Status](https://coveralls.io/repos/github/alphagov/accessible-autocomplete/badge.svg?branch=master)](https://coveralls.io/github/alphagov/accessible-autocomplete?branch=master)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![gzip size](http://img.badgesize.io/https://unpkg.com/accessible-typeahead/dist/accessible-typeahead.min.js?compression=gzip)](https://unpkg.com/accessible-typeahead/dist/accessible-typeahead.min.js)
+[![gzip size](http://img.badgesize.io/https://unpkg.com/accessible-autocomplete/dist/accessible-autocomplete.min.js?compression=gzip)](https://unpkg.com/accessible-autocomplete/dist/accessible-autocomplete.min.js)
 
 [![Sauce Labs Build Status](https://saucelabs.com/browser-matrix/tvararu-alphagov.svg)](https://saucelabs.com/u/tvararu-alphagov)
 
-`accessible-typeahead` is a JavaScript typeahead built from the ground up to be accessible. The design goals are:
+`accessible-autocomplete` is a JavaScript autocomplete built from the ground up to be accessible. The design goals are:
 
 - **Accessibility**: Following WAI-ARIA best practices and testing with assistive technologies.
 - **User experience**: Supporting a wide variety of user needs.
 - **Compatibility**: Working with as many browsers, devices, and assistive technologies as possible.
 
-[Try out the examples!](https://alphagov.github.io/accessible-typeahead/examples/)
+[Try out the examples!](https://alphagov.github.io/accessible-autocomplete/examples/)
 
 ## Installation / Usage
 
@@ -25,22 +25,22 @@
 Install it by running:
 
 ```bash
-npm install --save accessible-typeahead
+npm install --save accessible-autocomplete
 ```
 
 Import it using a module system like Webpack:
 
 ```js
-import accessibleTypeahead from 'accessible-typeahead'
+import accessibleAutocomplete from 'accessible-autocomplete'
 ```
 
 Or using a script tag:
 
 ```html
-<script type="text/javascript" src="node_modules/accessible-typeahead/dist/accessible-typeahead.min.js"></script>
+<script type="text/javascript" src="node_modules/accessible-autocomplete/dist/accessible-autocomplete.min.js"></script>
 ```
 
-And then call the `accessibleTypeahead` function, providing a suggestion engine:
+And then call the `accessibleAutocomplete` function, providing a suggestion engine:
 
 ```js
 function suggest (query, populateResults) {
@@ -53,9 +53,9 @@ function suggest (query, populateResults) {
   populateResults(filteredResults)
 }
 
-accessibleTypeahead({
-  element: document.querySelector('#my-typeahead-container'),
-  id: 'my-typeahead',
+accessibleAutocomplete({
+  element: document.querySelector('#my-autocomplete-container'),
+  id: 'my-autocomplete',
   source: suggest
 })
 ```
@@ -63,7 +63,7 @@ accessibleTypeahead({
 Don't forget to include the stylesheet:
 
 ```html
-<link rel="stylesheet" href="node_modules/accessible-typeahead/dist/accessible-typeahead.min.css" />
+<link rel="stylesheet" href="node_modules/accessible-autocomplete/dist/accessible-autocomplete.min.css" />
 ```
 
 ## API Documentation
@@ -76,7 +76,7 @@ Don't forget to include the stylesheet:
 
 Type: `PropTypes.instanceOf(HTMLElement)`
 
-The container element in which the typeahead will be rendered in.
+The container element in which the autocomplete will be rendered in.
 
 #### `source`
 
@@ -108,11 +108,11 @@ Type: `PropTypes.bool`
 
 Set to true to highlight the first option when the user types in something and receives results. Pressing enter will select it.
 
-#### `cssNamespace` (default: `'typeahead'`)
+#### `cssNamespace` (default: `'autocomplete'`)
 
 Type: `PropTypes.string`
 
-The default CSS classes use [BEM](http://getbem.com/) with `typeahead` as the block name. If you already have CSS rules for `.typeahead--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
+The default CSS classes use [BEM](http://getbem.com/) with `autocomplete` as the block name. If you already have CSS rules for `.autocomplete--menu` or any of the other default classes, you can use this property to rename them and prevent clashes.
 
 TODO: Better styling docs.
 
@@ -120,7 +120,7 @@ TODO: Better styling docs.
 
 Type: `PropTypes.string`
 
-Specify a string to prefill the typeahead with.
+Specify a string to prefill the autocomplete with.
 
 #### `displayMenu` (default: `'inline'`)
 
@@ -128,23 +128,23 @@ Type: `PropTypes.oneOf(['inline', 'overlay'])`
 
 You can set this property to specify the way the menu should appear, whether inline or as an overlay.
 
-#### `id` (default: `'typeahead'`)
+#### `id` (default: `'autocomplete'`)
 
 Type: `PropTypes.string`
 
-The `id` for the typeahead input field, to use with a `<label for=id>`. Required if you're instantiating more than one typeahead in one page.
+The `id` for the autocomplete input field, to use with a `<label for=id>`. Required if you're instantiating more than one autocomplete in one page.
 
 #### `minLength` (default: `0`)
 
 Type: `PropTypes.number`
 
-The minimum number of characters that should be entered before the typeahead will attempt to suggest options. When the query length is under this, the aria status region will also provide helpful text to the user informing them they should type in more.
+The minimum number of characters that should be entered before the autocomplete will attempt to suggest options. When the query length is under this, the aria status region will also provide helpful text to the user informing them they should type in more.
 
-#### `name` (default: `'input-typeahead'`)
+#### `name` (default: `'input-autocomplete'`)
 
 Type: `PropTypes.string`
 
-The `name` for the typeahead input field, to use with a parent `<form>`.
+The `name` for the autocomplete input field, to use with a parent `<form>`.
 
 #### `onSelect` (default: `() => {}`)
 
@@ -158,13 +158,13 @@ This function will be called when the user selects an option, with the option th
 
 Type: `PropTypes.bool`
 
-Set this value to `false` to stop the typeahead from automatically confirming a value when it has been selected using autoselect or the keyboard and the user "blurs" (clicks outside of the component).
+Set this value to `false` to stop the autocomplete from automatically confirming a value when it has been selected using autoselect or the keyboard and the user "blurs" (clicks outside of the component).
 
 #### `showNoOptionsFound` (default: `true`)
 
 Type: `PropTypes.bool`
 
-Set this value to `false` to not display the "No options found" template when there are no results available. Some typeaheads might intermittently display results between different search term roots (like one based on [lunrjs](http://lunrjs.com/)), and as such wouldn't need to use this.
+Set this value to `false` to not display the "No options found" template when there are no results available. Some autocompletes might intermittently display results between different search term roots (like one based on [lunrjs](http://lunrjs.com/)), and as such wouldn't need to use this.
 
 #### `templates` (default: `undefined`)
 
@@ -176,7 +176,7 @@ PropTypes.shape({
 })
 ```
 
-This object defines templates (functions) that are used for displaying parts of the typeahead.
+This object defines templates (functions) that are used for displaying parts of the autocomplete.
 
 `inputValue` is a function that receives one argument, the currently selected suggestion. It is used to populate the value of the input field, and should return a string.
 
@@ -192,7 +192,7 @@ We think [placeholders have usability issues](http://adamsilver.io/articles/plac
 
 ## Progressive enhancement
 
-If your typeahead is meant to select from a small list of options (a few hundreds), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
+If your autocomplete is meant to select from a small list of options (a few hundreds), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
 
 If you have the following HTML:
 
@@ -204,39 +204,39 @@ If you have the following HTML:
 </select>
 ```
 
-You can use the `accessibleTypeahead.enhanceSelectElement` function to enhance it into a typeahead:
+You can use the `accessibleAutocomplete.enhanceSelectElement` function to enhance it into an autocomplete:
 
 ```js
-accessibleTypeahead.enhanceSelectElement({
+accessibleAutocomplete.enhanceSelectElement({
   selectElement: document.querySelector('#location-picker')
 })
 ```
 
 This will:
 
-- Place a typeahead input field adjacent to the specified `<select>`
-- Default the typeahead `defaultValue` to the select's `option[selected]`
-- Default the typeahead `id` to the `<select>`'s `id`
-- Default the typeahead `name` attribute to `''` to prevent it being included in form submissions
-- Default the typeahead `source` to a basic one that uses any existing `<option>`s from the `<select>`
+- Place an autocomplete input field adjacent to the specified `<select>`
+- Default the autocomplete `defaultValue` to the select's `option[selected]`
+- Default the autocomplete `id` to the `<select>`'s `id`
+- Default the autocomplete `name` attribute to `''` to prevent it being included in form submissions
+- Default the autocomplete `source` to a basic one that uses any existing `<option>`s from the `<select>`
 - Hide the `<select>` using inline `display: none`
 - Set the `<select>`'s id to `${id}-select` to decouple from any `<label>`
-- Upon selecting a value in the typeahead, update the original `<select>`
+- Upon selecting a value in the autocomplete, update the original `<select>`
 
-This function takes the same options as `accessibleTypeahead`, with the only difference being that it uses `selectElement` instead of `element`, which needs to be an instance of `HTMLSelectElement`.
+This function takes the same options as `accessibleAutocomplete`, with the only difference being that it uses `selectElement` instead of `element`, which needs to be an instance of `HTMLSelectElement`.
 
-> **Note**: The `accessibleTypeahead.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleTypeahead`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
+> **Note**: The `accessibleAutocomplete.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleAutocomplete`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
 
 ## Analytics & Tracking
 
-The following events get triggered on he input element during the life cycle of the typeahead:
+The following events get triggered on he input element during the life cycle of the autocomplete:
 
 - `onSelect` - This function will be called when the user selects an option, with the option they've selected.
 
 Example usage:
 
 ```js
-AccessibleTypeahead({
+accessibleAutocomplete({
   // …
   onSelect: (val) => {
     track(val)
@@ -244,19 +244,19 @@ AccessibleTypeahead({
 })
 ```
 
-## Why another typeahead?
+## Why another autocomplete?
 
-`accessible-typeahead` was built after studying many existing solutions and prototyping patches to fix user experience or accessibility issues. It draws heavy inspiration from the following (and a lot of others):
+`accessible-autocomplete` was built after studying many existing solutions and prototyping patches to fix user experience or accessibility issues. It draws heavy inspiration from the following (and a lot of others):
 
 - [ljwatson/design-patterns](http://ljwatson.github.io/design-patterns/autocomplete/index.html): great accessible experience
-- [corejavascript/corejs-typeahead](https://github.com/corejavascript/typeahead.js): flexible typeahead/suggestion engine architecture
+- [corejavascript/corejs-typeahead](https://github.com/corejavascript/typeahead.js): flexible autocomplete/suggestion engine architecture
 - [JamieAppleseed/selectToAutocomplete](https://github.com/JamieAppleseed/selectToAutocomplete): ease of use
 
 ## Developing locally
 
 Check out the [CONTRIBUTING](CONTRIBUTING.md) guide for instructions.
 
-If you want to help and want to get more familiar with the codebase, try starting with the ["good for beginners"](https://github.com/alphagov/accessible-typeahead/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+for+beginners%22) issues.
+If you want to help and want to get more familiar with the codebase, try starting with the ["good for beginners"](https://github.com/alphagov/accessible-autocomplete/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+for+beginners%22) issues.
 
 ## License
 

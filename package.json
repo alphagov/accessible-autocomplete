@@ -1,10 +1,10 @@
 {
-  "name": "accessible-typeahead",
+  "name": "accessible-autocomplete",
   "version": "0.5.0",
-  "main": "dist/accessible-typeahead.min.js",
+  "main": "dist/accessible-autocomplete.min.js",
   "style": "dist/styled.min.css",
-  "description": "A typeahead component, built to be accessible.",
-  "repository": "alphagov/accessible-typeahead",
+  "description": "An autocomplete component, built to be accessible.",
+  "repository": "alphagov/accessible-autocomplete",
   "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
   "license": "MIT",
   "keywords": [
@@ -17,7 +17,7 @@
     "widget"
   ],
   "scripts": {
-    "build:css": "csso examples/styled.css -o dist/accessible-typeahead.min.css",
+    "build:css": "csso examples/styled.css -o dist/accessible-autocomplete.min.css",
     "build:js": "cross-env NODE_ENV=production webpack -p --progress --display-modules",
     "build": "run-p 'build:*'",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
