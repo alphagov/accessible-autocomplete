@@ -35,6 +35,7 @@ accessibleAutocomplete.enhanceSelectElement = (opts) => {
   }
   opts.name = opts.name || opts.selectElement.name || ''
   opts.id = opts.id || opts.selectElement.id || ''
+  opts.autoselect = opts.autoselect || true
 
   const element = document.createElement('span')
   opts.selectElement.insertAdjacentElement('afterend', element)

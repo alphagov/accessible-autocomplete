@@ -214,6 +214,7 @@ accessibleAutocomplete.enhanceSelectElement({
 This will:
 
 - Place an autocomplete input field after the specified `<select>`
+- Default the autocomplete `autoselect` to `true`
 - Default the autocomplete `defaultValue` to the select's `option[selected]`
 - Default the autocomplete `id` to the `<select>`'s `id`
 - Default the autocomplete `name` attribute to `''` to prevent it being included in form submissions
