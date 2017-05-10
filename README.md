@@ -43,13 +43,14 @@ Or using a script tag:
 And then call the `accessibleTypeahead` function, providing a suggestion engine:
 
 ```js
-function suggest (query, syncResults) {
+function suggest (query, populateResults) {
   const results = [
     'France',
     'Germany',
     'United Kingdom'
   ]
-  syncResults(results.filter(result => result.indexOf(query) !== -1))
+  const filteredResults = results.filter(result => result.indexOf(query) !== -1)
+  populateResults(filteredResults)
 }
 
 accessibleTypeahead({
@@ -81,25 +82,21 @@ The container element in which the typeahead will be rendered in.
 
 Type: `PropTypes.func`
 
-Arguments: `query: string, syncResults: Function`
+Arguments: `query: string, populateResults: Function`
 
-Similar to the [`source` argument for typeahead.js](https://github.com/corejavascript/typeahead.js/blob/47d46b40cb834d8285ac9328c4b436e5eccf7197/doc/jquery_typeahead.md#datasets), a backing data source for suggestions. `query` is what gets typed into the input field, which will callback to `syncResults` synchronously with the array of string results to display in the menu.
+Similar to the [`source` argument for typeahead.js](https://github.com/corejavascript/typeahead.js/blob/47d46b40cb834d8285ac9328c4b436e5eccf7197/doc/jquery_typeahead.md#datasets), a backing data source for suggestions. `query` is what gets typed into the input field, which will callback to `populateResults` synchronously with the array of string results to display in the menu.
 
 An example of a simple suggestion engine:
 
 ```js
-function suggest (query, syncResults) {
-  var results = [
+function suggest (query, populateResults) {
+  const results = [
     'France',
     'Germany',
     'United Kingdom'
   ]
-  syncResults(query
-    ? results.filter(function (result) {
-        return result.toLowerCase().indexOf(query.toLowerCase()) !== -1
-      })
-    : []
-  )
+  const filteredResults = results.filter(result => result.indexOf(query) !== -1)
+  populateResults(filteredResults)
 }
 ```
 
