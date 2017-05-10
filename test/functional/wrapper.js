@@ -39,6 +39,33 @@ describe('Wrapper', () => {
     scratch = null
   })
 
+  it('throws an error when called on nonexistent element', () => {
+    expect(
+      accessibleTypeahead.bind(null, {
+        element: document.querySelector('#nothing'),
+        source: () => {}
+      })
+    ).to.throw('element is not defined')
+  })
+
+  it('throws an error when called on nonexistent source', () => {
+    const id = 'location-picker-id'
+    const name = 'location-picker-name'
+    const options = {
+      fr: 'France',
+      de: 'Germany',
+      gb: 'United Kingdom'
+    }
+    const selectedOption = 'gb'
+    injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
+
+    expect(
+      accessibleTypeahead.bind(null, {
+        element: document.querySelector('#' + id)
+      })
+    ).to.throw('source is not defined')
+  })
+
   it('throws an error when called on nonexistent selectElement', () => {
     expect(
       accessibleTypeahead.enhanceSelectElement.bind(null, {
