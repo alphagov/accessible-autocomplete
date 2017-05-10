@@ -27,7 +27,7 @@ accessibleAutocomplete.enhanceSelectElement = (opts) => {
     const availableOptions = Array.prototype.map.call(opts.selectElement.options, o => o.innerHTML)
     opts.source = createSimpleEngine(availableOptions)
   }
-  opts.onSelect = opts.onSelect || (query => {
+  opts.onConfirm = opts.onConfirm || (query => {
     const requestedOption = Array.prototype.filter.call(opts.selectElement.options, o => o.innerHTML === query)[0]
     if (requestedOption) { requestedOption.selected = true }
   })

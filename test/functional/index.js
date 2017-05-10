@@ -60,7 +60,7 @@ describe('Autocomplete', () => {
   })
 
   describe('behaviour', () => {
-    let autocomplete, autoselectAutocomplete, onSelectAutocomplete, onSelectTriggered,
+    let autocomplete, autoselectAutocomplete, onConfirmAutocomplete, onConfirmTriggered,
       autoselectOnSelectAutocomplete, selectOnBlurAutocomplete
 
     beforeEach(() => {
@@ -77,11 +77,11 @@ describe('Autocomplete', () => {
         source: suggest
       })
 
-      onSelectTriggered = false
-      onSelectAutocomplete = new Autocomplete({
+      onConfirmTriggered = false
+      onConfirmAutocomplete = new Autocomplete({
         ...Autocomplete.defaultProps,
         id: 'test3',
-        onSelect: () => { onSelectTriggered = true },
+        onConfirm: () => { onConfirmTriggered = true },
         source: suggest
       })
 
@@ -89,14 +89,14 @@ describe('Autocomplete', () => {
         ...Autocomplete.defaultProps,
         autoselect: true,
         id: 'test4',
-        onSelect: () => { onSelectTriggered = true },
+        onConfirm: () => { onConfirmTriggered = true },
         source: suggest
       })
 
       selectOnBlurAutocomplete = new Autocomplete({
         ...Autocomplete.defaultProps,
         id: 'test5',
-        onSelect: () => { onSelectTriggered = true },
+        onConfirm: () => { onConfirmTriggered = true },
         selectOnBlur: false,
         source: suggest
       })
@@ -204,25 +204,25 @@ describe('Autocomplete', () => {
         expect(autocomplete.state.query).to.equal('fr')
       })
 
-      describe('with autoselect and onSelect', () => {
-        it('unfocuses component, updates query, triggers onSelect', () => {
+      describe('with autoselect and onConfirm', () => {
+        it('unfocuses component, updates query, triggers onConfirm', () => {
           autoselectOnSelectAutocomplete.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: -1, selected: 0 })
           autoselectOnSelectAutocomplete.handleInputBlur({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
           expect(autoselectOnSelectAutocomplete.state.focused).to.equal(null)
           expect(autoselectOnSelectAutocomplete.state.menuOpen).to.equal(false)
           expect(autoselectOnSelectAutocomplete.state.query).to.equal('France')
-          expect(onSelectTriggered).to.equal(true)
+          expect(onConfirmTriggered).to.equal(true)
         })
       })
 
       describe('with selectOnBlur false', () => {
-        it('unfocuses component, does not touch query, does not trigger onSelect', () => {
+        it('unfocuses component, does not touch query, does not trigger onConfirm', () => {
           selectOnBlurAutocomplete.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: -1, selected: 0 })
           selectOnBlurAutocomplete.handleInputBlur({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
           expect(selectOnBlurAutocomplete.state.focused).to.equal(null)
           expect(selectOnBlurAutocomplete.state.menuOpen).to.equal(false)
           expect(selectOnBlurAutocomplete.state.query).to.equal('fr')
-          expect(onSelectTriggered).to.equal(false)
+          expect(onConfirmTriggered).to.equal(false)
         })
       })
     })
@@ -365,16 +365,16 @@ describe('Autocomplete', () => {
 
     describe('enter key', () => {
       describe('on an option', () => {
-        it('prevents default, closes the menu, sets the query, focuses the input, triggers onSelect', () => {
+        it('prevents default, closes the menu, sets the query, focuses the input, triggers onConfirm', () => {
           let preventedDefault = false
-          onSelectAutocomplete.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
-          onSelectAutocomplete.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
-          expect(onSelectAutocomplete.state.menuOpen).to.equal(false)
-          expect(onSelectAutocomplete.state.query).to.equal('France')
-          expect(onSelectAutocomplete.state.focused).to.equal(-1)
-          expect(onSelectAutocomplete.state.selected).to.equal(-1)
+          onConfirmAutocomplete.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
+          onConfirmAutocomplete.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
+          expect(onConfirmAutocomplete.state.menuOpen).to.equal(false)
+          expect(onConfirmAutocomplete.state.query).to.equal('France')
+          expect(onConfirmAutocomplete.state.focused).to.equal(-1)
+          expect(onConfirmAutocomplete.state.selected).to.equal(-1)
           expect(preventedDefault).to.equal(true)
-          expect(onSelectTriggered).to.equal(true)
+          expect(onConfirmTriggered).to.equal(true)
         })
       })
 
