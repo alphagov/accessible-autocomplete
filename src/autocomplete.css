@@ -70,6 +70,10 @@
   position: relative;
 }
 
+.autocomplete__option > * {
+  pointer-events: none;
+}
+
 .autocomplete__option:first-of-type {
   border-top-width: 0;
 }
