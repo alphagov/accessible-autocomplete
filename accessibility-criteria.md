@@ -4,9 +4,9 @@ Authors: [Theodor Vararu](https://github.com/tvararu), [Léonie Watson](https://
 
 ## What's this?
 
-This describes the necessary behaviours that a typeahead (referred in this document as an "autocomplete") needs to meet to be usable by assistive technologies.
+This describes the necessary behaviours that an autocomplete needs to meet to be usable by assistive technologies.
 
-They are useful if you are evaluating `accessible-typeahead`, or a different autocomplete solution.
+They are useful if you are evaluating `accessible-autocomplete`, or a different autocomplete solution.
 
 ## User story
 

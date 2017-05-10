@@ -30,15 +30,15 @@ function isPrintableKeyCode (keyCode) {
   )
 }
 
-export default class Typeahead extends Component {
+export default class Autocomplete extends Component {
   static defaultProps = {
     autoselect: false,
-    cssNamespace: 'typeahead',
+    cssNamespace: 'autocomplete',
     defaultValue: '',
     displayMenu: 'inline',
-    id: 'typeahead',
+    id: 'autocomplete',
     minLength: 0,
-    name: 'input-typeahead',
+    name: 'input-autocomplete',
     placeholder: '',
     onSelect: () => {},
     selectOnBlur: true,

@@ -11,8 +11,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'accessible-typeahead.min.js',
-    library: 'accessibleTypeahead',
+    filename: 'accessible-autocomplete.min.js',
+    library: 'accessibleAutocomplete',
     libraryTarget: 'umd'
   },
 

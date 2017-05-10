@@ -1,14 +1,14 @@
 import { h, render } from 'preact' /** @jsx h */
-import Typeahead from './typeahead'
+import Autocomplete from './autocomplete'
 
-function accessibleTypeahead (opts) {
+function accessibleAutocomplete (opts) {
   if (!opts.element) {
     throw new Error('element is not defined')
   }
   if (!opts.source) {
     throw new Error('source is not defined')
   }
-  render(<Typeahead {...opts} />, opts.element)
+  render(<Autocomplete {...opts} />, opts.element)
 }
 
 const createSimpleEngine = results => (query, syncResults) => {
@@ -18,7 +18,7 @@ const createSimpleEngine = results => (query, syncResults) => {
   syncResults(filteredResults)
 }
 
-accessibleTypeahead.enhanceSelectElement = (opts) => {
+accessibleAutocomplete.enhanceSelectElement = (opts) => {
   if (!opts.selectElement) {
     throw new Error('selectElement is not defined')
   }
@@ -42,7 +42,7 @@ accessibleTypeahead.enhanceSelectElement = (opts) => {
   const element = document.createElement('span')
   opts.selectElement.insertAdjacentElement('afterend', element)
 
-  accessibleTypeahead({
+  accessibleAutocomplete({
     ...opts,
     element: element
   })
@@ -51,4 +51,4 @@ accessibleTypeahead.enhanceSelectElement = (opts) => {
   opts.selectElement.id = opts.selectElement.id + '-select'
 }
 
-module.exports = accessibleTypeahead
+module.exports = accessibleAutocomplete
