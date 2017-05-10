@@ -50,11 +50,12 @@ const sauceConfig = sauceEnabled
 exports.config = Object.assign({
   specs: ['./test/integration/**/*.js'],
   capabilities: [
-    { browserName: 'phantom' }
+    { browserName: 'chrome' },
+    { browserName: 'firefox' }
   ],
   baseUrl: 'http://localhost:' + staticServerPort,
   screenshotPath: './screenshots/',
-  services: services.concat(['phantomjs']),
+  services: services.concat(['selenium-standalone']),
   reporters: ['spec'],
   framework: 'mocha',
   mochaOpts: { timeout: 30 * 1000 },
