@@ -5,6 +5,7 @@
 _(add items here for easier creation of next log entry)_
 
 - Default `defaultValue` when progressively enhancing.
+- Throw an error when `enhanceSelectElement` is called without a `selectElement`.
 
 ## 0.5.0 - 2017-05-09
 
