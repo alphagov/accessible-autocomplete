@@ -42,26 +42,27 @@ describe('Wrapper', () => {
   it('throws an error when called on nonexistent element', () => {
     expect(
       accessibleAutocomplete.bind(null, {
-        element: document.querySelector('#nothing'),
+        element: document.querySelector('#nothing-container'),
+        id: 'scratch',
         source: () => {}
       })
     ).to.throw('element is not defined')
   })
 
-  it('throws an error when called on nonexistent source', () => {
-    const id = 'location-picker-id'
-    const name = 'location-picker-name'
-    const options = {
-      fr: 'France',
-      de: 'Germany',
-      gb: 'United Kingdom'
-    }
-    const selectedOption = 'gb'
-    injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
-
+  it('throws an error when called without an id ', () => {
     expect(
       accessibleAutocomplete.bind(null, {
-        element: document.querySelector('#' + id)
+        element: scratch,
+        source: () => {}
+      })
+    ).to.throw('id is not defined')
+  })
+
+  it('throws an error when called on nonexistent source', () => {
+    expect(
+      accessibleAutocomplete.bind(null, {
+        element: scratch,
+        id: 'scratch'
       })
     ).to.throw('source is not defined')
   })
@@ -101,7 +102,7 @@ describe('Wrapper', () => {
   })
 
   it('can enhance a select element no name', () => {
-    const id = false
+    const id = 'location-picker-id'
     const name = false
     const options = {
       fr: 'France',
@@ -118,7 +119,7 @@ describe('Wrapper', () => {
     expect(autocompleteInstances.length).to.equal(1)
 
     const autocompleteInstance = autocompleteInstances[0]
-    expect(autocompleteInstance.innerHTML).to.contain(`id=""`)
+    expect(autocompleteInstance.innerHTML).to.contain(`id="${id}"`)
     expect(autocompleteInstance.innerHTML).to.contain(`name=""`)
   })
 
