@@ -2,6 +2,7 @@ import webpack from 'webpack'
 import ReplacePlugin from 'replace-bundle-webpack-plugin'
 import path from 'path'
 import V8LazyParseWebpackPlugin from 'v8-lazy-parse-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
 module.exports = {
@@ -71,7 +72,11 @@ module.exports = {
       partten: /throw\s+(new\s+)?[a-zA-Z]+Error\s*\(/g,
       replacement: () => 'return;('
     }])
-  ] : []),
+  ] : [
+    new CopyWebpackPlugin([
+      { from: './autocomplete.css', to: 'accessible-autocomplete.min.css' }
+    ])
+  ]),
 
   stats: { colors: true },
 
@@ -90,7 +95,7 @@ module.exports = {
     port: process.env.PORT || 8080,
     host: 'localhost',
     publicPath: '/dist/',
-    contentBase: './examples',
+    contentBase: ['./examples', './src'],
     historyApiFallback: true,
     open: true,
     watchContentBase: true,
