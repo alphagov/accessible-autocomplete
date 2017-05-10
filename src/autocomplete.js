@@ -41,7 +41,7 @@ export default class Autocomplete extends Component {
     name: 'input-autocomplete',
     placeholder: '',
     onConfirm: () => {},
-    selectOnBlur: true,
+    confirmOnBlur: true,
     showNoOptionsFound: true
   }
 
@@ -145,7 +145,7 @@ export default class Autocomplete extends Component {
   handleComponentBlur (newState) {
     const { options, query, selected } = this.state
     let newQuery
-    if (this.props.selectOnBlur) {
+    if (this.props.confirmOnBlur) {
       newQuery = newState.query || query
       this.props.onConfirm(options[selected])
     } else {
