@@ -85,14 +85,14 @@
       <label for="autocomplete-defaultValue">Select your country</label>
       <div id="tt-defaultValue" class="autocomplete-wrapper"></div>
 
-      <h3><code>{ selectOnBlur: false }</code></h3>
+      <h3><code>{ confirmOnBlur: false }</code></h3>
       <p>
         This option will toggle automatically confirming a selection on blur. In the other
         examples, if you select an option using the arrow keys and then click out, it will
         confirm the selection.
       </p>
-      <label for="autocomplete-selectOnBlur">Select your country</label>
-      <div id="tt-selectOnBlur" class="autocomplete-wrapper"></div>
+      <label for="autocomplete-confirmOnBlur">Select your country</label>
+      <div id="tt-confirmOnBlur" class="autocomplete-wrapper"></div>
 
       <h3><code>{ placeholder: 'Search for a country' }</code></h3>
       <p>This option will populate the placeholder attribute on the input element.</p>
@@ -504,12 +504,12 @@
     </script>
 
     <script type="text/javascript">
-      element = document.querySelector('#tt-selectOnBlur')
-      id = 'autocomplete-selectOnBlur'
+      element = document.querySelector('#tt-confirmOnBlur')
+      id = 'autocomplete-confirmOnBlur'
       accessibleAutocomplete({
         element: element,
         id: id,
-        selectOnBlur: false,
+        confirmOnBlur: false,
         source: suggest
       })
     </script>
