@@ -2,7 +2,7 @@
   "name": "accessible-autocomplete",
   "version": "1.0.0",
   "main": "dist/accessible-autocomplete.min.js",
-  "style": "dist/styled.min.css",
+  "style": "dist/accessible-autocomplete.min.css",
   "description": "An autocomplete component, built to be accessible.",
   "repository": "alphagov/accessible-autocomplete",
   "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
