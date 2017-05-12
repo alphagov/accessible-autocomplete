@@ -3,7 +3,10 @@
 ## [Unreleased]
 
 _(add items here for easier creation of next log entry)_
-- Add support for an empty `defaultValue` when enhancing a select element
+
+## 1.0.2 - 2017-05-12
+
+- Add support for an empty `defaultValue` when enhancing a select element.
 
 ## 1.0.1 - 2017-05-12
 
