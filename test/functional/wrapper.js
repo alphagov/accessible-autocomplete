@@ -145,6 +145,28 @@ describe('Wrapper', () => {
     expect(autocompleteOption.textContent).to.equal('France')
   })
 
+  it('can overwrite selectedOption with an empty defaultValue', () => {
+    const id = 'location-picker-id'
+    const name = 'location-picker-name'
+    const options = {
+      fr: 'France',
+      de: 'Germany',
+      gb: 'United Kingdom'
+    }
+    const selectedOption = 'gb'
+    injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      defaultValue: '',
+      selectElement: document.querySelector('#' + id)
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    expect(autocompleteInput.value).to.equal('')
+  })
+
   it('has all options when typing', (done) => {
     const id = 'location-picker-id'
     const name = 'location-picker-name'
