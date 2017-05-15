@@ -23,7 +23,7 @@ To run the functional tests in dev mode (automatically reruns when a file change
 npm run karma:dev
 ```
 
-To run the integration tests locally with Chrome and FireFox (specified in [wdio.config.js](test/wdio.config.js)):
+To run the integration tests locally with Chrome (specified in [wdio.config.js](test/wdio.config.js)):
 
 ```bash
 npm run wdio

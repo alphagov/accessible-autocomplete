@@ -50,8 +50,8 @@ const sauceConfig = sauceEnabled
 exports.config = Object.assign({
   specs: ['./test/integration/**/*.js'],
   capabilities: [
-    { browserName: 'chrome' },
-    { browserName: 'firefox' }
+    // { browserName: 'firefox' },
+    { browserName: 'chrome' }
   ],
   baseUrl: 'http://localhost:' + staticServerPort,
   screenshotPath: './screenshots/',
