@@ -4,6 +4,10 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.0.3 - 2017-05-15
+
+- Do not copy `name` attribute when using `enhanceSelectElement`.
+
 ## 1.0.2 - 2017-05-12
 
 - Add support for an empty `defaultValue` when enhancing a select element.
