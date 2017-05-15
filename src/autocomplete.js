@@ -330,7 +330,7 @@ export default class Autocomplete extends Component {
   }
 
   render () {
-    const { cssNamespace, displayMenu, id, minLength, name } = this.props
+    const { cssNamespace, displayMenu, id, minLength, name, placeholder } = this.props
     const { focused, hovered, menuOpen, options, query, selected } = this.state
     const autoselect = this.hasAutoselect()
 
@@ -341,118 +341,94 @@ export default class Autocomplete extends Component {
     const showNoOptionsFound = this.props.showNoOptionsFound &&
       inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
 
-    const Wrapper = ({ children }) =>
-      <div
-        className={`${cssNamespace}__wrapper`}
-        onKeyDown={this.handleKeyDown}
-      >
-        { children }
-      </div>
+    const wrapperClassName = `${cssNamespace}__wrapper`
 
-    const Hint = () => {
-      const selectedOption = this.templateInputValue(options[selected])
-      const optionBeginsWithQuery = selectedOption && selectedOption.toLowerCase().indexOf(query.toLowerCase()) === 0
-      const hintValue = (optionBeginsWithQuery && autoselect)
-        ? query + selectedOption.substr(query.length)
-        : ''
-      return hintValue
-        ? <input
-          className={`${cssNamespace}__hint`}
-          readonly
-          tabindex='-1'
-          value={hintValue}
-        />
-        : null
-    }
+    const inputClassName = `${cssNamespace}__input`
+    const componentIsFocused = focused !== null
+    const inputModFocused = componentIsFocused ? ` ${inputClassName}--focused` : ''
+    const optionFocused = focused !== -1 && focused !== null
 
-    const Input = () => {
-      const cn = `${cssNamespace}__input`
-      const componentIsFocused = focused !== null
-      const cnModFocused = componentIsFocused ? ` ${cn}--focused` : ''
-      const cns = `${cn}${cnModFocused}`
-      return <input
-        aria-activedescendant={focused !== -1 && focused !== null ? `${id}__option--${focused}` : false}
-        aria-expanded={menuOpen}
-        aria-owns={`${id}__listbox`}
-        autocomplete='off'
-        className={cns}
-        id={id}
-        name={name}
-        onBlur={this.handleInputBlur}
-        onFocus={this.handleInputFocus}
-        onInput={this.handleInputChange}
-        placeholder={this.props.placeholder}
-        role='combobox'
-        type='text'
-        value={query}
-      />
-    }
+    const menuClassName = `${cssNamespace}__menu`
+    const menuModDisplayMenu = `${menuClassName}--${displayMenu}`
+    const menuIsVisible = menuOpen || showNoOptionsFound
+    const menuModVisibility = `${menuClassName}--${(menuIsVisible) ? 'visible' : 'hidden'}`
 
-    const Menu = ({ children }) => {
-      const cn = `${cssNamespace}__menu`
-      const cnModDisplay = `${cn}--${(menuOpen || showNoOptionsFound) ? 'visible' : 'hidden'}`
-      const cns = `${cn} ${cn}--${displayMenu} ${cnModDisplay}`
-      return <ul
-        className={cns}
-        id={`${id}__listbox`}
-        role='listbox'
-      >
-        { children }
-      </ul>
-    }
+    const optionClassName = `${cssNamespace}__option`
 
-    const NoOptionsFound = () =>
-      <li
-        className={`${cssNamespace}__option ${cssNamespace}__option--no-results`}
-      >
-        No results found
-      </li>
-
-    const Option = ({ dangerouslySetInnerHTML, idx }) => {
-      const cn = `${cssNamespace}__option`
-      const showFocused = focused === -1 ? selected === idx : focused === idx
-      const cnModFocused = showFocused && hovered === null ? ` ${cn}--focused` : ''
-      const cnModOdd = (idx % 2) ? ` ${cn}--odd` : ''
-      const cns = `${cn}${cnModFocused}${cnModOdd}`
-      return <li
-        aria-selected={focused === idx}
-        className={cns}
-        dangerouslySetInnerHTML={dangerouslySetInnerHTML}
-        id={`${id}__option--${idx}`}
-        onClick={(evt) => this.handleOptionClick(evt, idx)}
-        onFocusOut={(evt) => this.handleOptionFocusOut(evt, idx)}
-        onMouseDown={this.handleOptionMouseDown}
-        onMouseEnter={(evt) => this.handleOptionMouseEnter(evt, idx)}
-        onMouseOut={(evt) => this.handleOptionMouseOut(evt, idx)}
-        onTouchEnd={(evt) => this.handleOptionTouchEnd(evt, idx)}
-        role='option'
-        tabindex='-1'
-      />
-    }
+    const hintClassName = `${cssNamespace}__hint`
+    const selectedOptionText = this.templateInputValue(options[selected])
+    const optionBeginsWithQuery = selectedOptionText &&
+      selectedOptionText.toLowerCase().indexOf(query.toLowerCase()) === 0
+    const hintValue = (optionBeginsWithQuery && autoselect)
+      ? query + selectedOptionText.substr(query.length)
+      : ''
+    const showHint = hasPointerEvents && hintValue
 
     return (
-      <Wrapper>
+      <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
           length={options.length}
           queryLength={query.length}
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
         />
-        {hasPointerEvents && <Hint />}
-        <Input
+
+        {showHint && (
+          <span><input className={hintClassName} readonly tabindex='-1' value={hintValue} /></span>
+        )}
+
+        <input
+          aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
+          aria-expanded={menuOpen}
+          aria-owns={`${id}__listbox`}
+          autocomplete='off'
+          className={`${inputClassName}${inputModFocused}`}
+          id={id}
+          onBlur={this.handleInputBlur}
+          onFocus={this.handleInputFocus}
+          onInput={this.handleInputChange}
+          name={name}
+          placeholder={placeholder}
           ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
+          role='combobox'
+          type='text'
+          value={query}
         />
-        <Menu>
-          {options.map((opt, idx) =>
-            <Option
-              dangerouslySetInnerHTML={{ __html: this.templateSuggestion(opt) }}
-              idx={idx}
-              ref={(optionEl) => { this.elementRefs[idx] = optionEl }}
-            />
+
+        <ul
+          className={`${menuClassName} ${menuModDisplayMenu} ${menuModVisibility}`}
+          id={`${id}__listbox`}
+          role='listbox'
+        >
+          {options.map((opt, idx) => {
+            const showFocused = focused === -1 ? selected === idx : focused === idx
+            const optionModFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
+            const optionModOdd = (idx % 2) ? ` ${optionClassName}--odd` : ''
+
+            return (
+              <li
+                aria-selected={focused === idx}
+                className={`${optionClassName}${optionModFocused}${optionModOdd}`}
+                dangerouslySetInnerHTML={{ __html: this.templateSuggestion(opt) }}
+                id={`${id}__option--${idx}`}
+                onClick={(evt) => this.handleOptionClick(evt, idx)}
+                onFocusOut={(evt) => this.handleOptionFocusOut(evt, idx)}
+                onMouseDown={this.handleOptionMouseDown}
+                onMouseEnter={(evt) => this.handleOptionMouseEnter(evt, idx)}
+                onMouseOut={(evt) => this.handleOptionMouseOut(evt, idx)}
+                onTouchEnd={(evt) => this.handleOptionTouchEnd(evt, idx)}
+                ref={(optionEl) => { this.elementRefs[idx] = optionEl }}
+                role='option'
+                tabindex='-1'
+              />
+            )
+          })}
+
+          {showNoOptionsFound && (
+            <li className={`${optionClassName} ${optionClassName}--no-results`}>No results found</li>
           )}
-          {showNoOptionsFound && <NoOptionsFound />}
-        </Menu>
-      </Wrapper>
+        </ul>
+      </div>
     )
   }
 }
