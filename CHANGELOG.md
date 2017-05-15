@@ -3,7 +3,10 @@
 ## [Unreleased]
 
 _(add items here for easier creation of next log entry)_
-- Add support for handling null/placeholder options when using `enhanceSelectElement`
+
+## 1.0.4 - 2017-05-15
+
+- Add support for handling null/placeholder options when using `enhanceSelectElement`. Use `preserveNullOptions: true` to include options with `value=''` in the autocomplete results when enhancing a select element.
 
 ## 1.0.3 - 2017-05-15
 
