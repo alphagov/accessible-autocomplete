@@ -33,7 +33,7 @@ accessibleAutocomplete.enhanceSelectElement = (opts) => {
   } else {
     opts.selectElement.value = opts.defaultValue
   }
-  opts.name = opts.name || opts.selectElement.name || ''
+  opts.name = opts.name || ''
   opts.id = opts.id || opts.selectElement.id || ''
   opts.autoselect = opts.autoselect || true
 
