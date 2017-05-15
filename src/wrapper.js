@@ -21,18 +21,19 @@ accessibleAutocomplete.enhanceSelectElement = (opts) => {
 
   // Set defaults.
   if (!opts.source) {
-    const availableOptions = Array.prototype.map.call(opts.selectElement.options, o => o.innerHTML)
+    let availableOptions = [].filter.call(opts.selectElement.options, o => (o.value || opts.preserveNullOptions))
+    availableOptions = availableOptions.map(o => o.innerHTML)
     opts.source = createSimpleEngine(availableOptions)
   }
   opts.onConfirm = opts.onConfirm || (query => {
-    const requestedOption = Array.prototype.filter.call(opts.selectElement.options, o => o.innerHTML === query)[0]
+    const requestedOption = [].filter.call(opts.selectElement.options, o => o.innerHTML === query)[0]
     if (requestedOption) { requestedOption.selected = true }
   })
-  if (!opts.defaultValue && opts.defaultValue !== '') {
+
+  if (opts.selectElement.value || opts.defaultValue === undefined) {
     opts.defaultValue = opts.selectElement.options[opts.selectElement.options.selectedIndex].innerHTML
-  } else {
-    opts.selectElement.value = opts.defaultValue
   }
+
   opts.name = opts.name || ''
   opts.id = opts.id || opts.selectElement.id || ''
   opts.autoselect = opts.autoselect || true
