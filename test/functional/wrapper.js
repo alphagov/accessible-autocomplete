@@ -1,26 +1,39 @@
 /* global before, beforeEach, after, describe, expect, it */
 import accessibleAutocomplete from '../../src/wrapper'
 
-const injectSelectToEnhanceIntoDOM = (element, id, name, options, selectedOption) => {
+const DEFAULT_OPTIONS = {
+  '': 'Select',
+  fr: 'France',
+  de: 'Germany',
+  gb: 'United Kingdom'
+}
+
+const injectSelectToEnhanceIntoDOM = (element, settings) => {
+  settings = settings || {}
+  settings.options = settings.options || DEFAULT_OPTIONS
+  settings.id = settings.id !== undefined ? settings.id : 'location-picker-id'
+  settings.name = settings.name !== undefined ? settings.name : 'location-picker-name'
   var $select = document.createElement('select')
-  if (id) {
-    $select.id = id
+  if (settings.id) {
+    $select.id = settings.id
   }
-  if (name) {
-    $select.name = name
+  if (settings.name) {
+    $select.name = settings.name
   }
 
-  Object.keys(options)
+  Object.keys(settings.options)
     .map(optionKey => {
       const option = document.createElement('option')
       option.value = optionKey
-      option.text = options[optionKey]
-      option.selected = (selectedOption === optionKey)
+      option.text = settings.options[optionKey]
+      option.selected = (settings.selected === optionKey)
       return option
     })
     .forEach(option => $select.appendChild(option))
 
   element.appendChild($select)
+
+  return $select
 }
 
 describe('Wrapper', () => {
@@ -76,45 +89,72 @@ describe('Wrapper', () => {
   })
 
   it('can enhance a select element', () => {
-    const id = 'location-picker-id'
-    const name = 'location-picker-name'
-    const options = {
-      fr: 'France',
-      de: 'Germany',
-      gb: 'United Kingdom'
-    }
-    const selectedOption = 'gb'
-    injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+    const id = select.id
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: document.querySelector('#' + id)
+      selectElement: select
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
     expect(autocompleteInstances.length).to.equal(1)
 
     const autocompleteInstance = autocompleteInstances[0]
-    expect(autocompleteInstance.innerHTML).to.contain(`id="${id}"`)
 
-    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
-    expect(autocompleteOption.textContent).to.equal(options[selectedOption])
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    expect(autocompleteInput.tagName.toLowerCase()).to.equal('input')
+    expect(autocompleteInput.id).to.equal(id)
+  })
+
+  it('uses the defaultValue setting to populate the input field if no option is selected', () => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: '' })
+    accessibleAutocomplete.enhanceSelectElement({
+      defaultValue: '',
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    expect(autocompleteInput.value).to.equal('')
+  })
+
+  it('uses the option label as the default input element value if an option is selected', () => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
+    accessibleAutocomplete.enhanceSelectElement({
+      defaultValue: '',
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    expect(autocompleteInput.value).to.equal('Germany')
+  })
+
+  it('gives the autocomplete element a blank name attribute by default', () => {
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+
+    const autocompleteInstance = autocompleteInstances[0]
+
     const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
     expect(autocompleteInput.name).to.equal('')
   })
 
   it('can define a name for the autocomplete element', () => {
-    const id = 'location-picker-id'
-    const name = 'location-picker-name'
-    const options = {
-      fr: 'France',
-      de: 'Germany',
-      gb: 'United Kingdom'
-    }
-    injectSelectToEnhanceIntoDOM(scratch, id, name, options)
+    const select = injectSelectToEnhanceIntoDOM(scratch)
 
     accessibleAutocomplete.enhanceSelectElement({
       name: 'location-picker-autocomplete',
-      selectElement: document.querySelector('#' + id)
+      selectElement: select
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
@@ -125,62 +165,54 @@ describe('Wrapper', () => {
     expect(autocompleteInput.name).to.equal('location-picker-autocomplete')
   })
 
-  it('can overwrite selectedOption with defaultValue', () => {
-    const id = 'location-picker-id'
-    const name = 'location-picker-name'
-    const options = {
-      fr: 'France',
-      de: 'Germany',
-      gb: 'United Kingdom'
-    }
-    const selectedOption = 'gb'
-    injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
+  it('does not include "null" options in autocomplete', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch)
 
     accessibleAutocomplete.enhanceSelectElement({
-      defaultValue: 'France',
-      selectElement: document.querySelector('#' + id)
-    })
-
-    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
-    const autocompleteInstance = autocompleteInstances[0]
-    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
-    expect(autocompleteOption.textContent).to.equal('France')
-  })
-
-  it('can overwrite selectedOption with an empty defaultValue', () => {
-    const id = 'location-picker-id'
-    const name = 'location-picker-name'
-    const options = {
-      fr: 'France',
-      de: 'Germany',
-      gb: 'United Kingdom'
-    }
-    const selectedOption = 'gb'
-    injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
-
-    accessibleAutocomplete.enhanceSelectElement({
-      defaultValue: '',
-      selectElement: document.querySelector('#' + id)
+      selectElement: select
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
     const autocompleteInstance = autocompleteInstances[0]
     const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
-    expect(autocompleteInput.value).to.equal('')
+
+    // Using setTimeouts here since changes in values take a while to reflect in lists
+    autocompleteInput.value = 'e'
+    setTimeout(() => {
+      const autocompleteOptions = autocompleteInstance.querySelectorAll('.autocomplete__option')
+      expect(autocompleteOptions.length).to.equal(3)
+      expect([].map.call(autocompleteOptions, o => o.textContent)).not.to.contain('Select')
+      done()
+    }, 250)
+  })
+
+  it('includes "null" options in autocomplete if `preserveNullOptions` flag is true', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      preserveNullOptions: true,
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+
+    // Using setTimeouts here since changes in values take a while to reflect in lists
+    autocompleteInput.value = 'e'
+    setTimeout(() => {
+      const autocompleteOptions = autocompleteInstance.querySelectorAll('.autocomplete__option')
+      expect(autocompleteOptions.length).to.equal(4)
+      expect([].map.call(autocompleteOptions, o => o.textContent)).to.contain('Select')
+      done()
+    }, 250)
   })
 
   it('has all options when typing', (done) => {
-    const id = 'location-picker-id'
-    const name = 'location-picker-name'
-    const options = {
-      fr: 'France',
-      de: 'Germany',
-      gb: 'United Kingdom'
-    }
-    injectSelectToEnhanceIntoDOM(scratch, id, name, options)
+    const select = injectSelectToEnhanceIntoDOM(scratch)
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: document.querySelector('#' + id)
+      selectElement: select
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
@@ -190,32 +222,25 @@ describe('Wrapper', () => {
 
     // Using setTimeouts here since changes in values take a while to reflect in lists
     autocompleteInput.value = 'Fran'
-    expect(autocompleteOption.textContent).to.equal('France')
-    autocompleteInput.value = 'Ger'
     setTimeout(() => {
-      expect(autocompleteOption.textContent).to.equal('Germany')
-      autocompleteInput.value = 'United'
+      expect(autocompleteOption.textContent).to.equal('France')
+      autocompleteInput.value = 'Ger'
       setTimeout(() => {
-        expect(autocompleteOption.textContent).to.equal('United Kingdom')
-        done()
+        expect(autocompleteOption.textContent).to.equal('Germany')
+        autocompleteInput.value = 'United'
+        setTimeout(() => {
+          expect(autocompleteOption.textContent).to.equal('United Kingdom')
+          done()
+        }, 250)
       }, 250)
     }, 250)
   })
 
   it('onConfirm updates original select', (done) => {
-    const id = 'location-picker-id'
-    const name = 'location-picker-name'
-    const options = {
-      fr: 'France',
-      de: 'Germany',
-      gb: 'United Kingdom'
-    }
-    const selectedOption = 'gb'
-    injectSelectToEnhanceIntoDOM(scratch, id, name, options, selectedOption)
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
 
     accessibleAutocomplete.enhanceSelectElement({
-      defaultValue: 'de',
-      selectElement: document.querySelector('#' + id)
+      selectElement: select
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
@@ -223,15 +248,14 @@ describe('Wrapper', () => {
     const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
     const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
 
-    const originalSelectElement = document.querySelector(`#${id}-select`)
-    // Check the defaultValue has been reflected on the original selectElement
-    expect(originalSelectElement.value).to.equal('de')
+    // Check the initial value of the original selectElement
+    expect(select.value).to.equal('de')
     // Using setTimeouts here since changes in values take a while to reflect in lists
     autocompleteInput.value = 'United'
     setTimeout(() => {
       expect(autocompleteOption.textContent).to.equal('United Kingdom')
       autocompleteOption.click()
-      expect(originalSelectElement.value).to.equal('gb')
+      expect(select.value).to.equal('gb')
       done()
     }, 250)
   })

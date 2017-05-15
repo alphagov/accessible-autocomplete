@@ -224,6 +224,32 @@ This function takes the same options as `accessibleAutocomplete`, with the only 
 
 > **Note**: The `accessibleAutocomplete.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleAutocomplete`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
 
+### Null options
+
+If your `<select>` element has a "null" option - a default option with no value - then you can pass a `defaultValue` option to `enhanceSelectElement` which will replace the label of this option when it is selected.
+
+With the following HTML:
+
+```html
+<select id="location-picker">
+  <option value="">Select a country</option>
+  <option value="fr">France</option>
+  <option value="de">Germany</option>
+  <option value="gb">United Kingdom</option>
+</select>
+```
+
+Then passing a `defaultValue` option of `''` will then leave the autocomplete blank if the null option is selected.
+
+```js
+accessibleAutocomplete.enhanceSelectElement({
+  defaultValue: '',
+  selectElement: document.querySelector('#location-picker')
+})
+```
+
+Any null options will also be filtered out of the options used to populate the `source` of the autocomplete element. To preserve options with no value in the autcomplete then pass a `preserveNullOptions` flag of `true` to `enhanceSelectElement`.
+
 ## Analytics and tracking
 
 The following events get triggered on the input element during the life cycle of the autocomplete:
