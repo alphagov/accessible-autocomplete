@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 _(add items here for easier creation of next log entry)_
+- Add support for handling null/placeholder options when using `enhanceSelectElement`
 
 ## 1.0.3 - 2017-05-15
 
