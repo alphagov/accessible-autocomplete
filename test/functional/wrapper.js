@@ -95,15 +95,16 @@ describe('Wrapper', () => {
 
     const autocompleteInstance = autocompleteInstances[0]
     expect(autocompleteInstance.innerHTML).to.contain(`id="${id}"`)
-    expect(autocompleteInstance.innerHTML).to.contain(`name="${name}"`)
 
     const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
     expect(autocompleteOption.textContent).to.equal(options[selectedOption])
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    expect(autocompleteInput.name).to.equal('')
   })
 
-  it('can enhance a select element no name', () => {
+  it('can define a name for the autocomplete element', () => {
     const id = 'location-picker-id'
-    const name = false
+    const name = 'location-picker-name'
     const options = {
       fr: 'France',
       de: 'Germany',
@@ -112,15 +113,16 @@ describe('Wrapper', () => {
     injectSelectToEnhanceIntoDOM(scratch, id, name, options)
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: document.querySelector('select')
+      name: 'location-picker-autocomplete',
+      selectElement: document.querySelector('#' + id)
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
-    expect(autocompleteInstances.length).to.equal(1)
 
     const autocompleteInstance = autocompleteInstances[0]
-    expect(autocompleteInstance.innerHTML).to.contain(`id="${id}"`)
-    expect(autocompleteInstance.innerHTML).to.contain(`name=""`)
+
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    expect(autocompleteInput.name).to.equal('location-picker-autocomplete')
   })
 
   it('can overwrite selectedOption with defaultValue', () => {
