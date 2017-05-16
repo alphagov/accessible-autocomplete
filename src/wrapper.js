@@ -1,4 +1,4 @@
-import { h, render } from 'preact' /** @jsx h */
+import { createElement, render } from 'preact' /** @jsx createElement */
 import Autocomplete from './autocomplete'
 
 function accessibleAutocomplete (opts) {
