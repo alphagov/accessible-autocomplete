@@ -5,17 +5,8 @@ import V8LazyParseWebpackPlugin from 'v8-lazy-parse-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
-module.exports = {
+const config = {
   context: path.resolve(__dirname, 'src'),
-  entry: ['./wrapper.js'],
-
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: 'accessible-autocomplete.min.js',
-    library: 'accessibleAutocomplete',
-    libraryTarget: 'umd'
-  },
 
   resolve: {
     extensions: ['.js'],
@@ -102,3 +93,61 @@ module.exports = {
     disableHostCheck: true
   }
 }
+
+const bundleStandalone = {
+  ...config,
+  entry: ['./wrapper.js'],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'accessible-autocomplete.min.js',
+    library: 'accessibleAutocomplete',
+    libraryTarget: 'umd'
+  }
+}
+
+const bundlePreact = {
+  ...config,
+  entry: ['./autocomplete.js'],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'lib/accessible-autocomplete.preact.min.js',
+    library: 'Autocomplete',
+    libraryTarget: 'umd'
+  },
+  externals: {
+    preact: {
+      amd: 'preact',
+      commonjs: 'preact',
+      commonjs2: 'preact',
+      root: 'preact'
+    }
+  }
+}
+
+const bundleReact = {
+  ...config,
+  entry: ['./autocomplete.js'],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'lib/accessible-autocomplete.react.min.js',
+    library: 'Autocomplete',
+    libraryTarget: 'umd'
+  },
+  externals: {
+    preact: {
+      amd: 'react',
+      commonjs: 'react',
+      commonjs2: 'react',
+      root: 'React'
+    }
+  }
+}
+
+module.exports = [
+  bundleStandalone,
+  bundlePreact,
+  bundleReact
+]
