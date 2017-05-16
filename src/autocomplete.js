@@ -1,7 +1,7 @@
 import { h, Component } from 'preact' /** @jsx h */
 import Status from './status'
 
-const kc = {
+const keyCodes = {
   13: 'enter',
   27: 'escape',
   38: 'up',
@@ -306,7 +306,7 @@ export default class Autocomplete extends Component {
   }
 
   handleKeyDown (evt) {
-    switch (kc[evt.keyCode]) {
+    switch (keyCodes[evt.keyCode]) {
       case 'up':
         this.handleUpArrow(evt)
         break
