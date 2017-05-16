@@ -24,6 +24,19 @@ export default class Status extends Component {
     const queryTooShort = queryLength < minQueryLength
     const noResults = length === 0
 
+    const contentSelectedOption = selectedOption
+      ? <span>{selectedOption} (1 of {length}) is selected.</span>
+      : null
+
+    let content = null
+    if (queryTooShort) {
+      content = <span>Type in {minQueryLength} or more characters for results.</span>
+    } else if (noResults) {
+      content = <span>No search results.</span>
+    } else {
+      content = <span>{length} {words.result} {words.is} available. {contentSelectedOption}</span>
+    }
+
     return <div
       aria-atomic='true'
       aria-live='polite'
@@ -41,17 +54,7 @@ export default class Status extends Component {
         width: '1px'
       }}
     >
-      {(queryTooShort)
-        ? <span>Type in {minQueryLength} or more characters for results.</span>
-        : (noResults)
-          ? <span>No search results.</span>
-          : <span>
-            {length} {words.result} {words.is} available. {(selectedOption)
-              ? <span>{selectedOption} (1 of {length}) is selected.</span>
-              : null
-            }
-          </span>
-      }
+      {content}
       <span>{bump ? ',' : ',,'}</span>
     </div>
   }
