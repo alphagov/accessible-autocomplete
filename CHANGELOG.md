@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Update preact to v8.1.0.
+
 ## 1.0.5 - 2017-05-16
 
 - Add support for handling null/placeholder options when using `enhanceSelectElement`. Use `preserveNullOptions: true` to include options with `value=''` in the autocomplete results when enhancing a select element.
