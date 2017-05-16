@@ -1,4 +1,4 @@
-import { h, Component } from 'preact' /** @jsx h */
+import { createElement, Component } from 'preact' /** @jsx createElement */
 
 export default class Status extends Component {
   state = {

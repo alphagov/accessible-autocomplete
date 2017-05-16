@@ -1,5 +1,5 @@
 /* global after, describe, before, beforeEach, expect, it */
-import { h, render } from 'preact' /** @jsx h */
+import { createElement, render } from 'preact' /** @jsx createElement */
 import Autocomplete from '../../src/autocomplete'
 
 function suggest (query, syncResults) {
