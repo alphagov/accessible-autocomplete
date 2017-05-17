@@ -42,7 +42,8 @@ export default class Autocomplete extends Component {
     placeholder: '',
     onConfirm: () => {},
     confirmOnBlur: true,
-    showNoOptionsFound: true
+    showNoOptionsFound: true,
+    required: false
   }
 
   elementRefs = {}
@@ -330,7 +331,7 @@ export default class Autocomplete extends Component {
   }
 
   render () {
-    const { cssNamespace, displayMenu, id, minLength, name, placeholder } = this.props
+    const { cssNamespace, displayMenu, id, minLength, name, placeholder, required } = this.props
     const { focused, hovered, menuOpen, options, query, selected } = this.state
     const autoselect = this.hasAutoselect()
 
@@ -392,6 +393,7 @@ export default class Autocomplete extends Component {
           ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
           role='combobox'
           type='text'
+          required={required}
           value={query}
         />
 

@@ -44,6 +44,18 @@ describe('Autocomplete', () => {
         expect(scratch.innerHTML).to.contain('name="input-autocomplete"')
       })
 
+      it('renders an input with a required attribute', () => {
+        render(<Autocomplete required />, scratch)
+
+        expect(scratch.innerHTML).to.contain('required')
+      })
+
+      it('renders an input without a required attribute', () => {
+        render(<Autocomplete required={false} />, scratch)
+
+        expect(scratch.innerHTML).to.not.contain('required')
+      })
+
       it('renders an input with a name attribute', () => {
         render(<Autocomplete name='bob' />, scratch)
 
