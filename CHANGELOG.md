@@ -4,7 +4,9 @@
 
 _(add items here for easier creation of next log entry)_
 
-- Update preact to v8.1.0.
+## 1.0.6 - 2017-05-17
+
+- Update preact dependency to v8.1.0.
 
 ## 1.0.5 - 2017-05-16
 
