@@ -163,6 +163,12 @@ This option will populate the `placeholder` attribute on the input element.
 
 We think [placeholders have usability issues](http://adamsilver.io/articles/placeholders-are-problematic/) and that there are [better alternatives to input placeholder text](https://govuk-elements.herokuapp.com/form-elements/#form-hint-text), so we do not recommend using this option.
 
+#### `required` (default: `false`)
+
+Type: `Boolean`
+
+The input field will be rendered with a `required` attribute, see [W3C `required` attribute definition](https://www.w3.org/TR/html5/forms.html#the-required-attribute).
+
 #### `showNoResultsFound` (default: `true`)
 
 Type: `Boolean`
