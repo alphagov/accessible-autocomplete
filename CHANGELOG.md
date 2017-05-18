@@ -4,13 +4,17 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.1.0 - 2017-05-18
+
+- [Feature] Add `required` option. By @samtsai.
+
 ## 1.0.6 - 2017-05-17
 
 - Update preact dependency to v8.1.0.
 
 ## 1.0.5 - 2017-05-16
 
-- Add support for handling null/placeholder options when using `enhanceSelectElement`. Use `preserveNullOptions: true` to include options with `value=''` in the autocomplete results when enhancing a select element.
+- Add support for handling null/placeholder options when using `enhanceSelectElement`. Use `preserveNullOptions: true` to include options with `value=''` in the autocomplete results when enhancing a select element. By @lennym.
 
 ## 1.0.4 - 2017-05-15 (deprecated)
 
@@ -18,15 +22,15 @@ _(add items here for easier creation of next log entry)_
 
 ## 1.0.3 - 2017-05-15
 
-- Do not copy `name` attribute when using `enhanceSelectElement`.
+- Do not copy `name` attribute when using `enhanceSelectElement`. By @lennym.
 
 ## 1.0.2 - 2017-05-12
 
-- Add support for an empty `defaultValue` when enhancing a select element.
+- Add support for an empty `defaultValue` when enhancing a select element. By @lennym.
 
 ## 1.0.1 - 2017-05-12
 
-- Update `style` property in package.json to reflect updated filename.
+- Update `style` property in package.json to reflect updated filename. By @lennym.
 
 ## 1.0.0 - 2017-05-10
 
