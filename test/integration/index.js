@@ -8,15 +8,7 @@ const isIE = browserName === 'internet explorer'
 // const isIE10 = isIE && version === '10'
 // const isIE11 = isIE && version === '11.103'
 
-describe('Accessible Autocomplete page', () => {
-  before(() => {
-    browser.url('/')
-  })
-
-  it('should have the right title', () => {
-    expect(browser.getTitle()).to.equal('Accessible Autocomplete examples')
-  })
-
+const basicExample = () => {
   describe('basic example', function () {
     this.retries(3)
 
@@ -80,7 +72,9 @@ describe('Accessible Autocomplete page', () => {
       })
     })
   })
+}
 
+const customTemplatesExample = () => {
   describe('custom templates example', function () {
     this.retries(3)
 
@@ -113,7 +107,9 @@ describe('Accessible Autocomplete page', () => {
       })
     })
   })
+}
 
+const takeScreenshotsIfFail = () => {
   afterEach(function () {
     const testFailed = this.currentTest.state === 'failed'
     if (testFailed) {
@@ -125,4 +121,47 @@ describe('Accessible Autocomplete page', () => {
       console.log(`Test failed, created: ${filename}`)
     }
   })
+}
+
+describe('Accessible Autocomplete', () => {
+  before(() => {
+    browser.url('/')
+  })
+
+  it('should have the right title', () => {
+    expect(browser.getTitle()).to.equal('Accessible Autocomplete examples')
+  })
+
+  basicExample()
+  customTemplatesExample()
+
+  takeScreenshotsIfFail()
+})
+
+describe('Accessible Autocomplete Preact', () => {
+  before(() => {
+    browser.url('/preact')
+  })
+
+  it('should have the right title', () => {
+    expect(browser.getTitle()).to.equal('Accessible Autocomplete Preact examples')
+  })
+
+  basicExample()
+
+  takeScreenshotsIfFail()
+})
+
+describe('Accessible Autocomplete React', () => {
+  before(() => {
+    browser.url('/react')
+  })
+
+  it('should have the right title', () => {
+    expect(browser.getTitle()).to.equal('Accessible Autocomplete React examples')
+  })
+
+  basicExample()
+
+  takeScreenshotsIfFail()
 })
