@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- [Feature] Export Preact and React bundles.
+
 ## 1.1.0 - 2017-05-18
 
 - [Feature] Add `required` option. By @samtsai.
