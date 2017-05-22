@@ -67,8 +67,8 @@ export default class Autocomplete extends Component {
     this.handleEnter = this.handleEnter.bind(this)
     this.handlePrintableKey = this.handlePrintableKey.bind(this)
 
+    this.handleOptionBlur = this.handleOptionBlur.bind(this)
     this.handleOptionClick = this.handleOptionClick.bind(this)
-    this.handleOptionFocusOut = this.handleOptionFocusOut.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
     this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
     this.handleOptionMouseEnter = this.handleOptionMouseEnter.bind(this)
@@ -160,7 +160,7 @@ export default class Autocomplete extends Component {
     })
   }
 
-  handleOptionFocusOut (evt, idx) {
+  handleOptionBlur (evt, idx) {
     const { focused, menuOpen, options, selected } = this.state
     const focusingOutsideComponent = evt.relatedTarget === null
     const focusingInput = evt.relatedTarget === this.elementRefs[-1]
@@ -262,7 +262,7 @@ export default class Autocomplete extends Component {
     // Safari triggers focusOut before click, but if you
     // preventDefault on mouseDown, you can stop that from happening.
     // If this is removed, clicking on an option in Safari will trigger
-    // `handleOptionFocusOut`, which closes the menu, and the click will
+    // `handleOptionBlur`, which closes the menu, and the click will
     // trigger on the element underneath instead.
     // See: http://stackoverflow.com/questions/7621711/how-to-prevent-blur-running-when-clicking-a-link-in-jquery
     evt.preventDefault()
@@ -375,19 +375,19 @@ export default class Autocomplete extends Component {
         />
 
         {showHint && (
-          <span><input className={hintClassName} readonly tabindex='-1' value={hintValue} /></span>
+          <span><input className={hintClassName} readonly tabIndex='-1' value={hintValue} /></span>
         )}
 
         <input
           aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
           aria-expanded={menuOpen}
           aria-owns={`${id}__listbox`}
-          autocomplete='off'
+          autoComplete='off'
           className={`${inputClassName}${inputModFocused}`}
           id={id}
           onBlur={this.handleInputBlur}
+          onChange={this.handleInputChange}
           onFocus={this.handleInputFocus}
-          onInput={this.handleInputChange}
           name={name}
           placeholder={placeholder}
           ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
@@ -413,15 +413,16 @@ export default class Autocomplete extends Component {
                 className={`${optionClassName}${optionModFocused}${optionModOdd}`}
                 dangerouslySetInnerHTML={{ __html: this.templateSuggestion(opt) }}
                 id={`${id}__option--${idx}`}
+                key={idx}
+                onBlur={(evt) => this.handleOptionBlur(evt, idx)}
                 onClick={(evt) => this.handleOptionClick(evt, idx)}
-                onFocusOut={(evt) => this.handleOptionFocusOut(evt, idx)}
                 onMouseDown={this.handleOptionMouseDown}
                 onMouseEnter={(evt) => this.handleOptionMouseEnter(evt, idx)}
                 onMouseOut={(evt) => this.handleOptionMouseOut(evt, idx)}
                 onTouchEnd={(evt) => this.handleOptionTouchEnd(evt, idx)}
                 ref={(optionEl) => { this.elementRefs[idx] = optionEl }}
                 role='option'
-                tabindex='-1'
+                tabIndex='-1'
               />
             )
           })}
