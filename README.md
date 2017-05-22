@@ -65,6 +65,39 @@ Don't forget to include the stylesheet:
 <link rel="stylesheet" href="node_modules/accessible-autocomplete/dist/accessible-autocomplete.min.css" />
 ```
 
+### With Preact
+
+If you already use Preact in your application, you can import a bundle that will use that:
+
+```js
+import preact from 'preact'
+import Autocomplete from 'accessible-autocomplete/preact'
+
+preact.render(
+  <Autocomplete source={suggest} />,
+  document.querySelector('#container')
+)
+```
+
+[Try out the Preact example!](https://alphagov.github.io/accessible-autocomplete/examples/preact/)
+
+### With React
+
+If you already use React in your application, you can import a bundle that will use that:
+
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Autocomplete from 'accessible-autocomplete/react'
+
+ReactDOM.render(
+  <Autocomplete source={suggest} />,
+  document.querySelector('#container')
+)
+```
+
+[Try out the React example!](https://alphagov.github.io/accessible-autocomplete/examples/react/)
+
 ## API documentation
 
 ### Required options
