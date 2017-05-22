@@ -251,7 +251,7 @@ describe('Autocomplete', () => {
       describe('with input selected', () => {
         it('unfocuses component, does not change query', () => {
           autocomplete.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: 0, selected: -1 })
-          autocomplete.handleOptionFocusOut({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+          autocomplete.handleOptionBlur({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
           expect(autocomplete.state.focused).to.equal(null)
           expect(autocomplete.state.menuOpen).to.equal(false)
           expect(autocomplete.state.query).to.equal('fr')
@@ -262,7 +262,7 @@ describe('Autocomplete', () => {
         describe('with confirmOnBlur true', () => {
           it('unfocuses component, updates query', () => {
             autocomplete.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: 0, selected: 0 })
-            autocomplete.handleOptionFocusOut({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+            autocomplete.handleOptionBlur({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
             expect(autocomplete.state.focused).to.equal(null)
             expect(autocomplete.state.menuOpen).to.equal(false)
             expect(autocomplete.state.query).to.equal('France')
@@ -271,7 +271,7 @@ describe('Autocomplete', () => {
         describe('with confirmOnBlur false', () => {
           it('unfocuses component, does not update query', () => {
             confirmOnBlurAutocomplete.setState({ menuOpen: true, options: ['France'], query: 'fr', focused: 0, selected: 0 })
-            confirmOnBlurAutocomplete.handleOptionFocusOut({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
+            confirmOnBlurAutocomplete.handleOptionBlur({ target: 'mock', relatedTarget: 'relatedMock' }, 0)
             expect(confirmOnBlurAutocomplete.state.focused).to.equal(null)
             expect(confirmOnBlurAutocomplete.state.menuOpen).to.equal(false)
             expect(confirmOnBlurAutocomplete.state.query).to.equal('fr')
