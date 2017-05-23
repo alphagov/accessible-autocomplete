@@ -1,6 +1,9 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
 import Status from './status'
 
+const IS_PREACT = process.env.COMPONENT_LIBRARY === 'PREACT'
+const IS_REACT = process.env.COMPONENT_LIBRARY === 'REACT'
+
 const keyCodes = {
   13: 'enter',
   27: 'escape',
@@ -28,6 +31,12 @@ function isPrintableKeyCode (keyCode) {
     (keyCode > 185 && keyCode < 193) || // ;=,-./` (in order)
     (keyCode > 218 && keyCode < 223)    // [\]' (in order)
   )
+}
+
+// Preact does not implement onChange on inputs, but React does.
+function onChangeCrossLibrary (handler) {
+  if (IS_PREACT) { return { onInput: handler } }
+  if (IS_REACT) { return { onChange: handler } }
 }
 
 export default class Autocomplete extends Component {
@@ -385,7 +394,7 @@ export default class Autocomplete extends Component {
           className={`${inputClassName}${inputModFocused}`}
           id={id}
           onBlur={this.handleInputBlur}
-          onChange={this.handleInputChange}
+          {...onChangeCrossLibrary(this.handleInputChange)}
           onFocus={this.handleInputFocus}
           name={name}
           placeholder={placeholder}

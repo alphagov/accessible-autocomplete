@@ -5,6 +5,47 @@ import V8LazyParseWebpackPlugin from 'v8-lazy-parse-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
+const plugins = [
+  new webpack.NoEmitOnErrorsPlugin(),
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify(ENV)
+  })
+]
+
+const productionPlugins = [
+  new V8LazyParseWebpackPlugin(),
+  new webpack.optimize.UglifyJsPlugin({
+    output: {
+      comments: false
+    },
+    compress: {
+      warnings: false,
+      conditionals: true,
+      unused: true,
+      comparisons: true,
+      sequences: true,
+      dead_code: true,
+      evaluate: true,
+      if_return: true,
+      join_vars: true,
+      negate_iife: false
+    }
+  }),
+
+  // strip out babel-helper invariant checks
+  new ReplacePlugin([{
+    // this is actually the property name https://github.com/kimhou/replace-bundle-webpack-plugin/issues/1
+    partten: /throw\s+(new\s+)?[a-zA-Z]+Error\s*\(/g,
+    replacement: () => 'return;('
+  }])
+]
+
+const developmentPlugins = [
+  new CopyWebpackPlugin([
+    { from: './autocomplete.css', to: 'accessible-autocomplete.min.css' }
+  ])
+]
+
 const config = {
   context: path.resolve(__dirname, 'src'),
 
@@ -31,43 +72,6 @@ const config = {
       }
     ]
   },
-
-  plugins: ([
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(ENV)
-    })
-  ]).concat(ENV === 'production' ? [
-    new V8LazyParseWebpackPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      output: {
-        comments: false
-      },
-      compress: {
-        warnings: false,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true,
-        negate_iife: false
-      }
-    }),
-
-    // strip out babel-helper invariant checks
-    new ReplacePlugin([{
-      // this is actually the property name https://github.com/kimhou/replace-bundle-webpack-plugin/issues/1
-      partten: /throw\s+(new\s+)?[a-zA-Z]+Error\s*\(/g,
-      replacement: () => 'return;('
-    }])
-  ] : [
-    new CopyWebpackPlugin([
-      { from: './autocomplete.css', to: 'accessible-autocomplete.min.css' }
-    ])
-  ]),
 
   stats: { colors: true },
 
@@ -103,7 +107,15 @@ const bundleStandalone = {
     filename: 'accessible-autocomplete.min.js',
     library: 'accessibleAutocomplete',
     libraryTarget: 'umd'
-  }
+  },
+  plugins: plugins
+    .concat([new webpack.DefinePlugin({
+      'process.env.COMPONENT_LIBRARY': '"PREACT"'
+    })])
+    .concat(ENV === 'production'
+      ? productionPlugins
+      : developmentPlugins
+    )
 }
 
 const bundlePreact = {
@@ -123,7 +135,15 @@ const bundlePreact = {
       commonjs2: 'preact',
       root: 'preact'
     }
-  }
+  },
+  plugins: plugins
+    .concat([new webpack.DefinePlugin({
+      'process.env.COMPONENT_LIBRARY': '"PREACT"'
+    })])
+    .concat(ENV === 'production'
+      ? productionPlugins
+      : developmentPlugins
+    )
 }
 
 const bundleReact = {
@@ -143,7 +163,15 @@ const bundleReact = {
       commonjs2: 'react',
       root: 'React'
     }
-  }
+  },
+  plugins: plugins
+    .concat([new webpack.DefinePlugin({
+      'process.env.COMPONENT_LIBRARY': '"REACT"'
+    })])
+    .concat(ENV === 'production'
+      ? productionPlugins
+      : developmentPlugins
+    )
 }
 
 module.exports = [
