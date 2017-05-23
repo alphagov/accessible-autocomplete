@@ -36,7 +36,6 @@ export default class Autocomplete extends Component {
     cssNamespace: 'autocomplete',
     defaultValue: '',
     displayMenu: 'inline',
-    id: 'autocomplete',
     minLength: 0,
     name: 'input-autocomplete',
     placeholder: '',

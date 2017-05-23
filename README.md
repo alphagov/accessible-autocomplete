@@ -74,7 +74,7 @@ import preact from 'preact'
 import Autocomplete from 'accessible-autocomplete/preact'
 
 preact.render(
-  <Autocomplete source={suggest} />,
+  <Autocomplete id='autocomplete' source={suggest} />,
   document.querySelector('#container')
 )
 ```
@@ -91,7 +91,7 @@ import ReactDOM from 'react-dom'
 import Autocomplete from 'accessible-autocomplete/react'
 
 ReactDOM.render(
-  <Autocomplete source={suggest} />,
+  <Autocomplete id='autocomplete' source={suggest} />,
   document.querySelector('#container')
 )
 ```
@@ -108,7 +108,7 @@ Type: `HTMLElement`
 
 The container element in which the autocomplete will be rendered in.
 
-#### `id` (default: `'autocomplete'`)
+#### `id`
 
 Type: `string`
 
