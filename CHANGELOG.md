@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.2.0 - 2017-05-23
+
 - [Feature] Export Preact and React bundles.
 
 ## 1.1.0 - 2017-05-18
