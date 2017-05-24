@@ -4,13 +4,17 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.2.1 - 2017-05-24
+
+- Fix progressive enhancement in FireFox < 48. By [@revilossor](https://github.com/revilossor).
+
 ## 1.2.0 - 2017-05-23
 
 - [Feature] Export Preact and React bundles.
 
 ## 1.1.0 - 2017-05-18
 
-- [Feature] Add `required` option. By @samtsai.
+- [Feature] Add `required` option. By [@samtsai](https://github.com/samtsai).
 
 ## 1.0.6 - 2017-05-17
 
@@ -26,15 +30,15 @@ _(add items here for easier creation of next log entry)_
 
 ## 1.0.3 - 2017-05-15
 
-- Do not copy `name` attribute when using `enhanceSelectElement`. By @lennym.
+- Do not copy `name` attribute when using `enhanceSelectElement`. By [@lennym](https://github.com/lennym).
 
 ## 1.0.2 - 2017-05-12
 
-- Add support for an empty `defaultValue` when enhancing a select element. By @lennym.
+- Add support for an empty `defaultValue` when enhancing a select element. By [@lennym](https://github.com/lennym).
 
 ## 1.0.1 - 2017-05-12
 
-- Update `style` property in package.json to reflect updated filename. By @lennym.
+- Update `style` property in package.json to reflect updated filename. By [@lennym](https://github.com/lennym).
 
 ## 1.0.0 - 2017-05-10
 
