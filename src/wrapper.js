@@ -39,7 +39,8 @@ accessibleAutocomplete.enhanceSelectElement = (opts) => {
   opts.autoselect = opts.autoselect || true
 
   const element = document.createElement('span')
-  opts.selectElement.insertAdjacentElement('afterend', element)
+
+  opts.selectElement.parentNode.insertBefore(element, opts.selectElement)
 
   accessibleAutocomplete({
     ...opts,
