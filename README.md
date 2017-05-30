@@ -19,7 +19,7 @@
 
 ## Installation / usage
 
-### Using npm
+### Using npm and a module system
 
 Install it by running:
 
@@ -27,45 +27,62 @@ Install it by running:
 npm install --save accessible-autocomplete
 ```
 
-Import it using a module system like Webpack:
+The `accessibleAutocomplete` function will render an autocomplete `<input>` and its accompanying suggestions and `aria-live` region. Your page should provide a `<label>` and a container element:
+
+```html
+<label for="my-autocomplete">Select your country</label>
+<div id="my-autocomplete-container"></div>
+```
+
+Then import it using a module system like Browserify / Webpack / Rollup, and call the `accessibleAutocomplete` function, providing a suggestion function:
 
 ```js
 import accessibleAutocomplete from 'accessible-autocomplete'
-```
 
-Or using a script tag:
-
-```html
-<script type="text/javascript" src="node_modules/accessible-autocomplete/dist/accessible-autocomplete.min.js"></script>
-```
-
-And then call the `accessibleAutocomplete` function, providing a suggestion engine:
-
-```js
 function suggest (query, populateResults) {
   const results = [
     'France',
     'Germany',
     'United Kingdom'
   ]
-  const filteredResults = results.filter(result => result.indexOf(query) !== -1)
+  const filteredResults = results.filter(result => result.toLowerCase().indexOf(query.toLowerCase()) !== -1)
   populateResults(filteredResults)
 }
 
 accessibleAutocomplete({
   element: document.querySelector('#my-autocomplete-container'),
-  id: 'my-autocomplete',
+  id: 'my-autocomplete', // To match it to the existing <label>.
   source: suggest
 })
 ```
 
-Don't forget to include the stylesheet:
+If you want to use it as a replacement for a `<select>` element, read the [Progressive enhancement](#progressive-enhancement) section.
+
+### As a plain JavaScript module
+
+You can copy the [dist/accessible-autocomplete.min.js](dist/accessible-autocomplete.min.js) file to your JavaScript folder and import it into the browser:
 
 ```html
-<link rel="stylesheet" href="node_modules/accessible-autocomplete/dist/accessible-autocomplete.min.css" />
+<script type="text/javascript" href="assets/js/accessible-autocomplete.min.js"></script>
 ```
 
-### With Preact
+### Styling the autocomplete
+
+A stylesheet is included with the package at [dist/accessible-autocomplete.min.css](dist/accessible-autocomplete.min.css).
+
+You can copy it to your stylesheets folder and import it into the browser:
+
+```html
+<link rel="stylesheet" href="assets/css/accessible-autocomplete.min.css" />
+```
+
+You can also import it using Sass:
+
+```css
+@import "accessible-typeahead";
+```
+
+### Using with Preact
 
 If you already use Preact in your application, you can import a bundle that will use that:
 
@@ -81,7 +98,7 @@ preact.render(
 
 [Try out the Preact example!](https://alphagov.github.io/accessible-autocomplete/examples/preact/)
 
-### With React
+### Using with React
 
 If you already use React in your application, you can import a bundle that will use that:
 
