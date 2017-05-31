@@ -79,7 +79,7 @@ You can copy it to your stylesheets folder and import it into the browser:
 You can also import it using Sass:
 
 ```css
-@import "accessible-typeahead";
+@import "accessible-autocomplete";
 ```
 
 ### Using with Preact
