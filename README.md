@@ -63,7 +63,7 @@ If you want to use it as a replacement for a `<select>` element, read the [Progr
 You can copy the [dist/accessible-autocomplete.min.js](dist/accessible-autocomplete.min.js) file to your JavaScript folder and import it into the browser:
 
 ```html
-<script type="text/javascript" href="assets/js/accessible-autocomplete.min.js"></script>
+<script type="text/javascript" src="assets/js/accessible-autocomplete.min.js"></script>
 ```
 
 ### Styling the autocomplete
