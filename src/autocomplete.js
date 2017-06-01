@@ -1,5 +1,6 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
 import Status from './status'
+import DropdownArrowDown from './dropdown-arrow-down'
 
 const IS_PREACT = process.env.COMPONENT_LIBRARY === 'PREACT'
 const IS_REACT = process.env.COMPONENT_LIBRARY === 'REACT'
@@ -45,7 +46,7 @@ export default class Autocomplete extends Component {
     cssNamespace: 'autocomplete',
     defaultValue: '',
     displayMenu: 'inline',
-    minLength: 0,
+    minLength: 2,
     name: 'input-autocomplete',
     placeholder: '',
     onConfirm: () => {},
@@ -206,7 +207,7 @@ export default class Autocomplete extends Component {
 
     this.setState({ query })
 
-    const searchForOptions = !queryEmpty && queryChanged && queryLongEnough
+    const searchForOptions = minLength === 0 || (!queryEmpty && queryChanged && queryLongEnough)
     if (searchForOptions) {
       source(query, (options) => {
         const optionsAvailable = options.length > 0
@@ -222,6 +223,10 @@ export default class Autocomplete extends Component {
         options: []
       })
     }
+  }
+
+  handleInputClick (evt) {
+    this.handleInputChange(evt)
   }
 
   handleInputFocus (evt) {
@@ -355,6 +360,7 @@ export default class Autocomplete extends Component {
     const inputClassName = `${cssNamespace}__input`
     const componentIsFocused = focused !== null
     const inputModFocused = componentIsFocused ? ` ${inputClassName}--focused` : ''
+    const inputModType = this.props.minLength === 0 ? ` ${inputClassName}--dropdown` : ` ${inputClassName}--default`
     const optionFocused = focused !== -1 && focused !== null
 
     const menuClassName = `${cssNamespace}__menu`
@@ -391,8 +397,9 @@ export default class Autocomplete extends Component {
           aria-expanded={menuOpen}
           aria-owns={`${id}__listbox`}
           autoComplete='off'
-          className={`${inputClassName}${inputModFocused}`}
+          className={`${inputClassName}${inputModFocused}${inputModType}`}
           id={id}
+          onClick={(evt) => this.handleInputClick(evt)}
           onBlur={this.handleInputBlur}
           {...onChangeCrossLibrary(this.handleInputChange)}
           onFocus={this.handleInputFocus}
@@ -404,6 +411,10 @@ export default class Autocomplete extends Component {
           required={required}
           value={query}
         />
+
+        {minLength === 0 && (
+          <DropdownArrowDown />
+        )}
 
         <ul
           className={`${menuClassName} ${menuModDisplayMenu} ${menuModVisibility}`}

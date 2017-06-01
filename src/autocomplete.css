@@ -24,9 +24,28 @@
   position: absolute;
 }
 
+.autocomplete__input--default{
+  padding: 4px;
+}
+
 .autocomplete__input--focused {
   outline-offset: 0;
   outline: 3px solid #ffbf47;
+}
+
+.autocomplete__input--dropdown {
+  padding: 4px 34px 4px 4px;
+  cursor: pointer;
+}
+
+.autocomplete__wrapper .dropdown-arrow-down{
+  z-index: -1;
+  display: inline-block;
+  position: absolute;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  top: 10px;
 }
 
 .autocomplete__menu {
@@ -105,6 +124,10 @@
 .autocomplete__option {
   font-size: 16px;
   line-height: 1.25;
+}
+
+.autocomplete__hint,
+.autocomplete__option {
   padding: 4px;
 }
 
