@@ -71,7 +71,7 @@ describe('Wrapper', () => {
     ).to.throw('id is not defined')
   })
 
-  it('throws an error when called on nonexistent source', () => {
+  it('throws an error when called without a source', () => {
     expect(
       accessibleAutocomplete.bind(null, {
         element: scratch,
