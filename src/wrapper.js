@@ -11,11 +11,9 @@ function accessibleAutocomplete (opts) {
   render(<Autocomplete {...opts} />, opts.element)
 }
 
-const createSimpleEngine = results => (query, syncResults) => {
-  const filteredResults = query
-    ? results.filter(r => r.toLowerCase().indexOf(query.toLowerCase()) !== -1)
-    : []
-  syncResults(filteredResults)
+const createSimpleEngine = (values) => (query, syncResults) => {
+  var matches = values.filter(r => r.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+  syncResults(matches)
 }
 
 accessibleAutocomplete.enhanceSelectElement = (opts) => {

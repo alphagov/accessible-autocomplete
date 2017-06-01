@@ -104,6 +104,14 @@
       <label for="autocomplete-showNoOptionsFound">Select your country</label>
       <div id="tt-showNoOptionsFound" class="autocomplete-wrapper"></div>
 
+      <h3><code>{ showAllValues: true }</code></h3>
+      <p>
+        This option will toggle showing all values when the input is clicked, like a
+        default dropdown.
+      </p>
+      <label for="autocomplete-showAllValues">Select your country</label>
+      <div id="tt-showAllValues" class="autocomplete-wrapper"></div>
+
       <h2>Advanced features</h2>
 
       <h3>Progressive enhancement</h3>
@@ -524,6 +532,17 @@
         element: element,
         id: id,
         showNoOptionsFound: false,
+        source: countries
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-showAllValues')
+      id = 'autocomplete-showAllValues'
+      accessibleAutocomplete({
+        element: element,
+        id: id,
+        showAllValues: true,
         source: countries
       })
     </script>
