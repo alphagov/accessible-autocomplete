@@ -1,8 +1,9 @@
 const cp = require('child_process')
 const chalk = require('chalk')
 
-cp.exec('git diff dist/', (err, stdout) => {
+cp.exec('git diff --name-only dist/', (err, stdout) => {
   if (err) {
+    console.log(chalk.red('ERROR:'), err)
     return process.exit(1)
   }
   if (stdout.toString().length) {
