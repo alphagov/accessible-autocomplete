@@ -34,25 +34,21 @@ The `accessibleAutocomplete` function will render an autocomplete `<input>` and 
 <div id="my-autocomplete-container"></div>
 ```
 
-Then import it using a module system like Browserify / Webpack / Rollup, and call the `accessibleAutocomplete` function, providing a suggestion function:
+Then import it using a module system like Browserify / Webpack / Rollup, and call the `accessibleAutocomplete` function, providing an array of values:
 
 ```js
 import accessibleAutocomplete from 'accessible-autocomplete'
 
-function suggest (query, populateResults) {
-  const results = [
-    'France',
-    'Germany',
-    'United Kingdom'
-  ]
-  const filteredResults = results.filter(result => result.toLowerCase().indexOf(query.toLowerCase()) !== -1)
-  populateResults(filteredResults)
-}
+const countries = [
+  'France',
+  'Germany',
+  'United Kingdom'
+]
 
 accessibleAutocomplete({
   element: document.querySelector('#my-autocomplete-container'),
   id: 'my-autocomplete', // To match it to the existing <label>.
-  source: suggest
+  source: countries
 })
 ```
 
@@ -133,9 +129,11 @@ The `id` to assign to the autocomplete input field, to use with a `<label for=id
 
 #### `source`
 
-Type: `Function`
+Type: `array` or `function`
 
-Arguments: `query: string, populateResults: Function`
+An array of values to search when the user types in the input field, or a function to take what the user types and calls a callback function with the results to be displayed.
+
+If `source` is a function, the arguments are: `query: string, populateResults: Function`
 
 Similar to the [`source` argument for typeahead.js](https://github.com/corejavascript/typeahead.js/blob/47d46b40cb834d8285ac9328c4b436e5eccf7197/doc/jquery_typeahead.md#datasets), a backing data source for suggestions. `query` is what gets typed into the input field, which will callback to `populateResults` synchronously with the array of string results to display in the menu.
 
