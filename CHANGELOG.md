@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.3.0 - 2017-06-02
+
 - [Feature] Add support for passing an array of strings to `source`. By [@joelanman](https://github.com/joelanman).
 
 ## 1.2.1 - 2017-05-24
