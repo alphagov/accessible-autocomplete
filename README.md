@@ -129,9 +129,19 @@ The `id` to assign to the autocomplete input field, to use with a `<label for=id
 
 #### `source`
 
-Type: `array` or `function`
+Type: `Array | Function`
 
-An array of values to search when the user types in the input field, or a function to take what the user types and calls a callback function with the results to be displayed.
+An array of values to search when the user types in the input field, or a function to take what the user types and call a callback function with the results to be displayed.
+
+An example of an array of values:
+
+```js
+const countries = [
+  'France',
+  'Germany',
+  'United Kingdom'
+]
+```
 
 If `source` is a function, the arguments are: `query: string, populateResults: Function`
 
