@@ -35,9 +35,15 @@ accessibleAutocomplete.enhanceSelectElement = (opts) => {
     opts.defaultValue = opts.selectElement.options[opts.selectElement.options.selectedIndex].innerHTML
   }
 
-  opts.name = opts.name || ''
-  opts.id = opts.id || opts.selectElement.id || ''
-  opts.autoselect = opts.autoselect || true
+  if (opts.name === undefined) opts.name = ''
+  if (opts.id === undefined) {
+    if (opts.selectElement.id === undefined) {
+      opts.id = ''
+    } else {
+      opts.id = opts.selectElement.id
+    }
+  }
+  if (opts.autoselect === undefined) opts.autoselect = true
 
   const element = document.createElement('span')
 
