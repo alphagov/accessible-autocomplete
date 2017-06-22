@@ -51,7 +51,7 @@
     "cross-env": "^5.0.0",
     "csso-cli": "^1.0.0",
     "dotenv": "^4.0.0",
-    "husky": "^0.13.3",
+    "husky": "^0.14.1",
     "isparta-loader": "^2.0.0",
     "karma": "^1.0.0",
     "karma-chai": "^0.1.0",
