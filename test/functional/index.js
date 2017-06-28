@@ -39,7 +39,7 @@ describe('Autocomplete', () => {
         render(<Autocomplete />, scratch)
 
         expect(scratch.innerHTML).to.contain('input')
-        expect(scratch.innerHTML).to.contain('class="autocomplete__input"')
+        expect(scratch.innerHTML).to.contain('class="autocomplete__input')
         expect(scratch.innerHTML).to.contain('class="autocomplete__menu')
         expect(scratch.innerHTML).to.contain('name="input-autocomplete"')
       })
@@ -65,7 +65,7 @@ describe('Autocomplete', () => {
       it('renders an input with a custom CSS namespace', () => {
         render(<Autocomplete cssNamespace='bob' />, scratch)
 
-        expect(scratch.innerHTML).to.contain('class="bob__input"')
+        expect(scratch.innerHTML).to.contain('class="bob__input')
         expect(scratch.innerHTML).to.contain('class="bob__menu')
       })
     })
