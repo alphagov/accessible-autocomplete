@@ -227,6 +227,14 @@ Type: `Boolean`
 
 The input field will be rendered with a `required` attribute, see [W3C `required` attribute definition](https://www.w3.org/TR/html5/forms.html#the-required-attribute).
 
+#### `showAllValues` (default: `false`)
+
+Type: `Boolean`
+
+If this is set to `true`, all values are shown when the user clicks the input. This is similar
+to a default dropdown, so the autocomplete is rendered with a dropdown arrow to convey
+this behaviour.
+
 #### `showNoResultsFound` (default: `true`)
 
 Type: `Boolean`
