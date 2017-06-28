@@ -104,6 +104,14 @@
       <label for="autocomplete-showNoOptionsFound">Select your country</label>
       <div id="tt-showNoOptionsFound" class="autocomplete-wrapper"></div>
 
+      <h3><code>{ minLength: 0 }</code></h3>
+      <p>
+        Setting minLength to 0 means all values will show as soon as the input is clicked, like a
+        default dropdown.
+      </p>
+      <label for="autocomplete-minLength-0">Select your country</label>
+      <div id="tt-minLength-0" class="autocomplete-wrapper"></div>
+
       <h2>Advanced features</h2>
 
       <h3>Progressive enhancement</h3>
@@ -524,6 +532,17 @@
         element: element,
         id: id,
         showNoOptionsFound: false,
+        source: countries
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-minLength-0')
+      id = 'autocomplete-minLength-0'
+      accessibleAutocomplete({
+        element: element,
+        id: id,
+        minLength: 0,
         source: countries
       })
     </script>
