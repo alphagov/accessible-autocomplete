@@ -310,7 +310,10 @@ export default class Autocomplete extends Component {
     const inputEl = this.elementRefs[-1]
     const eventIsOnInput = evt.target === inputEl
     if (!eventIsOnInput) {
-      this.handleInputFocus()
+      // FIXME: This would be better if it was in componentDidUpdate,
+      // but using setState to trigger that seems to not work correctly
+      // in preact@8.1.0.
+      inputEl.focus()
     }
   }
 
