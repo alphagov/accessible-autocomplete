@@ -60,6 +60,21 @@ const basicExample = () => {
         expect(browser.hasFocus(input)).to.equal(true)
         expect(browser.getValue(input)).to.equal('Italy')
       })
+
+      it('should redirect keypresses on an option to input', () => {
+        if (!isIE) {
+          browser.click(input)
+          browser.setValue(input, 'ita')
+          browser.addValue(input, ['ArrowDown'])
+          expect(browser.hasFocus(input)).to.equal(false)
+          expect(browser.hasFocus(firstOption)).to.equal(true)
+          browser.addValue(firstOption, ['l'])
+          expect(browser.hasFocus(input)).to.equal(true)
+          expect(browser.getValue(input)).to.equal('ital')
+        } else {
+          // FIXME: This feature does not work correctly on IE 9 to 11.
+        }
+      })
     })
 
     describe('mouse use', () => {
@@ -102,7 +117,7 @@ const customTemplatesExample = () => {
           expect(browser.getValue(input)).to.equal('United Kingdom')
         }
         if (isIE) {
-          // FIXME.
+          // FIXME: This feature works correctly on IE but testing it doesn't seem to work.
         }
       })
     })

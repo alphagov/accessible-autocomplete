@@ -426,16 +426,6 @@ describe('Autocomplete', () => {
       })
     })
 
-    describe('a printable key', () => {
-      it('on an option, focuses the input, does not change selected', () => {
-        autocomplete.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
-        autocomplete.elementRefs[-1] = 'input element'
-        autocomplete.handleKeyDown({ target: 'not the input element', keyCode: 65 })
-        expect(autocomplete.state.focused).to.equal(-1)
-        expect(autocomplete.state.selected).to.equal(0)
-      })
-    })
-
     describe('an unrecognised key', () => {
       it('does nothing', () => {
         autocomplete.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
