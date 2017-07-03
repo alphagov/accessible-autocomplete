@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Redirect keypresses on an option to input, fixes #179.
+
 ## 1.3.1 - 2017-06-08
 
 - Fix `autoselect: false` not working when using `enhanceSelectElement`.
