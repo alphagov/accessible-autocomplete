@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.3.2 - 2017-07-03
+
 - Redirect keypresses on an option to input, fixes #179.
 
 ## 1.3.1 - 2017-06-08
