@@ -4,6 +4,10 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.3.3 - 2017-07-04
+
+- [Feature] Add option to show all values on dropdown.  By [@joelanman](https://github.com/joelanman).
+
 ## 1.3.2 - 2017-07-03
 
 - Redirect keypresses on an option to input, fixes #179.
