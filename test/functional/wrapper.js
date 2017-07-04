@@ -5,7 +5,7 @@ const DEFAULT_OPTIONS = {
   '': 'Select',
   fr: 'France',
   de: 'Germany',
-  gb: 'United Kingdom'
+  gb: 'United Kingdom of Great Britain & Northern Ireland'
 }
 
 const injectSelectToEnhanceIntoDOM = (element, settings) => {
@@ -229,7 +229,9 @@ describe('Wrapper', () => {
         expect(autocompleteOption.textContent).to.equal('Germany')
         autocompleteInput.value = 'United'
         setTimeout(() => {
-          expect(autocompleteOption.textContent).to.equal('United Kingdom')
+          const autocompleteHint = autocompleteInstance.querySelector('.autocomplete__hint')
+          expect(autocompleteOption.textContent).to.equal('United Kingdom of Great Britain & Northern Ireland')
+          expect(autocompleteHint.value).to.equal('United Kingdom of Great Britain & Northern Ireland')
           done()
         }, 250)
       }, 250)
@@ -253,10 +255,13 @@ describe('Wrapper', () => {
     // Using setTimeouts here since changes in values take a while to reflect in lists
     autocompleteInput.value = 'United'
     setTimeout(() => {
-      expect(autocompleteOption.textContent).to.equal('United Kingdom')
+      expect(autocompleteOption.textContent).to.equal('United Kingdom of Great Britain & Northern Ireland')
       autocompleteOption.click()
       expect(select.value).to.equal('gb')
-      done()
+      setTimeout(() => {
+        expect(autocompleteInput.value).to.equal('United Kingdom of Great Britain & Northern Ireland')
+        done()
+      }, 250)
     }, 250)
   })
 })

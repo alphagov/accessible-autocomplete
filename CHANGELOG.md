@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 _(add items here for easier creation of next log entry)_
+- Fix use of HTML entities in enhanced select options. #151
 
 ## 1.3.3 - 2017-07-04
 

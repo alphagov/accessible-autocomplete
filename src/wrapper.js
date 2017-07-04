@@ -22,15 +22,16 @@ accessibleAutocomplete.enhanceSelectElement = (opts) => {
   // Set defaults.
   if (!opts.source) {
     let availableOptions = [].filter.call(opts.selectElement.options, o => (o.value || opts.preserveNullOptions))
-    opts.source = availableOptions.map(o => o.innerHTML)
+    opts.source = availableOptions.map(o => o.textContent || o.innerText)
   }
   opts.onConfirm = opts.onConfirm || (query => {
-    const requestedOption = [].filter.call(opts.selectElement.options, o => o.innerHTML === query)[0]
+    const requestedOption = [].filter.call(opts.selectElement.options, o => (o.textContent || o.innerText) === query)[0]
     if (requestedOption) { requestedOption.selected = true }
   })
 
   if (opts.selectElement.value || opts.defaultValue === undefined) {
-    opts.defaultValue = opts.selectElement.options[opts.selectElement.options.selectedIndex].innerHTML
+    const o = opts.selectElement.options[opts.selectElement.options.selectedIndex]
+    opts.defaultValue = o.textContent || o.innerText
   }
 
   if (opts.name === undefined) opts.name = ''
