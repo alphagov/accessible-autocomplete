@@ -114,10 +114,10 @@ export default class Autocomplete extends Component {
   }
 
   getDirectInputChanges () {
-    const inputRef = this.elementRefs[-1]
-    const queryHasChanged = inputRef.value !== this.state.query
+    const inputReference = this.elementRefs[-1]
+    const queryHasChanged = inputReference.value !== this.state.query
     if (queryHasChanged) {
-      this.handleInputChange({ target: { value: inputRef.value } })
+      this.handleInputChange({ target: { value: inputReference.value } })
     }
   }
 
