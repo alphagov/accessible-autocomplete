@@ -57,7 +57,7 @@ export default class Autocomplete extends Component {
     required: false
   }
 
-  elementRefs = {}
+  elementReferences = {}
 
   constructor (props) {
     super(props)
@@ -114,7 +114,7 @@ export default class Autocomplete extends Component {
   }
 
   getDirectInputChanges () {
-    const inputReference = this.elementRefs[-1]
+    const inputReference = this.elementReferences[-1]
     const queryHasChanged = inputReference.value !== this.state.query
     if (queryHasChanged) {
       this.handleInputChange({ target: { value: inputReference.value } })
@@ -127,13 +127,13 @@ export default class Autocomplete extends Component {
     const focusedChanged = prevState.focused !== focused
     const focusDifferentElement = focusedChanged && !componentLostFocus
     if (focusDifferentElement) {
-      this.elementRefs[focused].focus()
+      this.elementReferences[focused].focus()
     }
     const focusedInput = focused === -1
     const componentGainedFocus = focusedChanged && prevState.focused === null
     const selectAllText = focusedInput && componentGainedFocus
     if (selectAllText) {
-      const inputElement = this.elementRefs[focused]
+      const inputElement = this.elementReferences[focused]
       inputElement.setSelectionRange(0, inputElement.value.length)
     }
   }
@@ -174,7 +174,7 @@ export default class Autocomplete extends Component {
   handleOptionBlur (event, index) {
     const { focused, menuOpen, options, selected } = this.state
     const focusingOutsideComponent = event.relatedTarget === null
-    const focusingInput = event.relatedTarget === this.elementRefs[-1]
+    const focusingInput = event.relatedTarget === this.elementReferences[-1]
     const focusingAnotherOption = focused !== index && focused !== -1
     const blurComponent = focusingOutsideComponent || !(focusingAnotherOption || focusingInput)
     if (blurComponent) {
@@ -341,7 +341,7 @@ export default class Autocomplete extends Component {
   }
 
   handlePrintableKey (event) {
-    const inputElement = this.elementRefs[-1]
+    const inputElement = this.elementReferences[-1]
     const eventIsOnInput = event.target === inputElement
     if (!eventIsOnInput) {
       // FIXME: This would be better if it was in componentDidUpdate,
@@ -441,7 +441,7 @@ export default class Autocomplete extends Component {
           onFocus={this.handleInputFocus}
           name={name}
           placeholder={placeholder}
-          ref={(inputElement) => { this.elementRefs[-1] = inputElement }}
+          ref={(inputElement) => { this.elementReferences[-1] = inputElement }}
           role='combobox'
           type='text'
           required={required}
@@ -475,7 +475,7 @@ export default class Autocomplete extends Component {
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
                 onMouseOut={(event) => this.handleOptionMouseOut(event, index)}
                 onTouchEnd={(event) => this.handleOptionTouchEnd(event, index)}
-                ref={(optionEl) => { this.elementRefs[index] = optionEl }}
+                ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
                 tabIndex='-1'
               />
