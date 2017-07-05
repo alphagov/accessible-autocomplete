@@ -1,14 +1,14 @@
 import { createElement, render } from 'preact' /** @jsx createElement */
 import Autocomplete from './autocomplete'
 
-function accessibleAutocomplete (opts) {
-  if (!opts.element) { throw new Error('element is not defined') }
-  if (!opts.id) { throw new Error('id is not defined') }
-  if (!opts.source) { throw new Error('source is not defined') }
-  if (Array.isArray(opts.source)) {
-    opts.source = createSimpleEngine(opts.source)
+function accessibleAutocomplete (options) {
+  if (!options.element) { throw new Error('element is not defined') }
+  if (!options.id) { throw new Error('id is not defined') }
+  if (!options.source) { throw new Error('source is not defined') }
+  if (Array.isArray(options.source)) {
+    options.source = createSimpleEngine(options.source)
   }
-  render(<Autocomplete {...opts} />, opts.element)
+  render(<Autocomplete {...options} />, options.element)
 }
 
 const createSimpleEngine = (values) => (query, syncResults) => {
@@ -16,45 +16,45 @@ const createSimpleEngine = (values) => (query, syncResults) => {
   syncResults(matches)
 }
 
-accessibleAutocomplete.enhanceSelectElement = (opts) => {
-  if (!opts.selectElement) { throw new Error('selectElement is not defined') }
+accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
+  if (!configurationOptions.selectElement) { throw new Error('selectElement is not defined') }
 
   // Set defaults.
-  if (!opts.source) {
-    let availableOptions = [].filter.call(opts.selectElement.options, o => (o.value || opts.preserveNullOptions))
-    opts.source = availableOptions.map(o => o.textContent || o.innerText)
+  if (!configurationOptions.source) {
+    let availableOptions = [].filter.call(configurationOptions.selectElement.options, option => (option.value || configurationOptions.preserveNullOptions))
+    configurationOptions.source = availableOptions.map(option => option.textContent || option.innerText)
   }
-  opts.onConfirm = opts.onConfirm || (query => {
-    const requestedOption = [].filter.call(opts.selectElement.options, o => (o.textContent || o.innerText) === query)[0]
+  configurationOptions.onConfirm = configurationOptions.onConfirm || (query => {
+    const requestedOption = [].filter.call(configurationOptions.selectElement.options, option => (option.textContent || option.innerText) === query)[0]
     if (requestedOption) { requestedOption.selected = true }
   })
 
-  if (opts.selectElement.value || opts.defaultValue === undefined) {
-    const o = opts.selectElement.options[opts.selectElement.options.selectedIndex]
-    opts.defaultValue = o.textContent || o.innerText
+  if (configurationOptions.selectElement.value || configurationOptions.defaultValue === undefined) {
+    const option = configurationOptions.selectElement.options[configurationOptions.selectElement.options.selectedIndex]
+    configurationOptions.defaultValue = option.textContent || option.innerText
   }
 
-  if (opts.name === undefined) opts.name = ''
-  if (opts.id === undefined) {
-    if (opts.selectElement.id === undefined) {
-      opts.id = ''
+  if (configurationOptions.name === undefined) configurationOptions.name = ''
+  if (configurationOptions.id === undefined) {
+    if (configurationOptions.selectElement.id === undefined) {
+      configurationOptions.id = ''
     } else {
-      opts.id = opts.selectElement.id
+      configurationOptions.id = configurationOptions.selectElement.id
     }
   }
-  if (opts.autoselect === undefined) opts.autoselect = true
+  if (configurationOptions.autoselect === undefined) configurationOptions.autoselect = true
 
   const element = document.createElement('span')
 
-  opts.selectElement.parentNode.insertBefore(element, opts.selectElement)
+  configurationOptions.selectElement.parentNode.insertBefore(element, configurationOptions.selectElement)
 
   accessibleAutocomplete({
-    ...opts,
+    ...configurationOptions,
     element: element
   })
 
-  opts.selectElement.style.display = 'none'
-  opts.selectElement.id = opts.selectElement.id + '-select'
+  configurationOptions.selectElement.style.display = 'none'
+  configurationOptions.selectElement.id = configurationOptions.selectElement.id + '-select'
 }
 
 module.exports = accessibleAutocomplete
