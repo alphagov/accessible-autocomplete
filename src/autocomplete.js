@@ -171,11 +171,11 @@ export default class Autocomplete extends Component {
     })
   }
 
-  handleOptionBlur (evt, idx) {
+  handleOptionBlur (event, index) {
     const { focused, menuOpen, options, selected } = this.state
-    const focusingOutsideComponent = evt.relatedTarget === null
-    const focusingInput = evt.relatedTarget === this.elementRefs[-1]
-    const focusingAnotherOption = focused !== idx && focused !== -1
+    const focusingOutsideComponent = event.relatedTarget === null
+    const focusingInput = event.relatedTarget === this.elementRefs[-1]
+    const focusingAnotherOption = focused !== index && focused !== -1
     const blurComponent = focusingOutsideComponent || !(focusingAnotherOption || focusingInput)
     if (blurComponent) {
       const keepMenuOpen = menuOpen && isIosDevice()
@@ -186,7 +186,7 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleInputBlur (evt) {
+  handleInputBlur (event) {
     const { focused, menuOpen, options, query, selected } = this.state
     const focusingAnOption = focused !== -1
     if (!focusingAnOption) {
@@ -199,10 +199,10 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleInputChange (evt) {
+  handleInputChange (event) {
     const { minLength, source, showAllValues } = this.props
     const autoselect = this.hasAutoselect()
-    const query = evt.target.value
+    const query = event.target.value
     const queryEmpty = query.length === 0
     const queryChanged = this.state.query.length !== query.length
     const queryLongEnough = query.length >= minLength
@@ -227,42 +227,42 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleInputClick (evt) {
-    this.handleInputChange(evt)
+  handleInputClick (event) {
+    this.handleInputChange(event)
   }
 
-  handleInputFocus (evt) {
+  handleInputFocus (event) {
     this.setState({
       focused: -1
     })
   }
 
-  handleOptionFocus (idx) {
+  handleOptionFocus (index) {
     this.setState({
-      focused: idx,
+      focused: index,
       hovered: null,
-      selected: idx
+      selected: index
     })
   }
 
-  handleOptionMouseEnter (evt, idx) {
+  handleOptionMouseEnter (event, index) {
     this.setState({
-      hovered: idx
+      hovered: index
     })
   }
 
-  handleOptionMouseOut (evt, idx) {
+  handleOptionMouseOut (event, index) {
     this.setState({
       hovered: null
     })
   }
 
-  handleOptionTouchEnd (evt, idx) {
-    this.handleOptionClick(evt, idx)
+  handleOptionTouchEnd (event, index) {
+    this.handleOptionClick(event, index)
   }
 
-  handleOptionClick (evt, idx) {
-    const selectedOption = this.state.options[idx]
+  handleOptionClick (event, index) {
+    const selectedOption = this.state.options[index]
     const newQuery = this.templateInputValue(selectedOption)
     this.props.onConfirm(selectedOption)
     this.setState({
@@ -273,18 +273,18 @@ export default class Autocomplete extends Component {
     })
   }
 
-  handleOptionMouseDown (evt) {
+  handleOptionMouseDown (event) {
     // Safari triggers focusOut before click, but if you
     // preventDefault on mouseDown, you can stop that from happening.
     // If this is removed, clicking on an option in Safari will trigger
     // `handleOptionBlur`, which closes the menu, and the click will
     // trigger on the element underneath instead.
     // See: http://stackoverflow.com/questions/7621711/how-to-prevent-blur-running-when-clicking-a-link-in-jquery
-    evt.preventDefault()
+    event.preventDefault()
   }
 
-  handleUpArrow (evt) {
-    evt.preventDefault()
+  handleUpArrow (event) {
+    event.preventDefault()
     const { menuOpen, selected } = this.state
     const isNotAtTop = selected !== -1
     const allowMoveUp = isNotAtTop && menuOpen
@@ -293,11 +293,11 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleDownArrow (evt) {
-    evt.preventDefault()
+  handleDownArrow (event) {
+    event.preventDefault()
     // if not open, open
     if (this.props.showAllValues && this.state.menuOpen === false) {
-      evt.preventDefault()
+      event.preventDefault()
       this.props.source('', (options) => {
         this.setState({
           menuOpen: true,
@@ -317,10 +317,10 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleSpace (evt) {
+  handleSpace (event) {
     // if not open, open
     if (this.props.showAllValues && this.state.menuOpen === false) {
-      evt.preventDefault()
+      event.preventDefault()
       this.props.source('', (options) => {
         this.setState({
           menuOpen: true,
@@ -330,19 +330,19 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleEnter (evt) {
+  handleEnter (event) {
     if (this.state.menuOpen) {
-      evt.preventDefault()
+      event.preventDefault()
       const hasSelectedOption = this.state.selected >= 0
       if (hasSelectedOption) {
-        this.handleOptionClick(evt, this.state.selected)
+        this.handleOptionClick(event, this.state.selected)
       }
     }
   }
 
-  handlePrintableKey (evt) {
+  handlePrintableKey (event) {
     const inputEl = this.elementRefs[-1]
-    const eventIsOnInput = evt.target === inputEl
+    const eventIsOnInput = event.target === inputEl
     if (!eventIsOnInput) {
       // FIXME: This would be better if it was in componentDidUpdate,
       // but using setState to trigger that seems to not work correctly
@@ -351,19 +351,19 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleKeyDown (evt) {
-    switch (keyCodes[evt.keyCode]) {
+  handleKeyDown (event) {
+    switch (keyCodes[event.keyCode]) {
       case 'up':
-        this.handleUpArrow(evt)
+        this.handleUpArrow(event)
         break
       case 'down':
-        this.handleDownArrow(evt)
+        this.handleDownArrow(event)
         break
       case 'space':
-        this.handleSpace(evt)
+        this.handleSpace(event)
         break
       case 'enter':
-        this.handleEnter(evt)
+        this.handleEnter(event)
         break
       case 'escape':
         this.handleComponentBlur({
@@ -371,8 +371,8 @@ export default class Autocomplete extends Component {
         })
         break
       default:
-        if (isPrintableKeyCode(evt.keyCode)) {
-          this.handlePrintableKey(evt)
+        if (isPrintableKeyCode(event.keyCode)) {
+          this.handlePrintableKey(event)
         }
         break
     }
@@ -435,7 +435,7 @@ export default class Autocomplete extends Component {
           autoComplete='off'
           className={`${inputClassName}${inputModFocused}${inputModType}`}
           id={id}
-          onClick={(evt) => this.handleInputClick(evt)}
+          onClick={(event) => this.handleInputClick(event)}
           onBlur={this.handleInputBlur}
           {...onChangeCrossLibrary(this.handleInputChange)}
           onFocus={this.handleInputFocus}
@@ -457,25 +457,25 @@ export default class Autocomplete extends Component {
           id={`${id}__listbox`}
           role='listbox'
         >
-          {options.map((opt, idx) => {
-            const showFocused = focused === -1 ? selected === idx : focused === idx
+          {options.map((opt, index) => {
+            const showFocused = focused === -1 ? selected === index : focused === index
             const optionModFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
-            const optionModOdd = (idx % 2) ? ` ${optionClassName}--odd` : ''
+            const optionModOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
 
             return (
               <li
-                aria-selected={focused === idx}
+                aria-selected={focused === index}
                 className={`${optionClassName}${optionModFocused}${optionModOdd}`}
                 dangerouslySetInnerHTML={{ __html: this.templateSuggestion(opt) }}
-                id={`${id}__option--${idx}`}
-                key={idx}
-                onBlur={(evt) => this.handleOptionBlur(evt, idx)}
-                onClick={(evt) => this.handleOptionClick(evt, idx)}
+                id={`${id}__option--${index}`}
+                key={index}
+                onBlur={(event) => this.handleOptionBlur(event, index)}
+                onClick={(event) => this.handleOptionClick(event, index)}
                 onMouseDown={this.handleOptionMouseDown}
-                onMouseEnter={(evt) => this.handleOptionMouseEnter(evt, idx)}
-                onMouseOut={(evt) => this.handleOptionMouseOut(evt, idx)}
-                onTouchEnd={(evt) => this.handleOptionTouchEnd(evt, idx)}
-                ref={(optionEl) => { this.elementRefs[idx] = optionEl }}
+                onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
+                onMouseOut={(event) => this.handleOptionMouseOut(event, index)}
+                onTouchEnd={(event) => this.handleOptionTouchEnd(event, index)}
+                ref={(optionEl) => { this.elementRefs[index] = optionEl }}
                 role='option'
                 tabIndex='-1'
               />
