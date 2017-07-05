@@ -394,15 +394,15 @@ export default class Autocomplete extends Component {
 
     const inputClassName = `${cssNamespace}__input`
     const componentIsFocused = focused !== null
-    const inputModFocused = componentIsFocused ? ` ${inputClassName}--focused` : ''
-    const inputModType = this.props.showAllValues ? ` ${inputClassName}--show-all-values` : ` ${inputClassName}--default`
+    const inputModifierFocused = componentIsFocused ? ` ${inputClassName}--focused` : ''
+    const inputModifierType = this.props.showAllValues ? ` ${inputClassName}--show-all-values` : ` ${inputClassName}--default`
     const dropdownArrowClassName = `${cssNamespace}__dropdown-arrow-down`
     const optionFocused = focused !== -1 && focused !== null
 
     const menuClassName = `${cssNamespace}__menu`
-    const menuModDisplayMenu = `${menuClassName}--${displayMenu}`
+    const menuModifierDisplayMenu = `${menuClassName}--${displayMenu}`
     const menuIsVisible = menuOpen || showNoOptionsFound
-    const menuModVisibility = `${menuClassName}--${(menuIsVisible) ? 'visible' : 'hidden'}`
+    const menuModifierVisibility = `${menuClassName}--${(menuIsVisible) ? 'visible' : 'hidden'}`
 
     const optionClassName = `${cssNamespace}__option`
 
@@ -433,7 +433,7 @@ export default class Autocomplete extends Component {
           aria-expanded={menuOpen}
           aria-owns={`${id}__listbox`}
           autoComplete='off'
-          className={`${inputClassName}${inputModFocused}${inputModType}`}
+          className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
           id={id}
           onClick={(event) => this.handleInputClick(event)}
           onBlur={this.handleInputBlur}
@@ -453,19 +453,19 @@ export default class Autocomplete extends Component {
         )}
 
         <ul
-          className={`${menuClassName} ${menuModDisplayMenu} ${menuModVisibility}`}
+          className={`${menuClassName} ${menuModifierDisplayMenu} ${menuModifierVisibility}`}
           id={`${id}__listbox`}
           role='listbox'
         >
           {options.map((option, index) => {
             const showFocused = focused === -1 ? selected === index : focused === index
-            const optionModFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
-            const optionModOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
+            const optionModifierFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
+            const optionModifierOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
 
             return (
               <li
                 aria-selected={focused === index}
-                className={`${optionClassName}${optionModFocused}${optionModOdd}`}
+                className={`${optionClassName}${optionModifierFocused}${optionModifierOdd}`}
                 dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) }}
                 id={`${id}__option--${index}`}
                 key={index}
