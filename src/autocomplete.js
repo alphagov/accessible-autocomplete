@@ -133,8 +133,8 @@ export default class Autocomplete extends Component {
     const componentGainedFocus = focusedChanged && prevState.focused === null
     const selectAllText = focusedInput && componentGainedFocus
     if (selectAllText) {
-      const inputEl = this.elementRefs[focused]
-      inputEl.setSelectionRange(0, inputEl.value.length)
+      const inputElement = this.elementRefs[focused]
+      inputElement.setSelectionRange(0, inputElement.value.length)
     }
   }
 
@@ -341,13 +341,13 @@ export default class Autocomplete extends Component {
   }
 
   handlePrintableKey (event) {
-    const inputEl = this.elementRefs[-1]
-    const eventIsOnInput = event.target === inputEl
+    const inputElement = this.elementRefs[-1]
+    const eventIsOnInput = event.target === inputElement
     if (!eventIsOnInput) {
       // FIXME: This would be better if it was in componentDidUpdate,
       // but using setState to trigger that seems to not work correctly
       // in preact@8.1.0.
-      inputEl.focus()
+      inputElement.focus()
     }
   }
 
@@ -441,7 +441,7 @@ export default class Autocomplete extends Component {
           onFocus={this.handleInputFocus}
           name={name}
           placeholder={placeholder}
-          ref={(inputEl) => { this.elementRefs[-1] = inputEl }}
+          ref={(inputElement) => { this.elementRefs[-1] = inputElement }}
           role='combobox'
           type='text'
           required={required}
