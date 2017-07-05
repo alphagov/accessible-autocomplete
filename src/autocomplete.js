@@ -457,7 +457,7 @@ export default class Autocomplete extends Component {
           id={`${id}__listbox`}
           role='listbox'
         >
-          {options.map((opt, index) => {
+          {options.map((option, index) => {
             const showFocused = focused === -1 ? selected === index : focused === index
             const optionModFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
             const optionModOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
@@ -466,7 +466,7 @@ export default class Autocomplete extends Component {
               <li
                 aria-selected={focused === index}
                 className={`${optionClassName}${optionModFocused}${optionModOdd}`}
-                dangerouslySetInnerHTML={{ __html: this.templateSuggestion(opt) }}
+                dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) }}
                 id={`${id}__option--${index}`}
                 key={index}
                 onBlur={(event) => this.handleOptionBlur(event, index)}
