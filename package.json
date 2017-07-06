@@ -23,7 +23,6 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
     "karma:dev": "karma start test/karma.config.js",
     "karma": "npm run karma:dev -- --single-run",
-    "postversion": "git push && git push --tags",
     "prepush": "npm run build && node scripts/check-staged.js",
     "preversion": "npm test",
     "standard": "standard",
