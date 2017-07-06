@@ -429,7 +429,7 @@ describe('Autocomplete', () => {
     describe('an unrecognised key', () => {
       it('does nothing', () => {
         autocomplete.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
-        autocomplete.elementRefs[-1] = 'input element'
+        autocomplete.elementReferences[-1] = 'input element'
         autocomplete.handleKeyDown({ target: 'not the input element', keyCode: 4242 })
         expect(autocomplete.state.focused).to.equal(0)
         expect(autocomplete.state.selected).to.equal(0)
