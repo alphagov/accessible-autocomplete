@@ -133,6 +133,9 @@ Assuming you have access to the `npm` account, `git pull --rebase` and then run:
 ```bash
 vim CHANGELOG.md # Update CHANGELOG, put all unreleased changes under new heading.
 git commit -am "Update CHANGELOG"
-npm version <major|minor|patch> -m "- Changes included in this release"
+npm version <major|minor|patch> -m "## 1.x.y - 2017-xx-yy
+
+- Changes included in this release
+- Another change included in this release"
 npm publish
 ```
