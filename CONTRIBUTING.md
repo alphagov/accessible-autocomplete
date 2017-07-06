@@ -128,11 +128,23 @@ git push --no-verify
 
 ## Cutting a new release
 
-Assuming you have access to the `npm` account, `git pull --rebase` and then run:
+`git pull --rebase` and then run:
 
 ```bash
+git checkout -b "v1.2.3"
 vim CHANGELOG.md # Update CHANGELOG, put all unreleased changes under new heading.
 git commit -am "Update CHANGELOG"
-npm version <major|minor|patch> -m "- Changes included in this release"
+npm version <major|minor|patch> -m "## 1.2.3 - 2017-01-13
+
+- Change included in this release
+- Another change included in this release"
+git push --tags --set-upstream origin v1.2.3
+```
+
+To actually publish, you will need access to an `npm` account that owns `accessible-autocomplete`. Merge the version PR and then run:
+
+```bash
+git checkout master
+git pull --rebase
 npm publish
 ```
