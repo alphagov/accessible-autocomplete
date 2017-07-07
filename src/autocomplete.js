@@ -328,6 +328,11 @@ export default class Autocomplete extends Component {
         })
       })
     }
+    const focusIsOnOption = this.state.focused !== -1
+    if (focusIsOnOption) {
+      event.preventDefault()
+      this.handleOptionClick(event, this.state.focused)
+    }
   }
 
   handleEnter (event) {
