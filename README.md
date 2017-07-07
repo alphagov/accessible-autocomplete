@@ -187,6 +187,12 @@ Type: `string`
 
 Specify a string to prefill the autocomplete with.
 
+#### `displayHint` (default: `true`)
+
+Type: `boolean`
+
+You can set this property to false to prevent the hint from being displayed when autoselect is on.
+
 #### `displayMenu` (default: `'inline'`)
 
 Type: `'inline' | 'overlay'`

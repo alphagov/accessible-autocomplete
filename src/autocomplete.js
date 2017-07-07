@@ -44,14 +44,15 @@ function onChangeCrossLibrary (handler) {
 export default class Autocomplete extends Component {
   static defaultProps = {
     autoselect: false,
+    confirmOnBlur: true,
     cssNamespace: 'autocomplete',
     defaultValue: '',
+    displayHint: true,
     displayMenu: 'inline',
     minLength: 0,
     name: 'input-autocomplete',
     placeholder: '',
     onConfirm: () => {},
-    confirmOnBlur: true,
     showNoOptionsFound: true,
     showAllValues: false,
     required: false
@@ -384,7 +385,7 @@ export default class Autocomplete extends Component {
   }
 
   render () {
-    const { cssNamespace, displayMenu, id, minLength, name, placeholder, required, showAllValues } = this.props
+    const { cssNamespace, displayHint, displayMenu, id, minLength, name, placeholder, required, showAllValues } = this.props
     const { focused, hovered, menuOpen, options, query, selected } = this.state
     const autoselect = this.hasAutoselect()
 
@@ -418,7 +419,7 @@ export default class Autocomplete extends Component {
     const hintValue = (optionBeginsWithQuery && autoselect)
       ? query + selectedOptionText.substr(query.length)
       : ''
-    const showHint = hasPointerEvents && hintValue
+    const showHint = hasPointerEvents && hintValue && displayHint
 
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>

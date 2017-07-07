@@ -80,6 +80,11 @@
       <label for="autocomplete-autoselect">Select your country</label>
       <div id="tt-autoselect" class="autocomplete-wrapper"></div>
 
+      <h3><code>{ autoselect: true, displayHint: false }</code></h3>
+      <p>This option will automatically select the first suggestion without displaying a hint.</p>
+      <label for="autocomplete-noHint">Select your country</label>
+      <div id="tt-noHint" class="autocomplete-wrapper"></div>
+
       <h3><code>{ defaultValue: 'Germany' }</code></h3>
       <p>This option will prefill the input with a value.</p>
       <label for="autocomplete-defaultValue">Select your country</label>
@@ -429,6 +434,18 @@
       id = 'autocomplete-autoselect'
       accessibleAutocomplete({
         autoselect: true,
+        element: element,
+        id: id,
+        source: countries
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-noHint')
+      id = 'autocomplete-noHint'
+      accessibleAutocomplete({
+        autoselect: true,
+        displayHint: false,
         element: element,
         id: id,
         source: countries
