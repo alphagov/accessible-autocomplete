@@ -426,6 +426,22 @@ describe('Autocomplete', () => {
       })
     })
 
+    describe('space key', () => {
+      describe('on an option', () => {
+        it('prevents default, closes the menu, sets the query, focuses the input, triggers onConfirm', () => {
+          let preventedDefault = false
+          onConfirmAutocomplete.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
+          onConfirmAutocomplete.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 32 })
+          expect(onConfirmAutocomplete.state.menuOpen).to.equal(false)
+          expect(onConfirmAutocomplete.state.query).to.equal('France')
+          expect(onConfirmAutocomplete.state.focused).to.equal(-1)
+          expect(onConfirmAutocomplete.state.selected).to.equal(-1)
+          expect(preventedDefault).to.equal(true)
+          expect(onConfirmTriggered).to.equal(true)
+        })
+      })
+    })
+
     describe('an unrecognised key', () => {
       it('does nothing', () => {
         autocomplete.setState({ menuOpen: true, options: ['France'], focused: 0, selected: 0 })
