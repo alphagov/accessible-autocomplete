@@ -296,6 +296,30 @@ This function takes the same options as `accessibleAutocomplete`, with the only 
 
 > **Note**: The `accessibleAutocomplete.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleAutocomplete`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
 
+### Preventing flash of unstyled content (FOUC)
+
+If you want to prevent flash of unstyled content add a `js-enabled` class to a parent element of the select:
+
+```html
+<!-- in your <head>-->
+<script type="text/javascript">
+  document.documentElement.classList.add('js-enabled')
+</script>
+```
+
+Then add the `autocomplete__select` class to the select:
+
+```diff
+- <select id="location-picker">
++ <select id="location-picker" class="autocomplete__select">
+    <option value="fr">France</option>
+    <option value="de">Germany</option>
+    <option value="gb">United Kingdom</option>
+  </select>
+```
+
+[Check out the form example for a demo.](https://alphagov.github.io/accessible-autocomplete/examples/form.html)
+
 ### Null options
 
 If your `<select>` element has a "null" option - a default option with no value - then you can pass a `defaultValue` option to `enhanceSelectElement` which will replace the label of this option when it is selected.
