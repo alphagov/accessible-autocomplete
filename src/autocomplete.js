@@ -68,7 +68,8 @@ export default class Autocomplete extends Component {
       menuOpen: false,
       options: props.defaultValue ? [props.defaultValue] : [],
       query: props.defaultValue,
-      selected: null
+      selected: null,
+      typedQuery: ''
     }
 
     this.handleComponentBlur = this.handleComponentBlur.bind(this)
@@ -92,14 +93,6 @@ export default class Autocomplete extends Component {
 
     this.pollInputElement = this.pollInputElement.bind(this)
     this.getDirectInputChanges = this.getDirectInputChanges.bind(this)
-  }
-
-  componentDidMount () {
-    this.pollInputElement()
-  }
-
-  componentWillUnmount () {
-    clearTimeout(this.$pollInput)
   }
 
   // Applications like Dragon NaturallySpeaking will modify the
@@ -187,6 +180,8 @@ export default class Autocomplete extends Component {
   }
 
   handleInputBlur (event) {
+    clearTimeout(this.$pollInput)
+    console.log('Handle input blur')
     const { focused, menuOpen, options, query, selected } = this.state
     const focusingAnOption = focused !== -1
     if (!focusingAnOption) {
@@ -232,16 +227,37 @@ export default class Autocomplete extends Component {
   }
 
   handleInputFocus (event) {
+    const focusWasNotOnInput = this.state.focused !== -1
+    if (focusWasNotOnInput) {
+      console.log('pollInputElement')
+      this.pollInputElement()
+    }
+    let newQuery = this.state.query
+    const focusWasOnAnOption = this.state.focused >= 0
+    if (focusWasOnAnOption) {
+      newQuery = this.state.typedQuery
+    }
     this.setState({
-      focused: -1
+      focused: -1,
+      hovered: null,
+      selected: -1,
+      query: newQuery
     })
   }
 
   handleOptionFocus (index) {
+    console.log('handleOptionFocus', index)
+    const focusWasOnInput = this.state.focused === -1
+    let newTypedQuery = this.state.typedQuery
+    if (focusWasOnInput) {
+      newTypedQuery = this.state.query
+    }
     this.setState({
       focused: index,
       hovered: null,
-      selected: index
+      selected: index,
+      query: this.templateInputValue(this.state.options[index]),
+      typedQuery: newTypedQuery
     })
   }
 
@@ -289,7 +305,13 @@ export default class Autocomplete extends Component {
     const isNotAtTop = selected !== -1
     const allowMoveUp = isNotAtTop && menuOpen
     if (allowMoveUp) {
-      this.handleOptionFocus(selected - 1)
+      const newSelected = selected - 1
+      const isOnInput = newSelected === -1
+      if (isOnInput) {
+        this.handleInputFocus()
+      } else {
+        this.handleOptionFocus(newSelected)
+      }
     }
   }
 
