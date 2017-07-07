@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Accessible Autocomplete form example</title>
+    <script type="text/javascript">
+      document.documentElement.classList.add('js-enabled')
+    </script>
     <style>
       /* Example page specific styling. */
       html {
@@ -69,7 +72,7 @@
       <form action="form.html" method="get">
         <label for="last-location">What was the last location you visited?</label>
         <div class="autocomplete-wrapper">
-          <select name="last-location" id="last-country">
+          <select name="last-location" id="last-country" class="autocomplete__select">
             <option value="territory:AE-AZ">Abu Dhabi</option>
             <option value="country:AF">Afghanistan</option>
             <option value="territory:AE-AJ">Ajman</option>
@@ -353,7 +356,7 @@
 
         <label for="passport-location">What is the location on your passport?</label>
         <div class="autocomplete-wrapper">
-          <select name="passport-location" id="passport-country">
+          <select name="passport-location" id="passport-country" class="autocomplete__select">
             <option value="territory:AE-AZ">Abu Dhabi</option>
             <option value="country:AF">Afghanistan</option>
             <option value="territory:AE-AJ">Ajman</option>
