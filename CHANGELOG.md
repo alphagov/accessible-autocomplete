@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Fix fouc when using progressive enhancement.
+
 ## 1.4.1 - 2017-07-06
 
 - Fix use of HTML entities in enhanced select options. #151. By [@dracos](https://github.com/dracos).
