@@ -124,6 +124,53 @@ const customTemplatesExample = () => {
   })
 }
 
+const autoselectExample = () => {
+  describe('autoselect example', function () {
+    this.retries(3)
+
+    const input = 'input#autocomplete-autoselect'
+    const menu = `${input} + ul`
+    const wrapper = '#tt-autoselect'
+    const hint = `${wrapper} .autocomplete__hint`
+
+    beforeEach(() => {
+      browser.setValue(input, '') // Prevent autofilling, IE likes to do this.
+    })
+
+    it('should display hint', () => {
+      browser.click(input)
+      browser.setValue(input, 'ita')
+      browser.waitForVisible(menu)
+      expect(browser.isVisible(menu)).to.equal(true)
+      expect(browser.isVisible(hint)).to.equal(true)
+      expect(browser.getValue(hint)).to.equal('italy')
+    })
+  })
+}
+
+const doNotDisplayHintExample = () => {
+  describe('doNotDisplayHintExample example', function () {
+    this.retries(3)
+
+    const input = 'input#autocomplete-autoselect'
+    const menu = `${input} + ul`
+    const wrapper = '#tt-tt-noHint'
+    const hint = `${wrapper} .autocomplete__hint`
+
+    beforeEach(() => {
+      browser.setValue(input, '') // Prevent autofilling, IE likes to do this.
+    })
+
+    it('should not display hint', () => {
+      browser.click(input)
+      browser.setValue(input, 'ita')
+      browser.waitForVisible(menu)
+      expect(browser.isVisible(menu)).to.equal(true)
+      expect(browser.isVisible(hint)).to.equal(false)
+    })
+  })
+}
+
 const takeScreenshotsIfFail = () => {
   afterEach(function () {
     const testFailed = this.currentTest.state === 'failed'
@@ -149,6 +196,8 @@ describe('Accessible Autocomplete', () => {
 
   basicExample()
   customTemplatesExample()
+  autoselectExample()
+  doNotDisplayHintExample()
 
   takeScreenshotsIfFail()
 })
