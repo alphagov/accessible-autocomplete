@@ -54,7 +54,10 @@ export default class Autocomplete extends Component {
     confirmOnBlur: true,
     showNoOptionsFound: true,
     showAllValues: false,
-    required: false
+    required: false,
+    dropdownArrow: null,
+    tNoResults: () => <span>No results found</span>,
+    className: '',
   }
 
   elementReferences = {}
@@ -200,7 +203,7 @@ export default class Autocomplete extends Component {
   }
 
   handleInputChange (event) {
-    const { minLength, source, showAllValues } = this.props
+    const { minLength, source, showAllValues, onChange } = this.props
     const autoselect = this.hasAutoselect()
     const query = event.target.value
     const queryEmpty = query.length === 0
@@ -224,6 +227,10 @@ export default class Autocomplete extends Component {
         menuOpen: false,
         options: []
       })
+    }
+
+    if (queryChanged && onChange) {
+      onChange(query)
     }
   }
 
@@ -384,7 +391,23 @@ export default class Autocomplete extends Component {
   }
 
   render () {
-    const { cssNamespace, displayMenu, id, minLength, name, placeholder, required, showAllValues } = this.props
+    const {
+      cssNamespace,
+      displayMenu,
+      id,
+      minLength,
+      name,
+      placeholder,
+      required,
+      showAllValues,
+      dropdownArrow,
+      tNoResults,
+      tStatusQueryTooShort,
+      tStatusNoResults,
+      tStatusSelectedOption,
+      tStatusResults,
+      className
+    } = this.props
     const { focused, hovered, menuOpen, options, query, selected } = this.state
     const autoselect = this.hasAutoselect()
 
@@ -395,7 +418,7 @@ export default class Autocomplete extends Component {
     const showNoOptionsFound = this.props.showNoOptionsFound &&
       inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
 
-    const wrapperClassName = `${cssNamespace}__wrapper`
+    const wrapperClassName = `${cssNamespace}__wrapper ${className}`
 
     const inputClassName = `${cssNamespace}__input`
     const componentIsFocused = focused !== null
@@ -427,6 +450,10 @@ export default class Autocomplete extends Component {
           queryLength={query.length}
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
+          tQueryTooShort={tStatusQueryTooShort}
+          tNoResults={tStatusNoResults}
+          tSelectedOption={tStatusSelectedOption}
+          tResults={tStatusResults}
         />
 
         {showHint && (
@@ -454,7 +481,7 @@ export default class Autocomplete extends Component {
         />
 
         {showAllValues && (
-          <DropdownArrowDown className={dropdownArrowClassName} />
+          dropdownArrow || <DropdownArrowDown className={dropdownArrowClassName} />
         )}
 
         <ul
@@ -488,7 +515,7 @@ export default class Autocomplete extends Component {
           })}
 
           {showNoOptionsFound && (
-            <li className={`${optionClassName} ${optionClassName}--no-results`}>No results found</li>
+            <li className={`${optionClassName} ${optionClassName}--no-results`}>{tNoResults()}</li>
           )}
         </ul>
       </div>
