@@ -260,6 +260,8 @@ This object defines templates (functions) that are used for displaying parts of 
 
 `dropdownArrow` is a React element that will be used to render the arrow icon when `showAllValues` is set to `true`. It defaults to the `<DropdownArrowDown />` element.
 
+`className` is a string denoting the className to be appended to the wrapper element. Defaults to `''`
+
 ### Internationalization
 
 `tNoResults` is a function that receives no arguments and should return the text used in the dropdown to indicate that there are no results. Defaults to `() => <span>No results found</span>`
