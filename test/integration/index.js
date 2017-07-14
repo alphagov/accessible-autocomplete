@@ -4,7 +4,7 @@ const {browserName, version} = browser.desiredCapabilities
 const isChrome = browserName === 'chrome'
 const isFireFox = browserName === 'firefox'
 const isIE = browserName === 'internet explorer'
-// const isIE9 = isIE && version === '9'
+const isIE9 = isIE && version === '9'
 // const isIE10 = isIE && version === '10'
 // const isIE11 = isIE && version === '11.103'
 
@@ -137,14 +137,16 @@ const autoselectExample = () => {
       browser.setValue(input, '') // Prevent autofilling, IE likes to do this.
     })
 
-    it('should display hint', () => {
-      browser.click(input)
-      browser.setValue(input, 'ita')
-      browser.waitForVisible(menu)
-      expect(browser.isVisible(menu)).to.equal(true)
-      expect(browser.isVisible(hint)).to.equal(true)
-      expect(browser.getValue(hint)).to.equal('italy')
-    })
+    if (!isIE9) {
+      it('should display hint', () => {
+        browser.click(input)
+        browser.setValue(input, 'ita')
+        browser.waitForVisible(menu)
+        expect(browser.isVisible(menu)).to.equal(true)
+        expect(browser.isVisible(hint)).to.equal(true)
+        expect(browser.getValue(hint)).to.equal('italy')
+      })
+    }
   })
 }
 
@@ -161,13 +163,15 @@ const doNotDisplayHintExample = () => {
       browser.setValue(input, '') // Prevent autofilling, IE likes to do this.
     })
 
-    it('should not display hint', () => {
-      browser.click(input)
-      browser.setValue(input, 'ita')
-      browser.waitForVisible(menu)
-      expect(browser.isVisible(menu)).to.equal(true)
-      expect(browser.isVisible(hint)).to.equal(false)
-    })
+    if (!isIE9) {
+      it('should not display hint', () => {
+        browser.click(input)
+        browser.setValue(input, 'ita')
+        browser.waitForVisible(menu)
+        expect(browser.isVisible(menu)).to.equal(true)
+        expect(browser.isVisible(hint)).to.equal(false)
+      })
+    }
   })
 }
 
