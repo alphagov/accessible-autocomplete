@@ -203,7 +203,7 @@ export default class Autocomplete extends Component {
   }
 
   handleInputChange (event) {
-    const { minLength, source, showAllValues } = this.props
+    const { minLength, source, showAllValues, onChange } = this.props
     const autoselect = this.hasAutoselect()
     const query = event.target.value
     const queryEmpty = query.length === 0
@@ -227,6 +227,10 @@ export default class Autocomplete extends Component {
         menuOpen: false,
         options: []
       })
+    }
+
+    if (queryChanged && onChange) {
+      onChange(query)
     }
   }
 
