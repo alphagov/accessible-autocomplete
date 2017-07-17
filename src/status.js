@@ -1,6 +1,20 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
 
 export default class Status extends Component {
+  static defaultProps = {
+    tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results.`,
+    tNoResults: () => 'No search results.',
+    tSelectedOption: (selectedOption, length) => `${selectedOption} (1 of ${length}) is selected.`,
+    tResults: (length, contentSelectedOption) => {
+      const words = {
+        result: (length === 1) ? 'result' : 'results',
+        is: (length === 1) ? 'is' : 'are'
+      }
+
+      return `${length} ${words.result} ${words.is} available. ${contentSelectedOption}`
+    }
+  };
+
   state = {
     bump: false
   }
@@ -13,28 +27,32 @@ export default class Status extends Component {
   }
 
   render () {
-    const { length, queryLength, minQueryLength, selectedOption } = this.props
+    const {
+      length,
+      queryLength,
+      minQueryLength,
+      selectedOption,
+      tQueryTooShort,
+      tNoResults,
+      tSelectedOption,
+      tResults
+    } = this.props
     const { bump } = this.state
-
-    const words = {
-      result: (length === 1) ? 'result' : 'results',
-      is: (length === 1) ? 'is' : 'are'
-    }
 
     const queryTooShort = queryLength < minQueryLength
     const noResults = length === 0
 
     const contentSelectedOption = selectedOption
-      ? <span>{selectedOption} (1 of {length}) is selected.</span>
-      : null
+      ? tSelectedOption(selectedOption, length)
+      : ''
 
     let content = null
     if (queryTooShort) {
-      content = <span>Type in {minQueryLength} or more characters for results.</span>
+      content = tQueryTooShort(minQueryLength)
     } else if (noResults) {
-      content = <span>No search results.</span>
+      content = tNoResults()
     } else {
-      content = <span>{length} {words.result} {words.is} available. {contentSelectedOption}</span>
+      content = tResults(length, contentSelectedOption)
     }
 
     return <div
