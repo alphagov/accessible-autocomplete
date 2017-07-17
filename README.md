@@ -258,6 +258,12 @@ This object defines templates (functions) that are used for displaying parts of 
 
 `suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
 
+### `onChange` (default: `undefined`)
+
+Type: `Function`
+
+A function that gets called with the current value of the input field as it's only argument. This is handy for integrations with other libraries (e.g. redux-form).
+
 ## Progressive enhancement
 
 If your autocomplete is meant to select from a small list of options (a few hundred), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
