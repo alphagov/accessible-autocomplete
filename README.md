@@ -259,17 +259,33 @@ This object defines templates (functions) that are used for displaying parts of 
 `suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
 
 ### Internationalization
-`tNoResults` is a function that receives no arguments and should return the text used in the dropdown to indicate that there are no results. Defaults to `() => <span>No results found</span>`
 
-`tStatusQueryTooShort` is a function that receives one argument that indicates the minimal amount of characters needed for the dropdown to trigger and should return the text used in the accessibility hint to indicate that the query is too short. It defaults to `(minQueryLength) => <span>Type in {minQueryLength} or more characters for results.</span>`
+#### `tNoResults` (default: `() => <span>No results found</span>`)
 
-`tStatusNoResults` is a function that receives no arguments and should return the text that is used in the accessibility hint to indicate that there are no results. It defaults to `() => <span>No search results.</span>` 
+Type: `Function`
 
-`tStatusSelectedOption` is a function that receives two arguments, the selectedOption and the amount of available options, and it should return the text used in the accessibility hint to indicate which option is selected. It defaults to `(selectedOption, length) => <span>{selectedOption} (1 of {length}) is selected.</span>`
-  
-`tStatusResults` is a function that receives two arguments, the count of available options and the return value of `tStatusSelectedOption`, and should return the text used in the accessibility hint to indicate which options are available and which is selected. It defaults to:
-```
-(length, contentSelectedOption) => {
+A function that receives no arguments and should return the text used in the dropdown to indicate that there are no results.
+
+#### `tStatusQueryTooShort` (default: `(minQueryLength) => <span>Type in {minQueryLength} or more characters for results.</span>`)
+
+Type: `Function`
+
+A function that receives one argument that indicates the minimal amount of characters needed for the dropdown to trigger and should return the text used in the accessibility hint to indicate that the query is too short.
+
+#### `tStatusNoResults` (default: `() => <span>No search results.</span>`)
+
+Type: `Function`
+
+A function that receives no arguments and should return the text that is used in the accessibility hint to indicate that there are no results.
+
+#### `tStatusSelectedOption` (default: `(selectedOption, length) => <span>{selectedOption} (1 of {length}) is selected.</span>`)
+
+Type: `Function`
+
+A function that receives two arguments, the selectedOption and the amount of available options, and it should return the text used in the accessibility hint to indicate which option is selected.
+
+#### `tStatusResults` (default: 
+```(length, contentSelectedOption) => {
   const words = {
     result: (length === 1) ? 'result' : 'results',
     is: (length === 1) ? 'is' : 'are'
@@ -278,6 +294,11 @@ This object defines templates (functions) that are used for displaying parts of 
   return <span>{length} {words.result} {words.is} available. {contentSelectedOption}</span>
 }
 ```
+)
+
+Type: `Function`
+
+A function that receives two arguments, the count of available options and the return value of `tStatusSelectedOption`, and should return the text used in the accessibility hint to indicate which options are available and which is selected.
 
 ## Progressive enhancement
 
