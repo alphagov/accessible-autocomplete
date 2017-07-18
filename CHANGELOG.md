@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.5.0 - 2017-07-18
+
 - [Feature] Add ability to translate texts. Relates to #96. By [@sventschui](https://github.com/sventschui).
 
 ## 1.4.2 - 2017-07-18
