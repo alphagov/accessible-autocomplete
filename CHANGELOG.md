@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.4.2 - 2017-07-18
+
 - Allow space to confirm an option, fixes #98.
 - Add support for navigating lists on IE9, 10 and 11, fixes #193.
 
