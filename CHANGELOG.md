@@ -4,6 +4,10 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.6.0 - 2017-07-20
+
+- [Feature] Allow customization of the dropdown arrow. By [@sventschui](https://github.com/sventschui).
+
 ## 1.5.0 - 2017-07-18
 
 - [Feature] Add ability to translate texts. Relates to #96. By [@sventschui](https://github.com/sventschui).
