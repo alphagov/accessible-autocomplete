@@ -55,6 +55,7 @@ export default class Autocomplete extends Component {
     showNoOptionsFound: true,
     showAllValues: false,
     required: false,
+    tNoResults: () => 'No results found',
     dropdownArrow: DropdownArrowDown
   }
 
@@ -394,7 +395,12 @@ export default class Autocomplete extends Component {
       placeholder,
       required,
       showAllValues,
-      dropdownArrow: dropdownArrowFactory,
+      tNoResults,
+      tStatusQueryTooShort,
+      tStatusNoResults,
+      tStatusSelectedOption,
+      tStatusResults,
+      dropdownArrow: dropdownArrowFactory
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected } = this.state
     const autoselect = this.hasAutoselect()
@@ -450,6 +456,10 @@ export default class Autocomplete extends Component {
           queryLength={query.length}
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
+          tQueryTooShort={tStatusQueryTooShort}
+          tNoResults={tStatusNoResults}
+          tSelectedOption={tStatusSelectedOption}
+          tResults={tStatusResults}
         />
 
         {showHint && (
@@ -495,7 +505,7 @@ export default class Autocomplete extends Component {
                 dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) }}
                 id={`${id}__option--${index}`}
                 key={index}
-                onBlur={(event) => this.handleOptionBlur(event, index)}
+                onFocusOut={(event) => this.handleOptionBlur(event, index)}
                 onClick={(event) => this.handleOptionClick(event, index)}
                 onMouseDown={this.handleOptionMouseDown}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
@@ -509,7 +519,7 @@ export default class Autocomplete extends Component {
           })}
 
           {showNoOptionsFound && (
-            <li className={`${optionClassName} ${optionClassName}--no-results`}>No results found</li>
+            <li className={`${optionClassName} ${optionClassName}--no-results`}>{tNoResults()}</li>
           )}
         </ul>
       </div>

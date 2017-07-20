@@ -264,6 +264,51 @@ Type: `Function`
 
 A function that gets passed an object with the property `className` (`{ className: '' }`) and should return either a string (ATTENTION this will NOT be escaped. Be sure to only pass in safe values) or a (P)React element.
 
+### Internationalization
+
+#### `tNoResults` (default: `() => 'No results found'`)
+
+Type: `Function`
+
+A function that receives no arguments and should return the text used in the dropdown to indicate that there are no results.
+
+#### `tStatusQueryTooShort` (default: `` (minQueryLength) => `Type in ${minQueryLength} or more characters for results.` ``)
+
+Type: `Function`
+
+A function that receives one argument that indicates the minimal amount of characters needed for the dropdown to trigger and should return the text used in the accessibility hint to indicate that the query is too short.
+
+#### `tStatusNoResults` (default: `() => 'No search results.'`)
+
+Type: `Function`
+
+A function that receives no arguments and should return the text that is used in the accessibility hint to indicate that there are no results.
+
+#### `tStatusSelectedOption` (default: `` (selectedOption, length) => `${selectedOption} (1 of ${length}) is selected.` ``)
+
+Type: `Function`
+
+A function that receives two arguments, the selectedOption and the amount of available options, and it should return the text used in the accessibility hint to indicate which option is selected.
+
+#### `tStatusResults`
+
+Default:
+
+```js
+(length, contentSelectedOption) => {
+  const words = {
+    result: (length === 1) ? 'result' : 'results',
+    is: (length === 1) ? 'is' : 'are'
+  }
+
+  return <span>{length} {words.result} {words.is} available. {contentSelectedOption}</span>
+}
+```
+
+Type: `Function`
+
+A function that receives two arguments, the count of available options and the return value of `tStatusSelectedOption`, and should return the text used in the accessibility hint to indicate which options are available and which is selected.
+
 ## Progressive enhancement
 
 If your autocomplete is meant to select from a small list of options (a few hundred), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
