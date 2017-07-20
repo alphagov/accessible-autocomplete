@@ -258,6 +258,12 @@ This object defines templates (functions) that are used for displaying parts of 
 
 `suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
 
+#### `dropdownArrow` (default: A rectangle pointing down)
+
+Type: `Function`
+
+A function that gets passed an object with the property `className` (`{ className: '' }`) and should return a string of HTML or a (P)React element. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
+
 ### Internationalization
 
 #### `tNoResults` (default: `() => 'No results found'`)
@@ -284,7 +290,7 @@ Type: `Function`
 
 A function that receives two arguments, the selectedOption and the amount of available options, and it should return the text used in the accessibility hint to indicate which option is selected.
 
-#### `tStatusResults` 
+#### `tStatusResults`
 
 Default:
 
