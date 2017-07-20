@@ -262,7 +262,7 @@ This object defines templates (functions) that are used for displaying parts of 
 
 Type: `Function`
 
-A function that gets passed an object with the property `className` (`{ className: '' }`) and should return either a string (ATTENTION this will NOT be escaped. Be sure to only pass in safe values) or a (P)React element.
+A function that gets passed an object with the property `className` (`{ className: '' }`) and should return a string of HTML or a (P)React element. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
 
 ### Internationalization
 
