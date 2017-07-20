@@ -445,7 +445,7 @@ export default class Autocomplete extends Component {
 
       // if the factory returns a string we'll render this as HTML (usage w/o (P)React)
       if (typeof dropdownArrow === 'string') {
-        dropdownArrow = <div className={`${cssNamespace}__dropdown-arrow-down-wrapper`} dangerouslySetInnerHTML={{__html: dropdownArrow}}/>
+        dropdownArrow = <div className={`${cssNamespace}__dropdown-arrow-down-wrapper`} dangerouslySetInnerHTML={{ __html: dropdownArrow }} />
       }
     }
 
