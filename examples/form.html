@@ -641,7 +641,7 @@
 
     <script type="text/javascript" src="../dist/accessible-autocomplete.min.js"></script>
     <script type="text/javascript">
-      var selectEl = document.querySelector('#last-country')
+      var selectEl = document.querySelector('#last-location')
       accessibleAutocomplete.enhanceSelectElement({
         autoselect: true,
         defaultValue: selectEl.options[selectEl.options.selectedIndex].innerHTML,
@@ -649,7 +649,7 @@
         selectElement: selectEl
       })
 
-      selectEl = document.querySelector('#passport-country')
+      selectEl = document.querySelector('#passport-location')
       accessibleAutocomplete.enhanceSelectElement({
         autoselect: true,
         defaultValue: selectEl.options[selectEl.options.selectedIndex].innerHTML,
