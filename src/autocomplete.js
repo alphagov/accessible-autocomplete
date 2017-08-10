@@ -86,7 +86,6 @@ export default class Autocomplete extends Component {
     this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
     this.handleOptionMouseEnter = this.handleOptionMouseEnter.bind(this)
     this.handleOptionMouseOut = this.handleOptionMouseOut.bind(this)
-    this.handleOptionTouchEnd = this.handleOptionTouchEnd.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -258,10 +257,6 @@ export default class Autocomplete extends Component {
     this.setState({
       hovered: null
     })
-  }
-
-  handleOptionTouchEnd (event, index) {
-    this.handleOptionClick(event, index)
   }
 
   handleOptionClick (event, index) {
@@ -511,7 +506,6 @@ export default class Autocomplete extends Component {
                 onMouseDown={this.handleOptionMouseDown}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
                 onMouseOut={(event) => this.handleOptionMouseOut(event, index)}
-                onTouchEnd={(event) => this.handleOptionTouchEnd(event, index)}
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
                 tabIndex='-1'
