@@ -112,6 +112,15 @@
       <label for="autocomplete-showAllValues">Select your country</label>
       <div id="tt-showAllValues" class="autocomplete-wrapper"></div>
 
+      <h3><code>{ showAllValues: true, dropdownArrow: () => '' }</code></h3>
+      <p>
+        When <code>showAllValues</code> is <code>true</code> a dropdown arrow
+        will be displayed. It can be customized using a function that receives a
+        `{ className: string }` object and returns a string or (P)React component.
+      </p>
+      <label for="autocomplete-customDropdownArrow">Select your country</label>
+      <div id="tt-customDropdownArrow" class="autocomplete-wrapper"></div>
+
       <h2>Advanced features</h2>
 
       <h3>Progressive enhancement</h3>
@@ -139,6 +148,17 @@
       <p>Uses the <code>{ templates: { inputValue, suggestion } }</code> options.</p>
       <label for="autocomplete-customTemplates">Select your country</label>
       <div id="tt-customTemplates" class="autocomplete-wrapper"></div>
+
+      <h3>Translating texts</h3>
+      <p>
+        This example demonstrates how to translate the texts emitted by the component.
+      </p>
+      <p>Uses the <code>{ tStatusQueryTooShort: (minQueryLength) => '',
+        tStatusNoResults: () => '',
+        tStatusSelectedOption: (selectedOption, length) => '',
+        tStatusResults: () => '' }</code> options.</p>
+      <label for="autocomplete-i18n">Select your country</label>
+      <div id="tt-i18n" class="autocomplete-wrapper"></div>
     </main>
 
     <script type="text/javascript" src="../dist/accessible-autocomplete.min.js"></script>
@@ -544,6 +564,41 @@
         id: id,
         showAllValues: true,
         source: countries
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-i18n')
+      id = 'autocomplete-i18n'
+      accessibleAutocomplete({
+        element: element,
+        id: id,
+        showAllValues: false,
+        source: countries,
+        tStatusQueryTooShort: (minQueryLength) => `Tippe mindestens ${minQueryLength} Zeichen ein für Resultate.`,
+        tStatusNoResults: () => 'Keine Resultate.',
+        tStatusSelectedOption: (selectedOption, length) => `${selectedOption} (1 von ${length}) ist ausgewählt.`,
+        tStatusResults: (length, contentSelectedOption) => {
+          const words = {
+            result: (length === 1) ? 'Resultat' : 'Resultate',
+            is: (length === 1) ? 'ist' : 'sind'
+          }
+
+          return `${length} ${words.result} ${words.is} verfügbar. ${contentSelectedOption}`
+        },
+        tNoResults: () => 'Keine Resultate'
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-customDropdownArrow')
+      id = 'autocomplete-customDropdownArrow'
+      accessibleAutocomplete({
+        element: element,
+        id: id,
+        showAllValues: true,
+        source: countries,
+        dropdownArrow: ({ className }) => `<svg class="${className}" style="top: 8px;" viewBox="0 0 512 512" ><path d="M256,298.3L256,298.3L256,298.3l174.2-167.2c4.3-4.2,11.4-4.1,15.8,0.2l30.6,29.9c4.4,4.3,4.5,11.3,0.2,15.5L264.1,380.9  c-2.2,2.2-5.2,3.2-8.1,3c-3,0.1-5.9-0.9-8.1-3L35.2,176.7c-4.3-4.2-4.2-11.2,0.2-15.5L66,131.3c4.4-4.3,11.5-4.4,15.8-0.2L256,298.3  z"/></svg>`
       })
     </script>
 

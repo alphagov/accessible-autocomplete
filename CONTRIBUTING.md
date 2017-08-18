@@ -138,7 +138,7 @@ npm version <major|minor|patch> -m "## 1.2.3 - 2017-01-13
 
 - Change included in this release
 - Another change included in this release"
-git push --tags --set-upstream origin v1.2.3
+git push --tags --set-upstream origin refs/heads/v1.2.3:refs/heads/v1.2.3
 ```
 
 To actually publish, you will need access to an `npm` account that owns `accessible-autocomplete`. Merge the version PR and then run:

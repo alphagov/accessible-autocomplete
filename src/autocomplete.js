@@ -55,6 +55,8 @@ export default class Autocomplete extends Component {
     showNoOptionsFound: true,
     showAllValues: false,
     required: false,
+    tNoResults: () => 'No results found',
+    dropdownArrow: DropdownArrowDown,
     onChange: () => {}
   }
 
@@ -391,7 +393,22 @@ export default class Autocomplete extends Component {
   }
 
   render () {
-    const { cssNamespace, displayMenu, id, minLength, name, placeholder, required, showAllValues } = this.props
+    const {
+      cssNamespace,
+      displayMenu,
+      id,
+      minLength,
+      name,
+      placeholder,
+      required,
+      showAllValues,
+      tNoResults,
+      tStatusQueryTooShort,
+      tStatusNoResults,
+      tStatusSelectedOption,
+      tStatusResults,
+      dropdownArrow: dropdownArrowFactory
+    } = this.props
     const { focused, hovered, menuOpen, options, query, selected } = this.state
     const autoselect = this.hasAutoselect()
 
@@ -427,6 +444,18 @@ export default class Autocomplete extends Component {
       : ''
     const showHint = hasPointerEvents && hintValue
 
+    let dropdownArrow
+
+    // we only need a dropdown arrow if showAllValues is set to a truthy value
+    if (showAllValues) {
+      dropdownArrow = dropdownArrowFactory({ className: dropdownArrowClassName })
+
+      // if the factory returns a string we'll render this as HTML (usage w/o (P)React)
+      if (typeof dropdownArrow === 'string') {
+        dropdownArrow = <div className={`${cssNamespace}__dropdown-arrow-down-wrapper`} dangerouslySetInnerHTML={{ __html: dropdownArrow }} />
+      }
+    }
+
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
@@ -434,6 +463,10 @@ export default class Autocomplete extends Component {
           queryLength={query.length}
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
+          tQueryTooShort={tStatusQueryTooShort}
+          tNoResults={tStatusNoResults}
+          tSelectedOption={tStatusSelectedOption}
+          tResults={tStatusResults}
         />
 
         {showHint && (
@@ -460,9 +493,7 @@ export default class Autocomplete extends Component {
           value={query}
         />
 
-        {showAllValues && (
-          <DropdownArrowDown className={dropdownArrowClassName} />
-        )}
+        {dropdownArrow}
 
         <ul
           className={`${menuClassName} ${menuModifierDisplayMenu} ${menuModifierVisibility}`}
@@ -481,7 +512,7 @@ export default class Autocomplete extends Component {
                 dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) }}
                 id={`${id}__option--${index}`}
                 key={index}
-                onBlur={(event) => this.handleOptionBlur(event, index)}
+                onFocusOut={(event) => this.handleOptionBlur(event, index)}
                 onClick={(event) => this.handleOptionClick(event, index)}
                 onMouseDown={this.handleOptionMouseDown}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
@@ -495,7 +526,7 @@ export default class Autocomplete extends Component {
           })}
 
           {showNoOptionsFound && (
-            <li className={`${optionClassName} ${optionClassName}--no-results`}>No results found</li>
+            <li className={`${optionClassName} ${optionClassName}--no-results`}>{tNoResults()}</li>
           )}
         </ul>
       </div>

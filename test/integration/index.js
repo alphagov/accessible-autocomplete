@@ -15,6 +15,7 @@ const basicExample = () => {
     const input = 'input#autocomplete-default'
     const menu = `${input} + ul`
     const firstOption = `${menu} > li:first-child`
+    const secondOption = `${menu} > li:nth-child(2)`
 
     beforeEach(() => {
       browser.setValue(input, '') // Prevent autofilling, IE likes to do this.
@@ -50,6 +51,11 @@ const basicExample = () => {
         browser.addValue(input, ['ArrowDown'])
         expect(browser.hasFocus(input)).to.equal(false)
         expect(browser.hasFocus(firstOption)).to.equal(true)
+        browser.addValue(firstOption, ['ArrowDown'])
+        expect(browser.isVisible(menu)).to.equal(true)
+        expect(browser.getValue(input)).to.equal('ita')
+        expect(browser.hasFocus(firstOption)).to.equal(false)
+        expect(browser.hasFocus(secondOption)).to.equal(true)
       })
 
       it('should allow confirming an option', () => {
