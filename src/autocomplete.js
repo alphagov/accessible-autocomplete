@@ -54,7 +54,8 @@ export default class Autocomplete extends Component {
     confirmOnBlur: true,
     showNoOptionsFound: true,
     showAllValues: false,
-    required: false
+    required: false,
+    onChange: () => {}
   }
 
   elementReferences = {}
@@ -226,7 +227,7 @@ export default class Autocomplete extends Component {
       })
     }
 
-    if (queryChanged && this.props.onChange) {
+    if (queryChanged) {
       this.props.onChange(query)
     }
   }
@@ -276,9 +277,7 @@ export default class Autocomplete extends Component {
       selected: -1
     })
 
-    if (this.props.onChange) {
-      this.props.onChange(newQuery)
-    }
+    this.props.onChange(newQuery)
   }
 
   handleOptionMouseDown (event) {
