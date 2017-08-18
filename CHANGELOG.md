@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 _(add items here for easier creation of next log entry)_
+- [Feature] Introduce onChange that fires on every input field change. By [@sventschui](https://github.com/sventschui).
 
 ## 1.6.0 - 2017-07-20
 
