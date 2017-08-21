@@ -450,7 +450,7 @@ export default class Autocomplete extends Component {
     }
 
     return (
-      <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
+      <div className={wrapperClassName} onKeyDown={this.handleKeyDown} role='combobox' aria-expanded={menuOpen ? 'true' : 'false'}>
         <Status
           length={options.length}
           queryLength={query.length}
@@ -468,7 +468,6 @@ export default class Autocomplete extends Component {
 
         <input
           aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
-          aria-expanded={menuOpen}
           aria-owns={`${id}__listbox`}
           autoComplete='off'
           className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
@@ -480,8 +479,8 @@ export default class Autocomplete extends Component {
           name={name}
           placeholder={placeholder}
           ref={(inputElement) => { this.elementReferences[-1] = inputElement }}
-          role='combobox'
           type='text'
+          role='textbox'
           required={required}
           value={query}
         />

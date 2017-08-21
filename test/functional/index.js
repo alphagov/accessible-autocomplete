@@ -68,6 +68,25 @@ describe('Autocomplete', () => {
         expect(scratch.innerHTML).to.contain('class="bob__input')
         expect(scratch.innerHTML).to.contain('class="bob__menu')
       })
+
+      it('renders with the correct aria attributes', () => {
+        render(<Autocomplete required />, scratch)
+
+        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+
+        expect(wrapperElement.getAttribute('aria-expanded')).to.equal('false')
+      })
+
+      it('renders with the correct roles', () => {
+        render(<Autocomplete required />, scratch)
+
+        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        let inputElement = wrapperElement.getElementsByTagName('input')[0]
+        let dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
+
+        expect(inputElement.getAttribute('role')).to.equal('textbox', 'input should have textbox role')
+        expect(dropdownElement.getAttribute('role')).to.equal('listbox', 'menu should have listbox role')
+      })
     })
   })
 
