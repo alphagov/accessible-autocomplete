@@ -178,7 +178,7 @@ export default class Autocomplete extends Component {
     const focusingOutsideComponent = event.relatedTarget === null
     const focusingInput = event.relatedTarget === this.elementReferences[-1]
     const focusingAnotherOption = focused !== index && focused !== -1
-    const blurComponent = focusingOutsideComponent || !(focusingAnotherOption || focusingInput)
+    const blurComponent = (!focusingAnotherOption && focusingOutsideComponent) || !(focusingAnotherOption || focusingInput)
     if (blurComponent) {
       const keepMenuOpen = menuOpen && isIosDevice()
       this.handleComponentBlur({
