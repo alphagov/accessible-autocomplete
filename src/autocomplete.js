@@ -117,7 +117,8 @@ export default class Autocomplete extends Component {
 
   getDirectInputChanges () {
     const inputReference = this.elementReferences[-1]
-    const queryHasChanged = inputReference.value !== this.state.query
+    const queryHasChanged = inputReference && inputReference.value !== this.state.query
+
     if (queryHasChanged) {
       this.handleInputChange({ target: { value: inputReference.value } })
     }
@@ -273,6 +274,7 @@ export default class Autocomplete extends Component {
       query: newQuery,
       selected: -1
     })
+    this.forceUpdate()
   }
 
   handleOptionMouseDown (event) {
