@@ -5,7 +5,7 @@
   "style": "dist/accessible-autocomplete.min.css",
   "description": "An autocomplete component, built to be accessible.",
   "repository": "alphagov/accessible-autocomplete",
-  "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
+  "author": "Government Digital Service (https://www.gov.uk/government/organisations/government-digital-service)",
   "license": "MIT",
   "keywords": [
     "a11y",
