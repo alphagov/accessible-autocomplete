@@ -69,7 +69,6 @@
     "sinon-chai": "^2.8.0",
     "source-map-loader": "^0.2.1",
     "standard": "^10.0.2",
-    "v8-lazy-parse-webpack-plugin": "^0.3.0",
     "wdio-mocha-framework": "^0.5.10",
     "wdio-sauce-service": "^0.4.0",
     "wdio-selenium-standalone-service": "^0.0.8",
