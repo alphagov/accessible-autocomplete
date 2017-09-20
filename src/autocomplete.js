@@ -54,7 +54,6 @@ export default class Autocomplete extends Component {
     placeholder: '',
     onConfirm: () => {},
     confirmOnBlur: true,
-    //showNoOptionsFound: true,
     showAllValues: false,
     required: false,
     tNoResults: () => 'No results found',
@@ -165,11 +164,8 @@ export default class Autocomplete extends Component {
     if (this.props.confirmOnBlur) {
       newQuery = newState.query || query
       this.props.onConfirm(options[selected])
-      console.log('confirmed handleComponentBlur')
-      console.log('properties', this.props)
     } else {
       newQuery = query
-      console.log('query handleComponentBlur')
     }
     this.setState({
       focused: null,
@@ -216,15 +212,11 @@ export default class Autocomplete extends Component {
     const queryEmpty = query.length === 0
     const queryChanged = this.state.query.length !== query.length
     const queryLongEnough = query.length >= minLength
-    console.log('handleInputChange query', query)
-    console.log('templateInput with query', this.templateInputValue(query))
 
     this.setState({ query })
 
     const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
     if (searchForOptions) {
-      console.log('>>>searchForOptions')
-      console.log('handleInputChange state', this.state)
       source(query, (options) => {
         const optionsAvailable = options.length > 0
         this.setState({
@@ -289,7 +281,6 @@ export default class Autocomplete extends Component {
       showNoOptionsFound: false,
       selected: -1
     })
-    console.log('>>>>>>this', this)
   }
 
   handleOptionMouseDown (event) {
@@ -421,9 +412,6 @@ export default class Autocomplete extends Component {
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected, showNoOptionsFound } = this.state
     const autoselect = this.hasAutoselect()
-    if (query && !menuOpen) {
-      console.log('element references', query)
-    }
 
     const wrapperClassName = `${cssNamespace}__wrapper`
 
@@ -475,8 +463,6 @@ export default class Autocomplete extends Component {
         dropdownArrow = <div className={`${cssNamespace}__dropdown-arrow-down-wrapper`} dangerouslySetInnerHTML={{ __html: dropdownArrow }} />
       }
     }
-
-    //console.log('selectedOption', selectedOptionText)
 
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
