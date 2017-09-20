@@ -45,6 +45,8 @@ export default class Autocomplete extends Component {
   static defaultProps = {
     autoselect: false,
     cssNamespace: 'autocomplete',
+    countries: [],
+    chosen: '',
     defaultValue: '',
     displayMenu: 'inline',
     minLength: 0,
@@ -52,7 +54,7 @@ export default class Autocomplete extends Component {
     placeholder: '',
     onConfirm: () => {},
     confirmOnBlur: true,
-    showNoOptionsFound: true,
+    //showNoOptionsFound: true,
     showAllValues: false,
     required: false,
     tNoResults: () => 'No results found',
@@ -70,7 +72,8 @@ export default class Autocomplete extends Component {
       menuOpen: false,
       options: props.defaultValue ? [props.defaultValue] : [],
       query: props.defaultValue,
-      selected: null
+      selected: null,
+      showNoOptionsFound: false
     }
 
     this.handleComponentBlur = this.handleComponentBlur.bind(this)
@@ -162,12 +165,17 @@ export default class Autocomplete extends Component {
     if (this.props.confirmOnBlur) {
       newQuery = newState.query || query
       this.props.onConfirm(options[selected])
+      console.log('confirmed handleComponentBlur')
+      console.log('properties', this.props)
     } else {
       newQuery = query
+      console.log('query handleComponentBlur')
     }
     this.setState({
       focused: null,
       menuOpen: newState.menuOpen || false,
+      options: [],
+      showNoOptionsFound: false,
       query: newQuery,
       selected: null
     })
@@ -208,17 +216,22 @@ export default class Autocomplete extends Component {
     const queryEmpty = query.length === 0
     const queryChanged = this.state.query.length !== query.length
     const queryLongEnough = query.length >= minLength
+    console.log('handleInputChange query', query)
+    console.log('templateInput with query', this.templateInputValue(query))
 
     this.setState({ query })
 
     const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
     if (searchForOptions) {
+      console.log('>>>searchForOptions')
+      console.log('handleInputChange state', this.state)
       source(query, (options) => {
         const optionsAvailable = options.length > 0
         this.setState({
           menuOpen: optionsAvailable,
           options,
-          selected: (autoselect && optionsAvailable) ? 0 : -1
+          selected: (autoselect && optionsAvailable) ? 0 : -1,
+          showNoOptionsFound: !optionsAvailable && true
         })
       })
     } else if (queryEmpty || !queryLongEnough) {
@@ -264,15 +277,19 @@ export default class Autocomplete extends Component {
   }
 
   handleOptionClick (event, index) {
+    event.preventDefault()
     const selectedOption = this.state.options[index]
     const newQuery = this.templateInputValue(selectedOption)
     this.props.onConfirm(selectedOption)
     this.setState({
       focused: -1,
       menuOpen: false,
+      options: [],
       query: newQuery,
+      showNoOptionsFound: false,
       selected: -1
     })
+    console.log('>>>>>>this', this)
   }
 
   handleOptionMouseDown (event) {
@@ -402,15 +419,11 @@ export default class Autocomplete extends Component {
       tStatusResults,
       dropdownArrow: dropdownArrowFactory
     } = this.props
-    const { focused, hovered, menuOpen, options, query, selected } = this.state
+    const { focused, hovered, menuOpen, options, query, selected, showNoOptionsFound } = this.state
     const autoselect = this.hasAutoselect()
-
-    const inputFocused = focused === -1
-    const noOptionsAvailable = options.length === 0
-    const queryNotEmpty = query.length !== 0
-    const queryLongEnough = query.length >= minLength
-    const showNoOptionsFound = this.props.showNoOptionsFound &&
-      inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
+    if (query && !menuOpen) {
+      console.log('element references', query)
+    }
 
     const wrapperClassName = `${cssNamespace}__wrapper`
 
@@ -430,6 +443,20 @@ export default class Autocomplete extends Component {
 
     const hintClassName = `${cssNamespace}__hint`
     const selectedOptionText = this.templateInputValue(options[selected])
+
+    if (this.templateInputValue(options).length > 0) {
+      this.props.countries = this.templateInputValue(options)
+    }
+
+    var chosen
+    this.props.countries.forEach(function (entry, actualEntry) {
+      if (query === entry && !menuOpen) {
+        chosen = entry
+      }
+    })
+
+    this.props.chosen = chosen
+
     const optionBeginsWithQuery = selectedOptionText &&
       selectedOptionText.toLowerCase().indexOf(query.toLowerCase()) === 0
     const hintValue = (optionBeginsWithQuery && autoselect)
@@ -449,11 +476,15 @@ export default class Autocomplete extends Component {
       }
     }
 
+    //console.log('selectedOption', selectedOptionText)
+
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
+          chosen={this.props.chosen}
           length={options.length}
           queryLength={query.length}
+          menuIsVisible={menuIsVisible}
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
           tQueryTooShort={tStatusQueryTooShort}
@@ -465,6 +496,8 @@ export default class Autocomplete extends Component {
         {showHint && (
           <span><input className={hintClassName} readonly tabIndex='-1' value={hintValue} /></span>
         )}
+
+        <li>Results length {options.length}</li>
 
         <input
           aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}

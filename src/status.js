@@ -28,8 +28,10 @@ export default class Status extends Component {
 
   render () {
     const {
+      chosen,
       length,
       queryLength,
+      menuIsVisible,
       minQueryLength,
       selectedOption,
       tQueryTooShort,
@@ -49,6 +51,8 @@ export default class Status extends Component {
     let content = null
     if (queryTooShort) {
       content = tQueryTooShort(minQueryLength)
+    } else if (!menuIsVisible && noResults && chosen !== undefined) {
+      content = chosen + ' chosen'
     } else if (noResults) {
       content = tNoResults()
     } else {
@@ -73,7 +77,7 @@ export default class Status extends Component {
       }}
     >
       {content}
-      <span>{bump ? ',' : ',,'}</span>
+      <span aria-hidden='true'>{bump ? ',' : ',,'}</span>
     </div>
   }
 }
