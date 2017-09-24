@@ -1,7 +1,6 @@
 import webpack from 'webpack'
 import ReplacePlugin from 'replace-bundle-webpack-plugin'
 import path from 'path'
-import V8LazyParseWebpackPlugin from 'v8-lazy-parse-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
@@ -13,7 +12,6 @@ const plugins = [
 ]
 
 const productionPlugins = [
-  new V8LazyParseWebpackPlugin(),
   new webpack.optimize.UglifyJsPlugin({
     output: {
       comments: false

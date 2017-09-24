@@ -5,7 +5,7 @@
   "style": "dist/accessible-autocomplete.min.css",
   "description": "An autocomplete component, built to be accessible.",
   "repository": "alphagov/accessible-autocomplete",
-  "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
+  "author": "Government Digital Service (https://www.gov.uk/government/organisations/government-digital-service)",
   "license": "MIT",
   "keywords": [
     "a11y",
@@ -69,7 +69,6 @@
     "sinon-chai": "^2.8.0",
     "source-map-loader": "^0.2.1",
     "standard": "^10.0.2",
-    "v8-lazy-parse-webpack-plugin": "^0.3.0",
     "wdio-mocha-framework": "^0.5.10",
     "wdio-sauce-service": "^0.4.0",
     "wdio-selenium-standalone-service": "^0.0.8",

@@ -86,7 +86,6 @@ export default class Autocomplete extends Component {
     this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
     this.handleOptionMouseEnter = this.handleOptionMouseEnter.bind(this)
     this.handleOptionMouseOut = this.handleOptionMouseOut.bind(this)
-    this.handleOptionTouchEnd = this.handleOptionTouchEnd.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -117,7 +116,8 @@ export default class Autocomplete extends Component {
 
   getDirectInputChanges () {
     const inputReference = this.elementReferences[-1]
-    const queryHasChanged = inputReference.value !== this.state.query
+    const queryHasChanged = inputReference && inputReference.value !== this.state.query
+
     if (queryHasChanged) {
       this.handleInputChange({ target: { value: inputReference.value } })
     }
@@ -178,7 +178,7 @@ export default class Autocomplete extends Component {
     const focusingOutsideComponent = event.relatedTarget === null
     const focusingInput = event.relatedTarget === this.elementReferences[-1]
     const focusingAnotherOption = focused !== index && focused !== -1
-    const blurComponent = focusingOutsideComponent || !(focusingAnotherOption || focusingInput)
+    const blurComponent = (!focusingAnotherOption && focusingOutsideComponent) || !(focusingAnotherOption || focusingInput)
     if (blurComponent) {
       const keepMenuOpen = menuOpen && isIosDevice()
       this.handleComponentBlur({
@@ -259,10 +259,6 @@ export default class Autocomplete extends Component {
     })
   }
 
-  handleOptionTouchEnd (event, index) {
-    this.handleOptionClick(event, index)
-  }
-
   handleOptionClick (event, index) {
     const selectedOption = this.state.options[index]
     const newQuery = this.templateInputValue(selectedOption)
@@ -273,6 +269,7 @@ export default class Autocomplete extends Component {
       query: newQuery,
       selected: -1
     })
+    this.forceUpdate()
   }
 
   handleOptionMouseDown (event) {
@@ -450,7 +447,7 @@ export default class Autocomplete extends Component {
     }
 
     return (
-      <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
+      <div className={wrapperClassName} onKeyDown={this.handleKeyDown} role='combobox' aria-expanded={menuOpen ? 'true' : 'false'}>
         <Status
           length={options.length}
           queryLength={query.length}
@@ -468,7 +465,6 @@ export default class Autocomplete extends Component {
 
         <input
           aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
-          aria-expanded={menuOpen}
           aria-owns={`${id}__listbox`}
           autoComplete='off'
           className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
@@ -480,8 +476,8 @@ export default class Autocomplete extends Component {
           name={name}
           placeholder={placeholder}
           ref={(inputElement) => { this.elementReferences[-1] = inputElement }}
-          role='combobox'
           type='text'
+          role='textbox'
           required={required}
           value={query}
         />
@@ -510,7 +506,6 @@ export default class Autocomplete extends Component {
                 onMouseDown={this.handleOptionMouseDown}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
                 onMouseOut={(event) => this.handleOptionMouseOut(event, index)}
-                onTouchEnd={(event) => this.handleOptionTouchEnd(event, index)}
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
                 tabIndex='-1'
