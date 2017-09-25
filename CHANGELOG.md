@@ -1,8 +1,15 @@
 # CHANGELOG
 
 ## [Unreleased]
-
 _(add items here for easier creation of next log entry)_
+
+## 1.6.1 - 2017-09-25
+
+- Fix role attr by moving `role='combobox'` to wrapper and adding `role='textbox'` to the input. By [@tobias-g](https://github.com/tobias-g)
+- Fix examples page by removing unrequired npm package `v8-lazy-parse-webpack-plugin`
+- Fix scrolling on iOS by reverting #85, new issue raised to find better fix for clicking custom suggestions #177
+- Fix selection and timeout race condition. By [@tobias-g](https://github.com/tobias-g)
+- Fix dropdown on IE to ensure it isn't focusable. By [@tobias-g](https://github.com/tobias-g)
 
 ## 1.6.0 - 2017-07-20
 
