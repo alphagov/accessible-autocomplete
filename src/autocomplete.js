@@ -93,6 +93,16 @@ export default class Autocomplete extends Component {
 
     this.pollInputElement = this.pollInputElement.bind(this)
     this.getDirectInputChanges = this.getDirectInputChanges.bind(this)
+
+  }
+
+  dispatchChange(value) {
+    this.props.onConfirm(value)
+    var e = new CustomEvent('confirm', { detail: value })
+    this.base.querySelector('input').dispatchEvent(e)
+    if(this.props.selectElement) {
+      this.props.selectElement.dispatchEvent(e);
+    }
   }
 
   componentDidMount () {
@@ -263,6 +273,7 @@ export default class Autocomplete extends Component {
     const selectedOption = this.state.options[index]
     const newQuery = this.templateInputValue(selectedOption)
     this.props.onConfirm(selectedOption)
+    this.dispatchChange(selectedOption)
     this.setState({
       focused: -1,
       menuOpen: false,
