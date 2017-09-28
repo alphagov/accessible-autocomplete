@@ -97,7 +97,6 @@ export default class Autocomplete extends Component {
   }
 
   dispatchChange(value) {
-    this.props.onConfirm(value)
     var e = new CustomEvent('confirm', { detail: value })
     this.base.querySelector('input').dispatchEvent(e)
     if(this.props.selectElement) {
