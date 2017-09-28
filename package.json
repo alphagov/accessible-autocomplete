@@ -82,6 +82,9 @@
     "webpack-sources": "^1.0.1"
   },
   "standard": {
-    "parser": "babel-eslint"
+    "parser": "babel-eslint",
+    "globals": [
+      "CustomEvent"
+    ]
   }
 }
