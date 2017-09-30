@@ -603,14 +603,19 @@
     </script>
 
     <script type="text/javascript">
-      // var elements = document.querySelectorAll('.autocomplete-wrapper input');
-      var elements = document.querySelectorAll('select');
-      function getListner(element) {
-        return function(e) { console.log('autoselect changed to ' + e.detail); }
+
+      function logChange(selector, message) {
+        var elements = document.querySelectorAll(selector);
+        function getListner(element) {
+          return function(e) { console.log(message + e.detail); }
+        }
+        for(var i = 0; i < elements.length; i++) {
+          elements[i].addEventListener('confirm', getListner(element));
+        }
       }
-      for(var i = 0; i < elements.length; i++) {
-        elements[i].addEventListener('confirm', getListner(element));
-      }
+
+      logChange('.autocomplete-wrapper input', 'autocomplete wrapper changed to : ');
+      logChange('select', 'progressively enhanced select changed to : ');
 
     </script>
 
