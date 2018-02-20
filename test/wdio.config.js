@@ -21,7 +21,8 @@ const sauceConfig = sauceEnabled
       {
         browserName: 'firefox',
         build: buildNumber,
-        platform: 'Windows 10'
+        platform: 'Windows 10',
+        version: '55.0'
       },
       {
         browserName: 'internet explorer',
