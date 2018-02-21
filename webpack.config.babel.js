@@ -85,6 +85,11 @@ const config = {
   devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
 
   devServer: {
+    setup (app) {
+      app.get('/dist/:filename', (request, response) => {
+        response.redirect('/' + request.params.filename)
+      })
+    },
     port: process.env.PORT || 8080,
     host: 'localhost',
     publicPath: '/dist/',
