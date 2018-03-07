@@ -86,8 +86,13 @@ const config = {
 
   devServer: {
     setup (app) {
-      app.get('/dist/:filename', (request, response) => {
-        response.redirect('/' + request.params.filename)
+      // Grab potential subdirectory with :dir*?
+      app.get('/dist/:dir*?/:filename', (request, response) => {
+        if (!request.params.dir || request.params.dir === undefined) {
+          response.redirect('/' + request.params.filename)
+        } else {
+          response.redirect('/' + request.params.dir + '/' + request.params.filename)
+        }
       })
     },
     port: process.env.PORT || 8080,
