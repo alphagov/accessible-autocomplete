@@ -111,6 +111,13 @@ ReactDOM.render(
 
 [Try out the React example!](https://alphagov.github.io/accessible-autocomplete/examples/react/)
 
+#### React versions
+
+React v15.5.4 has been tested to work with the Accessible Autocomplete - although make sure to check
+out [documented issues](https://github.com/alphagov/accessible-autocomplete/issues).
+
+React v15.6.2 and 16.0 have been incompletely tested with the Accessible Autocomplete: while no undocumented issues were found, we recommend you carry out thorough testing if you wish to use these or later versions of React.
+
 ## API documentation
 
 ### Required options
