@@ -71,7 +71,7 @@
     "standard": "^10.0.2",
     "wdio-mocha-framework": "^0.5.10",
     "wdio-sauce-service": "^0.4.0",
-    "wdio-selenium-standalone-service": "^0.0.8",
+    "wdio-selenium-standalone-service": "^0.0.10",
     "wdio-spec-reporter": "^0.1.0",
     "wdio-static-server-service": "^1.0.1",
     "wdio-webpack-service": "^1.0.1",
