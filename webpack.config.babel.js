@@ -85,6 +85,16 @@ const config = {
   devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
 
   devServer: {
+    setup (app) {
+      // Grab potential subdirectory with :dir*?
+      app.get('/dist/:dir*?/:filename', (request, response) => {
+        if (!request.params.dir || request.params.dir === undefined) {
+          response.redirect('/' + request.params.filename)
+        } else {
+          response.redirect('/' + request.params.dir + '/' + request.params.filename)
+        }
+      })
+    },
     port: process.env.PORT || 8080,
     host: 'localhost',
     publicPath: '/dist/',
