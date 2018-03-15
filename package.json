@@ -65,7 +65,7 @@
     "npm-run-all": "^4.0.2",
     "phantomjs-prebuilt": "^2.1.12",
     "replace-bundle-webpack-plugin": "^1.0.0",
-    "sinon": "^3.0.0",
+    "sinon": "^4.0.0",
     "sinon-chai": "^2.8.0",
     "source-map-loader": "^0.2.1",
     "standard": "^10.0.2",
