@@ -103,21 +103,6 @@ export default class Autocomplete extends Component {
     }
   }
 
-  componentWillMount () {
-    if (typeof window.CustomEvent === 'function') return false
-
-    function CustomEvent (event, params) {
-      params = params || { bubbles: false, cancelable: false, detail: undefined }
-      var evt = document.createEvent('CustomEvent')
-      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail)
-      return evt
-    }
-
-    CustomEvent.prototype = window.Event.prototype
-
-    window.CustomEvent = CustomEvent
-  }
-
   componentDidMount () {
     this.pollInputElement()
   }
@@ -451,7 +436,6 @@ export default class Autocomplete extends Component {
 
     const hintClassName = `${cssNamespace}__hint`
     const selectedOptionText = this.templateInputValue(options[selected])
-
     const optionBeginsWithQuery = selectedOptionText &&
       selectedOptionText.toLowerCase().indexOf(query.toLowerCase()) === 0
     const hintValue = (optionBeginsWithQuery && autoselect)
@@ -491,7 +475,7 @@ export default class Autocomplete extends Component {
         <input
           aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
           aria-owns={`${id}__listbox`}
-          autocomplete='off'
+          autoComplete='off'
           className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
           id={id}
           onClick={(event) => this.handleInputClick(event)}
