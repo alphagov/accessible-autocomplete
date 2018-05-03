@@ -167,6 +167,9 @@ export default class Autocomplete extends Component {
   handleComponentBlur (newState) {
     const { options, query, selected } = this.state
     let newQuery
+    if(options[selected]) {
+      this.dispatchChange(options[selected])
+    }
     if (this.props.confirmOnBlur) {
       newQuery = newState.query || query
       this.props.onConfirm(options[selected])
