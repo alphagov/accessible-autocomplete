@@ -224,6 +224,54 @@ describe('Autocomplete', () => {
           expect(autocomplete.state.query).to.equal('France')
         })
       })
+
+      describe('with defaultValue and custom templates', () => {
+        const options = [
+          { endonymLang: 'fr', endonym: 'République Française', name: 'France' },
+          { endonymLang: 'de', endonym: 'Deutschland', name: 'Germany' },
+          { endonymLang: 'en', endonym: 'Great Britain', name: 'United Kingdom' }
+        ]
+
+        function customSuggest (query, syncResults) {
+          const results = options.filter((result) => {
+            const resultContains = query && result.name.toLowerCase().match(query.toLowerCase())
+            const endonymContains = query && result.endonym.toLowerCase().match(query.toLowerCase())
+            return resultContains || endonymContains
+          })
+
+          syncResults(results)
+        }
+
+        function inputValueTemplate (result) {
+          return result && result.name
+        }
+
+        function suggestionTemplate (result) {
+          return result && `${result.name} (${result.endonym})`
+        }
+
+        beforeEach(() => {
+          autocomplete = new Autocomplete({
+            ...Autocomplete.defaultProps,
+            id: 'test',
+            source: customSuggest,
+            defaultValue: options[1],
+            templates: {
+              inputValue: inputValueTemplate,
+              suggestion: suggestionTemplate
+            }
+          })
+        })
+
+        it('picks the correct option', () => {
+          expect(autocomplete.state.options.length).to.equal(1)
+          expect(autocomplete.state.options[0]).to.equal(options[1])
+        })
+
+        it('formats the query according to the inputValue template', () => {
+          expect(autocomplete.state.query).to.equal('Germany')
+        })
+      });
     })
 
     describe('blurring input', () => {

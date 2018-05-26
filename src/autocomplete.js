@@ -13,6 +13,8 @@ const keyCodes = {
   40: 'down'
 }
 
+const identity = (x) => x
+
 // Based on https://github.com/ausi/Feature-detection-technique-for-pointer-events
 const hasPointerEvents = (() => {
   const element = document.createElement('x')
@@ -64,12 +66,17 @@ export default class Autocomplete extends Component {
   constructor (props) {
     super(props)
 
+    // This template is used when converting from a state.options object into a state.query.
+    this.templateInputValue = (props.templates && props.templates.inputValue) || identity
+    // This template is used when displaying results / suggestions.
+    this.templateSuggestion = (props.templates && props.templates.suggestion) || identity
+
     this.state = {
       focused: null,
       hovered: null,
       menuOpen: false,
       options: props.defaultValue ? [props.defaultValue] : [],
-      query: props.defaultValue,
+      query: this.templateInputValue(props.defaultValue),
       selected: null
     }
 
@@ -140,20 +147,17 @@ export default class Autocomplete extends Component {
     }
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.defaultValue && !this.props.defaultValue) {
+      this.setState({
+        options: [nextProps.defaultValue],
+        query: this.templateInputValue(nextProps.defaultValue)
+      })
+    }
+  }
+
   hasAutoselect () {
     return isIosDevice() ? false : this.props.autoselect
-  }
-
-  // This template is used when converting from a state.options object into a state.query.
-  templateInputValue (value) {
-    const inputValueTemplate = this.props.templates && this.props.templates.inputValue
-    return inputValueTemplate ? inputValueTemplate(value) : value
-  }
-
-  // This template is used when displaying results / suggestions.
-  templateSuggestion (value) {
-    const suggestionTemplate = this.props.templates && this.props.templates.suggestion
-    return suggestionTemplate ? suggestionTemplate(value) : value
   }
 
   handleComponentBlur (newState) {
