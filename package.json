@@ -31,7 +31,7 @@
     "wdio": "wdio test/wdio.config.js && git checkout dist/"
   },
   "dependencies": {
-    "preact": "^8.1.0"
+    "preact": "^8.2.9"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
