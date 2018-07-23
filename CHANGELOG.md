@@ -1,7 +1,42 @@
 # CHANGELOG
 
 ## [Unreleased]
-_(add items here for easier creation of next log entry)_
+
+- Update following dependencies (from "Current" to "Wanted"). This fixes failing WebdriverIO tests and updates JS Standard to use eslint 4.
+
+| Package                                  | Current | Wanted | Latest |
+|------------------------------------------|---------|--------|--------|
+| babel-eslint                             | 8.0.0   | 8.2.6  | 8.2.6  |
+| babel-loader                             | 7.1.0   | 7.1.5  | 7.1.5  |
+| babel-plugin-transform-decorators-legacy | 1.3.4   | 1.3.5  | 1.3.5  |
+| babel-register                           | 6.24.1  | 6.26.0 | 6.26.0 |
+| babel-runtime                            | 6.23.0  | 6.26.0 | 6.26.0 |
+| chai                                     | 4.0.2   | 4.1.2  | 4.1.2  |
+| chalk                                    | 2.0.1   | 2.4.1  | 2.4.1  |
+| copy-webpack-plugin                      | 4.0.1   | 4.5.2  | 4.5.2  |
+| coveralls                                | 2.13.1  | 2.13.3 | 3.0.2  |
+| cross-env                                | 5.0.1   | 5.2.0  | 5.2.0  |
+| csso-cli                                 | 1.0.0   | 1.1.0  | 1.1.0  |
+| husky                                    | 0.14.1  | 0.14.3 | 0.14.3 |
+| karma                                    | 1.7.0   | 1.7.1  | 2.0.4  |
+| karma-coverage                           | 1.1.1   | 1.1.2  | 1.1.2  |
+| karma-mocha-reporter                     | 2.2.3   | 2.2.5  | 2.2.5  |
+| karma-webpack                            | 2.0.3   | 2.0.13 | 3.0.0  |
+| mocha                                    | 3.4.2   | 3.5.3  | 5.2.0  |
+| npm-run-all                              | 4.0.2   | 4.1.3  | 4.1.3  |
+| phantomjs-prebuilt                       | 2.1.14  | 2.1.16 | 2.1.16 |
+| preact                                   | 8.1.0   | 8.2.9  | 8.2.9  |
+| sinon-chai                               | 2.11.0  | 2.14.0 | 3.2.0  |
+| source-map-loader                        | 0.2.1   | 0.2.3  | 0.2.3  |
+| standard                                 | 10.0.2  | 11.0.1 | 11.0.1 |
+| wdio-mocha-framework                     | 0.5.10  | 0.5.13 | 0.6.2  |
+| wdio-sauce-service                       | 0.4.0   | 0.4.10 | 0.4.10 |
+| wdio-selenium-standalone-service         | 0.0.8   | 0.0.10 | 0.0.10 |
+| wdio-spec-reporter                       | 0.1.0   | 0.1.5  | 0.1.5  |
+| webdriverio                              | 4.8.0   | 4.13.1 | 4.13.1 |
+| webpack                                  | 3.0.0   | 3.12.0 | 4.16.1 |
+| webpack-dev-server                       | 2.5.0   | 2.11.2 | 3.1.4  |
+| webpack-sources                          | 1.0.1   | 1.1.0  | 1.1.0  |
 
 ## 1.6.1 - 2017-09-25
 
