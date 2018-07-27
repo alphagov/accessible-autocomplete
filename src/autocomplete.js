@@ -318,7 +318,7 @@ export default class Autocomplete extends Component {
 
   handleSpace (event) {
     // if not open, open
-    if (this.props.showAllValues && this.state.menuOpen === false) {
+    if (this.props.showAllValues && this.state.menuOpen === false && this.state.query === '') {
       event.preventDefault()
       this.props.source('', (options) => {
         this.setState({
