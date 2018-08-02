@@ -242,7 +242,7 @@ If this is set to `true`, all values are shown when the user clicks the input. T
 to a default dropdown, so the autocomplete is rendered with a dropdown arrow to convey
 this behaviour.
 
-#### `showNoResultsFound` (default: `true`)
+#### `showNoOptionsFound` (default: `true`)
 
 Type: `Boolean`
 
