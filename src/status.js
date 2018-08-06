@@ -4,7 +4,7 @@ export default class Status extends Component {
   static defaultProps = {
     tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results.`,
     tNoResults: () => 'No search results.',
-    tSelectedOption: (selectedOption, length) => `${selectedOption} (1 of ${length}) is selected.`,
+    tSelectedOption: (selectedOption, length, index) => `${selectedOption} (${index + 1} of ${length}) is selected.`,
     tResults: (length, contentSelectedOption) => {
       const words = {
         result: (length === 1) ? 'result' : 'results',
@@ -32,6 +32,7 @@ export default class Status extends Component {
       queryLength,
       minQueryLength,
       selectedOption,
+      selectedOptionIndex,
       tQueryTooShort,
       tNoResults,
       tSelectedOption,
@@ -43,7 +44,7 @@ export default class Status extends Component {
     const noResults = length === 0
 
     const contentSelectedOption = selectedOption
-      ? tSelectedOption(selectedOption, length)
+      ? tSelectedOption(selectedOption, length, selectedOptionIndex)
       : ''
 
     let content = null
