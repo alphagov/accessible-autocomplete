@@ -291,7 +291,7 @@ Type: `Function`
 
 A function that receives no arguments and should return the text that is used in the accessibility hint to indicate that there are no results.
 
-#### `tStatusSelectedOption` (default: `` (selectedOption, length) => `${selectedOption} (1 of ${length}) is selected.` ``)
+#### `tStatusSelectedOption` (default: `` (selectedOption, length, index) => `${selectedOption} (${index + 1} of ${length}) is selected.` ``)
 
 Type: `Function`
 

@@ -453,6 +453,7 @@ export default class Autocomplete extends Component {
           queryLength={query.length}
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
+          selectedOptionIndex={selected}
           tQueryTooShort={tStatusQueryTooShort}
           tNoResults={tStatusNoResults}
           tSelectedOption={tStatusSelectedOption}
