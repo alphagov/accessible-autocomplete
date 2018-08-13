@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+- Fix position being incorrectly reported as '1 of n' regardless of actual
+  position in list – thanks [@PRGfx](https://github.com/PRGfx)
+  ([#291](https://github.com/alphagov/accessible-autocomplete/pull/291))
+
+- Fix spacebar input not being registered when seeing 'No results found'
+  message – thanks [@AdenFraser](https://github.com/AdenFraser)
+  ([#287](https://github.com/alphagov/accessible-autocomplete/pull/287))
+
 - Update following dependencies (from "Current" to "Wanted"). This fixes failing WebdriverIO tests and updates JS Standard to use eslint 4.
 
 | Package                                  | Current | Wanted | Latest |
