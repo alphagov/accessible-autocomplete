@@ -28,7 +28,8 @@
   padding: 4px;
 }
 
-.autocomplete__input--focused {
+.autocomplete__input--focused,
+.autocomplete__input:focus {
   outline-offset: 0;
   outline: 3px solid #ffbf47;
 }
@@ -138,4 +139,30 @@
     font-size: 19px;
     line-height: 1.31579;
   }
+}
+
+.autocomplete__list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.autocomplete__list .autocomplete__option,
+.autocomplete__list .autocomplete__option:hover {
+  color: #0b0c0c;
+  padding: 3px 6px;
+  margin-top: 10px !important;
+  border: 1px solid #bfc1c3;
+  background: #f8f8f8;
+}
+
+.autocomplete__list .autocomplete__option:focus {
+  outline-offset: 0;
+  outline: 3px solid #ffbf47;
+}
+
+.autocomplete__remove-option {
+  font-size: 24px;
+  line-height: 1;
+  padding: 3px;
 }

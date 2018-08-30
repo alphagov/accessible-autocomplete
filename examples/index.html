@@ -159,6 +159,22 @@
         tStatusResults: () => '' }</code> options.</p>
       <label for="autocomplete-i18n">Select your country</label>
       <div id="tt-i18n" class="autocomplete-wrapper"></div>
+
+      <h3>Multiselect</h3>
+      <p>
+        This example demonstrates how to use the autocomplete on a multiselect <code>&lt;select multiple&gt;</code> element
+        Turn off JavaScript to see the <code>&lt;select multiple&gt;</code> element.
+      </p>
+      <p>Uses <code>accessibleAutocomplete.enhanceSelectElement</code>.</p>
+      <label for="multiselect-autocomplete-progressiveEnhancement">Select your country</label>
+      <div class="autocomplete-wrapper">
+        <select multiple id="multiselect-autocomplete-progressiveEnhancement">
+          <option value="fr">France</option>
+          <option value="de" selected>Germany</option>
+          <option value="gb" selected>United Kingdom</option>
+        </select>
+      </div>
+
     </main>
 
     <script type="text/javascript" src="../dist/accessible-autocomplete.min.js"></script>
@@ -480,6 +496,14 @@
     <script type="text/javascript">
       element = document.querySelector('#autocomplete-progressiveEnhancement')
       accessibleAutocomplete.enhanceSelectElement({
+        selectElement: element
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#multiselect-autocomplete-progressiveEnhancement')
+      accessibleAutocomplete.enhanceSelectElement({
+        minLength: 3,
         selectElement: element
       })
     </script>

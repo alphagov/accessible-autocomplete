@@ -23,6 +23,14 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
   if (!configurationOptions.source) {
     let availableOptions = [].filter.call(configurationOptions.selectElement.options, option => (option.value || configurationOptions.preserveNullOptions))
     configurationOptions.source = availableOptions.map(option => option.textContent || option.innerText)
+
+    // Store selected options
+    if (configurationOptions.selectElement.multiple) {
+      configurationOptions.multiple = true
+      configurationOptions.confirmOnBlur = false
+      configurationOptions.showNoOptionsFound = false
+      configurationOptions.selectedOptions = availableOptions.filter(option => option.selected)
+    }
   }
   configurationOptions.onConfirm = configurationOptions.onConfirm || (query => {
     const requestedOption = [].filter.call(configurationOptions.selectElement.options, option => (option.textContent || option.innerText) === query)[0]
@@ -31,7 +39,11 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
 
   if (configurationOptions.selectElement.value || configurationOptions.defaultValue === undefined) {
     const option = configurationOptions.selectElement.options[configurationOptions.selectElement.options.selectedIndex]
-    configurationOptions.defaultValue = option.textContent || option.innerText
+    if (configurationOptions.selectElement.multiple) {
+      configurationOptions.defaultValue = ''
+    } else if (option.textContent || option.innerText) {
+      configurationOptions.defaultValue = option.textContent || option.innerText
+    }
   }
 
   if (configurationOptions.name === undefined) configurationOptions.name = ''

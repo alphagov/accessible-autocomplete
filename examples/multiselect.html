@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accessible Autocomplete examples</title>
+    <style>
+      /* Example page specific styling. */
+      html {
+        color: #111;
+        background: #FFF;
+        font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      body {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        line-height: normal;
+      }
+
+      label {
+        display: block;
+        margin-bottom: .5rem;
+      }
+
+      code {
+        padding-left: .5em;
+        padding-right: .5em;
+        background: #EFEFEF;
+        font-weight: normal;
+        font-family: monospace;
+      }
+
+      main {
+        max-width: 40em;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .autocomplete-wrapper {
+        max-width: 20em;
+        margin-bottom: 4rem;
+      }
+    </style>
+    <link rel="stylesheet" href="../dist/accessible-autocomplete.min.css">
+  </head>
+  <body>
+    <main>
+      <h1>Accessible Autocomplete examples</h1>
+
+      <p><a href="form.html">Example in a real HTML form that you can submit</a></p>
+
+      <h3>Multiselect</h3>
+      <p>
+        This example demonstrates how to use the autocomplete on a multiselect <code>&lt;select multiple&gt;</code> element
+        Turn off JavaScript to see the <code>&lt;select multiple&gt;</code> element.
+      </p>
+      <p>Uses <code>accessibleAutocomplete.enhanceSelectElement</code>.</p>
+      <label for="multiselect-progressiveEnhancement">Select your country</label>
+      <div class="autocomplete-wrapper">
+        <select multiple id="multiselect-progressiveEnhancement">
+          <option value="fr">France</option>
+          <option value="de">Germany</option>
+          <option value="gb">United Kingdom</option>
+          <option value="ae">United Arab Emirates</option>
+        </select>
+      </div>
+
+      <h3>Multiselect with pre-selected values</h3>
+      <p>
+        This example demonstrates how to use the autocomplete on a multiselect <code>&lt;select multiple&gt;</code> element
+        Turn off JavaScript to see the <code>&lt;select multiple&gt;</code> element.
+      </p>
+      <p>Uses <code>accessibleAutocomplete.enhanceSelectElement</code>.</p>
+      <label for="multiselect-preselected-progressiveEnhancement">Select your country</label>
+      <div class="autocomplete-wrapper">
+        <select multiple id="multiselect-preselected-progressiveEnhancement">
+          <option value="fr">France</option>
+          <option value="de" selected>Germany</option>
+          <option value="gb" selected>United Kingdom</option>
+          <option value="ae">United Arab Emirates</option>
+        </select>
+      </div>
+
+      <h3>Multiselect with empty option</h3>
+      <p>
+        This example demonstrates how to use the autocomplete on a multiselect <code>&lt;select multiple&gt;</code> element
+        Turn off JavaScript to see the <code>&lt;select multiple&gt;</code> element.
+      </p>
+      <p>Uses <code>accessibleAutocomplete.enhanceSelectElement</code>.</p>
+      <label for="multiselect-empty-option-progressiveEnhancement">Select your country</label>
+      <div class="autocomplete-wrapper">
+        <select multiple id="multiselect-empty-option-progressiveEnhancement">
+          <option value=""></option>
+          <option value="fr">France</option>
+          <option value="de">Germany</option>
+          <option value="gb">United Kingdom</option>
+          <option value="ae">United Arab Emirates</option>
+        </select>
+      </div>
+
+    </main>
+
+    <script type="text/javascript" src="../dist/accessible-autocomplete.min.js"></script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#multiselect-progressiveEnhancement')
+      accessibleAutocomplete.enhanceSelectElement({
+        selectElement: element
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#multiselect-preselected-progressiveEnhancement')
+      accessibleAutocomplete.enhanceSelectElement({
+        selectElement: element
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#multiselect-empty-option-progressiveEnhancement')
+      accessibleAutocomplete.enhanceSelectElement({
+        showAllValues: true,
+        selectElement: element
+      })
+    </script>
+
+  </body>
+</html>
