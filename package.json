@@ -52,7 +52,7 @@
     "dotenv": "^4.0.0",
     "husky": "^0.14.3",
     "isparta-loader": "^2.0.0",
-    "karma": "^1.7.1",
+    "karma": "^3.1.0",
     "karma-chai": "^0.1.0",
     "karma-chai-sinon": "^0.1.5",
     "karma-coverage": "^1.1.2",
