@@ -135,9 +135,9 @@ const takeScreenshotsIfFail = () => {
     const testFailed = this.currentTest.state === 'failed'
     if (testFailed) {
       const timestamp = +new Date()
-      const browser = isIE ? `ie${version}` : browserName
+      const browserVariant = isIE ? `ie${version}` : browserName
       const testTitle = this.currentTest.title.replace(/\W/g, '-')
-      const filename = `./screenshots/${timestamp}-${browser}-${testTitle}.png`
+      const filename = `./screenshots/${timestamp}-${browserVariant}-${testTitle}.png`
       browser.saveScreenshot(filename)
       console.log(`Test failed, created: ${filename}`)
     }
