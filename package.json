@@ -69,7 +69,7 @@
     "sinon-chai": "^2.14.0",
     "source-map-loader": "^0.2.3",
     "standard": "^11.0.1",
-    "wdio-mocha-framework": "^0.5.13",
+    "wdio-mocha-framework": "^0.6.4",
     "wdio-sauce-service": "^0.4.10",
     "wdio-selenium-standalone-service": "^0.0.10",
     "wdio-spec-reporter": "^0.1.5",
