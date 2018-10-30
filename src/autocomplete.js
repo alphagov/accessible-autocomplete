@@ -45,6 +45,7 @@ export default class Autocomplete extends Component {
   static defaultProps = {
     autoselect: false,
     cssNamespace: 'autocomplete',
+    customAttributes: {},
     defaultValue: '',
     displayMenu: 'inline',
     minLength: 0,
@@ -459,7 +460,8 @@ export default class Autocomplete extends Component {
       tStatusNoResults,
       tStatusSelectedOption,
       tStatusResults,
-      dropdownArrow: dropdownArrowFactory
+      dropdownArrow: dropdownArrowFactory,
+      customAttributes
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected } = this.state
     const autoselect = this.hasAutoselect()
@@ -545,6 +547,7 @@ export default class Autocomplete extends Component {
           role='textbox'
           required={required}
           value={query}
+          {...customAttributes}
         />
 
         {dropdownArrow}
