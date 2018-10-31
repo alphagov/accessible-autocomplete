@@ -80,12 +80,13 @@ export default class Autocomplete extends Component {
     this.handleEnter = this.handleEnter.bind(this)
     this.handlePrintableKey = this.handlePrintableKey.bind(this)
 
+    this.handleListMouseLeave = this.handleListMouseLeave.bind(this)
+
     this.handleOptionBlur = this.handleOptionBlur.bind(this)
     this.handleOptionClick = this.handleOptionClick.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
     this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
     this.handleOptionMouseEnter = this.handleOptionMouseEnter.bind(this)
-    this.handleOptionMouseOut = this.handleOptionMouseOut.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -173,6 +174,12 @@ export default class Autocomplete extends Component {
     })
   }
 
+  handleListMouseLeave (event) {
+    this.setState({
+      hovered: null
+    })
+  }
+
   handleOptionBlur (event, index) {
     const { focused, menuOpen, options, selected } = this.state
     const focusingOutsideComponent = event.relatedTarget === null
@@ -248,15 +255,13 @@ export default class Autocomplete extends Component {
   }
 
   handleOptionMouseEnter (event, index) {
-    this.setState({
-      hovered: index
-    })
-  }
-
-  handleOptionMouseOut (event, index) {
-    this.setState({
-      hovered: null
-    })
+    // iOS Safari prevents click event if mouseenter adds hover background colour
+    // See: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html#//apple_ref/doc/uid/TP40006511-SW4
+    if (!isIosDevice()) {
+      this.setState({
+        hovered: index
+      })
+    }
   }
 
   handleOptionClick (event, index) {
@@ -265,6 +270,7 @@ export default class Autocomplete extends Component {
     this.props.onConfirm(selectedOption)
     this.setState({
       focused: -1,
+      hovered: null,
       menuOpen: false,
       query: newQuery,
       selected: -1
@@ -487,6 +493,7 @@ export default class Autocomplete extends Component {
 
         <ul
           className={`${menuClassName} ${menuModifierDisplayMenu} ${menuModifierVisibility}`}
+          onMouseLeave={(event) => this.handleListMouseLeave(event)}
           id={`${id}__listbox`}
           role='listbox'
         >
@@ -506,7 +513,6 @@ export default class Autocomplete extends Component {
                 onClick={(event) => this.handleOptionClick(event, index)}
                 onMouseDown={this.handleOptionMouseDown}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
-                onMouseOut={(event) => this.handleOptionMouseOut(event, index)}
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
                 tabIndex='-1'

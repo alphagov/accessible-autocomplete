@@ -312,7 +312,7 @@ describe('Autocomplete', () => {
     describe('hovering out option', () => {
       it('sets focus back on selected, sets hovered to null', () => {
         autocomplete.setState({ options: ['France'], hovered: 0, focused: -1, selected: -1 })
-        autocomplete.handleOptionMouseOut({ toElement: 'mock' }, 0)
+        autocomplete.handleListMouseLeave({ toElement: 'mock' }, 0)
         expect(autocomplete.state.hovered).to.equal(null)
         expect(autocomplete.state.focused).to.equal(-1)
         expect(autocomplete.state.selected).to.equal(-1)
