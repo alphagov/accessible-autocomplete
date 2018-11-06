@@ -67,6 +67,7 @@ export default class Autocomplete extends Component {
     this.state = {
       focused: null,
       hovered: null,
+      clicked: null,
       menuOpen: false,
       options: props.defaultValue ? [props.defaultValue] : [],
       query: props.defaultValue,
@@ -80,12 +81,12 @@ export default class Autocomplete extends Component {
     this.handleEnter = this.handleEnter.bind(this)
     this.handlePrintableKey = this.handlePrintableKey.bind(this)
 
+    this.handleListMouseLeave = this.handleListMouseLeave.bind(this)
+
     this.handleOptionBlur = this.handleOptionBlur.bind(this)
     this.handleOptionClick = this.handleOptionClick.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
-    this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
     this.handleOptionMouseEnter = this.handleOptionMouseEnter.bind(this)
-    this.handleOptionMouseOut = this.handleOptionMouseOut.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -101,6 +102,7 @@ export default class Autocomplete extends Component {
 
   componentWillUnmount () {
     clearTimeout(this.$pollInput)
+    clearTimeout(this.$blurInput)
   }
 
   // Applications like Dragon NaturallySpeaking will modify the
@@ -124,10 +126,10 @@ export default class Autocomplete extends Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const { focused } = this.state
+    const { focused, clicked } = this.state
     const componentLostFocus = focused === null
     const focusedChanged = prevState.focused !== focused
-    const focusDifferentElement = focusedChanged && !componentLostFocus
+    const focusDifferentElement = (focusedChanged && !componentLostFocus) || clicked !== null
     if (focusDifferentElement) {
       this.elementReferences[focused].focus()
     }
@@ -167,15 +169,22 @@ export default class Autocomplete extends Component {
     }
     this.setState({
       focused: null,
+      clicked: null,
       menuOpen: newState.menuOpen || false,
       query: newQuery,
       selected: null
     })
   }
 
+  handleListMouseLeave (event) {
+    this.setState({
+      hovered: null
+    })
+  }
+
   handleOptionBlur (event, index) {
-    const { focused, menuOpen, options, selected } = this.state
-    const focusingOutsideComponent = event.relatedTarget === null
+    const { focused, clicked, menuOpen, options, selected } = this.state
+    const focusingOutsideComponent = event.relatedTarget === null && clicked === null
     const focusingInput = event.relatedTarget === this.elementReferences[-1]
     const focusingAnotherOption = focused !== index && focused !== -1
     const blurComponent = (!focusingAnotherOption && focusingOutsideComponent) || !(focusingAnotherOption || focusingInput)
@@ -191,13 +200,14 @@ export default class Autocomplete extends Component {
   handleInputBlur (event) {
     const { focused, menuOpen, options, query, selected } = this.state
     const focusingAnOption = focused !== -1
+    clearTimeout(this.$blurInput)
     if (!focusingAnOption) {
       const keepMenuOpen = menuOpen && isIosDevice()
       const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
-      this.handleComponentBlur({
+      this.$blurInput = setTimeout(() => this.handleComponentBlur({
         menuOpen: keepMenuOpen,
         query: newQuery
-      })
+      }), 200)
     }
   }
 
@@ -248,38 +258,29 @@ export default class Autocomplete extends Component {
   }
 
   handleOptionMouseEnter (event, index) {
-    this.setState({
-      hovered: index
-    })
-  }
-
-  handleOptionMouseOut (event, index) {
-    this.setState({
-      hovered: null
-    })
+    // iOS Safari prevents click event if mouseenter adds hover background colour
+    // See: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html#//apple_ref/doc/uid/TP40006511-SW4
+    if (!isIosDevice()) {
+      this.setState({
+        hovered: index
+      })
+    }
   }
 
   handleOptionClick (event, index) {
     const selectedOption = this.state.options[index]
     const newQuery = this.templateInputValue(selectedOption)
+    clearTimeout(this.$blurInput)
     this.props.onConfirm(selectedOption)
     this.setState({
       focused: -1,
+      clicked: index,
+      hovered: null,
       menuOpen: false,
       query: newQuery,
       selected: -1
     })
     this.forceUpdate()
-  }
-
-  handleOptionMouseDown (event) {
-    // Safari triggers focusOut before click, but if you
-    // preventDefault on mouseDown, you can stop that from happening.
-    // If this is removed, clicking on an option in Safari will trigger
-    // `handleOptionBlur`, which closes the menu, and the click will
-    // trigger on the element underneath instead.
-    // See: http://stackoverflow.com/questions/7621711/how-to-prevent-blur-running-when-clicking-a-link-in-jquery
-    event.preventDefault()
   }
 
   handleUpArrow (event) {
@@ -487,6 +488,7 @@ export default class Autocomplete extends Component {
 
         <ul
           className={`${menuClassName} ${menuModifierDisplayMenu} ${menuModifierVisibility}`}
+          onMouseLeave={(event) => this.handleListMouseLeave(event)}
           id={`${id}__listbox`}
           role='listbox'
         >
@@ -504,9 +506,7 @@ export default class Autocomplete extends Component {
                 key={index}
                 onFocusOut={(event) => this.handleOptionBlur(event, index)}
                 onClick={(event) => this.handleOptionClick(event, index)}
-                onMouseDown={this.handleOptionMouseDown}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
-                onMouseOut={(event) => this.handleOptionMouseOut(event, index)}
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
                 tabIndex='-1'
