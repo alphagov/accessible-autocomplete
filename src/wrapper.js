@@ -57,4 +57,4 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
   configurationOptions.selectElement.id = configurationOptions.selectElement.id + '-select'
 }
 
-module.exports = accessibleAutocomplete
+export default accessibleAutocomplete

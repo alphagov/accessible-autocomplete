@@ -1,7 +1,7 @@
 import webpack from 'webpack'
-import ReplacePlugin from 'replace-bundle-webpack-plugin'
 import path from 'path'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
 const plugins = [
@@ -9,33 +9,6 @@ const plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(ENV)
   })
-]
-
-const productionPlugins = [
-  new webpack.optimize.UglifyJsPlugin({
-    output: {
-      comments: false
-    },
-    compress: {
-      warnings: false,
-      conditionals: true,
-      unused: true,
-      comparisons: true,
-      sequences: true,
-      dead_code: true,
-      evaluate: true,
-      if_return: true,
-      join_vars: true,
-      negate_iife: false
-    }
-  }),
-
-  // strip out babel-helper invariant checks
-  new ReplacePlugin([{
-    // this is actually the property name https://github.com/kimhou/replace-bundle-webpack-plugin/issues/1
-    partten: /throw\s+(new\s+)?[a-zA-Z]+Error\s*\(/g,
-    replacement: () => 'return;('
-  }])
 ]
 
 const developmentPlugins = [
@@ -46,6 +19,29 @@ const developmentPlugins = [
 
 const config = {
   context: path.resolve(__dirname, 'src'),
+
+  optimization: {
+    minimize: ENV === 'production',
+    minimizer: [new UglifyJsPlugin({
+      cache: true,
+      parallel: true,
+      sourceMap: true,
+      uglifyOptions: {
+        compress: {
+          negate_iife: false,
+          properties: false,
+          ie8: true
+        },
+        mangle: {
+          ie8: true
+        },
+        output: {
+          comments: false,
+          ie8: true
+        }
+      }
+    })]
+  },
 
   resolve: {
     extensions: ['.js'],
@@ -82,6 +78,7 @@ const config = {
     setImmediate: false
   },
 
+  mode: ENV === 'production' ? 'production' : 'development',
   devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
 
   devServer: {
@@ -108,31 +105,36 @@ const config = {
 
 const bundleStandalone = {
   ...config,
-  entry: ['./wrapper.js'],
+  entry: {
+    'accessible-autocomplete.min': './wrapper.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'accessible-autocomplete.min.js',
+    filename: '[name].js',
     library: 'accessibleAutocomplete',
+    libraryExport: 'default',
     libraryTarget: 'umd'
   },
   plugins: plugins
     .concat([new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"PREACT"'
     })])
-    .concat(ENV === 'production'
-      ? productionPlugins
-      : developmentPlugins
+    .concat(ENV === 'development'
+      ? developmentPlugins
+      : []
     )
 }
 
 const bundlePreact = {
   ...config,
-  entry: ['./autocomplete.js'],
+  entry: {
+    'lib/accessible-autocomplete.preact.min': './autocomplete.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'lib/accessible-autocomplete.preact.min.js',
+    filename: '[name].js',
     library: 'Autocomplete',
     libraryTarget: 'umd'
   },
@@ -148,19 +150,21 @@ const bundlePreact = {
     .concat([new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"PREACT"'
     })])
-    .concat(ENV === 'production'
-      ? productionPlugins
-      : developmentPlugins
+    .concat(ENV === 'development'
+      ? developmentPlugins
+      : []
     )
 }
 
 const bundleReact = {
   ...config,
-  entry: ['./autocomplete.js'],
+  entry: {
+    'lib/accessible-autocomplete.react.min': './autocomplete.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'lib/accessible-autocomplete.react.min.js',
+    filename: '[name].js',
     library: 'Autocomplete',
     libraryTarget: 'umd'
   },
@@ -176,9 +180,9 @@ const bundleReact = {
     .concat([new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"REACT"'
     })])
-    .concat(ENV === 'production'
-      ? productionPlugins
-      : developmentPlugins
+    .concat(ENV === 'development'
+      ? developmentPlugins
+      : []
     )
 }
 
