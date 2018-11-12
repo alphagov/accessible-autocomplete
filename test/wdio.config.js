@@ -2,6 +2,7 @@ require('@babel/register')({
   cwd: require('path').resolve(__dirname, '../')
 })
 require('dotenv').config()
+const puppeteer = require('puppeteer')
 const webpackConfig = require('../webpack.config.babel.js')
 const webpackPort = webpackConfig[0].devServer.port
 const staticServerPort = process.env.PORT || 4567
@@ -55,7 +56,13 @@ exports.config = Object.assign({
   specs: ['./test/integration/**/*.js'],
   capabilities: [
     // { browserName: 'firefox' },
-    { browserName: 'chrome' }
+    {
+      browserName: 'chrome',
+      chromeOptions: {
+        args: ['--headless'],
+        binary: puppeteer.executablePath()
+      }
+    }
   ],
   baseUrl: 'http://localhost:' + staticServerPort,
   screenshotPath: './screenshots/',
