@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## 1.6.2 - 2018-11-13
+
+- Update all packages and add `@babel/preset-env` for browser polyfills. Updates Preact and avoids React 16 `onFocusOut` warnings - thanks [@colinrotherham](https://github.com/colinrotherham)
+  ([#316](https://github.com/alphagov/accessible-autocomplete/pull/316))
+
+- Fix mouse event issues in IE9-11 including looping `mouseout` and click event being prevented on child elements (e.g. bold text) - thanks [@colinrotherham](https://github.com/colinrotherham)
+  ([#310](https://github.com/alphagov/accessible-autocomplete/pull/310))
+
 - Fix position being incorrectly reported as '1 of n' regardless of actual
   position in list – thanks [@PRGfx](https://github.com/PRGfx)
   ([#291](https://github.com/alphagov/accessible-autocomplete/pull/291))
