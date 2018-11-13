@@ -1,8 +1,12 @@
-require('babel-register')
+require('@babel/register')({
+  cwd: require('path').resolve(__dirname, '../')
+})
 require('dotenv').config()
+const puppeteer = require('puppeteer')
 const webpackConfig = require('../webpack.config.babel.js')
+const webpackPort = webpackConfig[0].devServer.port
 const staticServerPort = process.env.PORT || 4567
-const services = ['webpack', 'static-server']
+const services = ['webpack-dev-server', 'static-server']
 
 const sauceEnabled = process.env.SAUCE_ENABLED === 'true'
 const sauceUser = process.env.SAUCE_USERNAME
@@ -52,7 +56,13 @@ exports.config = Object.assign({
   specs: ['./test/integration/**/*.js'],
   capabilities: [
     // { browserName: 'firefox' },
-    { browserName: 'chrome' }
+    {
+      browserName: 'chrome',
+      chromeOptions: {
+        args: ['--headless'],
+        binary: puppeteer.executablePath()
+      }
+    }
   ],
   baseUrl: 'http://localhost:' + staticServerPort,
   screenshotPath: './screenshots/',
@@ -61,6 +71,7 @@ exports.config = Object.assign({
   framework: 'mocha',
   mochaOpts: { timeout: 30 * 1000 },
   webpackConfig,
+  webpackPort,
   staticServerFolders: [
     { mount: '/', path: './examples' },
     { mount: '/dist/', path: './dist' }

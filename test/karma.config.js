@@ -1,12 +1,11 @@
-require('babel-register')
-var webpack = require('../webpack.config.babel.js')[0]
-var path = require('path')
-
-webpack.module.rules.push({
-  test: /\.js?$/,
-  include: path.resolve(__dirname, '../src'),
-  loader: 'isparta-loader'
+require('@babel/register')({
+  cwd: require('path').resolve(__dirname, '../')
 })
+var puppeteer = require('puppeteer')
+var webpack = require('../webpack.config.babel.js')[0]
+
+// Use Chrome headless
+process.env.CHROME_BIN = puppeteer.executablePath()
 
 module.exports = function (config) {
   config.set({
@@ -22,7 +21,7 @@ module.exports = function (config) {
       ]
     },
 
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
 
     files: [
       'test/functional/**/*.js'
@@ -35,6 +34,9 @@ module.exports = function (config) {
     },
 
     webpack: webpack,
-    webpackMiddleware: { noInfo: true }
+    webpackMiddleware: {
+      logLevel: 'error',
+      stats: 'errors-only'
+    }
   })
 }
