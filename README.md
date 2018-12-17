@@ -380,6 +380,10 @@ accessibleAutocomplete.enhanceSelectElement({
 
 Any null options will also be filtered out of the options used to populate the `source` of the autocomplete element. To preserve options with no value in the autcomplete then pass a `preserveNullOptions` flag of `true` to `enhanceSelectElement`.
 
+:warning: Warning :warning: avoid using `showAllValues === false` when a null option is provided as the text of the null option will not be obvious to users.
+
+:warning: Warning ️️:warning: If a user selects an option, and then clears the field without selecting another value and submits the form, the previously selected value will be submitted.
+
 ## Analytics and tracking
 
 The following events get triggered on the input element during the life cycle of the autocomplete:
