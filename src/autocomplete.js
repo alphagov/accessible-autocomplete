@@ -307,11 +307,11 @@ export default class Autocomplete extends Component {
     if (selectedOption) {
       // Update select state for option
       const addedSelectOption = [].filter.call(this.props.selectElement.options, option => option.textContent === selectedOption)[0]
-      if (addedSelectOption) { addedSelectOption.setAttribute('selected', '') }
+      if (addedSelectOption) { addedSelectOption.selected = true }
 
       // Update multiselect list
       let availableOptions = [].filter.call(this.props.selectElement.options, option => option.textContent)
-      this.props.selectedOptions = availableOptions.filter(option => option.hasAttribute('selected'))
+      this.props.selectedOptions = availableOptions.filter(option => option.selected === true)
 
       // Reset input state
       this.setState({
@@ -329,7 +329,7 @@ export default class Autocomplete extends Component {
 
     // Update select state for option
     const removedSelectOption = [].filter.call(this.props.selectElement.options, option => option.textContent === removedOption.textContent)[0]
-    if (removedSelectOption) { removedSelectOption.removeAttribute('selected') }
+    if (removedSelectOption) { removedSelectOption.selected = false }
 
     this.forceUpdate()
   }
