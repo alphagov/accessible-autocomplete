@@ -1,3 +1,5 @@
+/* Default styles */
+
 .autocomplete__wrapper {
   position: relative;
 }
@@ -5,7 +7,7 @@
 .autocomplete__hint,
 .autocomplete__input {
   -webkit-appearance: none;
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 0; /* Safari 10 on iOS adds implicit border rounding. */
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -20,21 +22,21 @@
 }
 
 .autocomplete__hint {
-  color: #BFC1C3;
+  color: #666;
   position: absolute;
 }
 
 .autocomplete__input--default{
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .autocomplete__input--focused {
-  outline-offset: 0;
-  outline: 3px solid #ffbf47;
+  /* User agent style */
 }
 
 .autocomplete__input--show-all-values {
-  padding: 4px 34px 4px 4px;
+  padding-right: 32px; /* Stop text running into icon */
   cursor: pointer;
 }
 
@@ -42,23 +44,23 @@
   z-index: -1;
   display: inline-block;
   position: absolute;
-  right: 8px;
-  width: 24px;
-  height: 24px;
-  top: 10px;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  top: 8px;
 }
 
 .autocomplete__menu {
   background-color: #fff;
-  border: 2px solid #0B0C0C;
+  border: 1px solid #000;
   border-top: 0;
-  color: #34384B;
+  color: #000;
   margin: 0;
   max-height: 342px;
   overflow-x: hidden;
   padding: 0;
   width: 100%;
-  width: calc(100% - 4px);
+  width: calc(100% - 2px);
 }
 
 .autocomplete__menu--visible {
@@ -82,7 +84,7 @@
 }
 
 .autocomplete__option {
-  border-bottom: solid #BFC1C3;
+  border-bottom: solid #999;
   border-width: 1px 0;
   cursor: pointer;
   display: block;
@@ -102,6 +104,80 @@
 }
 
 .autocomplete__option--odd {
+  background-color: #eee;
+}
+
+.autocomplete__option--focused,
+.autocomplete__option:hover {
+  background-color: #000;
+  border-color: #000;
+  color: white;
+  outline: none;
+}
+
+.autocomplete__option--no-results {
+  background-color: #eee;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.autocomplete__hint,
+.autocomplete__input,
+.autocomplete__option {
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.autocomplete__hint,
+.autocomplete__option {
+  padding: 0 4px;
+}
+
+
+/* GOV.UK styling overrides */
+
+.autocomplete__hint,
+.autocomplete__input {
+  font-family: "nta",Arial,sans-serif;
+  border: 2px solid;
+  height: 40px;
+}
+
+.autocomplete__hint {
+  color: #BFC1C3;
+}
+
+.autocomplete__input--default{
+  padding: 5px;
+}
+
+.autocomplete__input--focused {
+  outline-offset: 0;
+  outline: 3px solid #ffbf47;
+}
+
+.autocomplete__input--show-all-values {
+  padding-right: 32px; /* Stop text running into icon */
+}
+
+.autocomplete__dropdown-arrow-down{
+  top: 14px;
+}
+
+.autocomplete__menu {
+  font-family: "nta",Arial,sans-serif;
+  border: 2px solid #0B0C0C;
+  border-top: 0;
+  color: #34384B;
+  width: calc(100% - 4px);
+}
+
+.autocomplete__option {
+  border-bottom: 1px solid #BFC1C3;
+}
+
+.autocomplete__option--odd {
   background-color: #FAFAFA;
 }
 
@@ -109,16 +185,14 @@
 .autocomplete__option:hover {
   background-color: #005EA5;
   border-color: #005EA5;
-  color: white;
-  outline: none;
 }
 
 .autocomplete__option--no-results {
   background-color: #FAFAFA;
   color: #646b6f;
-  cursor: not-allowed;
 }
 
+/* Small screens */
 .autocomplete__hint,
 .autocomplete__input,
 .autocomplete__option {
@@ -128,14 +202,16 @@
 
 .autocomplete__hint,
 .autocomplete__option {
-  padding: 4px;
+  padding: 7px 5px; /* Same size as input */
 }
 
+/* From medium screens */
 @media (min-width: 641px) {
   .autocomplete__hint,
   .autocomplete__input,
   .autocomplete__option {
     font-size: 19px;
+    font-size: 1.1875rem;
     line-height: 1.31579;
   }
 }
