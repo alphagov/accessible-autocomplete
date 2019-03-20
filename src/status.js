@@ -21,7 +21,7 @@ export default class Status extends Component {
 
   componentWillReceiveProps ({ queryLength }) {
     const hasChanged = queryLength !== this.props.queryLength
-    if (hasChanged) {
+    if (hasChanged || !hasChanged) {
       this.setState(({ bump }) => ({ bump: !bump }))
     }
   }
@@ -56,7 +56,8 @@ export default class Status extends Component {
       content = tResults(length, contentSelectedOption)
     }
 
-    return <div
+    return (<div><div
+        id='flip'
       aria-atomic='true'
       aria-live='polite'
       role='status'
@@ -73,8 +74,27 @@ export default class Status extends Component {
         width: '1px'
       }}
     >
-      {content}
-      <span>{bump ? ',' : ',,'}</span>
+      <span>{bump ? content : ''}</span>
     </div>
+    <div
+        id='flop'
+      aria-atomic='true'
+      aria-live='polite'
+      role='status'
+      style={{
+        border: '0',
+        clip: 'rect(0 0 0 0)',
+        height: '1px',
+        marginBottom: '-1px',
+        marginRight: '-1px',
+        overflow: 'hidden',
+        padding: '0',
+        position: 'absolute',
+        whiteSpace: 'nowrap',
+        width: '1px'
+      }}
+    >
+      <span>{bump ? '' : content}</span>
+    </div></div>)
   }
 }
