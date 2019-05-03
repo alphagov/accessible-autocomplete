@@ -448,7 +448,7 @@ export default class Autocomplete extends Component {
     }
 
     return (
-      <div className={wrapperClassName} onKeyDown={this.handleKeyDown} role='combobox' aria-expanded={menuOpen ? 'true' : 'false'}>
+      <div className={wrapperClassName} onKeyDown={this.handleKeyDown} aria-expanded={menuOpen ? 'true' : 'false'}>
         <Status
           length={options.length}
           queryLength={query.length}
@@ -479,7 +479,7 @@ export default class Autocomplete extends Component {
           placeholder={placeholder}
           ref={(inputElement) => { this.elementReferences[-1] = inputElement }}
           type='text'
-          role='textbox'
+          role='combobox'
           required={required}
           value={query}
         />
