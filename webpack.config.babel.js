@@ -92,7 +92,7 @@ const config = {
         }
       })
     },
-    port: process.env.PORT || 8080,
+    port: process.env.PORT || 8081,
     host: '0.0.0.0',
     publicPath: '/dist/',
     contentBase: ['./examples', './src'],
