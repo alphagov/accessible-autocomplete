@@ -1,5 +1,21 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
 
+var debounce = function(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+  		var later = function() {
+  			timeout = null;
+  			if (!immediate) func.apply(context, args);
+  		};
+  		var callNow = immediate && !timeout;
+  		clearTimeout(timeout);
+  		timeout = setTimeout(later, wait);
+  		if (callNow) func.apply(context, args);
+    };
+};
+
+
 export default class Status extends Component {
   static defaultProps = {
     tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results`,
@@ -19,10 +35,23 @@ export default class Status extends Component {
     bump: false
   }
 
+  componentWillMount() {
+    var that=this;
+    this.considerSecondBump = debounce(function(){
+         if(!that.props.selectedOption){
+              that.setState(({ bump }) => ({ bump: !bump }));
+              window.setTimeout(function(){
+                 that.setState(({ bump }) => ({ bump: !bump }));
+              },200)
+         }
+     }, 1500);
+  }
+
   componentWillReceiveProps ({ queryLength }) {
     const hasChanged = queryLength !== this.props.queryLength
     if (hasChanged || !hasChanged) {
-      this.setState(({ bump }) => ({ bump: !bump }))
+        this.setState(({ bump }) => ({ bump: !bump }))
+        this.considerSecondBump()
     }
   }
 
@@ -60,7 +89,7 @@ export default class Status extends Component {
         id='flip'
       aria-atomic='true'
       aria-live='polite'
-      role='status'
+
       style={{
         border: '0',
         clip: 'rect(0 0 0 0)',
@@ -80,7 +109,7 @@ export default class Status extends Component {
         id='flop'
       aria-atomic='true'
       aria-live='polite'
-      role='status'
+
       style={{
         border: '0',
         clip: 'rect(0 0 0 0)',
