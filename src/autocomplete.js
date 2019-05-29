@@ -59,7 +59,7 @@ export default class Autocomplete extends Component {
     multiple: false,
     selectedOptions: {},
     tNoResults: () => 'No results found',
-    tSelectedOptionDescription: () => 'press Enter or Space to remove selection',
+    tSelectedOptionDescription: () => 'Press Enter or Space to remove selection',
     dropdownArrow: DropdownArrowDown
   }
 
@@ -595,28 +595,20 @@ export default class Autocomplete extends Component {
           >
             {this.props.selectedOptions.map((option, index) => {
               return (
-                <li
-                  aria-selected='true'
-                  aria-label={`${this.templateSuggestion(option.textContent)}, selected`}
-                  aria-describedBy={`${id}__list-item-description`}
-                  className={`${optionClassName}`}
-                  dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option.textContent) }}
-                  id={`${id}__option--${index}`}
-                  key={index}
-                  onClick={(event) => this.handleSelectedOptionClick(event, index)}
-                  onKeyDown={(event) => this.handleSelectedOptionKeyDown(event, index)}
-                  role='option'
-                  tabIndex='0'
-                />
+                <li id={`${id}__option--${index}`} className='autocomplete__selected-option'>
+                  <span dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option.textContent) }} />
+                  <button
+                    type='button'
+                    className='autocomplete__remove-option'
+                    aria-label={`${this.templateSuggestion(option.textContent)}, selected. ${tSelectedOptionDescription()}`}
+                    onClick={(event) => this.handleSelectedOptionClick(event, index)}>remove</button>
+                </li>
               )
             })}
             {showNoOptionsFound && (
               <li className={`${optionClassName} ${optionClassName}--no-results`}>{tNoResults()}</li>
             )}
           </ul>
-        )}
-        {multiple && (
-          <span class='autocomplete__list-item-description' id={`${id}__list-item-description`}>{tSelectedOptionDescription()}</span>
         )}
       </div>
     )

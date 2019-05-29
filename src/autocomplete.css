@@ -151,31 +151,40 @@
 .autocomplete__list {
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 20px 0 0;
 }
 
-.autocomplete__list .autocomplete__option,
-.autocomplete__list .autocomplete__option:hover {
+.autocomplete__list .autocomplete__selected-option,
+.autocomplete__list .autocomplete__selected-option:hover {
+  cursor: inherit;
   color: #0b0c0c;
-  padding: 3px 6px 6px;
-  margin-top: 10px !important;
-  border: 1px solid #bfc1c3;
-  background: #f8f8f8;
+  margin: 5px 0;
 }
 
-.autocomplete__list .autocomplete__option:focus {
-  outline-offset: 0;
+.autocomplete__list .autocomplete__remove-option {
+  cursor: pointer;
+  color: #005ea5;
+  text-decoration: underline;
+  background: transparent;
+  border: none;
+  font-size: inherit;
+  margin-left: 5px;
+}
+
+.autocomplete__list .autocomplete__remove-option:hover{
+  color: #2b8cc4;
+}
+
+.autocomplete__list .autocomplete__remove-option:focus{
+  color: #0b0c0c;
   outline: 3px solid #ffbf47;
+  outline-offset: 0;
+  background-color: #ffbf47;
 }
 
-.autocomplete__list .autocomplete__option:before {
-  display: inline-block;
-  content: '×';
-  padding: 2px 3px 0;
-  margin-right: 3px;
-  font-size: 24px;
+.autocomplete__list .autocomplete__remove-option:before {
+  content: '× ';
   color: inherit;
-  line-height: 1;
 }
 
 .autocomplete__list-item-description {
