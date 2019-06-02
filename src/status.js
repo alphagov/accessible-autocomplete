@@ -103,7 +103,7 @@ export default class Status extends Component {
         width: '1px'
       }}
     >
-      <span>{bump ? content : ''}</span>
+      {bump ? content : ''}
     </div>
     <div
         id='flop'
@@ -123,7 +123,7 @@ export default class Status extends Component {
         width: '1px'
       }}
     >
-      <span>{bump ? '' : content}</span>
+      {bump ? '' : content}
     </div></div>)
   }
 }
