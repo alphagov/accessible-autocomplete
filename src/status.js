@@ -15,6 +15,19 @@ var debounce = function(func, wait, immediate) {
     };
 };
 
+/* Ugh. Having to micro-manage aria live update behaviour to work around VoiceOver typing echo
+   interruption on Safari Mac specifically. Better to do this selectively and label it as such, than to weave
+   the extra behaviour into standard function without any explanation.
+   If the test yields false positives, the result is extra verbosity where we don't want it. Not great, but
+   not disastrous.*/
+var isMacSafari = function() {
+    var isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+                   navigator.userAgent &&
+                   navigator.userAgent.indexOf('CriOS') == -1 &&
+                   navigator.userAgent.indexOf('FxiOS') == -1;
+    var isIOS = navigator.userAgent && /iPad|iPhone|iPod/.test(navigator.userAgent);
+    return isSafari && !isIOS;
+}
 
 export default class Status extends Component {
   static defaultProps = {
@@ -38,7 +51,7 @@ export default class Status extends Component {
   componentWillMount() {
     var that=this;
     this.considerSecondBump = debounce(function(){
-         if(!that.props.selectedOption){
+         if(isMacSafari() && !that.props.selectedOption){
               that.setState(({ bump }) => ({ bump: !bump }));
               window.setTimeout(function(){
                  that.setState(({ bump }) => ({ bump: !bump }));
