@@ -15,20 +15,6 @@ var debounce = function(func, wait, immediate) {
     };
 };
 
-/* Ugh. Having to micro-manage aria live update behaviour to work around VoiceOver typing echo
-   interruption on Safari Mac specifically. Better to do this selectively and label it as such, than to weave
-   the extra behaviour into standard function without any explanation.
-   If the test yields false positives, the result is extra verbosity where we don't want it. Not great, but
-   not disastrous.*/
-var isMacSafari = function() {
-    var isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
-                   navigator.userAgent &&
-                   navigator.userAgent.indexOf('CriOS') == -1 &&
-                   navigator.userAgent.indexOf('FxiOS') == -1;
-    var isIOS = navigator.userAgent && /iPad|iPhone|iPod/.test(navigator.userAgent);
-    return isSafari && !isIOS;
-}
-
 export default class Status extends Component {
   static defaultProps = {
     tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results`,
@@ -45,27 +31,21 @@ export default class Status extends Component {
   };
 
   state = {
-    bump: false
+    bump: false,
+    showContent: false
   }
 
   componentWillMount() {
     var that=this;
-    this.considerSecondBump = debounce(function(){
-         if(isMacSafari() && !that.props.selectedOption){
-              that.setState(({ bump }) => ({ bump: !bump }));
-              window.setTimeout(function(){
-                 that.setState(({ bump }) => ({ bump: !bump }));
-              },200)
-         }
-     }, 1500);
+     this.debounceContentUpdate = debounce(function(){
+        if(!that.state.showContent){
+            that.setState(({ bump, showContent }) => ({ bump: !bump, showContent: true }))
+        }
+     }, 1400)
   }
 
   componentWillReceiveProps ({ queryLength }) {
-    const hasChanged = queryLength !== this.props.queryLength
-    if (hasChanged || !hasChanged) {
-        this.setState(({ bump }) => ({ bump: !bump }))
-        this.considerSecondBump()
-    }
+    this.setState(({ showContent }) => ({ showContent: false }))
   }
 
   render () {
@@ -80,7 +60,7 @@ export default class Status extends Component {
       tSelectedOption,
       tResults
     } = this.props
-    const { bump } = this.state
+    const { bump, showContent } = this.state
 
     const queryTooShort = queryLength < minQueryLength
     const noResults = length === 0
@@ -97,6 +77,8 @@ export default class Status extends Component {
     } else {
       content = tResults(length, contentSelectedOption)
     }
+
+    this.debounceContentUpdate()
 
     return (<div><div
         id='flip'
@@ -116,7 +98,7 @@ export default class Status extends Component {
         width: '1px'
       }}
     >
-      {bump ? content : ''}
+      {(showContent && bump) ? content : ''}
     </div>
     <div
         id='flop'
@@ -136,7 +118,7 @@ export default class Status extends Component {
         width: '1px'
       }}
     >
-      {bump ? '' : content}
+      {(showContent && !bump) ? content : ''}
     </div></div>)
   }
 }
