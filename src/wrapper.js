@@ -19,54 +19,58 @@ const createSimpleEngine = (values) => (query, syncResults) => {
 accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
   if (!configurationOptions.selectElement) { throw new Error('selectElement is not defined') }
 
+  const selectElement = configurationOptions.selectElement
+  const selectableOptions = [].filter.call(selectElement.options, option => (option.value || configurationOptions.preserveNullOptions))
+
   // Set defaults.
   if (!configurationOptions.source) {
-    let availableOptions = [].filter.call(configurationOptions.selectElement.options, option => (option.value || configurationOptions.preserveNullOptions))
-    configurationOptions.source = availableOptions.map(option => option.textContent || option.innerText)
-
-    // Store selected options
-    if (configurationOptions.selectElement.multiple) {
-      configurationOptions.multiple = true
-      configurationOptions.confirmOnBlur = false
-      configurationOptions.showNoOptionsFound = false
-      configurationOptions.selectedOptions = availableOptions.filter(option => option.selected)
-    }
+    configurationOptions.source = selectableOptions.map(option => option.textContent || option.innerText)
   }
+
+  if (selectElement.multiple) {
+    configurationOptions.multiple = true
+    configurationOptions.confirmOnBlur = false
+    configurationOptions.showNoOptionsFound = false
+    configurationOptions.selectedOptions = selectableOptions.filter(option => option.selected).map(option => option.textContent)
+    configurationOptions.onRemove = configurationOptions.onRemove || (value => {
+      const optionToRemove = [].filter.call(configurationOptions.selectElement.options, option => (option.textContent || option.innerText) === value)[0]
+      if (optionToRemove) { optionToRemove.selected = false }
+    })
+  }
+
   configurationOptions.onConfirm = configurationOptions.onConfirm || (query => {
-    const requestedOption = [].filter.call(configurationOptions.selectElement.options, option => (option.textContent || option.innerText) === query)[0]
+    const requestedOption = [].filter.call(selectableOptions, option => (option.textContent || option.innerText) === query)[0]
     if (requestedOption) { requestedOption.selected = true }
   })
 
-  if (configurationOptions.selectElement.value || configurationOptions.defaultValue === undefined) {
-    const option = configurationOptions.selectElement.options[configurationOptions.selectElement.options.selectedIndex]
-    if (configurationOptions.selectElement.multiple) {
-      configurationOptions.defaultValue = ''
-    } else if (option.textContent || option.innerText) {
+  if (!configurationOptions.multiple && (selectElement.value || configurationOptions.defaultValue === undefined)) {
+    const option = selectElement.options[selectElement.options.selectedIndex]
+    if (option.textContent || option.innerText) {
       configurationOptions.defaultValue = option.textContent || option.innerText
     }
   }
 
   if (configurationOptions.name === undefined) configurationOptions.name = ''
   if (configurationOptions.id === undefined) {
-    if (configurationOptions.selectElement.id === undefined) {
+    if (selectElement.id === undefined) {
       configurationOptions.id = ''
     } else {
-      configurationOptions.id = configurationOptions.selectElement.id
+      configurationOptions.id = selectElement.id
     }
   }
   if (configurationOptions.autoselect === undefined) configurationOptions.autoselect = true
 
   const element = document.createElement('span')
 
-  configurationOptions.selectElement.parentNode.insertBefore(element, configurationOptions.selectElement)
+  selectElement.parentNode.insertBefore(element, selectElement)
 
   accessibleAutocomplete({
     ...configurationOptions,
     element: element
   })
 
-  configurationOptions.selectElement.style.display = 'none'
-  configurationOptions.selectElement.id = configurationOptions.selectElement.id + '-select'
+  selectElement.style.display = 'none'
+  selectElement.id = selectElement.id + '-select'
 }
 
 export default accessibleAutocomplete

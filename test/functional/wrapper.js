@@ -24,13 +24,14 @@ const injectSelectToEnhanceIntoDOM = (element, settings) => {
     $select.multiple = settings.multiple
   }
 
-  if (settings.multiple && settings.selected) {
-    Object.keys(settings.selected)
+  if (settings.multiple) {
+    const selected = settings.selected || []
+    Object.keys(settings.options)
       .map(optionKey => {
         const option = document.createElement('option')
         option.value = optionKey
         option.text = settings.options[optionKey]
-        option.selected = settings.selected[optionKey]
+        option.selected = selected.indexOf(optionKey) !== -1
         return option
       })
       .forEach(option => $select.appendChild(option))
@@ -170,7 +171,7 @@ describe('Wrapper', () => {
   })
 
   it('plays back the selected options when enhancing a select multiple', () => {
-    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: { de: 'Germany', fr: 'France' }, multiple: true })
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: ['de', 'fr'], multiple: true })
 
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: select
@@ -181,8 +182,56 @@ describe('Wrapper', () => {
 
     const autocompleteSelectedItems = autocompleteInstance.querySelectorAll('.autocomplete__list li')
     expect(autocompleteSelectedItems.length).to.equal(2)
-    expect(autocompleteSelectedItems[0].textContent).to.contain('Germany')
-    expect(autocompleteSelectedItems[1].textContent).to.contain('France')
+    expect(autocompleteSelectedItems[0].textContent).to.contain('France')
+    expect(autocompleteSelectedItems[1].textContent).to.contain('Germany')
+  })
+
+  it('can make selections when enhancing a select multiple', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: ['fr'], multiple: true })
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstance = document.querySelector('.autocomplete__wrapper')
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+
+    autocompleteInput.value = 'Germany'
+    setTimeout(() => {
+      const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
+      expect(autocompleteOption.textContent).to.equal('Germany')
+      autocompleteOption.click()
+
+      const selectedOptions = select.querySelectorAll('option:checked')
+      expect(selectedOptions.length).to.equal(2)
+      expect(selectedOptions[0].textContent).to.equal('France')
+      expect(selectedOptions[1].textContent).to.equal('Germany')
+      done()
+    }, 250)
+  })
+
+  it('can remove selections when enhancing a select multiple', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: ['de', 'fr'], multiple: true })
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstance = document.querySelectorAll('.autocomplete__wrapper')[0]
+    const removeFrance = autocompleteInstance.querySelector('.autocomplete__remove-option')
+    removeFrance.click()
+
+    setTimeout(() => {
+      const autocompleteSelectedItems = autocompleteInstance.querySelectorAll('.autocomplete__list li')
+      expect(autocompleteSelectedItems.length).to.equal(1)
+      expect(autocompleteSelectedItems[0].textContent).to.contain('Germany')
+
+      const selectedOptions = select.querySelectorAll('option:checked')
+      expect(selectedOptions.length).to.equal(1)
+      expect(selectedOptions[0].textContent).to.equal('Germany')
+
+      done()
+    }, 250)
   })
 
   it('gives the autocomplete element a blank name attribute by default', () => {
