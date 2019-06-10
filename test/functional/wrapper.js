@@ -364,4 +364,23 @@ describe('Wrapper', () => {
       }, 250)
     }, 250)
   })
+
+  it('onConfirm selects blank option when available', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstance = document.querySelectorAll('.autocomplete__wrapper')[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+
+    autocompleteInput.value = ''
+    autocompleteInput.dispatchEvent(new window.Event('blur'))
+    setTimeout(() => {
+      expect(autocompleteInput.textContent).to.equal('')
+      expect(select.value).to.equal('')
+      done()
+    }, 500)
+  })
 })

@@ -39,8 +39,14 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
   }
 
   configurationOptions.onConfirm = configurationOptions.onConfirm || (query => {
-    const requestedOption = [].filter.call(selectableOptions, option => (option.textContent || option.innerText) === query)[0]
-    if (requestedOption) { requestedOption.selected = true }
+    let options = configurationOptions.selectElement.options
+    let matchingOption
+    if (query) {
+      matchingOption = [].filter.call(options, option => (option.textContent || option.innerText) === query)[0]
+    } else {
+      matchingOption = [].filter.call(options, option => option.value === '')[0]
+    }
+    if (matchingOption) { matchingOption.selected = true }
   })
 
   if (!configurationOptions.multiple && (selectElement.value || configurationOptions.defaultValue === undefined)) {

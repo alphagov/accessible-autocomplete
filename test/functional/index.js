@@ -92,7 +92,7 @@ describe('Autocomplete', () => {
 
   describe('behaviour', () => {
     let autocomplete, autoselectAutocomplete, onConfirmAutocomplete, onConfirmTriggered,
-      autoselectOnSelectAutocomplete, confirmOnBlurAutocomplete
+      onConfirmResult, autoselectOnSelectAutocomplete, confirmOnBlurAutocomplete
 
     beforeEach(() => {
       autocomplete = new Autocomplete({
@@ -109,10 +109,14 @@ describe('Autocomplete', () => {
       })
 
       onConfirmTriggered = false
+      onConfirmResult = undefined
       onConfirmAutocomplete = new Autocomplete({
         ...Autocomplete.defaultProps,
         id: 'test3',
-        onConfirm: () => { onConfirmTriggered = true },
+        onConfirm: (result) => {
+          onConfirmResult = result
+          onConfirmTriggered = true
+        },
         source: suggest
       })
 
@@ -120,14 +124,20 @@ describe('Autocomplete', () => {
         ...Autocomplete.defaultProps,
         autoselect: true,
         id: 'test4',
-        onConfirm: () => { onConfirmTriggered = true },
+        onConfirm: (result) => {
+          onConfirmResult = result
+          onConfirmTriggered = true
+        },
         source: suggest
       })
 
       confirmOnBlurAutocomplete = new Autocomplete({
         ...Autocomplete.defaultProps,
         id: 'test5',
-        onConfirm: () => { onConfirmTriggered = true },
+        onConfirm: (result) => {
+          onConfirmResult = result
+          onConfirmTriggered = true
+        },
         confirmOnBlur: false,
         source: suggest
       })
@@ -255,6 +265,7 @@ describe('Autocomplete', () => {
             expect(autoselectOnSelectAutocomplete.state.menuOpen).to.equal(false)
             expect(autoselectOnSelectAutocomplete.state.query).to.equal('France')
             expect(onConfirmTriggered).to.equal(true)
+            expect(onConfirmResult).to.equal('France')
             done()
           }, 250)
         })
@@ -433,7 +444,7 @@ describe('Autocomplete', () => {
           expect(onConfirmAutocomplete.state.menuOpen).to.equal(false)
           expect(onConfirmAutocomplete.state.query).to.equal('France')
           expect(onConfirmAutocomplete.state.optionFocused).to.equal(null)
-          expect(onConfirmAutocomplete.state.selected).to.equal(null)
+          expect(onConfirmAutocomplete.state.selected).to.equal(0)
           expect(preventedDefault).to.equal(true)
           expect(onConfirmTriggered).to.equal(true)
         })
@@ -469,7 +480,7 @@ describe('Autocomplete', () => {
             expect(autoselectAutocomplete.state.menuOpen).to.equal(false)
             expect(autoselectAutocomplete.state.query).to.equal('France')
             expect(autoselectAutocomplete.state.inputFocused).to.equal(true)
-            expect(autoselectAutocomplete.state.selected).to.equal(null)
+            expect(autoselectAutocomplete.state.selected).to.equal(0)
           })
         })
       })
@@ -484,7 +495,7 @@ describe('Autocomplete', () => {
           expect(onConfirmAutocomplete.state.menuOpen).to.equal(false)
           expect(onConfirmAutocomplete.state.query).to.equal('France')
           expect(onConfirmAutocomplete.state.inputFocused).to.equal(true)
-          expect(onConfirmAutocomplete.state.selected).to.equal(null)
+          expect(onConfirmAutocomplete.state.selected).to.equal(0)
           expect(preventedDefault).to.equal(true)
           expect(onConfirmTriggered).to.equal(true)
         })
