@@ -34,7 +34,11 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
   }
   configurationOptions.onConfirm = configurationOptions.onConfirm || (query => {
     const requestedOption = [].filter.call(configurationOptions.selectElement.options, option => (option.textContent || option.innerText) === query)[0]
-    if (requestedOption) { requestedOption.selected = true }
+    if (requestedOption) {
+      requestedOption.selected = true
+    } else {
+      configurationOptions.selectElement.options[0].selected = true
+    }
   })
 
   if (configurationOptions.selectElement.value || configurationOptions.defaultValue === undefined) {

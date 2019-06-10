@@ -171,7 +171,8 @@ export default class Autocomplete extends Component {
     let newQuery
     if (this.props.confirmOnBlur) {
       newQuery = newState.query || query
-      this.props.onConfirm(options[selected])
+      if (options[selected]) this.props.onConfirm(options[selected])
+      else this.props.onConfirm(options[0])
     } else {
       newQuery = query
     }
@@ -288,7 +289,8 @@ export default class Autocomplete extends Component {
     const selectedOption = this.state.options[index]
     const newQuery = this.templateInputValue(selectedOption)
     clearTimeout(this.$blurInput)
-    this.props.onConfirm(selectedOption)
+    if (selectedOption) this.props.onConfirm(selectedOption)
+    else this.props.onConfirm(this.state.options[0])
     this.setState({
       focused: -1,
       clicked: index,
