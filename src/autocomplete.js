@@ -70,7 +70,8 @@ export default class Autocomplete extends Component {
     super(props)
 
     this.state = {
-      focused: null,
+      inputFocused: false,
+      optionFocused: null,
       hovered: null,
       clicked: null,
       menuOpen: false,
@@ -125,7 +126,7 @@ export default class Autocomplete extends Component {
   }
 
   getDirectInputChanges () {
-    const inputReference = this.elementReferences[-1]
+    const inputReference = this.elementReferences['input']
     const queryHasChanged = inputReference && inputReference.value !== this.state.query
 
     if (queryHasChanged) {
@@ -134,19 +135,17 @@ export default class Autocomplete extends Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const { focused, clicked } = this.state
-    const componentLostFocus = focused === null
-    const focusedChanged = prevState.focused !== focused
-    const focusDifferentElement = (focusedChanged && !componentLostFocus) || clicked !== null
-    if (focusDifferentElement) {
-      this.elementReferences[focused].focus()
-    }
-    const focusedInput = focused === -1
-    const componentGainedFocus = focusedChanged && prevState.focused === null
-    const selectAllText = focusedInput && componentGainedFocus
-    if (selectAllText) {
-      const inputElement = this.elementReferences[focused]
-      inputElement.setSelectionRange(0, inputElement.value.length)
+    const { inputFocused, optionFocused } = this.state
+    if (inputFocused && !prevState.inputFocused) {
+      const inputElement = this.elementReferences['input']
+      inputElement.focus()
+      const notPreviouslyFocused = !prevState.inputFocused && prevState.optionFocused === null
+      if (notPreviouslyFocused) {
+        inputElement.setSelectionRange(0, inputElement.value.length)
+      }
+    } else if (optionFocused !== null && optionFocused !== prevState.optionFocused) {
+      const optionElement = this.elementReferences[`option-${optionFocused}`]
+      if (optionElement) { optionElement.focus() }
     }
   }
 
@@ -168,7 +167,8 @@ export default class Autocomplete extends Component {
 
   resetInput () {
     this.setState({
-      focused: null,
+      inputFocused: false,
+      optionFocused: null,
       clicked: null,
       menuOpen: false,
       selected: null,
@@ -190,7 +190,8 @@ export default class Autocomplete extends Component {
       this.resetInput()
     } else {
       this.setState({
-        focused: null,
+        inputFocused: false,
+        optionFocused: null,
         clicked: null,
         menuOpen: newState.menuOpen || false,
         query: newQuery,
@@ -206,10 +207,10 @@ export default class Autocomplete extends Component {
   }
 
   handleOptionBlur (event, index) {
-    const { focused, clicked, menuOpen, options, selected } = this.state
+    const { optionFocused, clicked, menuOpen, options, selected } = this.state
     const focusingOutsideComponent = event.relatedTarget === null && clicked === null
-    const focusingInput = event.relatedTarget === this.elementReferences[-1]
-    const focusingAnotherOption = focused !== index && focused !== -1
+    const focusingInput = event.relatedTarget === this.elementReferences['input']
+    const focusingAnotherOption = optionFocused !== null && optionFocused !== index
     const blurComponent = (!focusingAnotherOption && focusingOutsideComponent) || !(focusingAnotherOption || focusingInput)
     if (blurComponent) {
       const keepMenuOpen = menuOpen && isIosDevice()
@@ -221,8 +222,8 @@ export default class Autocomplete extends Component {
   }
 
   handleInputBlur (event) {
-    const { focused, menuOpen, options, query, selected } = this.state
-    const focusingAnOption = focused !== -1
+    const { optionFocused, menuOpen, options, query, selected } = this.state
+    const focusingAnOption = optionFocused !== null
     clearTimeout(this.$blurInput)
     if (!focusingAnOption) {
       const keepMenuOpen = menuOpen && isIosDevice()
@@ -268,13 +269,15 @@ export default class Autocomplete extends Component {
 
   handleInputFocus (event) {
     this.setState({
-      focused: -1
+      inputFocused: true,
+      optionFocused: null
     })
   }
 
   handleOptionFocus (index) {
     this.setState({
-      focused: index,
+      inputFocused: false,
+      optionFocused: index,
       hovered: null,
       selected: index
     })
@@ -305,7 +308,8 @@ export default class Autocomplete extends Component {
       }
     } else {
       this.setState({
-        focused: -1,
+        inputFocused: true,
+        optionFocused: null,
         clicked: index,
         hovered: null,
         menuOpen: false,
@@ -339,7 +343,8 @@ export default class Autocomplete extends Component {
       this.handleOptionFocus(selected - 1)
     } else {
       this.setState({
-        focused: -1,
+        inputFocused: true,
+        optionFocused: null,
         selected: null
       })
     }
@@ -355,7 +360,8 @@ export default class Autocomplete extends Component {
           menuOpen: true,
           options,
           selected: 0,
-          focused: 0,
+          inputFocused: false,
+          optionFocused: 0,
           hovered: null
         })
       })
@@ -379,10 +385,10 @@ export default class Autocomplete extends Component {
         })
       })
     }
-    const focusIsOnOption = this.state.focused !== -1
+    const focusIsOnOption = this.state.optionFocused !== null
     if (focusIsOnOption) {
       event.preventDefault()
-      this.handleOptionClick(event, this.state.focused)
+      this.handleOptionClick(event, this.state.optionFocused)
     }
   }
 
@@ -398,7 +404,7 @@ export default class Autocomplete extends Component {
   }
 
   handlePrintableKey (event) {
-    const inputElement = this.elementReferences[-1]
+    const inputElement = this.elementReferences['input']
     const eventIsOnInput = event.target === inputElement
     if (!eventIsOnInput) {
       // FIXME: This would be better if it was in componentDidUpdate,
@@ -455,10 +461,19 @@ export default class Autocomplete extends Component {
       dropdownArrow: dropdownArrowFactory,
       customAttributes
     } = this.props
-    const { focused, hovered, menuOpen, options, query, selected, selectedOptions } = this.state
+    const {
+      inputFocused,
+      optionFocused,
+      hovered,
+      menuOpen,
+      options,
+      query,
+      selected,
+      selectedOptions
+    } = this.state
+
     const autoselect = this.hasAutoselect()
 
-    const inputFocused = focused === -1
     const noOptionsAvailable = options.length === 0
     const queryNotEmpty = query.length !== 0
     const queryLongEnough = query.length >= minLength
@@ -468,11 +483,10 @@ export default class Autocomplete extends Component {
     const wrapperClassName = `${cssNamespace}__wrapper`
 
     const inputClassName = `${cssNamespace}__input`
-    const componentIsFocused = focused !== null
+    const componentIsFocused = inputFocused || optionFocused !== null
     const inputModifierFocused = componentIsFocused ? ` ${inputClassName}--focused` : ''
     const inputModifierType = this.props.showAllValues ? ` ${inputClassName}--show-all-values` : ` ${inputClassName}--default`
     const dropdownArrowClassName = `${cssNamespace}__dropdown-arrow-down`
-    const optionFocused = focused !== -1 && focused !== null
 
     const menuClassName = `${cssNamespace}__menu`
     const menuModifierDisplayMenu = `${menuClassName}--${displayMenu}`
@@ -523,7 +537,7 @@ export default class Autocomplete extends Component {
         )}
 
         <input
-          aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
+          aria-activedescendant={optionFocused !== null ? `${id}__option--${optionFocused}` : false}
           aria-owns={`${id}__listbox`}
           autoComplete='off'
           className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
@@ -534,7 +548,7 @@ export default class Autocomplete extends Component {
           onFocus={this.handleInputFocus}
           name={name}
           placeholder={placeholder}
-          ref={(inputElement) => { this.elementReferences[-1] = inputElement }}
+          ref={(inputElement) => { this.elementReferences['input'] = inputElement }}
           type='text'
           role='textbox'
           required={required}
@@ -551,13 +565,13 @@ export default class Autocomplete extends Component {
           role='listbox'
         >
           {options.map((option, index) => {
-            const showFocused = focused === -1 ? selected === index : focused === index
+            const showFocused = inputFocused ? selected === index : optionFocused === index
             const optionModifierFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
             const optionModifierOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
 
             return (
               <li
-                aria-selected={focused === index}
+                aria-selected={optionFocused === index}
                 className={`${optionClassName}${optionModifierFocused}${optionModifierOdd}`}
                 dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) }}
                 id={`${id}__option--${index}`}
@@ -565,7 +579,7 @@ export default class Autocomplete extends Component {
                 onBlur={(event) => this.handleOptionBlur(event, index)}
                 onClick={(event) => this.handleOptionClick(event, index)}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
-                ref={(optionEl) => { this.elementReferences[index] = optionEl }}
+                ref={(optionEl) => { this.elementReferences[`option-${index}`] = optionEl }}
                 role='option'
                 tabIndex='-1'
               />
