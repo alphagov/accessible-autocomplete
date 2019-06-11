@@ -136,16 +136,18 @@ export default class Autocomplete extends Component {
 
   componentDidUpdate (prevProps, prevState) {
     const { inputFocused, optionFocused } = this.state
-    if (inputFocused && !prevState.inputFocused) {
+    if (inputFocused) {
       const inputElement = this.elementReferences['input']
-      inputElement.focus()
+      if (inputElement !== document.activeElement) { inputElement.focus() }
       const notPreviouslyFocused = !prevState.inputFocused && prevState.optionFocused === null
       if (notPreviouslyFocused) {
         inputElement.setSelectionRange(0, inputElement.value.length)
       }
-    } else if (optionFocused !== null && optionFocused !== prevState.optionFocused) {
+    } else if (optionFocused !== null) {
       const optionElement = this.elementReferences[`option-${optionFocused}`]
-      if (optionElement) { optionElement.focus() }
+      if (optionElement && optionElement !== document.activeElement) {
+        optionElement.focus()
+      }
     }
   }
 
