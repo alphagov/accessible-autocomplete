@@ -1,19 +1,22 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
 
-var debounce = function(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-  		var later = function() {
-  			timeout = null;
-  			if (!immediate) func.apply(context, args);
-  		};
-  		var callNow = immediate && !timeout;
-  		clearTimeout(timeout);
-  		timeout = setTimeout(later, wait);
-  		if (callNow) func.apply(context, args);
-    };
-};
+const liveRegionDebounceTimeMillis = 1400
+
+var debounce = function (func, wait, immediate) {
+  var timeout
+  return function () {
+    var context = this
+    var args = arguments
+    var later = function () {
+      timeout = null
+      if (!immediate) func.apply(context, args)
+    }
+    var callNow = immediate && !timeout
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+    if (callNow) func.apply(context, args)
+  }
+}
 
 export default class Status extends Component {
   static defaultProps = {
@@ -35,13 +38,13 @@ export default class Status extends Component {
     showContent: false
   }
 
-  componentWillMount() {
-    var that=this;
-     this.debounceContentUpdate = debounce(function(){
-        if(!that.state.showContent){
-            that.setState(({ bump, showContent }) => ({ bump: !bump, showContent: true }))
-        }
-     }, 1400)
+  componentWillMount () {
+    var that = this
+    this.debounceContentUpdate = debounce(function () {
+      if (!that.state.showContent) {
+        that.setState(({ bump, showContent }) => ({ bump: !bump, showContent: true }))
+      }
+    }, liveRegionDebounceTimeMillis)
   }
 
   componentWillReceiveProps ({ queryLength }) {
@@ -80,45 +83,49 @@ export default class Status extends Component {
 
     this.debounceContentUpdate()
 
-    return (<div><div
-        id='flip'
-      aria-atomic='true'
-      aria-live='polite'
+    return (
+      <div>
+        <div
+          id='ariaLiveA'
+          aria-atomic='true'
+          aria-live='polite'
 
-      style={{
-        border: '0',
-        clip: 'rect(0 0 0 0)',
-        height: '1px',
-        marginBottom: '-1px',
-        marginRight: '-1px',
-        overflow: 'hidden',
-        padding: '0',
-        position: 'absolute',
-        whiteSpace: 'nowrap',
-        width: '1px'
-      }}
-    >
-      {(showContent && bump) ? content : ''}
-    </div>
-    <div
-        id='flop'
-      aria-atomic='true'
-      aria-live='polite'
+          style={{
+            border: '0',
+            clip: 'rect(0 0 0 0)',
+            height: '1px',
+            marginBottom: '-1px',
+            marginRight: '-1px',
+            overflow: 'hidden',
+            padding: '0',
+            position: 'absolute',
+            whiteSpace: 'nowrap',
+            width: '1px'
+          }}
+        >
+          {(showContent && bump) ? content : ''}
+        </div>
+        <div
+          id='ariaLiveB'
+          aria-atomic='true'
+          aria-live='polite'
 
-      style={{
-        border: '0',
-        clip: 'rect(0 0 0 0)',
-        height: '1px',
-        marginBottom: '-1px',
-        marginRight: '-1px',
-        overflow: 'hidden',
-        padding: '0',
-        position: 'absolute',
-        whiteSpace: 'nowrap',
-        width: '1px'
-      }}
-    >
-      {(showContent && !bump) ? content : ''}
-    </div></div>)
+          style={{
+            border: '0',
+            clip: 'rect(0 0 0 0)',
+            height: '1px',
+            marginBottom: '-1px',
+            marginRight: '-1px',
+            overflow: 'hidden',
+            padding: '0',
+            position: 'absolute',
+            whiteSpace: 'nowrap',
+            width: '1px'
+          }}
+        >
+          {(showContent && !bump) ? content : ''}
+        </div>
+      </div>
+    )
   }
 }
