@@ -1,8 +1,6 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
 
-const liveRegionDebounceTimeMillis = 1400
-
-var debounce = function (func, wait, immediate) {
+const debounce = function (func, wait, immediate) {
   var timeout
   return function () {
     var context = this
@@ -20,6 +18,7 @@ var debounce = function (func, wait, immediate) {
 
 export default class Status extends Component {
   static defaultProps = {
+    statusDebounceMillis: 1400,
     tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results`,
     tNoResults: () => 'No search results',
     tSelectedOption: (selectedOption, length, index) => `${selectedOption} (${index + 1} of ${length}) is selected`,
@@ -39,12 +38,12 @@ export default class Status extends Component {
   }
 
   componentWillMount () {
-    var that = this
-    this.debounceContentUpdate = debounce(function () {
+    const that = this
+    this.debounceStatusUpdate = debounce(function () {
       if (!that.state.showContent) {
         that.setState(({ bump, showContent }) => ({ bump: !bump, showContent: true }))
       }
-    }, liveRegionDebounceTimeMillis)
+    }, that.props.statusDebounceMillis)
   }
 
   componentWillReceiveProps ({ queryLength }) {
@@ -81,7 +80,7 @@ export default class Status extends Component {
       content = tResults(length, contentSelectedOption)
     }
 
-    this.debounceContentUpdate()
+    this.debounceStatusUpdate()
 
     return (
       <div>
