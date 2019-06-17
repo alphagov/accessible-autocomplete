@@ -39,7 +39,7 @@ const basicExample = () => {
       expect(browser.isVisible(menu)).to.equal(true)
     })
 
-    it('should announce suggestion summaries using two alternately updated aria live regions', () => {
+    it('should announce status changes using two alternately updated aria live regions', () => {
       const flip = browser.$('div#ariaLiveA')
       const flop = browser.$('div#ariaLiveB')
 
