@@ -268,19 +268,21 @@ export default class Autocomplete extends Component {
   }
 
   handleOptionClick (event, index) {
-    const selectedOption = this.state.options[index]
-    const newQuery = this.templateInputValue(selectedOption)
-    clearTimeout(this.$blurInput)
-    this.props.onConfirm(selectedOption)
-    this.setState({
-      focused: -1,
-      clicked: index,
-      hovered: null,
-      menuOpen: false,
-      query: newQuery,
-      selected: -1
-    })
-    this.forceUpdate()
+    if(event.button == 0){
+      const selectedOption = this.state.options[index]
+      const newQuery = this.templateInputValue(selectedOption)
+      clearTimeout(this.$blurInput)
+      this.props.onConfirm(selectedOption)
+      this.setState({
+        focused: -1,
+        clicked: index,
+        hovered: null,
+        menuOpen: false,
+        query: newQuery,
+        selected: -1
+      })
+      this.forceUpdate()
+    }
   }
 
   handleUpArrow (event) {
@@ -505,7 +507,7 @@ export default class Autocomplete extends Component {
                 id={`${id}__option--${index}`}
                 key={index}
                 onBlur={(event) => this.handleOptionBlur(event, index)}
-                onClick={(event) => this.handleOptionClick(event, index)}
+                onMouseDown={(event) => this.handleOptionClick(event, index)}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
