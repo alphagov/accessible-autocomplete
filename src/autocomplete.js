@@ -268,7 +268,7 @@ export default class Autocomplete extends Component {
   }
 
   handleOptionClick (event, index) {
-    if(event.button == 0){
+    if (event.button === 0 || event.keyCode === 13 || event.keyCode === 32) {
       const selectedOption = this.state.options[index]
       const newQuery = this.templateInputValue(selectedOption)
       clearTimeout(this.$blurInput)
