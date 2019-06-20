@@ -508,6 +508,7 @@ export default class Autocomplete extends Component {
                 key={index}
                 onBlur={(event) => this.handleOptionBlur(event, index)}
                 onMouseDown={(event) => this.handleOptionClick(event, index)}
+                onClick={(event) => this.handleOptionClick(event, index)}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
