@@ -435,6 +435,10 @@ export default class Autocomplete extends Component {
       : ''
     const showHint = hasPointerEvents && hintValue
 
+    const ariaDescribedProp = (query==='') ? {
+      'aria-describedby' : 'assistiveHint'
+    } : null
+
     let dropdownArrow
 
     // we only need a dropdown arrow if showAllValues is set to a truthy value
@@ -470,6 +474,7 @@ export default class Autocomplete extends Component {
           aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
           aria-owns={`${id}__listbox`}
           aria-autocomplete='both'
+          {...ariaDescribedProp}
           autoComplete='off'
           className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
           id={id}
@@ -520,6 +525,9 @@ export default class Autocomplete extends Component {
             <li className={`${optionClassName} ${optionClassName}--no-results`}>{tNoResults()}</li>
           )}
         </ul>
+
+        <span id='assistiveHint' style={{ display: 'none' }}>When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.</span>
+
       </div>
     )
   }
