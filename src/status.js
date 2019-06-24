@@ -34,20 +34,24 @@ export default class Status extends Component {
 
   state = {
     bump: false,
-    showContent: false
+    debounced: false
   }
 
   componentWillMount () {
     const that = this
     this.debounceStatusUpdate = debounce(function () {
-      if (!that.state.showContent) {
-        that.setState(({ bump, showContent }) => ({ bump: !bump, showContent: true }))
+      if (!that.state.debounced) {
+        const shouldSilence =
+          that.props.queryIsValidOption &&
+          that.props.selectedOption === undefined &&
+          (that.props.autoselect || that.props.selectedOptionIndex === null)
+        that.setState(({ bump, debounced }) => ({ bump: !bump, debounced: true, silenced: shouldSilence }))
       }
     }, that.props.statusDebounceMillis)
   }
 
   componentWillReceiveProps ({ queryLength }) {
-    this.setState(({ showContent }) => ({ showContent: false }))
+    this.setState(({ debounced }) => ({ debounced: false }))
   }
 
   render () {
@@ -62,7 +66,7 @@ export default class Status extends Component {
       tSelectedOption,
       tResults
     } = this.props
-    const { bump, showContent } = this.state
+    const { bump, debounced, silenced } = this.state
 
     const queryTooShort = queryLength < minQueryLength
     const noResults = length === 0
@@ -102,7 +106,7 @@ export default class Status extends Component {
             width: '1px'
           }}
         >
-          {(showContent && bump) ? content : ''}
+          {(!silenced && debounced && bump) ? content : ''}
         </div>
         <div
           id='ariaLiveB'
@@ -122,7 +126,7 @@ export default class Status extends Component {
             width: '1px'
           }}
         >
-          {(showContent && !bump) ? content : ''}
+          {(!silenced && debounced && !bump) ? content : ''}
         </div>
       </div>
     )

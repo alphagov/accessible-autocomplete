@@ -71,7 +71,9 @@ export default class Autocomplete extends Component {
       menuOpen: false,
       options: props.defaultValue ? [props.defaultValue] : [],
       query: props.defaultValue,
-      selected: null
+      queryIsValidOption: false,
+      selected: null,
+      ariaHint: true
     }
 
     this.handleComponentBlur = this.handleComponentBlur.bind(this)
@@ -167,12 +169,14 @@ export default class Autocomplete extends Component {
     } else {
       newQuery = query
     }
+
     this.setState({
       focused: null,
       clicked: null,
       menuOpen: newState.menuOpen || false,
       query: newQuery,
-      selected: null
+      selected: null,
+      queryIsValidOption: options.indexOf(newQuery) !== -1
     })
   }
 
@@ -219,7 +223,10 @@ export default class Autocomplete extends Component {
     const queryChanged = this.state.query.length !== query.length
     const queryLongEnough = query.length >= minLength
 
-    this.setState({ query })
+    this.setState({
+      query,
+      ariaHint: queryEmpty
+    })
 
     const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
     if (searchForOptions) {
@@ -228,7 +235,8 @@ export default class Autocomplete extends Component {
         this.setState({
           menuOpen: optionsAvailable,
           options,
-          selected: (autoselect && optionsAvailable) ? 0 : -1
+          selected: (autoselect && optionsAvailable) ? 0 : -1,
+          queryIsValidOption: options.indexOf(query) !== -1
         })
       })
     } else if (queryEmpty || !queryLongEnough) {
@@ -272,14 +280,17 @@ export default class Autocomplete extends Component {
     const newQuery = this.templateInputValue(selectedOption)
     clearTimeout(this.$blurInput)
     this.props.onConfirm(selectedOption)
+
     this.setState({
       focused: -1,
       clicked: index,
       hovered: null,
       menuOpen: false,
       query: newQuery,
-      selected: -1
+      selected: -1,
+      queryIsValidOption: true
     })
+
     this.forceUpdate()
   }
 
@@ -400,7 +411,7 @@ export default class Autocomplete extends Component {
       tStatusResults,
       dropdownArrow: dropdownArrowFactory
     } = this.props
-    const { focused, hovered, menuOpen, options, query, selected } = this.state
+    const { focused, hovered, menuOpen, options, query, selected, ariaHint, queryIsValidOption } = this.state
     const autoselect = this.hasAutoselect()
 
     const inputFocused = focused === -1
@@ -435,8 +446,8 @@ export default class Autocomplete extends Component {
       : ''
     const showHint = hasPointerEvents && hintValue
 
-    const ariaDescribedProp = (query==='') ? {
-      'aria-describedby' : 'assistiveHint'
+    const ariaDescribedProp = (ariaHint) ? {
+      'aria-describedby': 'assistiveHint'
     } : null
 
     let dropdownArrow
@@ -459,6 +470,8 @@ export default class Autocomplete extends Component {
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
           selectedOptionIndex={selected}
+          queryIsValidOption={queryIsValidOption}
+          autoselect={autoselect}
           tQueryTooShort={tStatusQueryTooShort}
           tNoResults={tStatusNoResults}
           tSelectedOption={tStatusSelectedOption}

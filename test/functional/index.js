@@ -1,6 +1,7 @@
 /* global after, describe, before, beforeEach, expect, it */
 import { createElement, render } from 'preact' /** @jsx createElement */
 import Autocomplete from '../../src/autocomplete'
+import Status from '../../src/status'
 
 function suggest (query, syncResults) {
   var results = [
@@ -69,13 +70,22 @@ describe('Autocomplete', () => {
         expect(scratch.innerHTML).to.contain('class="bob__menu')
       })
 
-      it('renders with the correct aria attributes', () => {
+      it('renders with an aria-expanded attribute', () => {
         render(<Autocomplete required />, scratch)
 
         let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
         let inputElement = wrapperElement.getElementsByTagName('input')[0]
 
         expect(inputElement.getAttribute('aria-expanded')).to.equal('false')
+      })
+
+      it('renders with an aria-describedby attribute', () => {
+        render(<Autocomplete required />, scratch)
+
+        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        let inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+        expect(inputElement.getAttribute('aria-describedby')).to.equal('assistiveHint')
       })
 
       it('renders with the correct roles', () => {
@@ -151,6 +161,35 @@ describe('Autocomplete', () => {
         autocomplete.setState({ query: 'f', options: ['France'], menuOpen: true })
         autocomplete.handleInputChange({ target: { value: '' } })
         expect(autocomplete.state.menuOpen).to.equal(false)
+      })
+
+      it('removes the aria-describedby attribute when query is non empty', () => {
+        expect(autocomplete.state.ariaHint).to.equal(true)
+        autocomplete.handleInputChange({ target: { value: 'a' } })
+        expect(autocomplete.state.ariaHint).to.equal(false)
+        autocomplete.handleInputChange({ target: { value: '' } })
+        expect(autocomplete.state.ariaHint).to.equal(true)
+      })
+
+      it('identifies the situation where the query exactly matches a valid option on input change', () => {
+        autocomplete.setState({ query: 'f', options: ['France'], menuOpen: true })
+        expect(autocomplete.state.queryIsValidOption).to.equal(false)
+        autocomplete.handleInputChange({ target: { value: 'France' } })
+        expect(autocomplete.state.queryIsValidOption).to.equal(true)
+      })
+
+      it('identifies the situation where the query exactly matches a valid option on focus out', () => {
+        autocomplete.setState({ options: ['Germany'] })
+        expect(autocomplete.state.queryIsValidOption).to.equal(false)
+        autocomplete.handleComponentBlur({ menuOpen: false, query: 'Germany' })
+        expect(autocomplete.state.queryIsValidOption).to.equal(true)
+      })
+
+      it('identifies the situation where the query exactly matches a valid option, on option select', () => {
+        autocomplete.setState({ query: 'f', options: ['France', 'Germany'], menuOpen: true })
+        expect(autocomplete.state.queryIsValidOption).to.equal(false)
+        autocomplete.handleOptionClick({}, 1)
+        expect(autocomplete.state.queryIsValidOption).to.equal(true)
       })
 
       describe('with minLength', () => {
@@ -481,6 +520,57 @@ describe('Autocomplete', () => {
         expect(autocomplete.state.focused).to.equal(0)
         expect(autocomplete.state.selected).to.equal(0)
       })
+    })
+  })
+})
+
+describe('Status', () => {
+  describe('rendering', () => {
+    let scratch
+
+    before(() => {
+      scratch = document.createElement('div');
+      (document.body || document.documentElement).appendChild(scratch)
+    })
+
+    beforeEach(() => {
+      scratch.innerHTML = ''
+    })
+
+    after(() => {
+      scratch.parentNode.removeChild(scratch)
+      scratch = null
+    })
+
+    it('renders a pair of aria live regions', () => {
+      render(<Status />, scratch)
+      expect(scratch.innerHTML).to.contain('div')
+
+      let wrapperElement = scratch.getElementsByTagName('div')[0]
+      let ariaLiveA = wrapperElement.getElementsByTagName('div')[0]
+      let ariaLiveB = wrapperElement.getElementsByTagName('div')[1]
+
+      expect(ariaLiveA.getAttribute('aria-atomic')).to.equal('true', 'aria live region should be marked as atomic')
+      expect(ariaLiveA.getAttribute('aria-live')).to.equal('polite', 'aria live region should be marked as polite')
+      expect(ariaLiveB.getAttribute('aria-atomic')).to.equal('true', 'aria live region should be marked as atomic')
+      expect(ariaLiveB.getAttribute('aria-live')).to.equal('polite', 'aria live region should be marked as polite')
+    })
+  })
+
+  describe('behaviour', () => {
+    it('silences the aria live regions when a valid choice has been made', () => {
+      let status = new Status({
+        ...Status.defaultProps,
+        statusDebounceMillis: 0,
+        queryIsValidOption: true,
+        selectedOption: undefined
+      })
+      status.componentWillMount()
+      status.render()
+
+      setTimeout(function () {
+        expect(status.state.silenced).to.equal(true)
+      }, 10)
     })
   })
 })
