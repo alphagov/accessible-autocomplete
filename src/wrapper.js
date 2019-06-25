@@ -6,9 +6,14 @@ function accessibleAutocomplete (options) {
   if (!options.id) { throw new Error('id is not defined') }
   if (!options.source) { throw new Error('source is not defined') }
   if (Array.isArray(options.source)) {
+    options.isValidOption = createQueryCheck(options.source)
     options.source = createSimpleEngine(options.source)
   }
   render(<Autocomplete {...options} />, options.element)
+}
+
+const createQueryCheck = (values) => function(query) {
+  return values.indexOf(query) !== -1
 }
 
 const createSimpleEngine = (values) => (query, syncResults) => {

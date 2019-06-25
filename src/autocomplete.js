@@ -398,7 +398,8 @@ export default class Autocomplete extends Component {
       tStatusNoResults,
       tStatusSelectedOption,
       tStatusResults,
-      dropdownArrow: dropdownArrowFactory
+      dropdownArrow: dropdownArrowFactory,
+      isValidOption
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected } = this.state
     const autoselect = this.hasAutoselect()
@@ -459,6 +460,7 @@ export default class Autocomplete extends Component {
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
           selectedOptionIndex={selected}
+          selectionWasMade={isValidOption(query)}
           tQueryTooShort={tStatusQueryTooShort}
           tNoResults={tStatusNoResults}
           tSelectedOption={tStatusSelectedOption}

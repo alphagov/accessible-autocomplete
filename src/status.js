@@ -57,6 +57,7 @@ export default class Status extends Component {
       minQueryLength,
       selectedOption,
       selectedOptionIndex,
+      selectionWasMade,
       tQueryTooShort,
       tNoResults,
       tSelectedOption,
@@ -72,7 +73,9 @@ export default class Status extends Component {
       : ''
 
     let content = null
-    if (queryTooShort) {
+    if (selectionWasMade) {
+      content = ''
+    } else if (queryTooShort) {
       content = tQueryTooShort(minQueryLength)
     } else if (noResults) {
       content = tNoResults()
