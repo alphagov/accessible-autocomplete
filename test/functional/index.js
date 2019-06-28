@@ -558,18 +558,20 @@ describe('Status', () => {
   })
 
   describe('behaviour', () => {
-    it('silences the aria live regions when a valid choice has been made', () => {
+    it('silences the aria live regions when a valid choice has been made', (done) => {
       let status = new Status({
         ...Status.defaultProps,
         statusDebounceMillis: 0,
         queryIsValidOption: true,
-        selectedOption: undefined
+        selectedOption: undefined,
+        selectedOptionIndex: null
       })
       status.componentWillMount()
       status.render()
 
-      setTimeout(function () {
+      setTimeout(() => {
         expect(status.state.silenced).to.equal(true)
+        done()
       }, 10)
     })
   })
