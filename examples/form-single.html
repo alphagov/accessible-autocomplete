@@ -359,7 +359,8 @@
     <script type="text/javascript">
       var selectEl = document.querySelector('#last-location')
       accessibleAutocomplete.enhanceSelectElement({
-        autoselect: true,
+        autoselect: false,
+        confirmOnBlur: true,
         defaultValue: "",
         minLength: 2,
         selectElement: selectEl

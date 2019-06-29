@@ -41,17 +41,14 @@ export default class Status extends Component {
     const that = this
     this.debounceStatusUpdate = debounce(function () {
       if (!that.state.debounced) {
-        const shouldSilence =
-          that.props.queryIsValidOption &&
-          that.props.selectedOption === undefined &&
-          (that.props.autoselect || that.props.selectedOptionIndex === null)
-        that.setState(({ bump, debounced }) => ({ bump: !bump, debounced: true, silenced: shouldSilence }))
+        const shouldSilence = !that.props.isInFocus || that.props.validChoiceMade
+        that.setState(({ bump }) => ({ bump: !bump, debounced: true, silenced: shouldSilence }))
       }
     }, that.props.statusDebounceMillis)
   }
 
   componentWillReceiveProps ({ queryLength }) {
-    this.setState(({ debounced }) => ({ debounced: false }))
+    this.setState({ debounced: false })
   }
 
   render () {
