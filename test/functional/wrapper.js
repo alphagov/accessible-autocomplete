@@ -238,6 +238,48 @@ describe('Wrapper', () => {
     }, 250)
   })
 
+  it('includes a descriptive aria-label on each list item option when iOS is detected', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select,
+      isIosDevice: () => true
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
+
+    autocompleteInput.value = 'Fran'
+    setTimeout(() => {
+      expect(autocompleteOption.textContent).to.equal('France')
+      expect(autocompleteOption.getAttribute('aria-label')).to.equal('France 1 of 1')
+      done()
+    }, 250)
+  })
+
+  it('does not include am aria-label on each list item option, when iOS is not detected', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select,
+      isIosDevice: () => false
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
+
+    autocompleteInput.value = 'Fran'
+    setTimeout(() => {
+      expect(autocompleteOption.textContent).to.equal('France')
+      expect(autocompleteOption.getAttribute('aria-label')).to.equal(null)
+      done()
+    }, 250)
+  })
+
   it('onConfirm updates original select', (done) => {
     const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
 
