@@ -622,7 +622,7 @@ describe('Status', () => {
   })
 
   describe('behaviour', () => {
-    describe('it silences aria live announcement', () => {
+    describe('silences aria live announcement', () => {
       it('when a valid choice has been made', (done) => {
         let status = new Status({
           ...Status.defaultProps,
