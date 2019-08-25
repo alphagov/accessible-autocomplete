@@ -84,45 +84,29 @@ export default class Status extends Component {
     this.debounceStatusUpdate()
 
     return (
-      <div>
+      <div
+        style={{
+          border: '0',
+          clip: 'rect(0 0 0 0)',
+          height: '1px',
+          marginBottom: '-1px',
+          marginRight: '-1px',
+          overflow: 'hidden',
+          padding: '0',
+          position: 'absolute',
+          whiteSpace: 'nowrap',
+          width: '1px'
+        }}>
         <div
           id='ariaLiveA'
           aria-atomic='true'
-          aria-live='polite'
-
-          style={{
-            border: '0',
-            clip: 'rect(0 0 0 0)',
-            height: '1px',
-            marginBottom: '-1px',
-            marginRight: '-1px',
-            overflow: 'hidden',
-            padding: '0',
-            position: 'absolute',
-            whiteSpace: 'nowrap',
-            width: '1px'
-          }}
-        >
+          aria-live='polite'>
           {(!silenced && debounced && bump) ? content : ''}
         </div>
         <div
           id='ariaLiveB'
           aria-atomic='true'
-          aria-live='polite'
-
-          style={{
-            border: '0',
-            clip: 'rect(0 0 0 0)',
-            height: '1px',
-            marginBottom: '-1px',
-            marginRight: '-1px',
-            overflow: 'hidden',
-            padding: '0',
-            position: 'absolute',
-            whiteSpace: 'nowrap',
-            width: '1px'
-          }}
-        >
+          aria-live='polite'>
           {(!silenced && debounced && !bump) ? content : ''}
         </div>
       </div>
