@@ -15,10 +15,10 @@ const debounce = function (func, wait, immediate) {
     if (callNow) func.apply(context, args)
   }
 }
+const statusDebounceMillis = 1400
 
 export default class Status extends Component {
   static defaultProps = {
-    statusDebounceMillis: 1400,
     tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results`,
     tNoResults: () => 'No search results',
     tSelectedOption: (selectedOption, length, index) => `${selectedOption} ${index + 1} of ${length} is highlighted`,
@@ -44,7 +44,7 @@ export default class Status extends Component {
         const shouldSilence = !that.props.isInFocus || that.props.validChoiceMade
         that.setState(({ bump }) => ({ bump: !bump, debounced: true, silenced: shouldSilence }))
       }
-    }, that.props.statusDebounceMillis)
+    }, statusDebounceMillis)
   }
 
   componentWillReceiveProps ({ queryLength }) {

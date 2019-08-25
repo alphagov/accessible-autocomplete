@@ -623,10 +623,9 @@ describe('Status', () => {
 
   describe('behaviour', () => {
     describe('silences aria live announcement', () => {
-      it('when a valid choice has been made', (done) => {
+      it('when a valid choice has been made and the input has focus', (done) => {
         let status = new Status({
           ...Status.defaultProps,
-          statusDebounceMillis: 0,
           validChoiceMade: true,
           isInFocus: true
         })
@@ -636,13 +635,12 @@ describe('Status', () => {
         setTimeout(() => {
           expect(status.state.silenced).to.equal(true)
           done()
-        }, 10)
+        }, 1500)
       })
 
       it('when the input no longer has focus', (done) => {
         let status = new Status({
           ...Status.defaultProps,
-          statusDebounceMillis: 0,
           validChoiceMade: false,
           isInFocus: false
         })
@@ -652,7 +650,23 @@ describe('Status', () => {
         setTimeout(() => {
           expect(status.state.silenced).to.equal(true)
           done()
-        }, 10)
+        }, 1500)
+      })
+    })
+    describe('does not silence aria live announcement', () => {
+      it('when a valid choice has not been made and the input has focus', (done) => {
+        let status = new Status({
+          ...Status.defaultProps,
+          validChoiceMade: false,
+          isInFocus: true
+        })
+        status.componentWillMount()
+        status.render()
+
+        setTimeout(() => {
+          expect(status.state.silenced).to.equal(false)
+          done()
+        }, 1500)
       })
     })
   })
