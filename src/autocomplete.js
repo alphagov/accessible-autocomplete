@@ -20,7 +20,7 @@ const hasPointerEvents = (() => {
   return element.style.pointerEvents === 'auto'
 })()
 
-function isIosDeviceDetected () {
+function isIosDevice () {
   return !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
 }
 
@@ -58,8 +58,7 @@ export default class Autocomplete extends Component {
     tNoResults: () => 'No results found',
     tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown,
-    isQueryAnOption: (query, options) => options.map(entry => entry.toLowerCase()).indexOf(query.toLowerCase()) !== -1,
-    isIosDevice: isIosDeviceDetected
+    isQueryAnOption: (query, options) => options.map(entry => entry.toLowerCase()).indexOf(query.toLowerCase()) !== -1
   }
 
   elementReferences = {}
@@ -148,7 +147,7 @@ export default class Autocomplete extends Component {
   }
 
   hasAutoselect () {
-    return this.props.isIosDevice() ? false : this.props.autoselect
+    return isIosDevice() ? false : this.props.autoselect
   }
 
   // This template is used when converting from a state.options object into a state.query.
@@ -191,7 +190,6 @@ export default class Autocomplete extends Component {
 
   handleOptionBlur (event, index) {
     const { focused, clicked, menuOpen, options, selected } = this.state
-    const { isIosDevice } = this.props
     const focusingOutsideComponent = event.relatedTarget === null && clicked === null
     const focusingInput = event.relatedTarget === this.elementReferences[-1]
     const focusingAnotherOption = focused !== index && focused !== -1
@@ -207,7 +205,6 @@ export default class Autocomplete extends Component {
 
   handleInputBlur (event) {
     const { focused, menuOpen, options, query, selected } = this.state
-    const { isIosDevice } = this.props
     const focusingAnOption = focused !== -1
     clearTimeout(this.$blurInput)
     if (!focusingAnOption) {
@@ -279,7 +276,7 @@ export default class Autocomplete extends Component {
   handleOptionMouseEnter (event, index) {
     // iOS Safari prevents click event if mouseenter adds hover background colour
     // See: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html#//apple_ref/doc/uid/TP40006511-SW4
-    if (!this.props.isIosDevice()) {
+    if (!isIosDevice()) {
       this.setState({
         hovered: index
       })
@@ -528,7 +525,7 @@ export default class Autocomplete extends Component {
             const showFocused = focused === -1 ? selected === index : focused === index
             const optionModifierFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
             const optionModifierOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
-            const ariaLabelProp = (this.props.isIosDevice()) ? {
+            const ariaLabelProp = (isIosDevice()) ? {
               'aria-label': `${option} ${index + 1} of ${options.length}`
             } : null
 

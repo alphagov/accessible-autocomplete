@@ -239,11 +239,12 @@ describe('Wrapper', () => {
   })
 
   it('includes a descriptive aria-label on each list item option when iOS is detected', (done) => {
+    Object.defineProperty(global.navigator, 'userAgent', { value: 'iPhone AppleWebKit', configurable: true })
+
     const select = injectSelectToEnhanceIntoDOM(scratch)
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: select,
-      isIosDevice: () => true
+      selectElement: select
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
@@ -260,11 +261,12 @@ describe('Wrapper', () => {
   })
 
   it('does not include am aria-label on each list item option, when iOS is not detected', (done) => {
+    Object.defineProperty(global.navigator, 'userAgent', { value: 'definitely not an iDevice', configurable: true })
+
     const select = injectSelectToEnhanceIntoDOM(scratch)
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: select,
-      isIosDevice: () => false
+      selectElement: select
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
