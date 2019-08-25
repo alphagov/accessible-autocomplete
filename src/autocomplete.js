@@ -56,6 +56,7 @@ export default class Autocomplete extends Component {
     showAllValues: false,
     required: false,
     tNoResults: () => 'No results found',
+    tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown,
     isQueryAnOption: (query, options) => options.map(entry => entry.toLowerCase()).indexOf(query.toLowerCase()) !== -1,
     isIosDevice: isIosDeviceDetected
@@ -419,6 +420,7 @@ export default class Autocomplete extends Component {
       tStatusNoResults,
       tStatusSelectedOption,
       tStatusResults,
+      tAssistiveHint,
       dropdownArrow: dropdownArrowFactory
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
@@ -553,7 +555,7 @@ export default class Autocomplete extends Component {
           )}
         </ul>
 
-        <span id='assistiveHint' style={{ display: 'none' }}>When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.</span>
+        <span id='assistiveHint' style={{ display: 'none' }}>{tAssistiveHint()}</span>
 
       </div>
     )
