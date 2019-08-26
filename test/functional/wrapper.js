@@ -238,7 +238,7 @@ describe('Wrapper', () => {
     }, 250)
   })
 
-  it('includes a descriptive aria-label on each list item option when iOS is detected', (done) => {
+  it('includes an explicit position suffix on each list item option when iOS is detected', (done) => {
     Object.defineProperty(global.navigator, 'userAgent', { value: 'iPhone AppleWebKit', configurable: true })
 
     const select = injectSelectToEnhanceIntoDOM(scratch)
@@ -254,13 +254,14 @@ describe('Wrapper', () => {
 
     autocompleteInput.value = 'Fran'
     setTimeout(() => {
-      expect(autocompleteOption.textContent).to.equal('France')
-      expect(autocompleteOption.getAttribute('aria-label')).to.equal('France 1 of 1')
+      expect(autocompleteOption.textContent).to.equal('France 1 of 1')
+      const iosSuffixSpan = autocompleteOption.querySelector('#location-picker-id__option-suffix--0')
+      expect(iosSuffixSpan.textContent).to.equal(' 1 of 1')
       done()
     }, 250)
   })
 
-  it('does not include am aria-label on each list item option, when iOS is not detected', (done) => {
+  it('does not include a position suffix on each list item option, when iOS is not detected', (done) => {
     Object.defineProperty(global.navigator, 'userAgent', { value: 'definitely not an iDevice', configurable: true })
 
     const select = injectSelectToEnhanceIntoDOM(scratch)
@@ -277,7 +278,8 @@ describe('Wrapper', () => {
     autocompleteInput.value = 'Fran'
     setTimeout(() => {
       expect(autocompleteOption.textContent).to.equal('France')
-      expect(autocompleteOption.getAttribute('aria-label')).to.equal(null)
+      const iosSuffixSpan = autocompleteOption.querySelector('#location-picker-id__option-suffix--0')
+      expect(iosSuffixSpan).to.equal(null)
       done()
     }, 250)
   })
