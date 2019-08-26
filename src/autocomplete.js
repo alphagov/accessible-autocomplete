@@ -63,9 +63,6 @@ export default class Autocomplete extends Component {
   elementReferences = {}
 
   constructor (props) {
-    props.isQueryAnOption = (query, options) =>
-      options.map(entry => this.templateInputValue(entry).toLowerCase()).indexOf(query.toLowerCase()) !== -1
-
     super(props)
 
     this.state = {
@@ -100,6 +97,10 @@ export default class Autocomplete extends Component {
 
     this.pollInputElement = this.pollInputElement.bind(this)
     this.getDirectInputChanges = this.getDirectInputChanges.bind(this)
+  }
+
+  isQueryAnOption (query, options) {
+    return options.map(entry => this.templateInputValue(entry).toLowerCase()).indexOf(query.toLowerCase()) !== -1
   }
 
   componentDidMount () {
@@ -180,7 +181,7 @@ export default class Autocomplete extends Component {
       menuOpen: newState.menuOpen || false,
       query: newQuery,
       selected: null,
-      validChoiceMade: this.props.isQueryAnOption(newQuery, options)
+      validChoiceMade: this.isQueryAnOption(newQuery, options)
     })
   }
 
