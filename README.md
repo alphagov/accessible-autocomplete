@@ -278,19 +278,19 @@ Type: `Function`
 
 A function that receives no arguments and should return the text used in the dropdown to indicate that there are no results.
 
-#### `tStatusQueryTooShort` (default: `` (minQueryLength) => `Type in ${minQueryLength} or more characters for results.` ``)
+#### `tStatusQueryTooShort` (default: `` (minQueryLength) => `Type in ${minQueryLength} or more characters for results` ``)
 
 Type: `Function`
 
 A function that receives one argument that indicates the minimal amount of characters needed for the dropdown to trigger and should return the text used in the accessibility hint to indicate that the query is too short.
 
-#### `tStatusNoResults` (default: `() => 'No search results.'`)
+#### `tStatusNoResults` (default: `() => 'No search results'`)
 
 Type: `Function`
 
 A function that receives no arguments and should return the text that is used in the accessibility hint to indicate that there are no results.
 
-#### `tStatusSelectedOption` (default: `` (selectedOption, length, index) => `${selectedOption} (${index + 1} of ${length}) is selected.` ``)
+#### `tStatusSelectedOption` (default: `` (selectedOption, length, index) => `${selectedOption} ${index + 1} of ${length} is highlighted` ``)
 
 Type: `Function`
 

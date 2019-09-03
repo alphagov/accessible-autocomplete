@@ -19,9 +19,9 @@ const statusDebounceMillis = 1400
 
 export default class Status extends Component {
   static defaultProps = {
-    tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results.`,
-    tNoResults: () => 'No search results.',
-    tSelectedOption: (selectedOption, length, index) => `${selectedOption} (${index + 1} of ${length}) is selected.`,
+    tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results`,
+    tNoResults: () => 'No search results',
+    tSelectedOption: (selectedOption, length, index) => `${selectedOption} ${index + 1} of ${length} is highlighted`,
     tResults: (length, contentSelectedOption) => {
       const words = {
         result: (length === 1) ? 'result' : 'results',
