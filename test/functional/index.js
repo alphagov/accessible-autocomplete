@@ -1,6 +1,7 @@
 /* global after, describe, before, beforeEach, expect, it */
 import { createElement, render } from 'preact' /** @jsx createElement */
 import Autocomplete from '../../src/autocomplete'
+import Status from '../../src/status'
 
 function suggest (query, syncResults) {
   var results = [
@@ -480,6 +481,42 @@ describe('Autocomplete', () => {
         expect(autocomplete.state.focused).to.equal(0)
         expect(autocomplete.state.selected).to.equal(0)
       })
+    })
+  })
+})
+
+describe('Status', () => {
+  describe('rendering', () => {
+    let scratch
+
+    before(() => {
+      scratch = document.createElement('div');
+      (document.body || document.documentElement).appendChild(scratch)
+    })
+
+    beforeEach(() => {
+      scratch.innerHTML = ''
+    })
+
+    after(() => {
+      scratch.parentNode.removeChild(scratch)
+      scratch = null
+    })
+
+    it('renders a pair of aria live regions', () => {
+      render(<Status />, scratch)
+      expect(scratch.innerHTML).to.contain('div')
+
+      let wrapperElement = scratch.getElementsByTagName('div')[0]
+      let ariaLiveA = wrapperElement.getElementsByTagName('div')[0]
+      let ariaLiveB = wrapperElement.getElementsByTagName('div')[1]
+
+      expect(ariaLiveA.getAttribute('role')).to.equal('status', 'first aria live region should be marked as role=status')
+      expect(ariaLiveA.getAttribute('aria-atomic')).to.equal('true', 'first aria live region should be marked as atomic')
+      expect(ariaLiveA.getAttribute('aria-live')).to.equal('polite', 'first aria live region should be marked as polite')
+      expect(ariaLiveB.getAttribute('role')).to.equal('status', 'second aria live region should be marked as role=status')
+      expect(ariaLiveB.getAttribute('aria-atomic')).to.equal('true', 'second aria live region should be marked as atomic')
+      expect(ariaLiveB.getAttribute('aria-live')).to.equal('polite', 'second aria live region should be marked as polite')
     })
   })
 })

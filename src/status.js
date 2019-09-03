@@ -56,25 +56,35 @@ export default class Status extends Component {
       content = tResults(length, contentSelectedOption)
     }
 
-    return <div
-      aria-atomic='true'
-      aria-live='polite'
-      role='status'
-      style={{
-        border: '0',
-        clip: 'rect(0 0 0 0)',
-        height: '1px',
-        marginBottom: '-1px',
-        marginRight: '-1px',
-        overflow: 'hidden',
-        padding: '0',
-        position: 'absolute',
-        whiteSpace: 'nowrap',
-        width: '1px'
-      }}
-    >
-      {content}
-      <span>{bump ? ',' : ',,'}</span>
-    </div>
+    return (
+      <div
+        style={{
+          border: '0',
+          clip: 'rect(0 0 0 0)',
+          height: '1px',
+          marginBottom: '-1px',
+          marginRight: '-1px',
+          overflow: 'hidden',
+          padding: '0',
+          position: 'absolute',
+          whiteSpace: 'nowrap',
+          width: '1px'
+        }}>
+        <div
+          id='ariaLiveA'
+          role='status'
+          aria-atomic='true'
+          aria-live='polite'>
+          <span>{bump ? content : ''}</span>
+        </div>
+        <div
+          id='ariaLiveB'
+          role='status'
+          aria-atomic='true'
+          aria-live='polite'>
+          <span>{!bump ? content : ''}</span>
+        </div>
+      </div>
+    )
   }
 }
