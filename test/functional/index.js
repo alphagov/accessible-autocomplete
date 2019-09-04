@@ -79,6 +79,26 @@ describe('Autocomplete', () => {
         expect(inputElement.getAttribute('aria-expanded')).to.equal('false')
       })
 
+      describe('renders with an aria-autocomplete attribute', () => {
+        it('of value "list", when autoselect is not enabled', () => {
+          render(<Autocomplete required />, scratch)
+
+          let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          let inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+          expect(inputElement.getAttribute('aria-autocomplete')).to.equal('list')
+        })
+
+        it('of value "both", when autoselect is enabled', () => {
+          render(<Autocomplete required autoselect />, scratch)
+
+          let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          let inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+          expect(inputElement.getAttribute('aria-autocomplete')).to.equal('both')
+        })
+      })
+
       it('renders with the correct roles', () => {
         render(<Autocomplete required />, scratch)
 
