@@ -79,6 +79,15 @@ describe('Autocomplete', () => {
         expect(inputElement.getAttribute('aria-expanded')).to.equal('false')
       })
 
+      it('renders with an aria-describedby attribute', () => {
+        render(<Autocomplete required />, scratch)
+
+        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        let inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+        expect(inputElement.getAttribute('aria-describedby')).to.equal('assistiveHint')
+      })
+
       describe('renders with an aria-autocomplete attribute', () => {
         it('of value "list", when autoselect is not enabled', () => {
           render(<Autocomplete required />, scratch)
@@ -172,6 +181,14 @@ describe('Autocomplete', () => {
         autocomplete.setState({ query: 'f', options: ['France'], menuOpen: true })
         autocomplete.handleInputChange({ target: { value: '' } })
         expect(autocomplete.state.menuOpen).to.equal(false)
+      })
+
+      it('removes the aria-describedby attribute when query is non empty', () => {
+        expect(autocomplete.state.ariaHint).to.equal(true)
+        autocomplete.handleInputChange({ target: { value: 'a' } })
+        expect(autocomplete.state.ariaHint).to.equal(false)
+        autocomplete.handleInputChange({ target: { value: '' } })
+        expect(autocomplete.state.ariaHint).to.equal(true)
       })
 
       describe('with minLength', () => {

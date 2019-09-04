@@ -56,6 +56,7 @@ export default class Autocomplete extends Component {
     showAllValues: false,
     required: false,
     tNoResults: () => 'No results found',
+    tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown
   }
 
@@ -71,7 +72,8 @@ export default class Autocomplete extends Component {
       menuOpen: false,
       options: props.defaultValue ? [props.defaultValue] : [],
       query: props.defaultValue,
-      selected: null
+      selected: null,
+      ariaHint: true
     }
 
     this.handleComponentBlur = this.handleComponentBlur.bind(this)
@@ -219,7 +221,10 @@ export default class Autocomplete extends Component {
     const queryChanged = this.state.query.length !== query.length
     const queryLongEnough = query.length >= minLength
 
-    this.setState({ query })
+    this.setState({
+      query,
+      ariaHint: queryEmpty
+    })
 
     const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
     if (searchForOptions) {
@@ -398,9 +403,10 @@ export default class Autocomplete extends Component {
       tStatusNoResults,
       tStatusSelectedOption,
       tStatusResults,
+      tAssistiveHint,
       dropdownArrow: dropdownArrowFactory
     } = this.props
-    const { focused, hovered, menuOpen, options, query, selected } = this.state
+    const { focused, hovered, menuOpen, options, query, selected, ariaHint } = this.state
     const autoselect = this.hasAutoselect()
 
     const inputFocused = focused === -1
@@ -434,6 +440,10 @@ export default class Autocomplete extends Component {
       ? query + selectedOptionText.substr(query.length)
       : ''
     const showHint = hasPointerEvents && hintValue
+
+    const ariaDescribedProp = (ariaHint) ? {
+      'aria-describedby': 'assistiveHint'
+    } : null
 
     let dropdownArrow
 
@@ -470,6 +480,7 @@ export default class Autocomplete extends Component {
           aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
           aria-owns={`${id}__listbox`}
           aria-autocomplete={(this.hasAutoselect()) ? 'both' : 'list'}
+          {...ariaDescribedProp}
           autoComplete='off'
           className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
           id={id}
@@ -520,6 +531,9 @@ export default class Autocomplete extends Component {
             <li className={`${optionClassName} ${optionClassName}--no-results`}>{tNoResults()}</li>
           )}
         </ul>
+
+        <span id='assistiveHint' style={{ display: 'none' }}>{tAssistiveHint()}</span>
+
       </div>
     )
   }

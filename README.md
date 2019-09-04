@@ -315,6 +315,14 @@ Type: `Function`
 
 A function that receives two arguments, the count of available options and the return value of `tStatusSelectedOption`, and should return the text used in the accessibility hint to indicate which options are available and which is selected.
 
+#### `tAssistiveHint` (default: `() => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.'`)
+
+Type: `Function`
+
+A function that receives no arguments and should return the text to be assigned as the aria description of the html `input` element, via the `aria-describedby` attribute.
+This text is intended as an initial instruction to the assistive tech user. The `aria-describedby` attribute is automatically removed once user input is detected, in order to reduce screen reader verbosity.
+
+
 ## Progressive enhancement
 
 If your autocomplete is meant to select from a small list of options (a few hundred), we strongly suggest that you render a `<select>` menu on the server, and use progressive enhancement.
