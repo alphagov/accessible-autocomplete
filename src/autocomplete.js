@@ -448,7 +448,7 @@ export default class Autocomplete extends Component {
     }
 
     return (
-      <div className={wrapperClassName} onKeyDown={this.handleKeyDown} aria-expanded={menuOpen ? 'true' : 'false'}>
+      <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
           length={options.length}
           queryLength={query.length}
@@ -466,6 +466,7 @@ export default class Autocomplete extends Component {
         )}
 
         <input
+          aria-expanded={menuOpen ? 'true' : 'false'}
           aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
           aria-owns={`${id}__listbox`}
           autoComplete='off'

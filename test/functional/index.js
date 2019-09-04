@@ -70,12 +70,13 @@ describe('Autocomplete', () => {
         expect(scratch.innerHTML).to.contain('class="bob__menu')
       })
 
-      it('renders with the correct aria attributes', () => {
+      it('renders with an aria-expanded attribute', () => {
         render(<Autocomplete required />, scratch)
 
         let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        let inputElement = wrapperElement.getElementsByTagName('input')[0]
 
-        expect(wrapperElement.getAttribute('aria-expanded')).to.equal('false')
+        expect(inputElement.getAttribute('aria-expanded')).to.equal('false')
       })
 
       it('renders with the correct roles', () => {
