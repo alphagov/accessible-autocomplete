@@ -85,7 +85,7 @@ describe('Autocomplete', () => {
         let inputElement = wrapperElement.getElementsByTagName('input')[0]
         let dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
 
-        expect(inputElement.getAttribute('role')).to.equal('textbox', 'input should have textbox role')
+        expect(inputElement.getAttribute('role')).to.equal('combobox', 'input should have combobox role')
         expect(dropdownElement.getAttribute('role')).to.equal('listbox', 'menu should have listbox role')
       })
     })
