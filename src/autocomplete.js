@@ -256,9 +256,15 @@ export default class Autocomplete extends Component {
   }
 
   handleInputFocus (event) {
-    this.setState({
-      focused: -1
-    })
+    const { query, validChoiceMade, options } = this.state
+    const { minLength } = this.props
+    const shouldReopenMenu = !validChoiceMade && query.length >= minLength && options.length > 0
+
+    if (shouldReopenMenu) {
+      this.setState(({ menuOpen }) => ({ focused: -1, menuOpen: shouldReopenMenu || menuOpen, selected: -1 }))
+    } else {
+      this.setState({ focused: -1 })
+    }
   }
 
   handleOptionFocus (index) {

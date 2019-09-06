@@ -223,18 +223,56 @@ describe('Autocomplete', () => {
     })
 
     describe('focusing input', () => {
-      it('does not display menu when something is typed in', () => {
-        autocomplete.setState({ query: 'f' })
-        autocomplete.handleInputFocus()
-        expect(autocomplete.state.menuOpen).to.equal(false)
-        expect(autocomplete.state.focused).to.equal(-1)
+      describe('when no query is present', () => {
+        it('does not display menu', () => {
+          autocomplete.setState({ query: '' })
+          autocomplete.handleInputFocus()
+          expect(autocomplete.state.menuOpen).to.equal(false)
+          expect(autocomplete.state.focused).to.equal(-1)
+        })
       })
 
-      it('hides menu when query is empty', () => {
-        autocomplete.setState({ query: '' })
-        autocomplete.handleInputFocus()
-        expect(autocomplete.state.menuOpen).to.equal(false)
-        expect(autocomplete.state.focused).to.equal(-1)
+      describe('when a non-matched query is present (no matching options are present)', () => {
+        it('does not display menu', () => {
+          autocomplete.setState({ query: 'f' })
+          autocomplete.handleInputFocus()
+          expect(autocomplete.state.menuOpen).to.equal(false)
+          expect(autocomplete.state.focused).to.equal(-1)
+        })
+      })
+
+      describe('when a matched query is present (matching options exist)', () => {
+        describe('and no user choice has yet been made', () => {
+          it('displays menu', () => {
+            autocomplete.setState({
+              menuOpen: false,
+              options: ['France'],
+              query: 'fr',
+              focused: null,
+              selected: null,
+              validChoiceMade: false
+            })
+            autocomplete.handleInputFocus()
+            expect(autocomplete.state.focused).to.equal(-1)
+            expect(autocomplete.state.menuOpen).to.equal(true)
+            expect(autocomplete.state.selected).to.equal(-1)
+          })
+        })
+        describe('and a user choice HAS been made', () => {
+          it('does not display menu', () => {
+            autocomplete.setState({
+              menuOpen: false,
+              options: ['France'],
+              query: 'fr',
+              focused: null,
+              selected: null,
+              validChoiceMade: true
+            })
+            autocomplete.handleInputFocus()
+            expect(autocomplete.state.focused).to.equal(-1)
+            expect(autocomplete.state.menuOpen).to.equal(false)
+          })
+        })
       })
 
       describe('with option selected', () => {
