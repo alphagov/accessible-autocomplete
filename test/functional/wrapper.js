@@ -238,6 +238,30 @@ describe('Wrapper', () => {
     }, 250)
   })
 
+  it('includes aria attributes on each option, to indicate position within the full set of option elements', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    autocompleteInput.value = 'e'
+    setTimeout(() => {
+      const autocompleteOptions = autocompleteInstance.querySelectorAll('.autocomplete__option')
+      expect(autocompleteOptions.length).to.equal(3)
+      expect(autocompleteOptions[0].getAttribute('aria-posinset')).to.equal('1')
+      expect(autocompleteOptions[0].getAttribute('aria-setsize')).to.equal('3')
+      expect(autocompleteOptions[1].getAttribute('aria-posinset')).to.equal('2')
+      expect(autocompleteOptions[1].getAttribute('aria-setsize')).to.equal('3')
+      expect(autocompleteOptions[2].getAttribute('aria-posinset')).to.equal('3')
+      expect(autocompleteOptions[2].getAttribute('aria-setsize')).to.equal('3')
+      done()
+    }, 250)
+  })
+
   it('onConfirm updates original select', (done) => {
     const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
 

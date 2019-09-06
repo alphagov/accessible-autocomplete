@@ -539,6 +539,8 @@ export default class Autocomplete extends Component {
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
                 tabIndex='-1'
+                aria-posinset={index + 1}
+                aria-setsize={options.length}
               />
             )
           })}
