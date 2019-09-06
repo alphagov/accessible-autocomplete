@@ -41,7 +41,8 @@ export default class Status extends Component {
     const that = this
     this.debounceStatusUpdate = debounce(function () {
       if (!that.state.debounced) {
-        that.setState(({ bump }) => ({ bump: !bump, debounced: true }))
+        const shouldSilence = !that.props.isInFocus || that.props.validChoiceMade
+        that.setState(({ bump }) => ({ bump: !bump, debounced: true, silenced: shouldSilence }))
       }
     }, statusDebounceMillis)
   }
@@ -62,7 +63,7 @@ export default class Status extends Component {
       tSelectedOption,
       tResults
     } = this.props
-    const { bump, debounced } = this.state
+    const { bump, debounced, silenced } = this.state
 
     const queryTooShort = queryLength < minQueryLength
     const noResults = length === 0
@@ -101,14 +102,14 @@ export default class Status extends Component {
           role='status'
           aria-atomic='true'
           aria-live='polite'>
-          {debounced && bump ? content : ''}
+          {(!silenced && debounced && bump) ? content : ''}
         </div>
         <div
           id='ariaLiveB'
           role='status'
           aria-atomic='true'
           aria-live='polite'>
-          {debounced && !bump ? content : ''}
+          {(!silenced && debounced && !bump) ? content : ''}
         </div>
       </div>
     )

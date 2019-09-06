@@ -72,6 +72,7 @@ export default class Autocomplete extends Component {
       menuOpen: false,
       options: props.defaultValue ? [props.defaultValue] : [],
       query: props.defaultValue,
+      validChoiceMade: false,
       selected: null,
       ariaHint: true
     }
@@ -96,6 +97,10 @@ export default class Autocomplete extends Component {
 
     this.pollInputElement = this.pollInputElement.bind(this)
     this.getDirectInputChanges = this.getDirectInputChanges.bind(this)
+  }
+
+  isQueryAnOption (query, options) {
+    return options.map(entry => this.templateInputValue(entry).toLowerCase()).indexOf(query.toLowerCase()) !== -1
   }
 
   componentDidMount () {
@@ -174,7 +179,8 @@ export default class Autocomplete extends Component {
       clicked: null,
       menuOpen: newState.menuOpen || false,
       query: newQuery,
-      selected: null
+      selected: null,
+      validChoiceMade: this.isQueryAnOption(newQuery, options)
     })
   }
 
@@ -233,7 +239,8 @@ export default class Autocomplete extends Component {
         this.setState({
           menuOpen: optionsAvailable,
           options,
-          selected: (autoselect && optionsAvailable) ? 0 : -1
+          selected: (autoselect && optionsAvailable) ? 0 : -1,
+          validChoiceMade: false
         })
       })
     } else if (queryEmpty || !queryLongEnough) {
@@ -283,7 +290,8 @@ export default class Autocomplete extends Component {
       hovered: null,
       menuOpen: false,
       query: newQuery,
-      selected: -1
+      selected: -1,
+      validChoiceMade: true
     })
     this.forceUpdate()
   }
@@ -406,7 +414,7 @@ export default class Autocomplete extends Component {
       tAssistiveHint,
       dropdownArrow: dropdownArrowFactory
     } = this.props
-    const { focused, hovered, menuOpen, options, query, selected, ariaHint } = this.state
+    const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
     const autoselect = this.hasAutoselect()
 
     const inputFocused = focused === -1
@@ -465,6 +473,8 @@ export default class Autocomplete extends Component {
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
           selectedOptionIndex={selected}
+          validChoiceMade={validChoiceMade}
+          isInFocus={this.state.focused !== null}
           tQueryTooShort={tStatusQueryTooShort}
           tNoResults={tStatusNoResults}
           tSelectedOption={tStatusSelectedOption}

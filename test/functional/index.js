@@ -520,6 +520,72 @@ describe('Autocomplete', () => {
         expect(autocomplete.state.selected).to.equal(0)
       })
     })
+
+    describe('derived state', () => {
+      it('initially assumes no valid choice on each new input', () => {
+        autocomplete.handleInputChange({ target: { value: 'F' } })
+        expect(autocomplete.state.validChoiceMade).to.equal(false)
+      })
+
+      describe('identifies that the user has made a valid choice', () => {
+        it('when an option is actively clicked', () => {
+          autocomplete.setState({ query: 'f', options: ['France'], validChoiceMade: false })
+          autocomplete.handleOptionClick({}, 0)
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+        })
+
+        it('when the input is blurred, autoselect is disabled, and the current query exactly matches an option', () => {
+          autocomplete.setState({ query: 'France', options: ['France'], validChoiceMade: false })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+        })
+
+        it('when in the same scenario, but the match differs only by case sensitivity', () => {
+          autocomplete.setState({ query: 'fraNCe', options: ['France'], validChoiceMade: false })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+        })
+
+        it('when the input is blurred, autoselect is enabled, and the current query results in at least one option', () => {
+          autoselectAutocomplete.setState({ options: ['France'], validChoiceMade: false })
+          autoselectAutocomplete.handleInputChange({ target: { value: 'France' } })
+          autoselectAutocomplete.handleComponentBlur({})
+          expect(autoselectAutocomplete.state.validChoiceMade).to.equal(true)
+        })
+      })
+
+      describe('identifies that the user has not made a valid choice', () => {
+        it('when the input is blurred, autoselect is disabled, and the current query does not match an option', () => {
+          autocomplete.setState({ query: 'Fracne', options: ['France'], validChoiceMade: false })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(false)
+        })
+
+        it('when the input is blurred, autoselect is enabled, but no options exist for the current query', () => {
+          autoselectAutocomplete.setState({ options: [], validChoiceMade: false })
+          autoselectAutocomplete.handleInputChange({ target: { value: 'gpvx' } })
+          autoselectAutocomplete.handleComponentBlur({})
+          expect(autoselectAutocomplete.state.validChoiceMade).to.equal(false)
+        })
+      })
+
+      describe('identifies that the valid choice situation has changed', () => {
+        it('when the user amends a previously matched query such that it no longer matches an option', () => {
+          autocomplete.setState({ query: 'France', options: ['France'], validChoiceMade: false })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+          autocomplete.handleInputChange({ target: { value: 'Francey' } })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(false)
+          autocomplete.handleInputChange({ target: { value: 'France' } })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+          autocomplete.handleInputChange({ target: { value: 'Franc' } })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(false)
+        })
+      })
+    })
   })
 })
 
@@ -555,6 +621,56 @@ describe('Status', () => {
       expect(ariaLiveB.getAttribute('role')).to.equal('status', 'second aria live region should be marked as role=status')
       expect(ariaLiveB.getAttribute('aria-atomic')).to.equal('true', 'second aria live region should be marked as atomic')
       expect(ariaLiveB.getAttribute('aria-live')).to.equal('polite', 'second aria live region should be marked as polite')
+    })
+
+    describe('behaviour', () => {
+      describe('silences aria live announcement', () => {
+        it('when a valid choice has been made and the input has focus', (done) => {
+          let status = new Status({
+            ...Status.defaultProps,
+            validChoiceMade: true,
+            isInFocus: true
+          })
+          status.componentWillMount()
+          status.render()
+
+          setTimeout(() => {
+            expect(status.state.silenced).to.equal(true)
+            done()
+          }, 1500)
+        })
+
+        it('when the input no longer has focus', (done) => {
+          let status = new Status({
+            ...Status.defaultProps,
+            validChoiceMade: false,
+            isInFocus: false
+          })
+          status.componentWillMount()
+          status.render()
+
+          setTimeout(() => {
+            expect(status.state.silenced).to.equal(true)
+            done()
+          }, 1500)
+        })
+      })
+      describe('does not silence aria live announcement', () => {
+        it('when a valid choice has not been made and the input has focus', (done) => {
+          let status = new Status({
+            ...Status.defaultProps,
+            validChoiceMade: false,
+            isInFocus: true
+          })
+          status.componentWillMount()
+          status.render()
+
+          setTimeout(() => {
+            expect(status.state.silenced).to.equal(false)
+            done()
+          }, 1500)
+        })
+      })
     })
   })
 })
