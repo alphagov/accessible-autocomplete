@@ -525,12 +525,17 @@ export default class Autocomplete extends Component {
             const showFocused = focused === -1 ? selected === index : focused === index
             const optionModifierFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
             const optionModifierOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
+            const iosPosinsetHtml = (isIosDevice())
+              ? `<span id=${id}__option-suffix--${index} style="border:0;clip:rect(0 0 0 0);height:1px;` +
+                'marginBottom:-1px;marginRight:-1px;overflow:hidden;padding:0;position:absolute;' +
+                'whiteSpace:nowrap;width:1px">' + ` ${index + 1} of ${options.length}</span>`
+              : ''
 
             return (
               <li
                 aria-selected={focused === index}
                 className={`${optionClassName}${optionModifierFocused}${optionModifierOdd}`}
-                dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) }}
+                dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) + iosPosinsetHtml }}
                 id={`${id}__option--${index}`}
                 key={index}
                 onBlur={(event) => this.handleOptionBlur(event, index)}
