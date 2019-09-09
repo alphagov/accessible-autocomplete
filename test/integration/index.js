@@ -45,20 +45,20 @@ const basicExample = () => {
 
       browser.click(input)
       browser.setValue(input, 'a')
-      expect(flip.getAttribute('textContent')).to.equal('')
-      expect(flop.getAttribute('textContent')).to.equal('')
-      browser.waitUntil(() => { return flip.getAttribute('textContent') !== '' },
+      expect(flip.getText()).to.equal('')
+      expect(flop.getText()).to.equal('')
+      browser.waitUntil(() => { return flip.getText() !== '' },
         liveRegionWaitTimeMillis,
         'expected the first aria live region to be populated within ' + liveRegionWaitTimeMillis + ' milliseconds'
       )
       browser.addValue(input, 's')
-      browser.waitUntil(() => { return (flip.getAttribute('textContent') === '' && flop.getAttribute('textContent') !== '') },
+      browser.waitUntil(() => { return (flip.getText() === '' && flop.getText() !== '') },
         liveRegionWaitTimeMillis,
         'expected the first aria live region to be cleared, and the second to be populated within ' +
         liveRegionWaitTimeMillis + ' milliseconds'
       )
       browser.addValue(input, 'h')
-      browser.waitUntil(() => { return (flip.getAttribute('textContent') !== '' && flop.getAttribute('textContent') === '') },
+      browser.waitUntil(() => { return (flip.getText() !== '' && flop.getText() === '') },
         liveRegionWaitTimeMillis,
         'expected the first aria live region to be populated, and the second to be cleared within ' +
         liveRegionWaitTimeMillis + ' milliseconds'

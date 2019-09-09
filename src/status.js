@@ -101,14 +101,14 @@ export default class Status extends Component {
           role='status'
           aria-atomic='true'
           aria-live='polite'>
-          <span>{debounced && bump ? content : ''}</span>
+          {debounced && bump ? content : ''}
         </div>
         <div
           id='ariaLiveB'
           role='status'
           aria-atomic='true'
           aria-live='polite'>
-          <span>{debounced && !bump ? content : ''}</span>
+          {debounced && !bump ? content : ''}
         </div>
       </div>
     )
