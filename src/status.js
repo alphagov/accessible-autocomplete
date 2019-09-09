@@ -1,5 +1,22 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
 
+const debounce = function (func, wait, immediate) {
+  var timeout
+  return function () {
+    var context = this
+    var args = arguments
+    var later = function () {
+      timeout = null
+      if (!immediate) func.apply(context, args)
+    }
+    var callNow = immediate && !timeout
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+    if (callNow) func.apply(context, args)
+  }
+}
+const statusDebounceMillis = 1400
+
 export default class Status extends Component {
   static defaultProps = {
     tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results.`,
@@ -16,14 +33,21 @@ export default class Status extends Component {
   };
 
   state = {
-    bump: false
+    bump: false,
+    debounced: false
+  }
+
+  componentWillMount () {
+    const that = this
+    this.debounceStatusUpdate = debounce(function () {
+      if (!that.state.debounced) {
+        that.setState(({ bump }) => ({ bump: !bump, debounced: true }))
+      }
+    }, statusDebounceMillis)
   }
 
   componentWillReceiveProps ({ queryLength }) {
-    const hasChanged = queryLength !== this.props.queryLength
-    if (hasChanged) {
-      this.setState(({ bump }) => ({ bump: !bump }))
-    }
+    this.setState({ debounced: false })
   }
 
   render () {
@@ -38,7 +62,7 @@ export default class Status extends Component {
       tSelectedOption,
       tResults
     } = this.props
-    const { bump } = this.state
+    const { bump, debounced } = this.state
 
     const queryTooShort = queryLength < minQueryLength
     const noResults = length === 0
@@ -55,6 +79,8 @@ export default class Status extends Component {
     } else {
       content = tResults(length, contentSelectedOption)
     }
+
+    this.debounceStatusUpdate()
 
     return (
       <div
@@ -75,14 +101,14 @@ export default class Status extends Component {
           role='status'
           aria-atomic='true'
           aria-live='polite'>
-          <span>{bump ? content : ''}</span>
+          <span>{debounced && bump ? content : ''}</span>
         </div>
         <div
           id='ariaLiveB'
           role='status'
           aria-atomic='true'
           aria-live='polite'>
-          <span>{!bump ? content : ''}</span>
+          <span>{debounced && !bump ? content : ''}</span>
         </div>
       </div>
     )

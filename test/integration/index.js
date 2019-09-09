@@ -7,7 +7,7 @@ const isIE = browserName === 'internet explorer'
 // const isIE9 = isIE && version === '9'
 // const isIE10 = isIE && version === '10'
 // const isIE11 = isIE && version === '11.103'
-const liveRegionWaitTimeMillis = 20
+const liveRegionWaitTimeMillis = 2000
 
 const basicExample = () => {
   describe('basic example', function () {
@@ -45,6 +45,8 @@ const basicExample = () => {
 
       browser.click(input)
       browser.setValue(input, 'a')
+      expect(flip.getAttribute('textContent')).to.equal('')
+      expect(flop.getAttribute('textContent')).to.equal('')
       browser.waitUntil(() => { return flip.getAttribute('textContent') !== '' },
         liveRegionWaitTimeMillis,
         'expected the first aria live region to be populated within ' + liveRegionWaitTimeMillis + ' milliseconds'
