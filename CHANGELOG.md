@@ -2,6 +2,30 @@
 
 ## [Unreleased]
 
+## Breaking changes
+You must make the following changes when you migrate to this release, or your service may break.
+
+### Update your focus styles
+
+We have updated the focus style of this component to meet the new WCAG 2.1 guidelines around non-text contrast.
+
+You can read about this [focus style strategy in the GOV.UK Design System](https://design-system.service.gov.uk/get-started/focus-states/).
+
+#### If you have copied CSS from this repository
+
+You can [copy the CSS from the dist folder](https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css).
+
+#### If you're using Sass imports
+
+This will be updated automatically
+
+#### If you have custom additional CSS
+
+You should check that your custom CSS does not remove the improvements to the focus state, if you do need to change the appearance keep in mind the WCAG 2.1 level AA requirements.
+
+
+- [Pull request #360: Update focus styles to meet WCAG 2.1 level AA non-text contrast requirements](https://github.com/alphagov/accessible-autocomplete/pull/360).
+
 ## 1.6.2 - 2018-11-13
 
 - Update all packages and add `@babel/preset-env` for browser polyfills. Updates Preact and avoids React 16 `onFocusOut` warnings - thanks [@colinrotherham](https://github.com/colinrotherham)
