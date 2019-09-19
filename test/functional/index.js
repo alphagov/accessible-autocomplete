@@ -1,6 +1,7 @@
 /* global after, describe, before, beforeEach, expect, it */
 import { createElement, render } from 'preact' /** @jsx createElement */
 import Autocomplete from '../../src/autocomplete'
+import Status from '../../src/status'
 
 function suggest (query, syncResults) {
   var results = [
@@ -69,12 +70,42 @@ describe('Autocomplete', () => {
         expect(scratch.innerHTML).to.contain('class="bob__menu')
       })
 
-      it('renders with the correct aria attributes', () => {
+      it('renders with an aria-expanded attribute', () => {
         render(<Autocomplete required />, scratch)
 
         let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        let inputElement = wrapperElement.getElementsByTagName('input')[0]
 
-        expect(wrapperElement.getAttribute('aria-expanded')).to.equal('false')
+        expect(inputElement.getAttribute('aria-expanded')).to.equal('false')
+      })
+
+      it('renders with an aria-describedby attribute', () => {
+        render(<Autocomplete required />, scratch)
+
+        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        let inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+        expect(inputElement.getAttribute('aria-describedby')).to.equal('assistiveHint')
+      })
+
+      describe('renders with an aria-autocomplete attribute', () => {
+        it('of value "list", when autoselect is not enabled', () => {
+          render(<Autocomplete required />, scratch)
+
+          let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          let inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+          expect(inputElement.getAttribute('aria-autocomplete')).to.equal('list')
+        })
+
+        it('of value "both", when autoselect is enabled', () => {
+          render(<Autocomplete required autoselect />, scratch)
+
+          let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          let inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+          expect(inputElement.getAttribute('aria-autocomplete')).to.equal('both')
+        })
       })
 
       it('renders with the correct roles', () => {
@@ -84,7 +115,7 @@ describe('Autocomplete', () => {
         let inputElement = wrapperElement.getElementsByTagName('input')[0]
         let dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
 
-        expect(inputElement.getAttribute('role')).to.equal('textbox', 'input should have textbox role')
+        expect(inputElement.getAttribute('role')).to.equal('combobox', 'input should have combobox role')
         expect(dropdownElement.getAttribute('role')).to.equal('listbox', 'menu should have listbox role')
       })
     })
@@ -152,6 +183,14 @@ describe('Autocomplete', () => {
         expect(autocomplete.state.menuOpen).to.equal(false)
       })
 
+      it('removes the aria-describedby attribute when query is non empty', () => {
+        expect(autocomplete.state.ariaHint).to.equal(true)
+        autocomplete.handleInputChange({ target: { value: 'a' } })
+        expect(autocomplete.state.ariaHint).to.equal(false)
+        autocomplete.handleInputChange({ target: { value: '' } })
+        expect(autocomplete.state.ariaHint).to.equal(true)
+      })
+
       describe('with minLength', () => {
         beforeEach(() => {
           autocomplete = new Autocomplete({
@@ -184,18 +223,56 @@ describe('Autocomplete', () => {
     })
 
     describe('focusing input', () => {
-      it('does not display menu when something is typed in', () => {
-        autocomplete.setState({ query: 'f' })
-        autocomplete.handleInputFocus()
-        expect(autocomplete.state.menuOpen).to.equal(false)
-        expect(autocomplete.state.focused).to.equal(-1)
+      describe('when no query is present', () => {
+        it('does not display menu', () => {
+          autocomplete.setState({ query: '' })
+          autocomplete.handleInputFocus()
+          expect(autocomplete.state.menuOpen).to.equal(false)
+          expect(autocomplete.state.focused).to.equal(-1)
+        })
       })
 
-      it('hides menu when query is empty', () => {
-        autocomplete.setState({ query: '' })
-        autocomplete.handleInputFocus()
-        expect(autocomplete.state.menuOpen).to.equal(false)
-        expect(autocomplete.state.focused).to.equal(-1)
+      describe('when a non-matched query is present (no matching options are present)', () => {
+        it('does not display menu', () => {
+          autocomplete.setState({ query: 'f' })
+          autocomplete.handleInputFocus()
+          expect(autocomplete.state.menuOpen).to.equal(false)
+          expect(autocomplete.state.focused).to.equal(-1)
+        })
+      })
+
+      describe('when a matched query is present (matching options exist)', () => {
+        describe('and no user choice has yet been made', () => {
+          it('displays menu', () => {
+            autocomplete.setState({
+              menuOpen: false,
+              options: ['France'],
+              query: 'fr',
+              focused: null,
+              selected: null,
+              validChoiceMade: false
+            })
+            autocomplete.handleInputFocus()
+            expect(autocomplete.state.focused).to.equal(-1)
+            expect(autocomplete.state.menuOpen).to.equal(true)
+            expect(autocomplete.state.selected).to.equal(-1)
+          })
+        })
+        describe('and a user choice HAS been made', () => {
+          it('does not display menu', () => {
+            autocomplete.setState({
+              menuOpen: false,
+              options: ['France'],
+              query: 'fr',
+              focused: null,
+              selected: null,
+              validChoiceMade: true
+            })
+            autocomplete.handleInputFocus()
+            expect(autocomplete.state.focused).to.equal(-1)
+            expect(autocomplete.state.menuOpen).to.equal(false)
+          })
+        })
       })
 
       describe('with option selected', () => {
@@ -479,6 +556,158 @@ describe('Autocomplete', () => {
         autocomplete.handleKeyDown({ target: 'not the input element', keyCode: 4242 })
         expect(autocomplete.state.focused).to.equal(0)
         expect(autocomplete.state.selected).to.equal(0)
+      })
+    })
+
+    describe('derived state', () => {
+      it('initially assumes no valid choice on each new input', () => {
+        autocomplete.handleInputChange({ target: { value: 'F' } })
+        expect(autocomplete.state.validChoiceMade).to.equal(false)
+      })
+
+      describe('identifies that the user has made a valid choice', () => {
+        it('when an option is actively clicked', () => {
+          autocomplete.setState({ query: 'f', options: ['France'], validChoiceMade: false })
+          autocomplete.handleOptionClick({}, 0)
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+        })
+
+        it('when the input is blurred, autoselect is disabled, and the current query exactly matches an option', () => {
+          autocomplete.setState({ query: 'France', options: ['France'], validChoiceMade: false })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+        })
+
+        it('when in the same scenario, but the match differs only by case sensitivity', () => {
+          autocomplete.setState({ query: 'fraNCe', options: ['France'], validChoiceMade: false })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+        })
+
+        it('when the input is blurred, autoselect is enabled, and the current query results in at least one option', () => {
+          autoselectAutocomplete.setState({ options: ['France'], validChoiceMade: false })
+          autoselectAutocomplete.handleInputChange({ target: { value: 'France' } })
+          autoselectAutocomplete.handleComponentBlur({})
+          expect(autoselectAutocomplete.state.validChoiceMade).to.equal(true)
+        })
+      })
+
+      describe('identifies that the user has not made a valid choice', () => {
+        it('when the input is blurred, autoselect is disabled, and the current query does not match an option', () => {
+          autocomplete.setState({ query: 'Fracne', options: ['France'], validChoiceMade: false })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(false)
+        })
+
+        it('when the input is blurred, autoselect is enabled, but no options exist for the current query', () => {
+          autoselectAutocomplete.setState({ options: [], validChoiceMade: false })
+          autoselectAutocomplete.handleInputChange({ target: { value: 'gpvx' } })
+          autoselectAutocomplete.handleComponentBlur({})
+          expect(autoselectAutocomplete.state.validChoiceMade).to.equal(false)
+        })
+      })
+
+      describe('identifies that the valid choice situation has changed', () => {
+        it('when the user amends a previously matched query such that it no longer matches an option', () => {
+          autocomplete.setState({ query: 'France', options: ['France'], validChoiceMade: false })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+          autocomplete.handleInputChange({ target: { value: 'Francey' } })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(false)
+          autocomplete.handleInputChange({ target: { value: 'France' } })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(true)
+          autocomplete.handleInputChange({ target: { value: 'Franc' } })
+          autocomplete.handleComponentBlur({})
+          expect(autocomplete.state.validChoiceMade).to.equal(false)
+        })
+      })
+    })
+  })
+})
+
+describe('Status', () => {
+  describe('rendering', () => {
+    let scratch
+
+    before(() => {
+      scratch = document.createElement('div');
+      (document.body || document.documentElement).appendChild(scratch)
+    })
+
+    beforeEach(() => {
+      scratch.innerHTML = ''
+    })
+
+    after(() => {
+      scratch.parentNode.removeChild(scratch)
+      scratch = null
+    })
+
+    it('renders a pair of aria live regions', () => {
+      render(<Status />, scratch)
+      expect(scratch.innerHTML).to.contain('div')
+
+      let wrapperElement = scratch.getElementsByTagName('div')[0]
+      let ariaLiveA = wrapperElement.getElementsByTagName('div')[0]
+      let ariaLiveB = wrapperElement.getElementsByTagName('div')[1]
+
+      expect(ariaLiveA.getAttribute('role')).to.equal('status', 'first aria live region should be marked as role=status')
+      expect(ariaLiveA.getAttribute('aria-atomic')).to.equal('true', 'first aria live region should be marked as atomic')
+      expect(ariaLiveA.getAttribute('aria-live')).to.equal('polite', 'first aria live region should be marked as polite')
+      expect(ariaLiveB.getAttribute('role')).to.equal('status', 'second aria live region should be marked as role=status')
+      expect(ariaLiveB.getAttribute('aria-atomic')).to.equal('true', 'second aria live region should be marked as atomic')
+      expect(ariaLiveB.getAttribute('aria-live')).to.equal('polite', 'second aria live region should be marked as polite')
+    })
+
+    describe('behaviour', () => {
+      describe('silences aria live announcement', () => {
+        it('when a valid choice has been made and the input has focus', (done) => {
+          let status = new Status({
+            ...Status.defaultProps,
+            validChoiceMade: true,
+            isInFocus: true
+          })
+          status.componentWillMount()
+          status.render()
+
+          setTimeout(() => {
+            expect(status.state.silenced).to.equal(true)
+            done()
+          }, 1500)
+        })
+
+        it('when the input no longer has focus', (done) => {
+          let status = new Status({
+            ...Status.defaultProps,
+            validChoiceMade: false,
+            isInFocus: false
+          })
+          status.componentWillMount()
+          status.render()
+
+          setTimeout(() => {
+            expect(status.state.silenced).to.equal(true)
+            done()
+          }, 1500)
+        })
+      })
+      describe('does not silence aria live announcement', () => {
+        it('when a valid choice has not been made and the input has focus', (done) => {
+          let status = new Status({
+            ...Status.defaultProps,
+            validChoiceMade: false,
+            isInFocus: true
+          })
+          status.componentWillMount()
+          status.render()
+
+          setTimeout(() => {
+            expect(status.state.silenced).to.equal(false)
+            done()
+          }, 1500)
+        })
       })
     })
   })

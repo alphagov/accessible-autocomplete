@@ -238,6 +238,76 @@ describe('Wrapper', () => {
     }, 250)
   })
 
+  it('includes aria attributes on each option, to indicate position within the full set of list item elements', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    autocompleteInput.value = 'e'
+    setTimeout(() => {
+      const autocompleteOptions = autocompleteInstance.querySelectorAll('.autocomplete__option')
+      expect(autocompleteOptions.length).to.equal(3)
+      expect(autocompleteOptions[0].getAttribute('aria-posinset')).to.equal('1')
+      expect(autocompleteOptions[0].getAttribute('aria-setsize')).to.equal('3')
+      expect(autocompleteOptions[1].getAttribute('aria-posinset')).to.equal('2')
+      expect(autocompleteOptions[1].getAttribute('aria-setsize')).to.equal('3')
+      expect(autocompleteOptions[2].getAttribute('aria-posinset')).to.equal('3')
+      expect(autocompleteOptions[2].getAttribute('aria-setsize')).to.equal('3')
+      done()
+    }, 250)
+  })
+
+  it('includes an explicit position suffix on each list item option when iOS is detected', (done) => {
+    Object.defineProperty(global.navigator, 'userAgent', { value: 'iPhone AppleWebKit', configurable: true })
+
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
+
+    autocompleteInput.value = 'Fran'
+    setTimeout(() => {
+      expect(autocompleteOption.textContent).to.equal('France 1 of 1')
+      const iosSuffixSpan = autocompleteOption.querySelector('#location-picker-id__option-suffix--0')
+      expect(iosSuffixSpan.textContent).to.equal(' 1 of 1')
+      done()
+    }, 250)
+  })
+
+  it('does not include a position suffix on each list item option, when iOS is not detected', (done) => {
+    Object.defineProperty(global.navigator, 'userAgent', { value: 'definitely not an iDevice', configurable: true })
+
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
+
+    autocompleteInput.value = 'Fran'
+    setTimeout(() => {
+      expect(autocompleteOption.textContent).to.equal('France')
+      const iosSuffixSpan = autocompleteOption.querySelector('#location-picker-id__option-suffix--0')
+      expect(iosSuffixSpan).to.equal(null)
+      done()
+    }, 250)
+  })
+
   it('onConfirm updates original select', (done) => {
     const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
 

@@ -7,6 +7,7 @@ const isIE = browserName === 'internet explorer'
 // const isIE9 = isIE && version === '9'
 // const isIE10 = isIE && version === '10'
 // const isIE11 = isIE && version === '11.103'
+const liveRegionWaitTimeMillis = 2000
 
 const basicExample = () => {
   describe('basic example', function () {
@@ -36,6 +37,32 @@ const basicExample = () => {
       browser.setValue(input, 'ita')
       browser.waitForVisible(menu)
       expect(browser.isVisible(menu)).to.equal(true)
+    })
+
+    it('should announce status changes using two alternately updated aria live regions', () => {
+      const flip = browser.$('div#ariaLiveA')
+      const flop = browser.$('div#ariaLiveB')
+
+      browser.click(input)
+      browser.setValue(input, 'a')
+      expect(flip.getText()).to.equal('')
+      expect(flop.getText()).to.equal('')
+      browser.waitUntil(() => { return flip.getText() !== '' },
+        liveRegionWaitTimeMillis,
+        'expected the first aria live region to be populated within ' + liveRegionWaitTimeMillis + ' milliseconds'
+      )
+      browser.addValue(input, 's')
+      browser.waitUntil(() => { return (flip.getText() === '' && flop.getText() !== '') },
+        liveRegionWaitTimeMillis,
+        'expected the first aria live region to be cleared, and the second to be populated within ' +
+        liveRegionWaitTimeMillis + ' milliseconds'
+      )
+      browser.addValue(input, 'h')
+      browser.waitUntil(() => { return (flip.getText() !== '' && flop.getText() === '') },
+        liveRegionWaitTimeMillis,
+        'expected the first aria live region to be populated, and the second to be cleared within ' +
+        liveRegionWaitTimeMillis + ' milliseconds'
+      )
     })
 
     describe('keyboard use', () => {

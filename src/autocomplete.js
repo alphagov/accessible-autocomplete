@@ -56,6 +56,7 @@ export default class Autocomplete extends Component {
     showAllValues: false,
     required: false,
     tNoResults: () => 'No results found',
+    tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown
   }
 
@@ -71,7 +72,9 @@ export default class Autocomplete extends Component {
       menuOpen: false,
       options: props.defaultValue ? [props.defaultValue] : [],
       query: props.defaultValue,
-      selected: null
+      validChoiceMade: false,
+      selected: null,
+      ariaHint: true
     }
 
     this.handleComponentBlur = this.handleComponentBlur.bind(this)
@@ -94,6 +97,10 @@ export default class Autocomplete extends Component {
 
     this.pollInputElement = this.pollInputElement.bind(this)
     this.getDirectInputChanges = this.getDirectInputChanges.bind(this)
+  }
+
+  isQueryAnOption (query, options) {
+    return options.map(entry => this.templateInputValue(entry).toLowerCase()).indexOf(query.toLowerCase()) !== -1
   }
 
   componentDidMount () {
@@ -172,7 +179,8 @@ export default class Autocomplete extends Component {
       clicked: null,
       menuOpen: newState.menuOpen || false,
       query: newQuery,
-      selected: null
+      selected: null,
+      validChoiceMade: this.isQueryAnOption(newQuery, options)
     })
   }
 
@@ -219,7 +227,10 @@ export default class Autocomplete extends Component {
     const queryChanged = this.state.query.length !== query.length
     const queryLongEnough = query.length >= minLength
 
-    this.setState({ query })
+    this.setState({
+      query,
+      ariaHint: queryEmpty
+    })
 
     const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
     if (searchForOptions) {
@@ -228,7 +239,8 @@ export default class Autocomplete extends Component {
         this.setState({
           menuOpen: optionsAvailable,
           options,
-          selected: (autoselect && optionsAvailable) ? 0 : -1
+          selected: (autoselect && optionsAvailable) ? 0 : -1,
+          validChoiceMade: false
         })
       })
     } else if (queryEmpty || !queryLongEnough) {
@@ -244,9 +256,15 @@ export default class Autocomplete extends Component {
   }
 
   handleInputFocus (event) {
-    this.setState({
-      focused: -1
-    })
+    const { query, validChoiceMade, options } = this.state
+    const { minLength } = this.props
+    const shouldReopenMenu = !validChoiceMade && query.length >= minLength && options.length > 0
+
+    if (shouldReopenMenu) {
+      this.setState(({ menuOpen }) => ({ focused: -1, menuOpen: shouldReopenMenu || menuOpen, selected: -1 }))
+    } else {
+      this.setState({ focused: -1 })
+    }
   }
 
   handleOptionFocus (index) {
@@ -278,7 +296,8 @@ export default class Autocomplete extends Component {
       hovered: null,
       menuOpen: false,
       query: newQuery,
-      selected: -1
+      selected: -1,
+      validChoiceMade: true
     })
     this.forceUpdate()
   }
@@ -398,9 +417,10 @@ export default class Autocomplete extends Component {
       tStatusNoResults,
       tStatusSelectedOption,
       tStatusResults,
+      tAssistiveHint,
       dropdownArrow: dropdownArrowFactory
     } = this.props
-    const { focused, hovered, menuOpen, options, query, selected } = this.state
+    const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
     const autoselect = this.hasAutoselect()
 
     const inputFocused = focused === -1
@@ -435,6 +455,10 @@ export default class Autocomplete extends Component {
       : ''
     const showHint = hasPointerEvents && hintValue
 
+    const ariaDescribedProp = (ariaHint) ? {
+      'aria-describedby': 'assistiveHint'
+    } : null
+
     let dropdownArrow
 
     // we only need a dropdown arrow if showAllValues is set to a truthy value
@@ -448,13 +472,15 @@ export default class Autocomplete extends Component {
     }
 
     return (
-      <div className={wrapperClassName} onKeyDown={this.handleKeyDown} role='combobox' aria-expanded={menuOpen ? 'true' : 'false'}>
+      <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
           length={options.length}
           queryLength={query.length}
           minQueryLength={minLength}
           selectedOption={this.templateInputValue(options[selected])}
           selectedOptionIndex={selected}
+          validChoiceMade={validChoiceMade}
+          isInFocus={this.state.focused !== null}
           tQueryTooShort={tStatusQueryTooShort}
           tNoResults={tStatusNoResults}
           tSelectedOption={tStatusSelectedOption}
@@ -466,8 +492,11 @@ export default class Autocomplete extends Component {
         )}
 
         <input
+          aria-expanded={menuOpen ? 'true' : 'false'}
           aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
           aria-owns={`${id}__listbox`}
+          aria-autocomplete={(this.hasAutoselect()) ? 'both' : 'list'}
+          {...ariaDescribedProp}
           autoComplete='off'
           className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
           id={id}
@@ -479,7 +508,7 @@ export default class Autocomplete extends Component {
           placeholder={placeholder}
           ref={(inputElement) => { this.elementReferences[-1] = inputElement }}
           type='text'
-          role='textbox'
+          role='combobox'
           required={required}
           value={query}
         />
@@ -496,12 +525,17 @@ export default class Autocomplete extends Component {
             const showFocused = focused === -1 ? selected === index : focused === index
             const optionModifierFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
             const optionModifierOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
+            const iosPosinsetHtml = (isIosDevice())
+              ? `<span id=${id}__option-suffix--${index} style="border:0;clip:rect(0 0 0 0);height:1px;` +
+                'marginBottom:-1px;marginRight:-1px;overflow:hidden;padding:0;position:absolute;' +
+                'whiteSpace:nowrap;width:1px">' + ` ${index + 1} of ${options.length}</span>`
+              : ''
 
             return (
               <li
                 aria-selected={focused === index}
                 className={`${optionClassName}${optionModifierFocused}${optionModifierOdd}`}
-                dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) }}
+                dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) + iosPosinsetHtml }}
                 id={`${id}__option--${index}`}
                 key={index}
                 onBlur={(event) => this.handleOptionBlur(event, index)}
@@ -510,6 +544,8 @@ export default class Autocomplete extends Component {
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
                 tabIndex='-1'
+                aria-posinset={index + 1}
+                aria-setsize={options.length}
               />
             )
           })}
@@ -518,6 +554,9 @@ export default class Autocomplete extends Component {
             <li className={`${optionClassName} ${optionClassName}--no-results`}>{tNoResults()}</li>
           )}
         </ul>
+
+        <span id='assistiveHint' style={{ display: 'none' }}>{tAssistiveHint()}</span>
+
       </div>
     )
   }

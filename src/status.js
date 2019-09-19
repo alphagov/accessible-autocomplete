@@ -1,10 +1,27 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
 
+const debounce = function (func, wait, immediate) {
+  var timeout
+  return function () {
+    var context = this
+    var args = arguments
+    var later = function () {
+      timeout = null
+      if (!immediate) func.apply(context, args)
+    }
+    var callNow = immediate && !timeout
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+    if (callNow) func.apply(context, args)
+  }
+}
+const statusDebounceMillis = 1400
+
 export default class Status extends Component {
   static defaultProps = {
-    tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results.`,
-    tNoResults: () => 'No search results.',
-    tSelectedOption: (selectedOption, length, index) => `${selectedOption} (${index + 1} of ${length}) is selected.`,
+    tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results`,
+    tNoResults: () => 'No search results',
+    tSelectedOption: (selectedOption, length, index) => `${selectedOption} ${index + 1} of ${length} is highlighted`,
     tResults: (length, contentSelectedOption) => {
       const words = {
         result: (length === 1) ? 'result' : 'results',
@@ -16,14 +33,22 @@ export default class Status extends Component {
   };
 
   state = {
-    bump: false
+    bump: false,
+    debounced: false
+  }
+
+  componentWillMount () {
+    const that = this
+    this.debounceStatusUpdate = debounce(function () {
+      if (!that.state.debounced) {
+        const shouldSilence = !that.props.isInFocus || that.props.validChoiceMade
+        that.setState(({ bump }) => ({ bump: !bump, debounced: true, silenced: shouldSilence }))
+      }
+    }, statusDebounceMillis)
   }
 
   componentWillReceiveProps ({ queryLength }) {
-    const hasChanged = queryLength !== this.props.queryLength
-    if (hasChanged) {
-      this.setState(({ bump }) => ({ bump: !bump }))
-    }
+    this.setState({ debounced: false })
   }
 
   render () {
@@ -38,7 +63,7 @@ export default class Status extends Component {
       tSelectedOption,
       tResults
     } = this.props
-    const { bump } = this.state
+    const { bump, debounced, silenced } = this.state
 
     const queryTooShort = queryLength < minQueryLength
     const noResults = length === 0
@@ -56,25 +81,37 @@ export default class Status extends Component {
       content = tResults(length, contentSelectedOption)
     }
 
-    return <div
-      aria-atomic='true'
-      aria-live='polite'
-      role='status'
-      style={{
-        border: '0',
-        clip: 'rect(0 0 0 0)',
-        height: '1px',
-        marginBottom: '-1px',
-        marginRight: '-1px',
-        overflow: 'hidden',
-        padding: '0',
-        position: 'absolute',
-        whiteSpace: 'nowrap',
-        width: '1px'
-      }}
-    >
-      {content}
-      <span>{bump ? ',' : ',,'}</span>
-    </div>
+    this.debounceStatusUpdate()
+
+    return (
+      <div
+        style={{
+          border: '0',
+          clip: 'rect(0 0 0 0)',
+          height: '1px',
+          marginBottom: '-1px',
+          marginRight: '-1px',
+          overflow: 'hidden',
+          padding: '0',
+          position: 'absolute',
+          whiteSpace: 'nowrap',
+          width: '1px'
+        }}>
+        <div
+          id='ariaLiveA'
+          role='status'
+          aria-atomic='true'
+          aria-live='polite'>
+          {(!silenced && debounced && bump) ? content : ''}
+        </div>
+        <div
+          id='ariaLiveB'
+          role='status'
+          aria-atomic='true'
+          aria-live='polite'>
+          {(!silenced && debounced && !bump) ? content : ''}
+        </div>
+      </div>
+    )
   }
 }
