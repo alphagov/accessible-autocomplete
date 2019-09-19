@@ -5,7 +5,7 @@
 .autocomplete__hint,
 .autocomplete__input {
   -webkit-appearance: none;
-  border: 2px solid;
+  border: 2px solid #0b0c0c;
   border-radius: 0; /* Safari 10 on iOS adds implicit border rounding. */
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -20,17 +20,17 @@
 }
 
 .autocomplete__hint {
-  color: #BFC1C3;
+  color: #b1b4b6;
   position: absolute;
 }
 
-.autocomplete__input--default{
-  padding: 4px;
+.autocomplete__input--default {
+  padding: 5px;
 }
-
 .autocomplete__input--focused {
+  outline: 3px solid #fd0;
   outline-offset: 0;
-  outline: 3px solid #ffbf47;
+  box-shadow: inset 0 0 0 2px;
 }
 
 .autocomplete__input--show-all-values {
@@ -52,7 +52,7 @@
   background-color: #fff;
   border: 2px solid #0B0C0C;
   border-top: 0;
-  color: #34384B;
+  color: #0B0C0C;
   margin: 0;
   max-height: 342px;
   overflow-x: hidden;
@@ -82,7 +82,7 @@
 }
 
 .autocomplete__option {
-  border-bottom: solid #BFC1C3;
+  border-bottom: solid #b1b4b6;
   border-width: 1px 0;
   cursor: pointer;
   display: block;
@@ -107,8 +107,8 @@
 
 .autocomplete__option--focused,
 .autocomplete__option:hover {
-  background-color: #005EA5;
-  border-color: #005EA5;
+  background-color: #1d70b8;
+  border-color: #1d70b8;
   color: white;
   outline: none;
 }
@@ -128,7 +128,7 @@
 
 .autocomplete__hint,
 .autocomplete__option {
-  padding: 4px;
+  padding: 5px;
 }
 
 @media (min-width: 641px) {
