@@ -2,29 +2,44 @@
 
 ## [Unreleased]
 
-## Breaking changes
-You must make the following changes when you migrate to this release, or your service may break.
+We recommend you update to the latest release using npm:
 
-### Update your focus styles
+`npm install accessible-autocomplete@latest`
 
-We have updated the focus style of this component to meet the new WCAG 2.1 guidelines around non-text contrast.
+### Breaking changes
 
-You can read about this [focus style strategy in the GOV.UK Design System](https://design-system.service.gov.uk/get-started/focus-states/).
+You must make the following change when you migrate to this release, or your service may break.
 
-#### If you have copied CSS from this repository
+#### Migrate to the new accessible focus state
 
-You can [copy the CSS from the dist folder](https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css).
+The focus state [now meets the new WCAG 2.1 level AA requirements](https://designnotes.blog.gov.uk/2019/07/29/weve-made-the-gov-uk-design-system-more-accessible/).
 
-#### If you're using Sass imports
+You do not need to do anything if you’re using Sass.
 
-This will be updated automatically
+If you’ve previously copied CSS from our code into your project, you must copy all the CSS from our [`accessible-autocomplete.min.css` file](https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css) into your CSS file.
 
-#### If you have custom additional CSS
+If you’ve created custom CSS, you should check that your component meets WCAG 2.1 level AA requirements. You can [read how we made the GOV.UK Design System focus states accessible](https://design-system.service.gov.uk/get-started/focus-states/).
 
-You should check that your custom CSS does not remove the improvements to the focus state, if you do need to change the appearance keep in mind the WCAG 2.1 level AA requirements.
+[Pull request #360: Update focus styles to meet WCAG 2.1 level AA non-text contrast requirements](https://github.com/alphagov/accessible-autocomplete/pull/360).
 
+### Fixes
 
-- [Pull request #360: Update focus styles to meet WCAG 2.1 level AA non-text contrast requirements](https://github.com/alphagov/accessible-autocomplete/pull/360).
+#### Better compatibility with screen readers
+
+The input field is now visible to all screen readers, because the input field now meets the Accessible Rich Internet Applications (ARIA) 1.0 standard instead of ARIA 1.1. ARIA 1.0 is better supported by the current versions of most screen readers.
+
+Screen readers will now consistently tell users:
+
+- when users have entered too few characters in the input field
+- the correct number of search results, and what the results are
+- which result users have highlighted
+- how to use autocomplete in different screen readers - by reading hidden hint text
+
+Screen readers will also now avoid telling users information they do not need to know after they highlight an option.
+
+Thanks to [Mark Hunter](https://github.com/markhunter27), Chris Moore and everyone at HMRC who worked on these improvements.
+
+[Pull request #355: Refinements to address accessibility issues](https://github.com/alphagov/accessible-autocomplete/pull/355)
 
 ## 1.6.2 - 2018-11-13
 
