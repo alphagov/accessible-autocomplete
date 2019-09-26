@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [Unreleased]
+## 2.0.0 - 2019-09-26
 
 We recommend you update to the latest release using npm:
 
