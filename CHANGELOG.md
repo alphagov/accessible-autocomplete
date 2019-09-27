@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Unreleased
+
+## Fixes
+
+- [Pull request #379: Ensure multiple autocompletes on one page do not have conflicting id attributes](https://github.com/alphagov/accessible-autocomplete/pull/379)
+
 ## 2.0.0 - 2019-09-26
 
 We recommend you update to the latest release using npm:
