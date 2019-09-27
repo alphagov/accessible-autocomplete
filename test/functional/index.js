@@ -80,12 +80,12 @@ describe('Autocomplete', () => {
       })
 
       it('renders with an aria-describedby attribute', () => {
-        render(<Autocomplete required />, scratch)
+        render(<Autocomplete id='autocomplete-default' />, scratch)
 
         let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
         let inputElement = wrapperElement.getElementsByTagName('input')[0]
 
-        expect(inputElement.getAttribute('aria-describedby')).to.equal('assistiveHint')
+        expect(inputElement.getAttribute('aria-describedby')).to.equal('autocomplete-default__assistiveHint')
       })
 
       describe('renders with an aria-autocomplete attribute', () => {

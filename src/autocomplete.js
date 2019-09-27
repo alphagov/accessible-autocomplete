@@ -455,8 +455,9 @@ export default class Autocomplete extends Component {
       : ''
     const showHint = hasPointerEvents && hintValue
 
+    const assistiveHintID = id + '__assistiveHint'
     const ariaDescribedProp = (ariaHint) ? {
-      'aria-describedby': 'assistiveHint'
+      'aria-describedby': assistiveHintID
     } : null
 
     let dropdownArrow
@@ -555,7 +556,7 @@ export default class Autocomplete extends Component {
           )}
         </ul>
 
-        <span id='assistiveHint' style={{ display: 'none' }}>{tAssistiveHint()}</span>
+        <span id={assistiveHintID} style={{ display: 'none' }}>{tAssistiveHint()}</span>
 
       </div>
     )
