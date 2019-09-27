@@ -53,6 +53,7 @@ export default class Status extends Component {
 
   render () {
     const {
+      id,
       length,
       queryLength,
       minQueryLength,
@@ -98,14 +99,14 @@ export default class Status extends Component {
           width: '1px'
         }}>
         <div
-          id='ariaLiveA'
+          id={id + '__status--A'}
           role='status'
           aria-atomic='true'
           aria-live='polite'>
           {(!silenced && debounced && bump) ? content : ''}
         </div>
         <div
-          id='ariaLiveB'
+          id={id + '__status--B'}
           role='status'
           aria-atomic='true'
           aria-live='polite'>

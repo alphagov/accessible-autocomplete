@@ -43,8 +43,8 @@ const basicExample = () => {
     // in Chrome
     if (isChrome) {
       it('should announce status changes using two alternately updated aria live regions', () => {
-        const flip = browser.$('div#ariaLiveA')
-        const flop = browser.$('div#ariaLiveB')
+        const flip = browser.$('#autocomplete-default__status--A')
+        const flop = browser.$('#autocomplete-default__status--B')
 
         browser.click(input)
         browser.setValue(input, 'a')

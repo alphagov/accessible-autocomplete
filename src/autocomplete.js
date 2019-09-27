@@ -475,6 +475,7 @@ export default class Autocomplete extends Component {
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
+          id={id}
           length={options.length}
           queryLength={query.length}
           minQueryLength={minLength}
