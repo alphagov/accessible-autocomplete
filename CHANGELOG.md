@@ -2,7 +2,9 @@
 
 ## Unreleased
 
-## Fixes
+## 2.0.1 - 2019-10-07
+
+### Fixes
 
 - [Pull request #379: Ensure multiple autocompletes on one page do not have conflicting id attributes](https://github.com/alphagov/accessible-autocomplete/pull/379)
 
