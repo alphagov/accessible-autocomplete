@@ -7,6 +7,7 @@
 ### Fixes
 
 - [Pull request #379: Ensure multiple autocompletes on one page do not have conflicting id attributes](https://github.com/alphagov/accessible-autocomplete/pull/379)
+- [Pull request #386: Add aria-controls](https://github.com/alphagov/accessible-autocomplete/pull/386)
 
 ## 2.0.0 - 2019-09-26
 
