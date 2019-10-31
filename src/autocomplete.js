@@ -239,6 +239,7 @@ export default class Autocomplete extends Component {
         this.setState({
           menuOpen: optionsAvailable,
           options,
+          focused: (autoselect && optionsAvailable) ? 0 : -1,
           selected: (autoselect && optionsAvailable) ? 0 : -1,
           validChoiceMade: false
         })
