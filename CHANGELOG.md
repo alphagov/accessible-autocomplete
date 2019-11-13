@@ -2,12 +2,13 @@
 
 ## Unreleased
 
+- [Pull request #388: Set aria-selected as a string instead of a boolean to avoid being dropped.](https://github.com/alphagov/accessible-autocomplete/pull/388)
+
 ## 2.0.1 - 2019-10-07
 
 ### Fixes
 
 - [Pull request #379: Ensure multiple autocompletes on one page do not have conflicting id attributes](https://github.com/alphagov/accessible-autocomplete/pull/379)
-- [Pull request #388: Set aria-selected as a string instead of a boolean to avoid being dropped.](https://github.com/alphagov/accessible-autocomplete/pull/388)
 
 ## 2.0.0 - 2019-09-26
 
