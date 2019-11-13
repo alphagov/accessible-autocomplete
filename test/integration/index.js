@@ -68,7 +68,7 @@ const basicExample = () => {
         )
       })
     }
-    
+
     it('should set aria-selected to true on selected option and false on other options', () => {
       browser.click(input)
       browser.setValue(input, 'ita')
