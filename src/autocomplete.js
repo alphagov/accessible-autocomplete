@@ -535,7 +535,7 @@ export default class Autocomplete extends Component {
 
             return (
               <li
-                aria-selected={focused === index}
+                aria-selected={focused === index ? 'true' : 'false'}
                 className={`${optionClassName}${optionModifierFocused}${optionModifierOdd}`}
                 dangerouslySetInnerHTML={{ __html: this.templateSuggestion(option) + iosPosinsetHtml }}
                 id={`${id}__option--${index}`}
