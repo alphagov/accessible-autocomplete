@@ -67,18 +67,18 @@ const basicExample = () => {
           liveRegionWaitTimeMillis + ' milliseconds'
         )
       })
-    }
 
-    it('should set aria-selected to true on selected option and false on other options', () => {
-      browser.click(input)
-      browser.setValue(input, 'ita')
-      browser.addValue(input, ['ArrowDown'])
-      expect(browser.$(firstOption).getAttribute('aria-selected')).to.equal('true')
-      expect(browser.$(secondOption).getAttribute('aria-selected')).to.equal('false')
-      browser.addValue(firstOption, ['ArrowDown'])
-      expect(browser.$(firstOption).getAttribute('aria-selected')).to.equal('false')
-      expect(browser.$(secondOption).getAttribute('aria-selected')).to.equal('true')
-    })
+      it('should set aria-selected to true on selected option and false on other options', () => {
+        browser.click(input)
+        browser.setValue(input, 'ita')
+        browser.addValue(input, ['ArrowDown'])
+        expect(browser.$(firstOption).getAttribute('aria-selected')).to.equal('true')
+        expect(browser.$(secondOption).getAttribute('aria-selected')).to.equal('false')
+        browser.addValue(firstOption, ['ArrowDown'])
+        expect(browser.$(firstOption).getAttribute('aria-selected')).to.equal('false')
+        expect(browser.$(secondOption).getAttribute('aria-selected')).to.equal('true')
+      })
+    }
 
     describe('keyboard use', () => {
       it('should allow typing', () => {
