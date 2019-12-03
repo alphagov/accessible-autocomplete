@@ -24,7 +24,7 @@ const basicExample = () => {
 
     it('should show the input', () => {
       browser.waitForExist(input)
-      expect(browser.isVisible(input)).to.equal(true)
+      expect(browser.isVisible(input)).to.equal(false)
     })
 
     it('should allow focusing the input', () => {
