@@ -6,8 +6,6 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![gzip size](http://img.badgesize.io/https://unpkg.com/accessible-autocomplete/dist/accessible-autocomplete.min.js?compression=gzip)](https://unpkg.com/accessible-autocomplete/dist/accessible-autocomplete.min.js)
 
-[![Sauce Labs Build Status](https://saucelabs.com/browser-matrix/tvararu-alphagov.svg)](https://saucelabs.com/u/tvararu-alphagov)
-
 `accessible-autocomplete` is a JavaScript autocomplete built from the ground up to be accessible. The design goals are:
 
 - **Accessibility**: Following WAI-ARIA best practices and testing with assistive technologies.
