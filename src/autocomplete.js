@@ -13,13 +13,6 @@ const keyCodes = {
   40: 'down'
 }
 
-// Based on https://github.com/ausi/Feature-detection-technique-for-pointer-events
-const hasPointerEvents = (() => {
-  const element = document.createElement('x')
-  element.style.cssText = 'pointer-events:auto'
-  return element.style.pointerEvents === 'auto'
-})()
-
 function isIosDevice () {
   return !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
 }
@@ -453,7 +446,6 @@ export default class Autocomplete extends Component {
     const hintValue = (optionBeginsWithQuery && autoselect)
       ? query + selectedOptionText.substr(query.length)
       : ''
-    const showHint = hasPointerEvents && hintValue
 
     const assistiveHintID = id + '__assistiveHint'
     const ariaDescribedProp = (ariaHint) ? {
@@ -489,7 +481,7 @@ export default class Autocomplete extends Component {
           tResults={tStatusResults}
         />
 
-        {showHint && (
+        {hintValue && (
           <span><input className={hintClassName} readonly tabIndex='-1' value={hintValue} /></span>
         )}
 
