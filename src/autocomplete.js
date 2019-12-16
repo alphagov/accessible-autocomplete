@@ -445,6 +445,7 @@ export default class Autocomplete extends Component {
     const menuModifierVisibility = `${menuClassName}--${(menuIsVisible) ? 'visible' : 'hidden'}`
 
     const optionClassName = `${cssNamespace}__option`
+    const optionIosPatchClassName = `${optionClassName}--ios-patch`
 
     const hintClassName = `${cssNamespace}__hint`
     const selectedOptionText = this.templateInputValue(options[selected])
@@ -528,9 +529,7 @@ export default class Autocomplete extends Component {
             const optionModifierFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
             const optionModifierOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
             const iosPosinsetHtml = (isIosDevice())
-              ? `<span id=${id}__option-suffix--${index} style="border:0;clip:rect(0 0 0 0);height:1px;` +
-                'marginBottom:-1px;marginRight:-1px;overflow:hidden;padding:0;position:absolute;' +
-                'whiteSpace:nowrap;width:1px">' + ` ${index + 1} of ${options.length}</span>`
+              ? `<span id=${id}__option-suffix--${index} class="${optionIosPatchClassName}"> ${index + 1} of ${options.length}</span>`
               : ''
 
             return (
