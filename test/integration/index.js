@@ -19,7 +19,11 @@ const basicExample = () => {
     const secondOption = `${menu} > li:nth-child(2)`
 
     beforeEach(() => {
-      browser.setValue(input, '') // Prevent autofilling, IE likes to do this.
+      // Dismiss any open autocompletes
+      browser.addValue(input, ['Escape'])
+
+      // Prevent autofilling, IE likes to do this.
+      browser.setValue(input, '')
     })
 
     it('should show the input', () => {
