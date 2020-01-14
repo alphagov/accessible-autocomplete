@@ -11,8 +11,6 @@ const liveRegionWaitTimeMillis = 10000
 
 const basicExample = () => {
   describe('basic example', function () {
-    this.retries(3)
-
     const input = 'input#autocomplete-default'
     const menu = `${input} + ul`
     const firstOption = `${menu} > li:first-child`
@@ -143,8 +141,6 @@ const basicExample = () => {
 
 const customTemplatesExample = () => {
   describe('custom templates example', function () {
-    this.retries(3)
-
     const input = 'input#autocomplete-customTemplates'
     const menu = `${input} + ul`
     const firstOption = `${menu} > li:first-child`
