@@ -1,4 +1,4 @@
-/* global afterEach, before, beforeEach, browser, describe, it */
+/* global afterEach, beforeEach, browser, describe, it */
 const expect = require('chai').expect
 const { browserName, version } = browser.desiredCapabilities
 const isChrome = browserName === 'chrome'
@@ -15,14 +15,6 @@ const basicExample = () => {
     const menu = `${input} + ul`
     const firstOption = `${menu} > li:first-child`
     const secondOption = `${menu} > li:nth-child(2)`
-
-    beforeEach(() => {
-      // Dismiss any open autocompletes
-      browser.addValue(input, ['Escape'])
-
-      // Prevent autofilling, IE likes to do this.
-      browser.setValue(input, '')
-    })
 
     it('should show the input', () => {
       browser.waitForExist(input)
@@ -187,7 +179,7 @@ const takeScreenshotsIfFail = () => {
 }
 
 describe('Accessible Autocomplete', () => {
-  before(() => {
+  beforeEach(() => {
     browser.url('/')
   })
 
@@ -202,7 +194,7 @@ describe('Accessible Autocomplete', () => {
 })
 
 describe('Accessible Autocomplete Preact', () => {
-  before(() => {
+  beforeEach(() => {
     browser.url('/preact')
   })
 
@@ -216,7 +208,7 @@ describe('Accessible Autocomplete Preact', () => {
 })
 
 describe('Accessible Autocomplete React', () => {
-  before(() => {
+  beforeEach(() => {
     browser.url('/react')
   })
 
