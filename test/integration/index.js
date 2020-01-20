@@ -37,29 +37,51 @@ const basicExample = () => {
     // in Chrome
     if (isChrome) {
       it('should announce status changes using two alternately updated aria live regions', () => {
-        const flip = browser.$('#autocomplete-default__status--A')
-        const flop = browser.$('#autocomplete-default__status--B')
+        const regionA = browser.$('#autocomplete-default__status--A')
+        const regionB = browser.$('#autocomplete-default__status--B')
+
+        expect(regionA.getText()).to.equal('')
+        expect(regionB.getText()).to.equal('')
 
         browser.click(input)
         browser.setValue(input, 'a')
-        expect(flip.getText()).to.equal('')
-        expect(flop.getText()).to.equal('')
-        browser.waitUntil(() => { return flip.getText() !== '' },
+
+        // We can't tell which region will be used first, so we have to allow for
+        // either region changing
+        browser.waitUntil(() => { return regionA.getText() !== '' || regionB.getText() !== '' },
           liveRegionWaitTimeMillis,
           'expected the first aria live region to be populated within ' + liveRegionWaitTimeMillis + ' milliseconds'
         )
-        browser.addValue(input, 's')
-        browser.waitUntil(() => { return (flip.getText() === '' && flop.getText() !== '') },
-          liveRegionWaitTimeMillis,
-          'expected the first aria live region to be cleared, and the second to be populated within ' +
-          liveRegionWaitTimeMillis + ' milliseconds'
-        )
-        browser.addValue(input, 'h')
-        browser.waitUntil(() => { return (flip.getText() !== '' && flop.getText() === '') },
-          liveRegionWaitTimeMillis,
-          'expected the first aria live region to be populated, and the second to be cleared within ' +
-          liveRegionWaitTimeMillis + ' milliseconds'
-        )
+
+        if (regionA.getText()) {
+          browser.addValue(input, 's')
+          browser.waitUntil(() => { return (regionA.getText() === '' && regionB.getText() !== '') },
+            liveRegionWaitTimeMillis,
+            'expected the first aria live region to be cleared, and the second to be populated within ' +
+            liveRegionWaitTimeMillis + ' milliseconds'
+          )
+
+          browser.addValue(input, 'h')
+          browser.waitUntil(() => { return (regionA.getText() !== '' && regionB.getText() === '') },
+            liveRegionWaitTimeMillis,
+            'expected the first aria live region to be populated, and the second to be cleared within ' +
+            liveRegionWaitTimeMillis + ' milliseconds'
+          )
+        } else {
+          browser.addValue(input, 's')
+          browser.waitUntil(() => { return (regionA.getText() !== '' && regionB.getText() === '') },
+            liveRegionWaitTimeMillis,
+            'expected the first aria live region to be populated, and the second to be cleared within ' +
+            liveRegionWaitTimeMillis + ' milliseconds'
+          )
+
+          browser.addValue(input, 'h')
+          browser.waitUntil(() => { return (regionA.getText() === '' && regionB.getText() !== '') },
+            liveRegionWaitTimeMillis,
+            'expected the first aria live region to be cleared, and the second to be populated within ' +
+            liveRegionWaitTimeMillis + ' milliseconds'
+          )
+        }
       })
     }
 
