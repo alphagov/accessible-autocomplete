@@ -165,6 +165,22 @@ export default class Autocomplete extends Component {
 
   handleComponentBlur (newState) {
     const { options, query, selected } = this.state
+
+    let focusingOutsideComponent = true
+    if (newState.event) {
+      // React has bugs with event.relatedTarget but we can query document.activeElement instead.
+      // It'll also be used when focusing the body (document) as relatedTarget gets set to null.
+      const target = newState.event.relatedTarget || document.activeElement
+      // Look at all the elements in this component and see if the newly focused element is in the list.
+      for (let refKey in this.elementReferences) {
+        if (target === this.elementReferences[refKey]) {
+          focusingOutsideComponent = false
+        }
+      }
+      if (!focusingOutsideComponent) {
+        return
+      }
+    }
     let newQuery
     if (this.props.confirmOnBlur) {
       newQuery = newState.query || query
@@ -196,6 +212,7 @@ export default class Autocomplete extends Component {
     if (blurComponent) {
       const keepMenuOpen = menuOpen && isIosDevice()
       this.handleComponentBlur({
+        event,
         menuOpen: keepMenuOpen,
         query: this.templateInputValue(options[selected])
       })
@@ -203,16 +220,14 @@ export default class Autocomplete extends Component {
   }
 
   handleInputBlur (event) {
-    const { focused, menuOpen, options, query, selected } = this.state
-    const focusingAnOption = focused !== -1
-    if (!focusingAnOption) {
-      const keepMenuOpen = menuOpen && isIosDevice()
-      const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
-      this.handleComponentBlur({
-        menuOpen: keepMenuOpen,
-        query: newQuery
-      })
-    }
+    const { menuOpen, options, query, selected } = this.state
+    const keepMenuOpen = menuOpen && isIosDevice()
+    const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
+    this.handleComponentBlur({
+      event,
+      menuOpen: keepMenuOpen,
+      query: newQuery
+    })
   }
 
   handleInputChange (event) {
