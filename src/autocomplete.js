@@ -88,7 +88,6 @@ export default class Autocomplete extends Component {
     this.handleOptionBlur = this.handleOptionBlur.bind(this)
     this.handleOptionClick = this.handleOptionClick.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
-    this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
     this.handleOptionMouseEnter = this.handleOptionMouseEnter.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
@@ -295,16 +294,6 @@ export default class Autocomplete extends Component {
       validChoiceMade: true
     })
     this.forceUpdate()
-  }
-
-  handleOptionMouseDown (event) {
-    // Safari triggers focusOut before click, but if you
-    // preventDefault on mouseDown, you can stop that from happening.
-    // If this is removed, clicking on an option in Safari will trigger
-    // `handleOptionBlur`, which closes the menu, and the click will
-    // trigger on the element underneath instead.
-    // See: http://stackoverflow.com/questions/7621711/how-to-prevent-blur-running-when-clicking-a-link-in-jquery
-    event.preventDefault()
   }
 
   handleUpArrow (event) {
@@ -547,7 +536,6 @@ export default class Autocomplete extends Component {
                 key={index}
                 onBlur={(event) => this.handleOptionBlur(event, index)}
                 onClick={(event) => this.handleOptionClick(event, index)}
-                onMouseDown={this.handleOptionMouseDown}
                 onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
