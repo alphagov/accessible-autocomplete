@@ -1,4 +1,4 @@
-/* global afterEach, before, beforeEach, browser, describe, it */
+/* global afterEach, beforeEach, browser, describe, it */
 const expect = require('chai').expect
 const { browserName, version } = browser.desiredCapabilities
 const isChrome = browserName === 'chrome'
@@ -11,20 +11,10 @@ const liveRegionWaitTimeMillis = 10000
 
 const basicExample = () => {
   describe('basic example', function () {
-    this.retries(3)
-
     const input = 'input#autocomplete-default'
     const menu = `${input} + ul`
     const firstOption = `${menu} > li:first-child`
     const secondOption = `${menu} > li:nth-child(2)`
-
-    beforeEach(() => {
-      // Dismiss any open autocompletes
-      browser.addValue(input, ['Escape'])
-
-      // Prevent autofilling, IE likes to do this.
-      browser.setValue(input, '')
-    })
 
     it('should show the input', () => {
       browser.waitForExist(input)
@@ -47,29 +37,51 @@ const basicExample = () => {
     // in Chrome
     if (isChrome) {
       it('should announce status changes using two alternately updated aria live regions', () => {
-        const flip = browser.$('#autocomplete-default__status--A')
-        const flop = browser.$('#autocomplete-default__status--B')
+        const regionA = browser.$('#autocomplete-default__status--A')
+        const regionB = browser.$('#autocomplete-default__status--B')
+
+        expect(regionA.getText()).to.equal('')
+        expect(regionB.getText()).to.equal('')
 
         browser.click(input)
         browser.setValue(input, 'a')
-        expect(flip.getText()).to.equal('')
-        expect(flop.getText()).to.equal('')
-        browser.waitUntil(() => { return flip.getText() !== '' },
+
+        // We can't tell which region will be used first, so we have to allow for
+        // either region changing
+        browser.waitUntil(() => { return regionA.getText() !== '' || regionB.getText() !== '' },
           liveRegionWaitTimeMillis,
           'expected the first aria live region to be populated within ' + liveRegionWaitTimeMillis + ' milliseconds'
         )
-        browser.addValue(input, 's')
-        browser.waitUntil(() => { return (flip.getText() === '' && flop.getText() !== '') },
-          liveRegionWaitTimeMillis,
-          'expected the first aria live region to be cleared, and the second to be populated within ' +
-          liveRegionWaitTimeMillis + ' milliseconds'
-        )
-        browser.addValue(input, 'h')
-        browser.waitUntil(() => { return (flip.getText() !== '' && flop.getText() === '') },
-          liveRegionWaitTimeMillis,
-          'expected the first aria live region to be populated, and the second to be cleared within ' +
-          liveRegionWaitTimeMillis + ' milliseconds'
-        )
+
+        if (regionA.getText()) {
+          browser.addValue(input, 's')
+          browser.waitUntil(() => { return (regionA.getText() === '' && regionB.getText() !== '') },
+            liveRegionWaitTimeMillis,
+            'expected the first aria live region to be cleared, and the second to be populated within ' +
+            liveRegionWaitTimeMillis + ' milliseconds'
+          )
+
+          browser.addValue(input, 'h')
+          browser.waitUntil(() => { return (regionA.getText() !== '' && regionB.getText() === '') },
+            liveRegionWaitTimeMillis,
+            'expected the first aria live region to be populated, and the second to be cleared within ' +
+            liveRegionWaitTimeMillis + ' milliseconds'
+          )
+        } else {
+          browser.addValue(input, 's')
+          browser.waitUntil(() => { return (regionA.getText() !== '' && regionB.getText() === '') },
+            liveRegionWaitTimeMillis,
+            'expected the first aria live region to be populated, and the second to be cleared within ' +
+            liveRegionWaitTimeMillis + ' milliseconds'
+          )
+
+          browser.addValue(input, 'h')
+          browser.waitUntil(() => { return (regionA.getText() === '' && regionB.getText() !== '') },
+            liveRegionWaitTimeMillis,
+            'expected the first aria live region to be cleared, and the second to be populated within ' +
+            liveRegionWaitTimeMillis + ' milliseconds'
+          )
+        }
       })
     }
 
@@ -143,8 +155,6 @@ const basicExample = () => {
 
 const customTemplatesExample = () => {
   describe('custom templates example', function () {
-    this.retries(3)
-
     const input = 'input#autocomplete-customTemplates'
     const menu = `${input} + ul`
     const firstOption = `${menu} > li:first-child`
@@ -191,7 +201,7 @@ const takeScreenshotsIfFail = () => {
 }
 
 describe('Accessible Autocomplete', () => {
-  before(() => {
+  beforeEach(() => {
     browser.url('/')
   })
 
@@ -206,7 +216,7 @@ describe('Accessible Autocomplete', () => {
 })
 
 describe('Accessible Autocomplete Preact', () => {
-  before(() => {
+  beforeEach(() => {
     browser.url('/preact')
   })
 
@@ -220,7 +230,7 @@ describe('Accessible Autocomplete Preact', () => {
 })
 
 describe('Accessible Autocomplete React', () => {
-  before(() => {
+  beforeEach(() => {
     browser.url('/react')
   })
 
