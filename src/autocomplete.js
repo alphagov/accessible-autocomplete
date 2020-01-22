@@ -134,8 +134,8 @@ export default class Autocomplete extends Component {
     const { focused } = this.state
     const componentLostFocus = focused === null
     const focusedChanged = prevState.focused !== focused
-    const focusDifferentElement = focusedChanged && !componentLostFocus
-    if (focusDifferentElement) {
+    const elementIsNotFocused = this.elementReferences[focused] !== document.activeElement
+    if (!componentLostFocus && elementIsNotFocused) {
       this.elementReferences[focused].focus()
     }
     const focusedInput = focused === -1
