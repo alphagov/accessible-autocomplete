@@ -34,7 +34,7 @@
 }
 
 .autocomplete__input--show-all-values {
-  padding: 4px 34px 4px 4px;
+  padding: 5px 34px 5px 5px; /* Space for arrow. Other padding should match .autocomplete__input--default. */
   cursor: pointer;
 }
 
