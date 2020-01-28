@@ -2,7 +2,10 @@
 
 ## Unreleased
 
+### Fixes
+
 - [Pull request #388: Set aria-selected as a string instead of a boolean to avoid being dropped.](https://github.com/alphagov/accessible-autocomplete/pull/388)
+- [Pull request #400: Remove pointer events check](https://github.com/alphagov/accessible-autocomplete/pull/400)
 - [Pull request #406: Make hint padding match input padding](https://github.com/alphagov/accessible-autocomplete/pull/406)
 
 ## 2.0.1 - 2019-10-07
