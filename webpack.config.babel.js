@@ -166,7 +166,8 @@ const bundleReact = {
     publicPath: '/',
     filename: '[name].js',
     library: 'Autocomplete',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    globalObject: 'this'
   },
   externals: {
     preact: {

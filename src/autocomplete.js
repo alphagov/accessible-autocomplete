@@ -14,7 +14,7 @@ const keyCodes = {
 }
 
 function isIosDevice () {
-  return !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
+  return typeof navigator !== 'undefined' && !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
 }
 
 function isPrintableKeyCode (keyCode) {
