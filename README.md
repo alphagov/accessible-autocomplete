@@ -1,5 +1,13 @@
 # Accessible autocomplete
 
+---
+
+**We cannot currently respond to issues or pull requests.**
+
+You can still raise issues or pull requests if you want to. As soon as we’re able to, we will prioritise dealing with any bugs that have been raised by people in the UK public sector. We cannot prioritise adding new features.
+
+---
+
 [![npm version](https://img.shields.io/npm/v/accessible-autocomplete.svg)](http://npm.im/accessible-autocomplete)
 [![Build Status](https://travis-ci.com/alphagov/accessible-autocomplete.svg?branch=master)](https://travis-ci.com/alphagov/accessible-autocomplete)
 [![Coverage Status](https://coveralls.io/repos/github/alphagov/accessible-autocomplete/badge.svg?branch=master)](https://coveralls.io/github/alphagov/accessible-autocomplete?branch=master)
