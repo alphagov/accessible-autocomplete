@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.0.3 - 2020-07-01
+
 ### Fixes
 
 - [Pull request #415: Make React bundle work server-side in a NodeJS environment](https://github.com/alphagov/accessible-autocomplete/pull/415)
