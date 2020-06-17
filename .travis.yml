@@ -9,13 +9,12 @@ before_install:
 before_script:
   - jdk_switcher use oraclejdk8
 env:
-  - CXX=g++-4.8
+  - CXX=g++-4.8 SAUCE_CONNECT_VERSION=4.5.4
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
-  sauce_connect: true
 after_success:
   - cat ./coverage/lcov/lcov.info | ./node_modules/coveralls/bin/coveralls.js
