@@ -16,6 +16,5 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
-  sauce_connect: true
 after_success:
   - cat ./coverage/lcov/lcov.info | ./node_modules/coveralls/bin/coveralls.js
