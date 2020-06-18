@@ -27,7 +27,7 @@
     "standard": "standard",
     "test": "run-p standard karma wdio",
     "version": "npm run build && git add -A dist",
-    "wdio:test": "cross-env NODE_ENV=test SAUCE_CONNECT_VERSION=4.5.4 wdio test/wdio.config.js",
+    "wdio:test": "cross-env NODE_ENV=test wdio test/wdio.config.js",
     "wdio": "npm run build wdio:test && git checkout dist/"
   },
   "husky": {
