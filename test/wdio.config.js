@@ -37,7 +37,7 @@ const sauceConfig = sauceEnabled
       },
       {
         browserName: 'internet explorer',
-        browserVersion: '11.103',
+        browserVersion: '11.285',
         platformName: 'Windows 10',
         'sauce:options': {
           build: buildNumber
