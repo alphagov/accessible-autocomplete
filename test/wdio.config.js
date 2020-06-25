@@ -51,13 +51,12 @@ const sauceConfig = sauceEnabled
           build: buildNumber
         }
       },
+      /* IE9 on Sauce Labs needs to use legacy JSON Wire Protocol */
       {
         browserName: 'internet explorer',
-        browserVersion: '9',
-        platformName: 'Windows 7',
-        'sauce:options': {
-          build: buildNumber
-        }
+        version: '9',
+        platform: 'Windows 7',
+        build: buildNumber
       }
     ],
     services: services.concat([['sauce', { sauceConnect: true }]])
