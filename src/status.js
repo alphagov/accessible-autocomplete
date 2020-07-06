@@ -62,7 +62,8 @@ export default class Status extends Component {
       tQueryTooShort,
       tNoResults,
       tSelectedOption,
-      tResults
+      tResults,
+      className
     } = this.props
     const { bump, debounced, silenced } = this.state
 
@@ -86,6 +87,7 @@ export default class Status extends Component {
 
     return (
       <div
+        className={className}
         style={{
           border: '0',
           clip: 'rect(0 0 0 0)',
