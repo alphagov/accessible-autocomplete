@@ -357,6 +357,9 @@ This will:
 
 - Place an autocomplete input field after the specified `<select>`
 - Default the autocomplete `autoselect` to `true`
+- Default the autocomplete `preserveNullOptions` to `true`
+- Default the autocomplete `showAllValues` to `true`
+- Default the autocomplete `confirmOnBlur` to `true`
 - Default the autocomplete `defaultValue` to the select's `option[selected]`
 - Default the autocomplete `id` to the `<select>`'s `id`
 - Default the autocomplete `name` attribute to `''` to prevent it being included in form submissions
@@ -367,7 +370,7 @@ This will:
 
 This function takes the same options as `accessibleAutocomplete`, with the only difference being that it uses `selectElement` instead of `element`, which needs to be an instance of `HTMLSelectElement`.
 
-> **Note**: The `accessibleAutocomplete.enhanceSelectElement` function is fairly light and wraps the public API for `accessibleAutocomplete`. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
+> **Note**: The `accessibleAutocomplete.enhanceSelectElement` function wraps the public API for `accessibleAutocomplete` to provide sensible defaults that mimic the behaviour expected from select dropdowns. It will also internally adjust the autocomplete to behave more like a select than an autocomplete. If your use case doesn't fit the above defaults, try [reading the source](src/wrapper.js) and seeing if you can write your own.
 
 ### Null options
 
@@ -394,6 +397,32 @@ accessibleAutocomplete.enhanceSelectElement({
 ```
 
 Any null options will also be filtered out of the options used to populate the `source` of the autocomplete element. To preserve options with no value in the autcomplete then pass a `preserveNullOptions` flag of `true` to `enhanceSelectElement`.
+
+
+### Programmatic API
+
+> **Note**: the programmatic API is still a work in progress. If a function you need programmatically is not available, feel free to raise an issue or send a Pull Request for it.
+
+Autoselects normally react to the selection of the user automatically. However, when enhancing a select, it is often desirable to have some programmatic control over the selection.
+
+The programmatic API is only exposed for enhanced selects, and contains the following functions:
+
+##### `clearSelection()`
+
+This function will clear the selection and trigger the `change` event on the select element being enhanced.
+
+Example usage:
+
+```js
+var select = document.querySelector(".to-be-enhanced");
+accessibleAutocomplete.enhanceSelectElement({
+  selectElement: select
+});
+
+select.accessibleAutocomplete.clearSelection();
+
+```
+
 
 ## Analytics and tracking
 

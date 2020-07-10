@@ -90,6 +90,8 @@ export default class Autocomplete extends Component {
 
     this.pollInputElement = this.pollInputElement.bind(this)
     this.getDirectInputChanges = this.getDirectInputChanges.bind(this)
+
+    this.clearSelection = this.clearSelection.bind(this)
   }
 
   isQueryAnOption (query, options) {
@@ -98,10 +100,21 @@ export default class Autocomplete extends Component {
 
   componentDidMount () {
     this.pollInputElement()
+
+    if (this.props.selectElement) {
+      // Expose public API
+      this.props.selectElement.accessibleAutocomplete = {
+        clearSelection: this.clearSelection
+      };
+    }
   }
 
   componentWillUnmount () {
     clearTimeout(this.$pollInput)
+
+    if (this.props.selectElement) {
+      delete this.props.selectElement.accessibleAutocomplete;
+    }
   }
 
   // Applications like Dragon NaturallySpeaking will modify the
@@ -141,6 +154,22 @@ export default class Autocomplete extends Component {
     }
   }
 
+  clearSelection () {
+    this.setState({
+      focused: null,
+      hovered: null,
+      menuOpen: false,
+      options: this.props.defaultValue ? [this.props.defaultValue] : [],
+      query: '',
+      validChoiceMade: false,
+    }, () => {
+      this.props.selectElement.value = null;
+      var event = document.createEvent('HTMLEvents');
+      event.initEvent('change', true, false);
+      this.props.selectElement.dispatchEvent(event);
+    });
+  }
+
   hasAutoselect () {
     return isIosDevice() ? false : this.props.autoselect
   }
@@ -157,7 +186,7 @@ export default class Autocomplete extends Component {
     return suggestionTemplate ? suggestionTemplate(value) : value
   }
 
-  handleComponentBlur (newState) {
+  handleComponentBlur (newState, escape) {
     const { options, query, selected } = this.state
     let newQuery
     if (this.props.confirmOnBlur) {
@@ -166,12 +195,20 @@ export default class Autocomplete extends Component {
     } else {
       newQuery = query
     }
+    
     this.setState({
       focused: null,
       menuOpen: newState.menuOpen || false,
       query: newQuery,
       selected: null,
       validChoiceMade: this.isQueryAnOption(newQuery, options)
+    }, () => {
+      // If this function was called when user performed the `escape` function
+      // then we need to focus back on the input like it is done when an option
+      // is selected
+      if (escape) {
+        this.forceUpdate()
+      }
     })
   }
 
@@ -189,6 +226,7 @@ export default class Autocomplete extends Component {
     const blurComponent = (!focusingAnotherOption && focusingOutsideComponent) || !(focusingAnotherOption || focusingInput)
     if (blurComponent) {
       const keepMenuOpen = menuOpen && isIosDevice()
+      
       this.handleComponentBlur({
         menuOpen: keepMenuOpen,
         query: this.templateInputValue(options[selected])
@@ -202,6 +240,7 @@ export default class Autocomplete extends Component {
     if (!focusingAnOption) {
       const keepMenuOpen = menuOpen && isIosDevice()
       const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
+      
       this.handleComponentBlur({
         menuOpen: keepMenuOpen,
         query: newQuery
@@ -210,42 +249,84 @@ export default class Autocomplete extends Component {
   }
 
   handleInputChange (event) {
-    const { minLength, source, showAllValues } = this.props
-    const autoselect = this.hasAutoselect()
-    const query = event.target.value
-    const queryEmpty = query.length === 0
-    const queryChanged = this.state.query.length !== query.length
-    const queryLongEnough = query.length >= minLength
+    // Besides the normal input that can be received by the user,
+    // we also need to take care of special actions even in the input
+    switch (keyCodes[event.keyCode]) {
+      case 'up':
+        this.handleUpArrow(event)
+        break
+      case 'down':
+        this.handleDownArrow(event)
+        break
+      case 'space':
+        this.handleSpace(event)
+        break
+      case 'enter':
+        this.handleEnter(event)
+        break
+      case 'escape':
+        this.handleComponentBlur({
+          query: this.state.query
+        }, true);
+        
+        break
+      default:
+        const { minLength, source, showAllValues } = this.props
+        const autoselect = this.hasAutoselect()
+        const query = event.target.value
+        const queryEmpty = query.length === 0
+        const queryChanged = this.state.query.length !== query.length
+        const queryLongEnough = query.length >= minLength
 
-    this.setState({
-      query,
-      ariaHint: queryEmpty
-    })
-
-    const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
-    if (searchForOptions) {
-      source(query, (options) => {
-        const optionsAvailable = options.length > 0
         this.setState({
-          menuOpen: optionsAvailable,
-          options,
-          selected: (autoselect && optionsAvailable) ? 0 : -1,
-          validChoiceMade: false
+          query,
+          ariaHint: queryEmpty
         })
-      })
-    } else if (queryEmpty || !queryLongEnough) {
-      this.setState({
-        menuOpen: false,
-        options: []
-      })
-    }
+
+        const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
+        if (searchForOptions) {
+          source(query, (options) => {
+            const optionsAvailable = options.length > 0
+            this.setState({
+              menuOpen: optionsAvailable,
+              options,
+              selected: (autoselect && optionsAvailable) ? 0 : -1,
+              validChoiceMade: false
+            })
+          })
+        } else if (queryEmpty || !queryLongEnough) {
+          this.setState({
+            menuOpen: false,
+            options: []
+          })
+        }
+        break;
+      }
   }
 
   handleInputClick (event) {
-    this.handleInputChange(event)
+    if (this.props.selectElement && this.state.menuOpen === false) {
+      this.props.source('', (options) => {
+        let currentSelectionIndex = options.indexOf(this.state.query);
+        
+        this.setState({
+          menuOpen: true,
+          options,
+          focused: currentSelectionIndex,
+          selected: currentSelectionIndex,
+          hovered: null
+        })
+      });
+    } else {
+      this.handleInputChange(event);
+    }
   }
 
   handleInputFocus (event) {
+    if (this.props.selectElement) {
+      return;
+    }
+
     const { query, validChoiceMade, options } = this.state
     const { minLength } = this.props
     const shouldReopenMenu = !validChoiceMade && query.length >= minLength && options.length > 0
@@ -257,11 +338,35 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleOptionFocus (index) {
+  handleOptionFocus (index, select) {
+    // if we're replacing a select element, then we need
+    // to allow the user to wrap around the options when pressing
+    // up/down arrows
+    if (this.props.selectElement) {
+      if (index < 0) {
+        index = this.props.selectElement.options.length - 1;
+      } else if (index >= this.props.selectElement.options.length) {
+        index = 0;
+      }
+    }
+
     this.setState({
       focused: index,
       hovered: null,
       selected: index
+    }, () => {
+      if (select) {
+        const selectedOption = this.state.options[index]
+        const newQuery = this.templateInputValue(selectedOption)
+        this.setState({
+          query: newQuery,
+          validChoiceMade: true
+        });
+
+        if (this.props.selectElement) {
+          this.props.onConfirm(selectedOption);
+        }
+      }
     })
   }
 
@@ -275,14 +380,20 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleOptionClick (event, index) {
+  handleOptionClick (event, index, menuOpen=false) {
     const selectedOption = this.state.options[index]
     const newQuery = this.templateInputValue(selectedOption)
     this.props.onConfirm(selectedOption)
+
+    // Do not remove this, otherwise the input can receive the event and 
+    // keep the menu open unintentionally
+    event.preventDefault();
+    event.stopPropagation();
+
     this.setState({
       focused: -1,
       hovered: null,
-      menuOpen: false,
+      menuOpen: menuOpen,
       query: newQuery,
       selected: -1,
       validChoiceMade: true
@@ -302,19 +413,52 @@ export default class Autocomplete extends Component {
 
   handleUpArrow (event) {
     event.preventDefault()
-    const { menuOpen, selected } = this.state
-    const isNotAtTop = selected !== -1
-    const allowMoveUp = isNotAtTop && menuOpen
-    if (allowMoveUp) {
-      this.handleOptionFocus(selected - 1)
+    // If we're replacing a select element, we need to provide the interaction
+    // where the dropdown is closed, and user presses up.
+    // In this case they focus on the option before the selected one (or the last),
+    // and also make menu open
+    if (this.props.selectElement && this.state.menuOpen === false) {
+      this.props.source('', (options) => {
+        this.setState({ menuOpen: true, options }, () => {
+          let index = this.state.query && this.state.options.indexOf(this.state.query) > 0 ? this.state.options.indexOf(this.state.query) - 1 : this.state.options.length - 1;
+      
+          if (index < 0) {
+            index = this.state.options.length -1;
+          }
+
+          this.handleOptionFocus(index, true);
+        });
+      });
+    } else {
+      const { menuOpen, selected } = this.state
+      const isNotAtTop = selected !== -1
+      const allowMoveUp = isNotAtTop && menuOpen
+
+      if (allowMoveUp || thia.props.selectElement) {
+        this.handleOptionFocus(selected - 1, true)
+      }
     }
   }
 
   handleDownArrow (event) {
     event.preventDefault()
-    // if not open, open
-    if (this.props.showAllValues && this.state.menuOpen === false) {
-      event.preventDefault()
+    // If we're replacing a select element, we need to provide the interaction
+    // where the dropdown is closed, and user presses down.
+    // In this case they focus on the option after the selected one (or the first),
+    // and also make menu open
+    if (this.props.selectElement && this.state.menuOpen === false) {
+      this.props.source('', (options) => {
+        this.setState({ menuOpen: true, options }, () => {
+          let index = this.state.query && this.state.options.indexOf(this.state.query) > -1 ? this.state.options.indexOf(this.state.query) + 1 : 0;
+          
+          if (index >= this.state.options.length) {
+            index = 0;
+          }
+
+          this.handleOptionFocus(index, true);
+        });
+      });
+    } else if (this.props.showAllValues && this.state.menuOpen === false) {
       this.props.source('', (options) => {
         this.setState({
           menuOpen: true,
@@ -327,23 +471,28 @@ export default class Autocomplete extends Component {
     } else if (this.state.menuOpen === true) {
       const { menuOpen, options, selected } = this.state
       const isNotAtBottom = selected !== options.length - 1
-      const allowMoveDown = isNotAtBottom && menuOpen
-      if (allowMoveDown) {
-        this.handleOptionFocus(selected + 1)
+      if (isNotAtBottom || this.props.selectElement) {
+        this.handleOptionFocus(selected + 1, true)
       }
     }
   }
 
   handleSpace (event) {
-    // if not open, open
-    if (this.props.showAllValues && this.state.menuOpen === false && this.state.query === '') {
-      event.preventDefault()
+    if ((this.props.selectElement && !this.state.menuOpen) || (this.props.showAllValues && this.state.menuOpen === false && this.state.query === '')) {
+      if (this.state.query.trim().length === 0) {
+        event.preventDefault()
+      }
+      
       this.props.source('', (options) => {
+        let index = this.state.query && options.indexOf(this.state.query) > -1 ? options.indexOf(this.state.query) : 0;
         this.setState({
           menuOpen: true,
-          options
+          options,
+          focused: index,
+          selected: index
         })
       })
+      return
     }
     const focusIsOnOption = this.state.focused !== -1
     if (focusIsOnOption) {
@@ -359,6 +508,24 @@ export default class Autocomplete extends Component {
       if (hasSelectedOption) {
         this.handleOptionClick(event, this.state.selected)
       }
+    } else if (this.props.selectElement) {
+      this.props.source('', (options) => {
+        this.setState({ menuOpen: true, options }, () => {
+          let index = this.state.query && this.state.options.indexOf(this.state.query) > -1 ? this.state.options.indexOf(this.state.query) : 0;
+          let openMenu = true;
+
+          if (!this.props.selectElement) {
+            index = -1;
+            openMenu = false;
+          }
+
+          this.setState({
+            menuOpen: openMenu,
+            focused: index,
+            selected: index
+          });
+        });
+      });
     }
   }
 
@@ -390,7 +557,8 @@ export default class Autocomplete extends Component {
       case 'escape':
         this.handleComponentBlur({
           query: this.state.query
-        })
+        }, true);
+
         break
       default:
         if (isPrintableKeyCode(event.keyCode)) {
@@ -416,6 +584,7 @@ export default class Autocomplete extends Component {
       tStatusSelectedOption,
       tStatusResults,
       tAssistiveHint,
+      alwaysDisplayArrow,
       dropdownArrow: dropdownArrowFactory
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
@@ -460,7 +629,7 @@ export default class Autocomplete extends Component {
     let dropdownArrow
 
     // we only need a dropdown arrow if showAllValues is set to a truthy value
-    if (showAllValues) {
+    if (showAllValues || alwaysDisplayArrow === true) {
       dropdownArrow = dropdownArrowFactory({ className: dropdownArrowClassName })
 
       // if the factory returns a string we'll render this as HTML (usage w/o (P)React)
@@ -470,7 +639,7 @@ export default class Autocomplete extends Component {
     }
 
     return (
-      <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
+      <div className={wrapperClassName} onKeyDown={this.handleKeyDown} ref={(ref) => this.wrapperRef = ref}>
         <Status
           id={id}
           length={options.length}
