@@ -1,12 +1,12 @@
-/* global afterEach, beforeEach, browser, describe, it */
+/* global $, afterEach, beforeEach, browser, describe, it */
 const expect = require('chai').expect
-const { browserName, version } = browser.desiredCapabilities
+const { browserName, browserVersion } = browser.capabilities
 const isChrome = browserName === 'chrome'
 const isFireFox = browserName === 'firefox'
 const isIE = browserName === 'internet explorer'
-// const isIE9 = isIE && version === '9'
-// const isIE10 = isIE && version === '10'
-// const isIE11 = isIE && version === '11.103'
+// const isIE9 = isIE && browserVersion === '9'
+// const isIE10 = isIE && browserVersion === '10'
+// const isIE11 = isIE && browserVersion === '11.103'
 const liveRegionWaitTimeMillis = 10000
 
 const basicExample = () => {
@@ -17,34 +17,34 @@ const basicExample = () => {
     const secondOption = `${menu} > li:nth-child(2)`
 
     it('should show the input', () => {
-      browser.waitForExist(input)
-      expect(browser.isVisible(input)).to.equal(true)
+      $(input).waitForExist()
+      expect($(input).isDisplayed()).to.equal(true)
     })
 
     it('should allow focusing the input', () => {
-      browser.click(input)
-      expect(browser.hasFocus(input)).to.equal(true)
+      $(input).click()
+      expect($(input).isFocused()).to.equal(true)
     })
 
     it('should display suggestions', () => {
-      browser.click(input)
-      browser.setValue(input, 'ita')
-      browser.waitForVisible(menu)
-      expect(browser.isVisible(menu)).to.equal(true)
+      $(input).click()
+      $(input).setValue('ita')
+      $(menu).waitForDisplayed()
+      expect($(menu).isDisplayed()).to.equal(true)
     })
 
     // These tests are flakey when run through Saucelabs so we only run them
     // in Chrome
     if (isChrome) {
       it('should announce status changes using two alternately updated aria live regions', () => {
-        const regionA = browser.$('#autocomplete-default__status--A')
-        const regionB = browser.$('#autocomplete-default__status--B')
+        const regionA = $('#autocomplete-default__status--A')
+        const regionB = $('#autocomplete-default__status--B')
 
         expect(regionA.getText()).to.equal('')
         expect(regionB.getText()).to.equal('')
 
-        browser.click(input)
-        browser.setValue(input, 'a')
+        $(input).click()
+        $(input).setValue('a')
 
         // We can't tell which region will be used first, so we have to allow for
         // either region changing
@@ -54,28 +54,28 @@ const basicExample = () => {
         )
 
         if (regionA.getText()) {
-          browser.addValue(input, 's')
+          $(input).addValue('s')
           browser.waitUntil(() => { return (regionA.getText() === '' && regionB.getText() !== '') },
             liveRegionWaitTimeMillis,
             'expected the first aria live region to be cleared, and the second to be populated within ' +
             liveRegionWaitTimeMillis + ' milliseconds'
           )
 
-          browser.addValue(input, 'h')
+          $(input).addValue('h')
           browser.waitUntil(() => { return (regionA.getText() !== '' && regionB.getText() === '') },
             liveRegionWaitTimeMillis,
             'expected the first aria live region to be populated, and the second to be cleared within ' +
             liveRegionWaitTimeMillis + ' milliseconds'
           )
         } else {
-          browser.addValue(input, 's')
+          $(input).addValue('s')
           browser.waitUntil(() => { return (regionA.getText() !== '' && regionB.getText() === '') },
             liveRegionWaitTimeMillis,
             'expected the first aria live region to be populated, and the second to be cleared within ' +
             liveRegionWaitTimeMillis + ' milliseconds'
           )
 
-          browser.addValue(input, 'h')
+          $(input).addValue('h')
           browser.waitUntil(() => { return (regionA.getText() === '' && regionB.getText() !== '') },
             liveRegionWaitTimeMillis,
             'expected the first aria live region to be cleared, and the second to be populated within ' +
@@ -86,55 +86,55 @@ const basicExample = () => {
     }
 
     it('should set aria-selected to true on selected option and false on other options', () => {
-      browser.click(input)
-      browser.setValue(input, 'ita')
-      browser.addValue(input, ['ArrowDown'])
-      expect(browser.$(firstOption).getAttribute('aria-selected')).to.equal('true')
-      expect(browser.$(secondOption).getAttribute('aria-selected')).to.equal('false')
-      browser.addValue(firstOption, ['ArrowDown'])
-      expect(browser.$(firstOption).getAttribute('aria-selected')).to.equal('false')
-      expect(browser.$(secondOption).getAttribute('aria-selected')).to.equal('true')
+      $(input).click()
+      $(input).setValue('ita')
+      browser.keys(['ArrowDown'])
+      expect($(firstOption).getAttribute('aria-selected')).to.equal('true')
+      expect($(secondOption).getAttribute('aria-selected')).to.equal('false')
+      browser.keys(['ArrowDown'])
+      expect($(firstOption).getAttribute('aria-selected')).to.equal('false')
+      expect($(secondOption).getAttribute('aria-selected')).to.equal('true')
     })
 
     describe('keyboard use', () => {
       it('should allow typing', () => {
-        browser.click(input)
-        browser.addValue(input, 'ita')
-        expect(browser.getValue(input)).to.equal('ita')
+        $(input).click()
+        $(input).addValue('ita')
+        expect($(input).getValue()).to.equal('ita')
       })
 
       it('should allow selecting an option', () => {
-        browser.click(input)
-        browser.setValue(input, 'ita')
-        browser.addValue(input, ['ArrowDown'])
-        expect(browser.hasFocus(input)).to.equal(false)
-        expect(browser.hasFocus(firstOption)).to.equal(true)
-        browser.addValue(firstOption, ['ArrowDown'])
-        expect(browser.isVisible(menu)).to.equal(true)
-        expect(browser.getValue(input)).to.equal('ita')
-        expect(browser.hasFocus(firstOption)).to.equal(false)
-        expect(browser.hasFocus(secondOption)).to.equal(true)
+        $(input).click()
+        $(input).setValue('ita')
+        browser.keys(['ArrowDown'])
+        expect($(input).isFocused()).to.equal(false)
+        expect($(firstOption).isFocused()).to.equal(true)
+        browser.keys(['ArrowDown'])
+        expect($(menu).isDisplayed()).to.equal(true)
+        expect($(input).getValue()).to.equal('ita')
+        expect($(firstOption).isFocused()).to.equal(false)
+        expect($(secondOption).isFocused()).to.equal(true)
       })
 
       it('should allow confirming an option', () => {
-        browser.click(input)
-        browser.setValue(input, 'ita')
-        browser.addValue(input, ['ArrowDown', 'Enter'])
-        browser.waitUntil(() => browser.getValue(input) !== 'ita')
-        expect(browser.hasFocus(input)).to.equal(true)
-        expect(browser.getValue(input)).to.equal('Italy')
+        $(input).click()
+        $(input).setValue('ita')
+        browser.keys(['ArrowDown', 'Enter'])
+        browser.waitUntil(() => $(input).getValue() !== 'ita')
+        expect($(input).isFocused()).to.equal(true)
+        expect($(input).getValue()).to.equal('Italy')
       })
 
       it('should redirect keypresses on an option to input', () => {
         if (!isIE) {
-          browser.click(input)
-          browser.setValue(input, 'ita')
-          browser.addValue(input, ['ArrowDown'])
-          expect(browser.hasFocus(input)).to.equal(false)
-          expect(browser.hasFocus(firstOption)).to.equal(true)
-          browser.addValue(firstOption, ['l'])
-          expect(browser.hasFocus(input)).to.equal(true)
-          expect(browser.getValue(input)).to.equal('ital')
+          $(input).click()
+          $(input).setValue('ita')
+          browser.keys(['ArrowDown'])
+          expect($(input).isFocused()).to.equal(false)
+          expect($(firstOption).isFocused()).to.equal(true)
+          $(firstOption).addValue(['l'])
+          expect($(input).isFocused()).to.equal(true)
+          expect($(input).getValue()).to.equal('ital')
         } else {
           // FIXME: This feature does not work correctly on IE 9 to 11.
         }
@@ -143,11 +143,11 @@ const basicExample = () => {
 
     describe('mouse use', () => {
       it('should allow confirming an option', () => {
-        browser.click(input)
-        browser.setValue(input, 'ita')
-        browser.click(firstOption)
-        expect(browser.hasFocus(input)).to.equal(true)
-        expect(browser.getValue(input)).to.equal('Italy')
+        $(input).click()
+        $(input).setValue('ita')
+        $(firstOption).click()
+        expect($(input).isFocused()).to.equal(true)
+        expect($(input).getValue()).to.equal('Italy')
       })
     })
   })
@@ -161,22 +161,22 @@ const customTemplatesExample = () => {
     const firstOptionInnerElement = `${firstOption} > strong`
 
     beforeEach(() => {
-      browser.setValue(input, '') // Prevent autofilling, IE likes to do this.
+      $(input).setValue('') // Prevent autofilling, IE likes to do this.
     })
 
     describe('mouse use', () => {
       it('should allow confirming an option by clicking on child elements', () => {
-        browser.setValue(input, 'uni')
+        $(input).setValue('uni')
         if (isChrome) {
           const errorRegex = /Other element would receive the click/
-          expect(browser.click.bind(browser, firstOptionInnerElement)).to.throw(errorRegex)
-          expect(browser.hasFocus(input)).to.equal(true)
-          expect(browser.getValue(input)).to.equal('uni')
+          expect($(firstOptionInnerElement).click.bind($(firstOptionInnerElement))).to.throw(errorRegex)
+          expect($(input).isFocused()).to.equal(true)
+          expect($(input).getValue()).to.equal('uni')
         }
         if (isFireFox) {
-          browser.click(firstOptionInnerElement)
-          expect(browser.hasFocus(input)).to.equal(true)
-          expect(browser.getValue(input)).to.equal('United Kingdom')
+          $(firstOptionInnerElement).click()
+          expect($(input).isFocused()).to.equal(true)
+          expect($(input).getValue()).to.equal('United Kingdom')
         }
         if (isIE) {
           // FIXME: This feature works correctly on IE but testing it doesn't seem to work.
@@ -191,7 +191,7 @@ const takeScreenshotsIfFail = () => {
     const testFailed = this.currentTest.state === 'failed'
     if (testFailed) {
       const timestamp = +new Date()
-      const browserVariant = isIE ? `ie${version}` : browserName
+      const browserVariant = isIE ? `ie${browserVersion}` : browserName
       const testTitle = this.currentTest.title.replace(/\W/g, '-')
       const filename = `./screenshots/${timestamp}-${browserVariant}-${testTitle}.png`
       browser.saveScreenshot(filename)

@@ -1,12 +1,15 @@
-require('@babel/register')({
-  cwd: require('path').resolve(__dirname, '../')
-})
 require('dotenv').config()
 const puppeteer = require('puppeteer')
-const webpackConfig = require('../webpack.config.babel.js')
-const webpackPort = webpackConfig[0].devServer.port
 const staticServerPort = process.env.PORT || 4567
-const services = ['webpack-dev-server', 'static-server']
+const services = [
+  ['static-server', {
+    folders: [
+      { mount: '/', path: './examples' },
+      { mount: '/dist/', path: './dist' }
+    ],
+    port: staticServerPort
+  }]
+]
 
 const sauceEnabled = process.env.SAUCE_ENABLED === 'true'
 const sauceUser = process.env.SAUCE_USERNAME
@@ -19,46 +22,55 @@ const sauceConfig = sauceEnabled
     capabilities: [
       {
         browserName: 'chrome',
-        build: buildNumber,
-        platform: 'Windows 10'
+        platformName: 'Windows 10',
+        'sauce:options': {
+          build: buildNumber
+        }
       },
       {
         browserName: 'firefox',
-        build: buildNumber,
-        platform: 'Windows 10',
-        version: '55.0'
+        browserVersion: '55',
+        platformName: 'Windows 10',
+        'sauce:options': {
+          build: buildNumber
+        }
       },
       {
         browserName: 'internet explorer',
-        build: buildNumber,
-        platform: 'Windows 10',
-        version: '11.103'
+        browserVersion: '11.285',
+        platformName: 'Windows 10',
+        'sauce:options': {
+          build: buildNumber
+        }
       },
       {
         browserName: 'internet explorer',
-        build: buildNumber,
+        browserVersion: '10',
+        platformName: 'Windows 7',
+        'sauce:options': {
+          build: buildNumber
+        }
+      },
+      /* IE9 on Sauce Labs needs to use legacy JSON Wire Protocol */
+      {
+        browserName: 'internet explorer',
+        version: '9',
         platform: 'Windows 7',
-        version: '10'
-      },
-      {
-        browserName: 'internet explorer',
-        build: buildNumber,
-        platform: 'Windows 7',
-        version: '9'
+        build: buildNumber
       }
     ],
-    services: services.concat(['sauce']),
-    sauceConnect: true
+    services: services.concat([['sauce', { sauceConnect: true }]])
   }
   : {}
 
 exports.config = Object.assign({
+  outputDir: './logs/',
   specs: ['./test/integration/**/*.js'],
   capabilities: [
     // { browserName: 'firefox' },
     {
       browserName: 'chrome',
-      chromeOptions: {
+      'goog:chromeOptions': {
         args: ['--headless'],
         binary: puppeteer.executablePath()
       }
@@ -69,12 +81,5 @@ exports.config = Object.assign({
   services: services.concat(['selenium-standalone']),
   reporters: ['spec'],
   framework: 'mocha',
-  mochaOpts: { timeout: 30 * 1000 },
-  webpackConfig,
-  webpackPort,
-  staticServerFolders: [
-    { mount: '/', path: './examples' },
-    { mount: '/dist/', path: './dist' }
-  ],
-  staticServerPort
+  mochaOpts: { timeout: 30 * 1000 }
 }, sauceConfig)
