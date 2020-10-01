@@ -105,7 +105,7 @@ export default class Autocomplete extends Component {
       // Expose public API
       this.props.selectElement.accessibleAutocomplete = {
         clearSelection: this.clearSelection
-      };
+      }
     }
   }
 
@@ -113,7 +113,7 @@ export default class Autocomplete extends Component {
     clearTimeout(this.$pollInput)
 
     if (this.props.selectElement) {
-      delete this.props.selectElement.accessibleAutocomplete;
+      delete this.props.selectElement.accessibleAutocomplete
     }
   }
 
@@ -161,13 +161,13 @@ export default class Autocomplete extends Component {
       menuOpen: false,
       options: this.props.defaultValue ? [this.props.defaultValue] : [],
       query: '',
-      validChoiceMade: false,
+      validChoiceMade: false
     }, () => {
-      this.props.selectElement.value = null;
-      var event = document.createEvent('HTMLEvents');
-      event.initEvent('change', true, false);
-      this.props.selectElement.dispatchEvent(event);
-    });
+      this.props.selectElement.value = null
+      var event = document.createEvent('HTMLEvents')
+      event.initEvent('change', true, false)
+      this.props.selectElement.dispatchEvent(event)
+    })
   }
 
   hasAutoselect () {
@@ -195,7 +195,7 @@ export default class Autocomplete extends Component {
     } else {
       newQuery = query
     }
-    
+
     this.setState({
       focused: null,
       menuOpen: newState.menuOpen || false,
@@ -226,7 +226,7 @@ export default class Autocomplete extends Component {
     const blurComponent = (!focusingAnotherOption && focusingOutsideComponent) || !(focusingAnotherOption || focusingInput)
     if (blurComponent) {
       const keepMenuOpen = menuOpen && isIosDevice()
-      
+
       this.handleComponentBlur({
         menuOpen: keepMenuOpen,
         query: this.templateInputValue(options[selected])
@@ -240,7 +240,7 @@ export default class Autocomplete extends Component {
     if (!focusingAnOption) {
       const keepMenuOpen = menuOpen && isIosDevice()
       const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
-      
+
       this.handleComponentBlur({
         menuOpen: keepMenuOpen,
         query: newQuery
@@ -267,8 +267,8 @@ export default class Autocomplete extends Component {
       case 'escape':
         this.handleComponentBlur({
           query: this.state.query
-        }, true);
-        
+        }, true)
+
         break
       default:
         const { minLength, source, showAllValues } = this.props
@@ -300,15 +300,15 @@ export default class Autocomplete extends Component {
             options: []
           })
         }
-        break;
-      }
+        break
+    }
   }
 
   handleInputClick (event) {
     if (this.props.selectElement && this.state.menuOpen === false) {
       this.props.source('', (options) => {
-        let currentSelectionIndex = options.indexOf(this.state.query);
-        
+        let currentSelectionIndex = options.indexOf(this.state.query)
+
         this.setState({
           menuOpen: true,
           options,
@@ -316,15 +316,15 @@ export default class Autocomplete extends Component {
           selected: currentSelectionIndex,
           hovered: null
         })
-      });
+      })
     } else {
-      this.handleInputChange(event);
+      this.handleInputChange(event)
     }
   }
 
   handleInputFocus (event) {
     if (this.props.selectElement) {
-      return;
+      return
     }
 
     const { query, validChoiceMade, options } = this.state
@@ -344,9 +344,9 @@ export default class Autocomplete extends Component {
     // up/down arrows
     if (this.props.selectElement) {
       if (index < 0) {
-        index = this.props.selectElement.options.length - 1;
+        index = this.props.selectElement.options.length - 1
       } else if (index >= this.props.selectElement.options.length) {
-        index = 0;
+        index = 0
       }
     }
 
@@ -361,10 +361,10 @@ export default class Autocomplete extends Component {
         this.setState({
           query: newQuery,
           validChoiceMade: true
-        });
+        })
 
         if (this.props.selectElement) {
-          this.props.onConfirm(selectedOption);
+          this.props.onConfirm(selectedOption)
         }
       }
     })
@@ -380,15 +380,15 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handleOptionClick (event, index, menuOpen=false) {
+  handleOptionClick (event, index, menuOpen = false) {
     const selectedOption = this.state.options[index]
     const newQuery = this.templateInputValue(selectedOption)
     this.props.onConfirm(selectedOption)
 
-    // Do not remove this, otherwise the input can receive the event and 
+    // Do not remove this, otherwise the input can receive the event and
     // keep the menu open unintentionally
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault()
+    event.stopPropagation()
 
     this.setState({
       focused: -1,
@@ -420,21 +420,21 @@ export default class Autocomplete extends Component {
     if (this.props.selectElement && this.state.menuOpen === false) {
       this.props.source('', (options) => {
         this.setState({ menuOpen: true, options }, () => {
-          let index = this.state.query && this.state.options.indexOf(this.state.query) > 0 ? this.state.options.indexOf(this.state.query) - 1 : this.state.options.length - 1;
-      
+          let index = this.state.query && this.state.options.indexOf(this.state.query) > 0 ? this.state.options.indexOf(this.state.query) - 1 : this.state.options.length - 1
+
           if (index < 0) {
-            index = this.state.options.length -1;
+            index = this.state.options.length - 1
           }
 
-          this.handleOptionFocus(index, true);
-        });
-      });
+          this.handleOptionFocus(index, true)
+        })
+      })
     } else {
       const { menuOpen, selected } = this.state
       const isNotAtTop = selected !== -1
       const allowMoveUp = isNotAtTop && menuOpen
 
-      if (allowMoveUp || thia.props.selectElement) {
+      if (allowMoveUp || this.props.selectElement) {
         this.handleOptionFocus(selected - 1, true)
       }
     }
@@ -449,15 +449,15 @@ export default class Autocomplete extends Component {
     if (this.props.selectElement && this.state.menuOpen === false) {
       this.props.source('', (options) => {
         this.setState({ menuOpen: true, options }, () => {
-          let index = this.state.query && this.state.options.indexOf(this.state.query) > -1 ? this.state.options.indexOf(this.state.query) + 1 : 0;
-          
+          let index = this.state.query && this.state.options.indexOf(this.state.query) > -1 ? this.state.options.indexOf(this.state.query) + 1 : 0
+
           if (index >= this.state.options.length) {
-            index = 0;
+            index = 0
           }
 
-          this.handleOptionFocus(index, true);
-        });
-      });
+          this.handleOptionFocus(index, true)
+        })
+      })
     } else if (this.props.showAllValues && this.state.menuOpen === false) {
       this.props.source('', (options) => {
         this.setState({
@@ -469,7 +469,7 @@ export default class Autocomplete extends Component {
         })
       })
     } else if (this.state.menuOpen === true) {
-      const { menuOpen, options, selected } = this.state
+      const { options, selected } = this.state
       const isNotAtBottom = selected !== options.length - 1
       if (isNotAtBottom || this.props.selectElement) {
         this.handleOptionFocus(selected + 1, true)
@@ -482,9 +482,9 @@ export default class Autocomplete extends Component {
       if (this.state.query.trim().length === 0) {
         event.preventDefault()
       }
-      
+
       this.props.source('', (options) => {
-        let index = this.state.query && options.indexOf(this.state.query) > -1 ? options.indexOf(this.state.query) : 0;
+        let index = this.state.query && options.indexOf(this.state.query) > -1 ? options.indexOf(this.state.query) : 0
         this.setState({
           menuOpen: true,
           options,
@@ -511,21 +511,21 @@ export default class Autocomplete extends Component {
     } else if (this.props.selectElement) {
       this.props.source('', (options) => {
         this.setState({ menuOpen: true, options }, () => {
-          let index = this.state.query && this.state.options.indexOf(this.state.query) > -1 ? this.state.options.indexOf(this.state.query) : 0;
-          let openMenu = true;
+          let index = this.state.query && this.state.options.indexOf(this.state.query) > -1 ? this.state.options.indexOf(this.state.query) : 0
+          let openMenu = true
 
           if (!this.props.selectElement) {
-            index = -1;
-            openMenu = false;
+            index = -1
+            openMenu = false
           }
 
           this.setState({
             menuOpen: openMenu,
             focused: index,
             selected: index
-          });
-        });
-      });
+          })
+        })
+      })
     }
   }
 
@@ -557,7 +557,7 @@ export default class Autocomplete extends Component {
       case 'escape':
         this.handleComponentBlur({
           query: this.state.query
-        }, true);
+        }, true)
 
         break
       default:
@@ -639,7 +639,7 @@ export default class Autocomplete extends Component {
     }
 
     return (
-      <div className={wrapperClassName} onKeyDown={this.handleKeyDown} ref={(ref) => this.wrapperRef = ref}>
+      <div className={wrapperClassName} onKeyDown={this.handleKeyDown} ref={(ref) => { this.wrapperRef = ref }}>
         <Status
           id={id}
           length={options.length}

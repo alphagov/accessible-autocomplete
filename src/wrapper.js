@@ -34,9 +34,9 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
     if (requestedOption) { requestedOption.selected = true }
 
     // trigger change event on original select element
-    var event = document.createEvent('HTMLEvents');
-    event.initEvent('change', true, false);
-    configurationOptions.selectElement.dispatchEvent(event);
+    var event = document.createEvent('HTMLEvents')
+    event.initEvent('change', true, false)
+    configurationOptions.selectElement.dispatchEvent(event)
   })
 
   if (configurationOptions.selectElement.value || configurationOptions.defaultValue === undefined) {

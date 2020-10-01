@@ -3,17 +3,17 @@ import { createElement, render } from 'preact' /** @jsx createElement */
 import Autocomplete from '../../src/autocomplete'
 import Status from '../../src/status'
 
-const eventStub = function(extraOptions = {}) {
+const eventStub = function (extraOptions = {}) {
   const base = {
-    preventDefault: function() {
+    preventDefault: function () {
 
     },
-    stopPropagation: function() {
+    stopPropagation: function () {
 
     }
-  };
+  }
 
-  return Object.assign({}, base, extraOptions);
+  return Object.assign({}, base, extraOptions)
 }
 
 function suggest (query, syncResults) {
@@ -715,24 +715,24 @@ describe('Status', () => {
   })
 })
 
-describe("select enhancement", () => {
-  var scratch, autocomplete, select;
-  var options = ['France', 'Germany', 'United Kingdom'];
+describe('select enhancement', () => {
+  var scratch, autocomplete, select
+  var options = ['France', 'Germany', 'United Kingdom']
 
   beforeEach(() => {
-    scratch = document.createElement('div');
-    (document.body || document.documentElement).appendChild(scratch)
+    scratch = document.createElement('div')
+    let target = document.body ? document.body : document.documentElement
+    target.appendChild(scratch)
 
-    
-    select = document.createElement("select");
-    select.id = "test";
-    scratch.appendChild(select);
+    select = document.createElement('select')
+    select.id = 'test'
+    scratch.appendChild(select)
 
     for (var i = 0; i < options.length; i++) {
-      var option = document.createElement("option");
-      option.value = options[i];
-      option.text = options[i];
-      select.appendChild(option);
+      var option = document.createElement('option')
+      option.value = options[i]
+      option.text = options[i]
+      select.appendChild(option)
     }
 
     autocomplete = new Autocomplete({
@@ -746,35 +746,34 @@ describe("select enhancement", () => {
       selectElement: select
     })
 
-    autocomplete.setState = function(obj, fn) {
-      autocomplete.state = Object.assign({}, autocomplete.state, obj);
-      // this.render();
+    autocomplete.setState = function (obj, fn) {
+      autocomplete.state = Object.assign({}, autocomplete.state, obj)
       if (fn) {
-        fn();
+        fn()
       }
     }
   })
 
-  describe("handleOptionFocus", () => {
-    it("wraps around", done => {
+  describe('handleOptionFocus', () => {
+    it('wraps around', done => {
       autocomplete.setState({ menuOpen: true, options: [], focused: 0 })
-      autocomplete.handleOptionFocus(-1, true);
+      autocomplete.handleOptionFocus(-1, true)
 
-      expect(autocomplete.state.focused).to.equal(2);
+      expect(autocomplete.state.focused).to.equal(2)
 
-      autocomplete.handleOptionFocus(3, true);
+      autocomplete.handleOptionFocus(3, true)
 
-      expect(autocomplete.state.focused).to.equal(0);
+      expect(autocomplete.state.focused).to.equal(0)
 
-      done();
-    });
+      done()
+    })
   })
 
-  describe("clearSelection", () => {
-    it("resets the select programatically", done => {
-      autocomplete.setState({ menuOpen: true, options: [], focused: 2, hovered: 2, selected: 2, query: "United Kingdom" })
+  describe('clearSelection', () => {
+    it('resets the select programatically', done => {
+      autocomplete.setState({ menuOpen: true, options: [], focused: 2, hovered: 2, selected: 2, query: 'United Kingdom' })
 
-      autocomplete.clearSelection();
+      autocomplete.clearSelection()
 
       expect(autocomplete.state.menuOpen).to.equal(false)
       expect(autocomplete.state.focused).to.equal(null)
@@ -786,32 +785,31 @@ describe("select enhancement", () => {
       done()
     })
 
-    it("should trigger change event", done => {
-      var calls = 0;
+    it('should trigger change event', done => {
+      var calls = 0
 
-      select.addEventListener("change", function() {
-        calls++;
+      select.addEventListener('change', () => {
+        calls++
       })
 
-      autocomplete.setState({ menuOpen: true, options: [], focused: 2, hovered: 2, selected: 2, query: "United Kingdom" })
+      autocomplete.setState({ menuOpen: true, options: [], focused: 2, hovered: 2, selected: 2, query: 'United Kingdom' })
 
-      autocomplete.clearSelection();
+      autocomplete.clearSelection()
 
       setTimeout(() => {
-        expect(calls).to.equal(1);
-        done();
-      }, 1000);
+        expect(calls).to.equal(1)
+        done()
+      }, 1000)
     })
   })
 
-  describe("keys behaviour", () => {
-    describe("space", () => {
-      describe("With no previous selection", () => {
-        it("opens the dropdown and selects first option", done => {
+  describe('keys behaviour', () => {
+    describe('space', () => {
+      describe('With no previous selection', () => {
+        it('opens the dropdown and selects first option', done => {
           autocomplete.setState({ menuOpen: false, options: [], focused: -1 })
-          const stateBefore = autocomplete.state
           autocomplete.handleKeyDown(eventStub({ keyCode: 32 }))
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(0)
@@ -820,14 +818,13 @@ describe("select enhancement", () => {
         })
       })
 
-      describe("With a previous selection", () => {
-        it("opens the dropdown and shows the selection", done => {
-          autocomplete.setState({ menuOpen: false, query: "Germany", options: [], focused: -1 })
-          const stateBefore = autocomplete.state
+      describe('With a previous selection', () => {
+        it('opens the dropdown and shows the selection', done => {
+          autocomplete.setState({ menuOpen: false, query: 'Germany', options: [], focused: -1 })
           autocomplete.handleKeyDown(eventStub({ keyCode: 32 }))
-          
+
           expect(autocomplete.props.selectElement).to.equal(select)
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(1)
@@ -837,15 +834,12 @@ describe("select enhancement", () => {
       })
     })
 
-    describe("enter", () => {
-      describe("With no previous selection", () => {
-        it("opens the dropdown and selects first option", done => {
+    describe('enter', () => {
+      describe('With no previous selection', () => {
+        it('opens the dropdown and selects first option', done => {
           autocomplete.setState({ menuOpen: false, options: [], focused: -1 })
-          const stateBefore = autocomplete.state
           autocomplete.handleKeyDown(eventStub({ keyCode: 13 }))
-          
-          // expect(autocomplete.props.selectElement).to.equal(select)
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(0)
@@ -854,14 +848,13 @@ describe("select enhancement", () => {
         })
       })
 
-      describe("With a previous selection", () => {
-        it("opens the dropdown and shows the selection", done => {
-          autocomplete.setState({ menuOpen: false, query: "Germany", options: [], focused: -1 })
-          const stateBefore = autocomplete.state
+      describe('With a previous selection', () => {
+        it('opens the dropdown and shows the selection', done => {
+          autocomplete.setState({ menuOpen: false, query: 'Germany', options: [], focused: -1 })
           autocomplete.handleKeyDown(eventStub({ keyCode: 13 }))
-          
+
           expect(autocomplete.props.selectElement).to.equal(select)
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(1)
@@ -871,16 +864,16 @@ describe("select enhancement", () => {
       })
     })
 
-    describe("down arrow", () => {
-      describe("with no previous selection", () => {
-        it("opens the dropdown if it was closed", done => {
+    describe('down arrow', () => {
+      describe('with no previous selection', () => {
+        it('opens the dropdown if it was closed', done => {
           autocomplete.setState({ menuOpen: false, query: '', options: [], focused: -1 })
           const stateBefore = autocomplete.state
           autocomplete.handleKeyDown(eventStub({ keyCode: 40 }))
           expect(stateBefore.menuOpen).to.equal(false)
-          
+
           expect(autocomplete.props.selectElement).to.equal(select)
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(0)
@@ -889,14 +882,13 @@ describe("select enhancement", () => {
         })
       })
 
-      describe("with a previous selection", () => {
-        it("opens the dropdown and focuses on next option if not the last option", done => {
-          autocomplete.setState({ menuOpen: false, query: "Germany", options: [], focused: -1 })
-          const stateBefore = autocomplete.state
+      describe('with a previous selection', () => {
+        it('opens the dropdown and focuses on next option if not the last option', done => {
+          autocomplete.setState({ menuOpen: false, query: 'Germany', options: [], focused: -1 })
           autocomplete.handleKeyDown(eventStub({ keyCode: 40 }))
-          
+
           expect(autocomplete.props.selectElement).to.equal(select)
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(2)
@@ -904,13 +896,12 @@ describe("select enhancement", () => {
           done()
         })
 
-        it("opens the dropdown and focuses on first option if it'sthe last option", done => {
-          autocomplete.setState({ menuOpen: false, query: "United Kingdom", options: [], focused: -1 })
-          const stateBefore = autocomplete.state
+        it('opens the dropdown and focuses on first option if it\'s the last option', done => {
+          autocomplete.setState({ menuOpen: false, query: 'United Kingdom', options: [], focused: -1 })
           autocomplete.handleKeyDown(eventStub({ keyCode: 40 }))
-          
+
           expect(autocomplete.props.selectElement).to.equal(select)
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(0)
@@ -920,32 +911,31 @@ describe("select enhancement", () => {
       })
     })
 
-
-    describe("escape", () => {
-      it("calls forceUpdate in order to return focus to input", done => {
-        var calls = 0;
-        autocomplete.forceUpdate = function() {
-          calls++;
-        };
+    describe('escape', () => {
+      it('calls forceUpdate in order to return focus to input', done => {
+        var calls = 0
+        autocomplete.forceUpdate = () => {
+          calls++
+        }
 
         autocomplete.setState({ menuOpen: true, query: '', options: options, focused: 0 })
         autocomplete.handleKeyDown(eventStub({ keyCode: 27 }))
         expect(autocomplete.state.menuOpen).to.equal(false)
         expect(calls).to.equal(1)
-        done();
+        done()
       })
     })
 
-    describe("up arrow", () => {
-      describe("with no previous selection", () => {
-        it("opens the dropdown if it was closed", done => {
+    describe('up arrow', () => {
+      describe('with no previous selection', () => {
+        it('opens the dropdown if it was closed', done => {
           autocomplete.setState({ menuOpen: false, query: '', options: [], focused: -1 })
           const stateBefore = autocomplete.state
           autocomplete.handleKeyDown(eventStub({ keyCode: 38 }))
           expect(stateBefore.menuOpen).to.equal(false)
-          
+
           expect(autocomplete.props.selectElement).to.equal(select)
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(2)
@@ -954,14 +944,13 @@ describe("select enhancement", () => {
         })
       })
 
-      describe("with a previous selection", () => {
-        it("opens the dropdown and focuses on next option if not the first option", done => {
-          autocomplete.setState({ menuOpen: false, query: "Germany", options: [], focused: -1 })
-          const stateBefore = autocomplete.state
+      describe('with a previous selection', () => {
+        it('opens the dropdown and focuses on next option if not the first option', done => {
+          autocomplete.setState({ menuOpen: false, query: 'Germany', options: [], focused: -1 })
           autocomplete.handleKeyDown(eventStub({ keyCode: 38 }))
-          
+
           expect(autocomplete.props.selectElement).to.equal(select)
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(0)
@@ -969,13 +958,12 @@ describe("select enhancement", () => {
           done()
         })
 
-        it("opens the dropdown and focuses on first option if it's the first option", done => {
-          autocomplete.setState({ menuOpen: false, query: "France", options: [], focused: -1 })
-          const stateBefore = autocomplete.state
+        it('opens the dropdown and focuses on first option if it\'s the first option', done => {
+          autocomplete.setState({ menuOpen: false, query: 'France', options: [], focused: -1 })
           autocomplete.handleKeyDown(eventStub({ keyCode: 38 }))
-          
+
           expect(autocomplete.props.selectElement).to.equal(select)
-            
+
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.equal(options)
           expect(autocomplete.state.focused).to.equal(2)
@@ -986,10 +974,9 @@ describe("select enhancement", () => {
     })
   })
 
-  describe("click to open", () => {
-    it("displays all options and selects first option if there is no previous selection", done => {
+  describe('click to open', () => {
+    it('displays all options and selects first option if there is no previous selection', done => {
       autocomplete.setState({ menuOpen: false, options: [], focused: -1 })
-      const stateBefore = autocomplete.state
       autocomplete.handleInputClick(eventStub({}))
 
       expect(autocomplete.state.menuOpen).to.equal(true)
@@ -999,9 +986,8 @@ describe("select enhancement", () => {
       done()
     })
 
-    it("displays all options and selects the options for the previous selection", done => {
-      autocomplete.setState({ menuOpen: false, query: "Germany", options: [], focused: -1 })
-      const stateBefore = autocomplete.state
+    it('displays all options and selects the options for the previous selection', done => {
+      autocomplete.setState({ menuOpen: false, query: 'Germany', options: [], focused: -1 })
       autocomplete.handleInputClick(eventStub({}))
 
       expect(autocomplete.state.menuOpen).to.equal(true)
