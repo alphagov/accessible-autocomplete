@@ -435,7 +435,7 @@ export default class Autocomplete extends Component {
       const allowMoveUp = isNotAtTop && menuOpen
 
       if (allowMoveUp || this.props.selectElement) {
-        this.handleOptionFocus(selected - 1, true)
+        this.handleOptionFocus(selected - 1, this.props.autoselect)
       }
     }
   }
@@ -472,7 +472,7 @@ export default class Autocomplete extends Component {
       const { options, selected } = this.state
       const isNotAtBottom = selected !== options.length - 1
       if (isNotAtBottom || this.props.selectElement) {
-        this.handleOptionFocus(selected + 1, true)
+        this.handleOptionFocus(selected + 1, this.props.autoselect)
       }
     }
   }
