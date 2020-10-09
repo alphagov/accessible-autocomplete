@@ -15,5 +15,16 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
+jobs:
+  include:
+    - name: "Lint"
+      env: TEST_SUITE=standard
+    - name: "Functional tests (Puppeteer)"
+      env: TEST_SUITE=karma
+    - name: "Integration tests (SauceLabs)"
+      env: TEST_SUITE=wdio
+      if: type = pull_request OR branch = master
+script:
+  - npm run $TEST_SUITE
 after_success:
   - cat ./coverage/lcov/lcov.info | ./node_modules/coveralls/bin/coveralls.js
