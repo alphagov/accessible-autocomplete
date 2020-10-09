@@ -3,13 +3,12 @@ sudo: required
 dist: trusty
 before_install:
   - export DISPLAY=:99.0
+  - export CXX=g++-4.8
   - sh -e /etc/init.d/xvfb start
   - sudo apt-get update
   - sudo apt-get install -y libappindicator1 fonts-liberation
 before_script:
   - jdk_switcher use oraclejdk8
-env:
-  - CXX=g++-4.8
 addons:
   apt:
     sources:
