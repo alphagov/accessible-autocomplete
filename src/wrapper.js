@@ -23,6 +23,7 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
   if (configurationOptions.autoselect === undefined) configurationOptions.autoselect = true
   if (configurationOptions.showAllValues === undefined) configurationOptions.showAllValues = true
   if (configurationOptions.confirmOnBlur === undefined) configurationOptions.confirmOnBlur = true
+  if (configurationOptions.alwaysDisplayArrow === undefined) configurationOptions.alwaysDisplayArrow = true
 
   // Set defaults.
   if (!configurationOptions.source) {

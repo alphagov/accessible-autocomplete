@@ -196,8 +196,10 @@ export default class Autocomplete extends Component {
       newQuery = query
     }
 
+    const focusOnBlur = escape && this.props.selectElement ? -1 : null
+
     this.setState({
-      focused: null,
+      focused: focusOnBlur,
       menuOpen: newState.menuOpen || false,
       query: newQuery,
       selected: null,
@@ -224,6 +226,7 @@ export default class Autocomplete extends Component {
     const focusingInput = event.relatedTarget === this.elementReferences[-1]
     const focusingAnotherOption = focused !== index && focused !== -1
     const blurComponent = (!focusingAnotherOption && focusingOutsideComponent) || !(focusingAnotherOption || focusingInput)
+
     if (blurComponent) {
       const keepMenuOpen = menuOpen && isIosDevice()
 
@@ -237,7 +240,8 @@ export default class Autocomplete extends Component {
   handleInputBlur (event) {
     const { focused, menuOpen, options, query, selected } = this.state
     const focusingAnOption = focused !== -1
-    if (!focusingAnOption) {
+
+    if (!focusingAnOption || !event.relatedTarget.matches('li.autocomplete__option')) {
       const keepMenuOpen = menuOpen && isIosDevice()
       const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
 
@@ -290,6 +294,7 @@ export default class Autocomplete extends Component {
             this.setState({
               menuOpen: optionsAvailable,
               options,
+              focused: this.props.selectElement ? (optionsAvailable ? 0 : -1) : this.state.focused,
               selected: (autoselect && optionsAvailable) ? 0 : -1,
               validChoiceMade: false
             })
@@ -317,6 +322,10 @@ export default class Autocomplete extends Component {
           hovered: null
         })
       })
+    } else if (this.props.selectElement) {
+      this.handleComponentBlur({
+        menuOpen: false
+      }, true)
     } else {
       this.handleInputChange(event)
     }
@@ -329,7 +338,7 @@ export default class Autocomplete extends Component {
 
     const { query, validChoiceMade, options } = this.state
     const { minLength } = this.props
-    const shouldReopenMenu = !validChoiceMade && query.length >= minLength && options.length > 0
+    const shouldReopenMenu = query && !validChoiceMade && query.length >= minLength && options.length > 0
 
     if (shouldReopenMenu) {
       this.setState(({ menuOpen }) => ({ focused: -1, menuOpen: shouldReopenMenu || menuOpen, selected: -1 }))
@@ -338,16 +347,28 @@ export default class Autocomplete extends Component {
     }
   }
 
+  wrapAround (index) {
+    const { options, query } = this.state
+    const { minLength, selectElement } = this.props
+    const selectOptions = selectElement.options
+    const queryLength = query ? query.trim().length : 0
+    const length = queryLength > minLength ? options.length : selectOptions.length
+
+    if (index < 0) {
+      return length - 1
+    } else if (index >= length) {
+      return 0
+    }
+
+    return index
+  }
+
   handleOptionFocus (index, select) {
     // if we're replacing a select element, then we need
     // to allow the user to wrap around the options when pressing
     // up/down arrows
     if (this.props.selectElement) {
-      if (index < 0) {
-        index = this.props.selectElement.options.length - 1
-      } else if (index >= this.props.selectElement.options.length) {
-        index = 0
-      }
+      index = this.wrapAround(index)
     }
 
     this.setState({
