@@ -222,7 +222,7 @@ export default class Autocomplete extends Component {
       ariaHint: queryEmpty
     })
 
-    const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
+    const searchForOptions = showAllValues || (queryChanged && queryLongEnough)
     if (searchForOptions) {
       source(query, (options) => {
         const optionsAvailable = options.length > 0
@@ -232,11 +232,6 @@ export default class Autocomplete extends Component {
           selected: (autoselect && optionsAvailable) ? 0 : -1,
           validChoiceMade: false
         })
-      })
-    } else if (queryEmpty || !queryLongEnough) {
-      this.setState({
-        menuOpen: false,
-        options: []
       })
     }
   }
