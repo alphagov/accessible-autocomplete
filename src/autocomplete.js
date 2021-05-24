@@ -233,6 +233,16 @@ export default class Autocomplete extends Component {
           validChoiceMade: false
         })
       })
+    } else {
+      source('', (options) => {
+        const optionsAvailable = options.length > 0
+        this.setState({
+          menuOpen: optionsAvailable,
+          options,
+          selected: (autoselect && optionsAvailable) ? 0 : -1,
+          validChoiceMade: false
+        })
+      })
     }
   }
 
