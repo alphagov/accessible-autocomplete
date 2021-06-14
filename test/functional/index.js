@@ -183,6 +183,12 @@ describe('Autocomplete', () => {
         expect(autocomplete.state.menuOpen).to.equal(false)
       })
 
+      it('searches with the new term when query length changes', () => {
+        autocomplete.setState({ query: 'fr', options: ['France'] })
+        autocomplete.handleInputChange({ target: { value: 'fb' } })
+        expect(autocomplete.state.options.length).to.equal(0)
+      })
+
       it('removes the aria-describedby attribute when query is non empty', () => {
         expect(autocomplete.state.ariaHint).to.equal(true)
         autocomplete.handleInputChange({ target: { value: 'a' } })

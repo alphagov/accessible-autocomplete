@@ -214,7 +214,7 @@ export default class Autocomplete extends Component {
     const autoselect = this.hasAutoselect()
     const query = event.target.value
     const queryEmpty = query.length === 0
-    const queryChanged = this.state.query.length !== query.length
+    const queryChanged = this.state.query !== query
     const queryLongEnough = query.length >= minLength
 
     this.setState({
