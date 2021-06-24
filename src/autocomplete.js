@@ -233,7 +233,9 @@ export default class Autocomplete extends Component {
           validChoiceMade: false
         })
       })
-    } else {
+    }
+
+    if (!queryLongEnough) {
       source('', (options) => {
         const optionsAvailable = options.length > 0
         this.setState({
