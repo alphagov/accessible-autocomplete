@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Adds the ariaLabelledBy property, addressing [an issue reported by AXE tests](https://github.com/alphagov/accessible-autocomplete/issues/361)
+
 ## 2.0.3 - 2020-07-01
 
 ### Fixes

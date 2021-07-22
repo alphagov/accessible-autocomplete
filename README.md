@@ -177,6 +177,12 @@ function suggest (query, populateResults) {
 
 ### Other options
 
+#### `ariaLabelledBy` (default: `undefined`)
+
+Type: `string`
+
+Set to the value of the `id` attribute on your existing label. When the user navigates to the results the label is the accessible name, satisfying [WCAG Success Criterion 4.1.2](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html), and provides context to an assistive technology user.
+
 #### `autoselect` (default: `false`)
 
 Type: `Boolean`
