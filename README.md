@@ -9,7 +9,6 @@ You can still raise issues or pull requests if you want to. As soon as we’re a
 ---
 
 [![npm version](https://img.shields.io/npm/v/accessible-autocomplete.svg)](http://npm.im/accessible-autocomplete)
-[![Build Status](https://travis-ci.com/alphagov/accessible-autocomplete.svg?branch=master)](https://travis-ci.com/alphagov/accessible-autocomplete)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![gzip size](http://img.badgesize.io/https://unpkg.com/accessible-autocomplete/dist/accessible-autocomplete.min.js?compression=gzip)](https://unpkg.com/accessible-autocomplete/dist/accessible-autocomplete.min.js)
 
