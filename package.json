@@ -86,7 +86,7 @@
     "webdriverio": "^7.16.13",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.1.11"
+    "webpack-dev-server": "^3.11.3"
   },
   "browserslist": [
     ">0.1%",
