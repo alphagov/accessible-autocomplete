@@ -85,7 +85,7 @@
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webdriverio": "^7.16.13",
     "webpack": "^4.46.0",
-    "webpack-cli": "^3.1.2",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.1.11"
   },
   "browserslist": [
