@@ -3,5 +3,3 @@ sudo: required
 dist: xenial
 services:
   - xvfb
-after_success:
-  - cat ./coverage/lcov/lcov.info | ./node_modules/coveralls/bin/coveralls.js
