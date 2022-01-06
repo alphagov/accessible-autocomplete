@@ -14,7 +14,7 @@ const services = [
 const sauceEnabled = process.env.SAUCE_ENABLED === 'true'
 const sauceUser = process.env.SAUCE_USERNAME
 const sauceKey = process.env.SAUCE_ACCESS_KEY
-const buildNumber = process.env.TRAVIS_BUILD_NUMBER
+const buildNumber = process.env.SAUCE_BUILD_NUMBER
 const sauceConfig = sauceEnabled
   ? {
     user: sauceUser,
