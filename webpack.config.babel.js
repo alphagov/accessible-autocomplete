@@ -65,14 +65,15 @@ const config = {
   devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
 
   devServer: {
+    devMiddleware: {
+      publicPath: '/dist/'
+    },
+    static: 'examples',
     port: process.env.PORT || 8080,
     host: '0.0.0.0',
-    publicPath: '/dist/',
-    contentBase: './examples',
     historyApiFallback: true,
     open: true,
-    watchContentBase: true,
-    disableHostCheck: true
+    allowedHosts: 'all'
   }
 }
 
