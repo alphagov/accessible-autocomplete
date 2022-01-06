@@ -11,15 +11,7 @@ module.exports = function (config) {
   config.set({
     basePath: '../',
     frameworks: ['mocha', 'chai-sinon'],
-    reporters: ['mocha', 'coverage'],
-    coverageReporter: {
-      dir: 'coverage',
-      reporters: [
-        { type: 'text-summary' },
-        { type: 'html', subdir: 'html' },
-        { type: 'lcov', subdir: 'lcov' }
-      ]
-    },
+    reporters: ['mocha'],
 
     browsers: ['ChromeHeadless'],
 
