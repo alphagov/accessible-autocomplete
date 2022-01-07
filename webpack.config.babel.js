@@ -21,6 +21,7 @@ const config = {
   optimization: {
     minimize: ENV === 'production',
     minimizer: [new TerserPlugin({
+      minify: TerserPlugin.uglifyJsMinify,
       parallel: true,
       terserOptions: {
         compress: {
