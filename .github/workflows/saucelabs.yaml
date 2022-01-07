@@ -1,0 +1,50 @@
+name: Integration tests
+
+# Our Sauce Labs account only allows 5 tests to run at a time.
+concurrency: saucelabs
+
+# Run for pull requests, or after changes to main branch, but not for any old
+# branch, to limit number of workflows contending for Sauce Labs access.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+# Only use Sauce Labs if PR was not raised from a fork.
+# If SAUCE_ENABLED is not `true`, the tests will still run,
+# but using a local headless browser instance instead.
+env:
+  SAUCE_ENABLED: "${{ secrets.SAUCE_USERNAME != null }}"
+
+
+jobs:
+  test-saucelabs:
+    name: Build & test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Read node version from .nvmrc
+        id: nvm
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+
+      - name: "Setup Node v${{ steps.nvm.outputs.NVMRC }}"
+        uses: actions/setup-node@v2
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: "Run integration tests ${{ env.SAUCE_ENABLED == 'true' && '(using Sauce Labs)' || '(using local headless browser)' }}"
+        run: npm run wdio:test
+        env:
+          SAUCE_BUILD_NUMBER: "${{ github.run_id }}"
+          SAUCE_USERNAME: "${{ secrets.SAUCE_USERNAME }}"
+          SAUCE_ACCESS_KEY: "${{ secrets.SAUCE_ACCESS_KEY }}"

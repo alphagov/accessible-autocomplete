@@ -35,7 +35,6 @@ brew cask install java
 
 ```
 $ ls
-coverage/    # Gets outputted by the tests, `open html/src/index.html` to see latest coverage reports.
 dist/        # The compiled and ready to distribute build artefacts.
 screenshots/ # Gets outputted by the end to end tests when something goes wrong.
 examples/    # GitHub pages examples of using the autocomplete.
