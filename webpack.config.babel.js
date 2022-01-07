@@ -12,9 +12,9 @@ const plugins = [
 ]
 
 const developmentPlugins = [
-  new CopyWebpackPlugin([
+  new CopyWebpackPlugin({ patterns: [
     { from: './autocomplete.css', to: 'accessible-autocomplete.min.css' }
-  ])
+  ] })
 ]
 
 const config = {
