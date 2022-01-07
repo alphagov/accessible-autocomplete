@@ -113,6 +113,16 @@
   outline: none;
 }
 
+@media (-ms-high-contrast: active), (forced-colors: active) {
+  .autocomplete__option--focused,
+  .autocomplete__option:hover {
+    forced-color-adjust: none; /* prevent backplate from obscuring text */
+    background-color: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+}
+
 .autocomplete__option--no-results {
   background-color: #FAFAFA;
   color: #646b6f;
