@@ -10,9 +10,9 @@ const developmentPlugins = [
   // Using `copy-webpack-plugin` is the easiest way to do this; note that when
   // used with webpack-dev-server no files are actually made, the copy just
   // happens in memory.
-  new CopyWebpackPlugin([
+  new CopyWebpackPlugin({ patterns: [
     { from: './autocomplete.css', to: 'accessible-autocomplete.min.css' }
-  ])
+  ] })
 ]
 
 const config = {
