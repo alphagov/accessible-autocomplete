@@ -1,7 +1,7 @@
 import webpack from 'webpack'
 import path from 'path'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
 const developmentPlugins = [
@@ -20,11 +20,9 @@ const config = {
 
   optimization: {
     minimize: ENV === 'production',
-    minimizer: [new UglifyJsPlugin({
-      cache: true,
+    minimizer: [new TerserPlugin({
       parallel: true,
-      sourceMap: true,
-      uglifyOptions: {
+      terserOptions: {
         compress: {
           negate_iife: false,
           properties: false,
