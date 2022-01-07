@@ -40,7 +40,7 @@ The focus state [now meets the new WCAG 2.1 level AA requirements](https://desig
 
 You do not need to do anything if you’re using Sass.
 
-If you’ve previously copied CSS from our code into your project, you must copy all the CSS from our [`accessible-autocomplete.min.css` file](https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css) into your CSS file.
+If you’ve previously copied CSS from our code into your project, you must copy all the CSS from our [`accessible-autocomplete.min.css` file](https://github.com/alphagov/accessible-autocomplete/blob/v2.0.0/dist/accessible-autocomplete.min.css) into your CSS file.
 
 If you’ve created custom CSS, you should check that your component meets WCAG 2.1 level AA requirements. You can [read how we made the GOV.UK Design System focus states accessible](https://design-system.service.gov.uk/get-started/focus-states/).
 

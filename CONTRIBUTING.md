@@ -149,7 +149,7 @@ Create a pull request for the release.
 To actually publish, you will need access to an `npm` account that owns `accessible-autocomplete`. Merge the version PR and then run:
 
 ```bash
-git checkout master
+git checkout main
 git pull --rebase
 npm publish
 ```
