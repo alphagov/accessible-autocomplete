@@ -1,13 +1,26 @@
-name: Integration tests (via Sauce Labs)
+name: Integration tests
 
-# Our Sauce Labs account only allows 5 tests to run at a time
+# Our Sauce Labs account only allows 5 tests to run at a time.
 concurrency: saucelabs
 
-on: [pull_request]
+# Run for pull requests, or after changes to main branch, but not for any old
+# branch, to limit number of workflows contending for Sauce Labs access.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+# Only use Sauce Labs if PR was not raised from a fork.
+# If SAUCE_ENABLED is not `true`, the tests will still run,
+# but using a local headless browser instance instead.
+env:
+  SAUCE_ENABLED: "${{ secrets.SAUCE_USERNAME != null }}"
+
 
 jobs:
   test-saucelabs:
-    name: Test
+    name: Build & test
     runs-on: ubuntu-latest
 
     steps:
@@ -29,11 +42,9 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run integration tests
+      - name: "Run integration tests ${{ env.SAUCE_ENABLED == 'true' && '(using Sauce Labs)' || '(using local headless browser)' }}"
+        run: npm run wdio:test
         env:
-          SAUCE_ENABLED: true
           SAUCE_BUILD_NUMBER: "${{ github.run_id }}"
           SAUCE_USERNAME: "${{ secrets.SAUCE_USERNAME }}"
           SAUCE_ACCESS_KEY: "${{ secrets.SAUCE_ACCESS_KEY }}"
-        run: |
-          npm run wdio:test
