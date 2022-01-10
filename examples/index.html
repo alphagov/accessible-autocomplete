@@ -59,7 +59,7 @@
 
       <h3><code>{ element, id, source }</code></h3>
       <p>This illustrates usage with only the required arguments.</p>
-      <label for="autocomplete-default">Select your country</label>
+      <label for="autocomplete-default">Country</label>
       <div id="tt-default" class="autocomplete-wrapper"></div>
 
       <h3><code>{ minLength: 2 }</code></h3>
@@ -67,22 +67,22 @@
         This option will prevent displaying suggestions if less than 2 characters are
         typed in.
       </p>
-      <label for="autocomplete-minLength">Select your country</label>
+      <label for="autocomplete-minLength">Country</label>
       <div id="tt-minLength" class="autocomplete-wrapper"></div>
 
       <h3><code>{ displayMenu: 'overlay' }</code></h3>
       <p>This option will display the menu as an absolutely positioned overlay.</p>
-      <label for="autocomplete-overlay">Select your country</label>
+      <label for="autocomplete-overlay">Country</label>
       <div id="tt-overlay" class="autocomplete-wrapper"></div>
 
       <h3><code>{ autoselect: true }</code></h3>
       <p>This option will automatically select the first suggestion.</p>
-      <label for="autocomplete-autoselect">Select your country</label>
+      <label for="autocomplete-autoselect">Country</label>
       <div id="tt-autoselect" class="autocomplete-wrapper"></div>
 
       <h3><code>{ defaultValue: 'Germany' }</code></h3>
       <p>This option will prefill the input with a value.</p>
-      <label for="autocomplete-defaultValue">Select your country</label>
+      <label for="autocomplete-defaultValue">Country</label>
       <div id="tt-defaultValue" class="autocomplete-wrapper"></div>
 
       <h3><code>{ confirmOnBlur: false }</code></h3>
@@ -91,17 +91,17 @@
         examples, if you select an option using the arrow keys and then click out, it will
         confirm the selection.
       </p>
-      <label for="autocomplete-confirmOnBlur">Select your country</label>
+      <label for="autocomplete-confirmOnBlur">Country</label>
       <div id="tt-confirmOnBlur" class="autocomplete-wrapper"></div>
 
       <h3><code>{ placeholder: 'Search for a country' }</code></h3>
       <p>This option will populate the placeholder attribute on the input element.</p>
-      <label for="autocomplete-placeholder">Select your country</label>
+      <label for="autocomplete-placeholder">Country</label>
       <div id="tt-placeholder" class="autocomplete-wrapper"></div>
 
       <h3><code>{ showNoOptionsFound: false }</code></h3>
       <p>This option will toggle displaying the "No results found" message.</p>
-      <label for="autocomplete-showNoOptionsFound">Select your country</label>
+      <label for="autocomplete-showNoOptionsFound">Country</label>
       <div id="tt-showNoOptionsFound" class="autocomplete-wrapper"></div>
 
       <h3><code>{ showAllValues: true }</code></h3>
@@ -109,7 +109,7 @@
         This option will toggle showing all values when the input is clicked, like a
         default dropdown.
       </p>
-      <label for="autocomplete-showAllValues">Select your country</label>
+      <label for="autocomplete-showAllValues">Country</label>
       <div id="tt-showAllValues" class="autocomplete-wrapper"></div>
 
       <h3><code>{ showAllValues: true, dropdownArrow: () => '' }</code></h3>
@@ -118,7 +118,7 @@
         will be displayed. It can be customized using a function that receives a
         `{ className: string }` object and returns a string or (P)React component.
       </p>
-      <label for="autocomplete-customDropdownArrow">Select your country</label>
+      <label for="autocomplete-customDropdownArrow">Country</label>
       <div id="tt-customDropdownArrow" class="autocomplete-wrapper"></div>
 
       <h2>Advanced features</h2>
@@ -129,7 +129,7 @@
         into a autocomplete. Turn off JavaScript to see the <code>&lt;select&gt;</code> element.
       </p>
       <p>Uses <code>accessibleAutocomplete.enhanceSelectElement</code>.</p>
-      <label for="autocomplete-progressiveEnhancement">Select your country</label>
+      <label for="autocomplete-progressiveEnhancement">Country</label>
       <div class="autocomplete-wrapper">
         <select id="autocomplete-progressiveEnhancement">
           <option value="fr">France</option>
@@ -140,13 +140,15 @@
 
       <h3>Custom results</h3>
       <p>
-        This example demonstrates how to allow users to search for a country by either
-        its english name or its endonym. The suggestions are user-defined objects and
-        they are displayed using a user-defined template. Confirming a suggestion will
-        populate the input with the english country name.
+        <p>This example demonstrates how to allow users to search for a country by either:</p>
+        <ul>
+            <li>its English name</li>
+            <li>the name by which a group of people refer to their country</li>
+        </ul>
+        <p>The suggestions are user-defined objects and they are displayed using a user-defined template. Confirming a suggestion will populate the input with the English country name.</p>
       </p>
       <p>Uses the <code>{ templates: { inputValue, suggestion } }</code> options.</p>
-      <label for="autocomplete-customTemplates">Select your country</label>
+      <label for="autocomplete-customTemplates">Country</label>
       <div id="tt-customTemplates" class="autocomplete-wrapper"></div>
 
       <h3>Translating texts</h3>
@@ -157,7 +159,7 @@
         tStatusNoResults: () => '',
         tStatusSelectedOption: (selectedOption, length) => '',
         tStatusResults: () => '' }</code> options.</p>
-      <label for="autocomplete-i18n">Select your country</label>
+      <label for="autocomplete-i18n">Country</label>
       <div id="tt-i18n" class="autocomplete-wrapper"></div>
     </main>
 
