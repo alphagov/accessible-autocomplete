@@ -18,7 +18,7 @@ You can still raise issues or pull requests if you want to. As soon as we’re a
 
 - **Accessibility**: Following WAI-ARIA best practices and testing with assistive technologies.
 - **User experience**: Supporting a wide variety of user needs.
-- **Compatibility**: Working with as many browsers, devices, and assistive technologies as possible.
+- **Compatibility**: Working with [recommended browsers](https://www.gov.uk/service-manual/technology/designing-for-different-browsers-and-devices#browsers-to-test-in) and [assistive technologies](https://www.gov.uk/service-manual/technology/testing-with-assistive-technologies#which-assistive-technologies-to-test-with).
 
 [Try out the examples!](https://alphagov.github.io/accessible-autocomplete/examples/)
 
