@@ -270,7 +270,7 @@ This object defines templates (functions) that are used for displaying parts of 
 
 `suggestion` is a function that receives one argument, a suggestion to be displayed. It is used when rendering suggestions, and should return a string, which can contain HTML. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
 
-#### `dropdownArrow` (default: A rectangle pointing down)
+#### `dropdownArrow` (default: A triangle pointing down)
 
 Type: `Function`
 
