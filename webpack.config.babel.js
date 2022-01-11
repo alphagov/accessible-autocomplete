@@ -105,6 +105,7 @@ const config = {
 
 const bundleStandalone = {
   ...config,
+  name: 'standalone',
   entry: {
     'accessible-autocomplete.min': './wrapper.js'
   },
@@ -128,6 +129,7 @@ const bundleStandalone = {
 
 const bundlePreact = {
   ...config,
+  name: 'preact',
   entry: {
     'lib/accessible-autocomplete.preact.min': './autocomplete.js'
   },
@@ -158,6 +160,7 @@ const bundlePreact = {
 
 const bundleReact = {
   ...config,
+  name: 'react',
   entry: {
     'lib/accessible-autocomplete.react.min': './autocomplete.js'
   },
