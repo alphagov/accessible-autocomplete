@@ -175,11 +175,11 @@ function suggest (query, populateResults) {
 
 ### Other options
 
-#### `autoselect` (default: `false`)
+#### `autoselect` (default: `true`)
 
 Type: `Boolean`
 
-Set to true to highlight the first option when the user types in something and receives results. Pressing enter will select it.
+Leave set to `true` to highlight the first option when the user types in something and receives results. Pressing enter will select it.
 
 #### `confirmOnBlur` (default: `true`)
 
