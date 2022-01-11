@@ -4,14 +4,12 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
-const plugins = [
-  new webpack.NoEmitOnErrorsPlugin(),
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(ENV)
-  })
-]
-
 const developmentPlugins = [
+  // When using webpack-dev-server we want to be able to access
+  // `src/accessible-autocomplete.css` at `dist/accessible-autocomplete.min.css`.
+  // Using `copy-webpack-plugin` is the easiest way to do this; note that when
+  // used with webpack-dev-server no files are actually made, the copy just
+  // happens in memory.
   new CopyWebpackPlugin([
     { from: './autocomplete.css', to: 'accessible-autocomplete.min.css' }
   ])
@@ -40,25 +38,12 @@ const config = {
           ie8: true
         }
       }
-    })]
-  },
-
-  resolve: {
-    extensions: ['.js'],
-    modules: [
-      path.resolve(__dirname, 'node_modules'),
-      'node_modules'
-    ]
+    })],
+    noEmitOnErrors: true
   },
 
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        include: path.resolve(__dirname, 'src'),
-        enforce: 'pre',
-        loader: 'source-map-loader'
-      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -66,8 +51,6 @@ const config = {
       }
     ]
   },
-
-  stats: { colors: true },
 
   node: {
     global: true,
@@ -82,20 +65,10 @@ const config = {
   devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
 
   devServer: {
-    setup (app) {
-      // Grab potential subdirectory with :dir*?
-      app.get('/dist/:dir*?/:filename', (request, response) => {
-        if (!request.params.dir || request.params.dir === undefined) {
-          response.redirect('/' + request.params.filename)
-        } else {
-          response.redirect('/' + request.params.dir + '/' + request.params.filename)
-        }
-      })
-    },
     port: process.env.PORT || 8080,
     host: '0.0.0.0',
     publicPath: '/dist/',
-    contentBase: ['./examples', './src'],
+    contentBase: './examples',
     historyApiFallback: true,
     open: true,
     watchContentBase: true,
@@ -106,21 +79,19 @@ const config = {
 const bundleStandalone = {
   ...config,
   name: 'standalone',
-  entry: {
-    'accessible-autocomplete.min': './wrapper.js'
-  },
+  entry: './wrapper.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: '[name].js',
+    filename: 'accessible-autocomplete.min.js',
     library: 'accessibleAutocomplete',
     libraryExport: 'default',
     libraryTarget: 'umd'
   },
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
+  plugins: [
+    new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"PREACT"'
-    })])
+    })
+  ]
     .concat(ENV === 'development'
       ? developmentPlugins
       : []
@@ -130,13 +101,10 @@ const bundleStandalone = {
 const bundlePreact = {
   ...config,
   name: 'preact',
-  entry: {
-    'lib/accessible-autocomplete.preact.min': './autocomplete.js'
-  },
+  entry: './autocomplete.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist', 'lib'),
+    filename: 'accessible-autocomplete.preact.min.js',
     library: 'Autocomplete',
     libraryTarget: 'umd'
   },
@@ -148,10 +116,11 @@ const bundlePreact = {
       root: 'preact'
     }
   },
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
+  plugins: [
+    new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"PREACT"'
-    })])
+    })
+  ]
     .concat(ENV === 'development'
       ? developmentPlugins
       : []
@@ -161,18 +130,18 @@ const bundlePreact = {
 const bundleReact = {
   ...config,
   name: 'react',
-  entry: {
-    'lib/accessible-autocomplete.react.min': './autocomplete.js'
-  },
+  entry: './autocomplete.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist', 'lib'),
+    filename: 'accessible-autocomplete.react.min.js',
     library: 'Autocomplete',
     libraryTarget: 'umd',
     globalObject: 'this'
   },
   externals: {
+    // This is not a typo! We call the external `preact` even though we are
+    // using `react`, so that in the source file we can write `import 'preact'`
+    // and have it return either module as appropriate.
     preact: {
       amd: 'react',
       commonjs: 'react',
@@ -180,10 +149,11 @@ const bundleReact = {
       root: 'React'
     }
   },
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
+  plugins: [
+    new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"REACT"'
-    })])
+    })
+  ]
     .concat(ENV === 'development'
       ? developmentPlugins
       : []
