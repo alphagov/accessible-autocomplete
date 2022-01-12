@@ -1,12 +1,8 @@
 # Accessible autocomplete
 
----
+The accessible autocomplete is a component that helps users choose answers from a list you provide. You can also use it to make the answers you get from users more consistent.
 
-**We cannot currently respond to issues or pull requests.**
-
-You can still raise issues or pull requests if you want to. As soon as we’re able to, we will prioritise dealing with any bugs that have been raised by people in the UK public sector. We cannot prioritise adding new features.
-
----
+If you're asking users to provide their country or territory, the [govuk-country-and-territory-autocomplete](https://github.com/alphagov/govuk-country-and-territory-autocomplete/blob/main/README.md) might be more appropriate.
 
 [![npm version](https://img.shields.io/npm/v/accessible-autocomplete.svg)](http://npm.im/accessible-autocomplete)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -21,6 +17,18 @@ You can still raise issues or pull requests if you want to. As soon as we’re a
 - **Compatibility**: Working with [recommended browsers](https://www.gov.uk/service-manual/technology/designing-for-different-browsers-and-devices#browsers-to-test-in) and [assistive technologies](https://www.gov.uk/service-manual/technology/testing-with-assistive-technologies#which-assistive-technologies-to-test-with).
 
 [Try out the examples!](https://alphagov.github.io/accessible-autocomplete/examples/)
+
+---
+
+## Support
+
+The GOV.UK Design System team maintains the accessible autocomplete as a standalone component. However, we’re only able to put in minimal work to support it.
+
+[Read about our plans to maintain this component](https://github.com/alphagov/accessible-autocomplete/issues/532).
+
+[Read more about the types of support we can provide](https://github.com/alphagov/accessible-autocomplete/issues/430).
+
+---
 
 ## Installation / usage
 
@@ -391,7 +399,7 @@ accessibleAutocomplete.enhanceSelectElement({
 })
 ```
 
-Any null options will also be filtered out of the options used to populate the `source` of the autocomplete element. To preserve options with no value in the autcomplete then pass a `preserveNullOptions` flag of `true` to `enhanceSelectElement`.
+Any null options will also be filtered out of the options used to populate the `source` of the autocomplete element. To preserve options with no value in the autocomplete, then pass a `preserveNullOptions` flag of `true` to `enhanceSelectElement`.
 
 ## Analytics and tracking
 
