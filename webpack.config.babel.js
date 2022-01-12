@@ -82,6 +82,7 @@ const bundleStandalone = {
   entry: './wrapper.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: ENV == "production" ? "/" : undefined,
     filename: 'accessible-autocomplete.min.js',
     library: 'accessibleAutocomplete',
     libraryExport: 'default',
@@ -103,8 +104,9 @@ const bundlePreact = {
   name: 'preact',
   entry: './autocomplete.js',
   output: {
-    path: path.resolve(__dirname, 'dist', 'lib'),
-    filename: 'accessible-autocomplete.preact.min.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: ENV == "production" ? "/" : undefined,
+    filename: 'lib/accessible-autocomplete.preact.min.js',
     library: 'Autocomplete',
     libraryTarget: 'umd'
   },
@@ -132,8 +134,9 @@ const bundleReact = {
   name: 'react',
   entry: './autocomplete.js',
   output: {
-    path: path.resolve(__dirname, 'dist', 'lib'),
-    filename: 'accessible-autocomplete.react.min.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: ENV == "production" ? "/" : undefined,
+    filename: 'lib/accessible-autocomplete.react.min.js',
     library: 'Autocomplete',
     libraryTarget: 'umd',
     globalObject: 'this'
