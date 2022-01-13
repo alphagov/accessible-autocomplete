@@ -57,7 +57,7 @@
     "@wdio/static-server-service": "^7.16.13",
     "@wdio/sync": "^7.16.13",
     "babel-eslint": "^10.0.1",
-    "babel-loader": "^8.0.4",
+    "babel-loader": "^8.2.3",
     "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
     "chalk": "^2.4.1",
