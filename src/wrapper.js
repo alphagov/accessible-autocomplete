@@ -8,7 +8,7 @@ function accessibleAutocomplete (options) {
   if (Array.isArray(options.source)) {
     options.source = createSimpleEngine(options.source)
   }
-  render(<Autocomplete {...options} />, options.element)
+  return render(<Autocomplete {...options} />, options.element)
 }
 
 const createSimpleEngine = (values) => (query, syncResults) => {
@@ -19,6 +19,12 @@ const createSimpleEngine = (values) => (query, syncResults) => {
 accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
   if (!configurationOptions.selectElement) { throw new Error('selectElement is not defined') }
 
+  if (configurationOptions.preserveNullOptions === undefined) configurationOptions.preserveNullOptions = true
+  if (configurationOptions.autoselect === undefined) configurationOptions.autoselect = true
+  if (configurationOptions.showAllValues === undefined) configurationOptions.showAllValues = true
+  if (configurationOptions.confirmOnBlur === undefined) configurationOptions.confirmOnBlur = true
+  if (configurationOptions.alwaysDisplayArrow === undefined) configurationOptions.alwaysDisplayArrow = true
+
   // Set defaults.
   if (!configurationOptions.source) {
     let availableOptions = [].filter.call(configurationOptions.selectElement.options, option => (option.value || configurationOptions.preserveNullOptions))
@@ -27,6 +33,11 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
   configurationOptions.onConfirm = configurationOptions.onConfirm || (query => {
     const requestedOption = [].filter.call(configurationOptions.selectElement.options, option => (option.textContent || option.innerText) === query)[0]
     if (requestedOption) { requestedOption.selected = true }
+
+    // trigger change event on original select element
+    var event = document.createEvent('HTMLEvents')
+    event.initEvent('change', true, false)
+    configurationOptions.selectElement.dispatchEvent(event)
   })
 
   if (configurationOptions.selectElement.value || configurationOptions.defaultValue === undefined) {
@@ -42,7 +53,6 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
       configurationOptions.id = configurationOptions.selectElement.id
     }
   }
-  if (configurationOptions.autoselect === undefined) configurationOptions.autoselect = true
 
   const element = document.createElement('div')
 

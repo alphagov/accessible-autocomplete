@@ -169,7 +169,8 @@ describe('Wrapper', () => {
     const select = injectSelectToEnhanceIntoDOM(scratch)
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: select
+      selectElement: select,
+      preserveNullOptions: false
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
@@ -186,11 +187,10 @@ describe('Wrapper', () => {
     }, 250)
   })
 
-  it('includes "null" options in autocomplete if `preserveNullOptions` flag is true', (done) => {
+  it('includes "null" options in autocomplete if `preserveNullOptions` flag is true or undefined', (done) => {
     const select = injectSelectToEnhanceIntoDOM(scratch)
 
     accessibleAutocomplete.enhanceSelectElement({
-      preserveNullOptions: true,
       selectElement: select
     })
 
@@ -242,7 +242,8 @@ describe('Wrapper', () => {
     const select = injectSelectToEnhanceIntoDOM(scratch)
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: select
+      selectElement: select,
+      preserveNullOptions: false
     })
 
     const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')

@@ -128,14 +128,36 @@
         This example demonstrates how to turn a server-rendered <code>&lt;select&gt;</code> element
         into a autocomplete. Turn off JavaScript to see the <code>&lt;select&gt;</code> element.
       </p>
+      <p>
+        It should have sensible defaults and keyboard interactions that mimic the browser native select.
+      </p>
       <p>Uses <code>accessibleAutocomplete.enhanceSelectElement</code>.</p>
       <label for="autocomplete-progressiveEnhancement">Country</label>
       <div class="autocomplete-wrapper">
         <select id="autocomplete-progressiveEnhancement">
+          <option value="">Please select a country</option>
           <option value="fr">France</option>
           <option value="de">Germany</option>
           <option value="gb" selected>United Kingdom</option>
         </select>
+      </div>
+
+      <h3>Programmatic API for enhanced select (Work in progress)</h3>
+      <p>
+        This example demonstrates how you can use the programmatic API to perform actions from code.
+      </p>
+      <p>Uses <code>accessibleAutocomplete.enhanceSelectElement</code>.</p>
+
+      <h5>clearSelection()</h5>
+      <label for="autocomplete-progressiveEnhancement-api-clearselection">Select your country</label>
+      <div class="autocomplete-wrapper">
+        <select id="autocomplete-progressiveEnhancement-api-clearselection">
+          <option value="">Please select a country</option>
+          <option value="fr">France</option>
+          <option value="de" selected>Germany</option>
+          <option value="gb">United Kingdom</option>
+        </select>
+        <button class="clear-selection">Clear</button>
       </div>
 
       <h3>Custom results</h3>
@@ -483,6 +505,21 @@
       element = document.querySelector('#autocomplete-progressiveEnhancement')
       accessibleAutocomplete.enhanceSelectElement({
         selectElement: element
+      })
+    </script>
+
+    <script type="text/javascript">
+      let clearableSelect = element = document.querySelector('#autocomplete-progressiveEnhancement-api-clearselection')
+      accessibleAutocomplete.enhanceSelectElement({
+        selectElement: clearableSelect,
+        placeholder: "Select a country"
+      })
+
+      document.querySelector(".clear-selection").addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        clearableSelect.accessibleAutocomplete.clearSelection();
       })
     </script>
 
