@@ -113,6 +113,31 @@
   outline: none;
 }
 
+@media (-ms-high-contrast: active), (forced-colors: active) {
+  .autocomplete__menu {
+    border-color: FieldText;
+  }
+
+  .autocomplete__option {
+    background-color: Field;
+    color: FieldText;
+  }
+
+  .autocomplete__option--focused,
+  .autocomplete__option:hover {
+    forced-color-adjust: none; /* prevent backplate from obscuring text */
+    background-color: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+
+    /* Prefer SelectedItem / SelectedItemText in browsers that support it */
+    background-color: SelectedItem;
+    border-color: SelectedItem;
+    color: SelectedItemText;
+    outline-color: SelectedItemText;
+  }
+}
+
 .autocomplete__option--no-results {
   background-color: #FAFAFA;
   color: #646b6f;
