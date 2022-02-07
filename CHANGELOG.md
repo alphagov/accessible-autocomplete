@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.0.4 - 2022-02-07
+
 ### Fixes
 
 - [Pull request #512: Make sure highlighted option is distinguishable in forced colors mode](https://github.com/alphagov/accessible-autocomplete/pull/512)
