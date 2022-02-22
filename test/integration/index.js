@@ -2,7 +2,7 @@
 const expect = require('chai').expect
 const { browserName, browserVersion } = browser.capabilities
 const isChrome = browserName === 'chrome'
-const isFireFox = browserName === 'firefox'
+// const isFireFox = browserName === 'firefox'
 const isIE = browserName === 'internet explorer'
 // const isIE9 = isIE && browserVersion === '9'
 // const isIE10 = isIE && browserVersion === '10'
@@ -167,20 +167,26 @@ const customTemplatesExample = () => {
     describe('mouse use', () => {
       it('should allow confirming an option by clicking on child elements', () => {
         $(input).setValue('uni')
-        if (isChrome) {
-          const errorRegex = /Other element would receive the click/
-          expect($(firstOptionInnerElement).click.bind($(firstOptionInnerElement))).to.throw(errorRegex)
-          expect($(input).isFocused()).to.equal(true)
-          expect($(input).getValue()).to.equal('uni')
-        }
-        if (isFireFox) {
-          $(firstOptionInnerElement).click()
-          expect($(input).isFocused()).to.equal(true)
-          expect($(input).getValue()).to.equal('United Kingdom')
-        }
+
         if (isIE) {
           // FIXME: This feature works correctly on IE but testing it doesn't seem to work.
+          return
         }
+
+        try {
+          $(firstOptionInnerElement).click()
+        } catch (error) {
+          // In some cases (mainly ChromeDriver) the automation protocol won't
+          // allow clicking span elements. In this case we just skip the test.
+          if (error.toString().match(/Other element would receive the click/)) {
+            return
+          } else {
+            throw error
+          }
+        }
+
+        expect($(input).isFocused()).to.equal(true)
+        expect($(input).getValue()).to.equal('United Kingdom')
       })
     })
   })
