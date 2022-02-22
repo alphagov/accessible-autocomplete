@@ -1,0 +1,33 @@
+name: Integration tests
+
+on: [push, pull_request]
+
+
+jobs:
+  test-saucelabs:
+    name: Build & test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Read node version from .nvmrc
+        id: nvm
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+
+      - name: "Setup Node v${{ steps.nvm.outputs.NVMRC }}"
+        uses: actions/setup-node@v2
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: "Run integration tests"
+        run: npm run wdio:test
+        env:
+          SAUCE_ENABLED: "false"  # ensure we don't use Sauce Labs
