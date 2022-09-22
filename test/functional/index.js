@@ -166,12 +166,14 @@ describe('Autocomplete', () => {
 
     describe('typing', () => {
       it('searches for options', () => {
+        autocomplete.handleInputFocus()
         autocomplete.handleInputChange({ target: { value: 'f' } })
         expect(autocomplete.state.menuOpen).to.equal(true)
         expect(autocomplete.state.options).to.contain('France')
       })
 
       it('hides menu when no options are available', () => {
+        autocomplete.handleInputFocus()
         autocomplete.handleInputChange({ target: { value: 'aa' } })
         expect(autocomplete.state.menuOpen).to.equal(false)
         expect(autocomplete.state.options.length).to.equal(0)
@@ -202,13 +204,16 @@ describe('Autocomplete', () => {
         })
 
         it('doesn\'t search when under limit', () => {
+          autocomplete.handleInputFocus()
           autocomplete.handleInputChange({ target: { value: 'f' } })
           expect(autocomplete.state.menuOpen).to.equal(false)
           expect(autocomplete.state.options.length).to.equal(0)
         })
 
         it('does search when over limit', () => {
+          autocomplete.handleInputFocus()
           autocomplete.handleInputChange({ target: { value: 'fra' } })
+          console.log(autocomplete.state)
           expect(autocomplete.state.menuOpen).to.equal(true)
           expect(autocomplete.state.options).to.contain('France')
         })

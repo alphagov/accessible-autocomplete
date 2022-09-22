@@ -264,7 +264,9 @@ export default class Autocomplete extends Component {
       this.setState({ focused: -1 })
     }
     // update as on click
-    this.handleInputChange(event)
+    if (event) {
+      this.handleInputChange(event)
+    }
   }
 
   handleOptionFocus (index) {
