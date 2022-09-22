@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## Orangesk 2.1.0 - 2022-09-22
+
+### Features and fixes
+
+- [Pull request #1: Trigger search on interaction](https://github.com/orangesk/accessible-autocomplete/pull/1)
+  - start search after click or focus on input
+  - don't restart search after focusing from options to input element
+
+### Fixes 
+
+- [Pull request #1: Trigger search on interaction](https://github.com/orangesk/accessible-autocomplete/pull/1)
+  - don't open menu after input blur 
+
 ## Unreleased
 
 ## 2.0.4 - 2022-02-07
