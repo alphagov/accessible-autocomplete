@@ -68,7 +68,7 @@ export default class Autocomplete extends Component {
       selected: null,
       ariaHint: true,
       // force search on click or focus when needed
-      searchOnInteraction: true,
+      searchOnInteraction: true
     }
 
     this.handleComponentBlur = this.handleComponentBlur.bind(this)
@@ -213,7 +213,7 @@ export default class Autocomplete extends Component {
 
   handleInputChange (event) {
     const { minLength, source, showAllValues } = this.props
-    const { searchOnInteraction } = this.state;
+    const { searchOnInteraction } = this.state
     const autoselect = this.hasAutoselect()
     const query = event.target.value
     const queryEmpty = query.length === 0
@@ -224,7 +224,7 @@ export default class Autocomplete extends Component {
       query,
       ariaHint: queryEmpty,
       // reset interaction search for next usage
-      searchOnInteraction: true,
+      searchOnInteraction: true
     })
 
     const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
@@ -264,7 +264,7 @@ export default class Autocomplete extends Component {
       this.setState({ focused: -1 })
     }
     // update as on click
-    this.handleInputChange(event);
+    this.handleInputChange(event)
   }
 
   handleOptionFocus (index) {
