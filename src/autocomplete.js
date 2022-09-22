@@ -66,7 +66,9 @@ export default class Autocomplete extends Component {
       query: props.defaultValue,
       validChoiceMade: false,
       selected: null,
-      ariaHint: true
+      ariaHint: true,
+      // force search on click or focus when needed
+      searchOnInteraction: true,
     }
 
     this.handleComponentBlur = this.handleComponentBlur.bind(this)
@@ -198,7 +200,7 @@ export default class Autocomplete extends Component {
 
   handleInputBlur (event) {
     const { focused, menuOpen, options, query, selected } = this.state
-    const focusingAnOption = focused !== -1
+    const focusingAnOption = focused >= 0
     if (!focusingAnOption) {
       const keepMenuOpen = menuOpen && isIosDevice()
       const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
@@ -211,27 +213,33 @@ export default class Autocomplete extends Component {
 
   handleInputChange (event) {
     const { minLength, source, showAllValues } = this.props
+    const { searchOnInteraction } = this.state;
     const autoselect = this.hasAutoselect()
     const query = event.target.value
     const queryEmpty = query.length === 0
-    const queryChanged = this.state.query.length !== query.length
+    const queryChanged = searchOnInteraction || this.state.query.length !== query.length
     const queryLongEnough = query.length >= minLength
 
     this.setState({
       query,
-      ariaHint: queryEmpty
+      ariaHint: queryEmpty,
+      // reset interaction search for next usage
+      searchOnInteraction: true,
     })
 
     const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
     if (searchForOptions) {
       source(query, (options) => {
         const optionsAvailable = options.length > 0
-        this.setState({
-          menuOpen: optionsAvailable,
+        this.setState((prevState) => ({
+          /** if previous state was not focused on input or option
+           *  dont show menu (this causes opening menu on blur)
+           */
+          menuOpen: optionsAvailable && prevState.focused !== null,
           options,
           selected: (autoselect && optionsAvailable) ? 0 : -1,
           validChoiceMade: false
-        })
+        }))
       })
     } else if (queryEmpty || !queryLongEnough) {
       this.setState({
@@ -255,13 +263,18 @@ export default class Autocomplete extends Component {
     } else {
       this.setState({ focused: -1 })
     }
+    // update as on click
+    this.handleInputChange(event);
   }
 
   handleOptionFocus (index) {
     this.setState({
       focused: index,
       hovered: null,
-      selected: index
+      selected: index,
+      // if going from option to input
+      // we dont need to force search
+      searchOnInteraction: index !== -1
     })
   }
 
