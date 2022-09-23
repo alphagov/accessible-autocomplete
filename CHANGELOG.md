@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Orangesk 2.2.0 - 2022-09-23
+
+### Feature
+
+- [Pull request #2: Add option for input width](https://github.com/orangesk/accessible-autocomplete/pull/2)
+
 ## Orangesk 2.1.0 - 2022-09-22
 
 ### Features and fixes
