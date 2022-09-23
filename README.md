@@ -201,6 +201,14 @@ Type: `string`
 
 Use this property to override the [BEM](http://getbem.com/) block name that the JavaScript component will use. You will need to rewrite the CSS class names to use your specified block name.
 
+#### `width` (default: `''`)
+
+Type: `string`
+
+Use this property to add a custom width modifier for input element. 
+It will be used as `.autocomplete__input--[width]` on generated input class.
+Available options are '3ch', '8ch', '12ch', 'fullwidth'.
+
 #### `defaultValue` (default: `''`)
 
 Type: `string`
