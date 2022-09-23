@@ -38,6 +38,7 @@ export default class Autocomplete extends Component {
   static defaultProps = {
     autoselect: false,
     cssNamespace: 'autocomplete',
+    width: '',
     defaultValue: '',
     displayMenu: 'inline',
     minLength: 0,
@@ -418,6 +419,7 @@ export default class Autocomplete extends Component {
   render () {
     const {
       cssNamespace,
+      width,
       displayMenu,
       id,
       minLength,
@@ -446,6 +448,7 @@ export default class Autocomplete extends Component {
     const wrapperClassName = `${cssNamespace}__wrapper`
 
     const inputClassName = `${cssNamespace}__input`
+    const inputWidthClassName = width ? ` ${inputClassName}--${width}` : ''
     const componentIsFocused = focused !== null
     const inputModifierFocused = componentIsFocused ? ` ${inputClassName}--focused` : ''
     const inputModifierType = this.props.showAllValues ? ` ${inputClassName}--show-all-values` : ` ${inputClassName}--default`
@@ -512,7 +515,7 @@ export default class Autocomplete extends Component {
           aria-autocomplete={(this.hasAutoselect()) ? 'both' : 'list'}
           {...ariaDescribedProp}
           autoComplete='off'
-          className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
+          className={`${inputClassName}${inputWidthClassName}${inputModifierFocused}${inputModifierType}`}
           id={id}
           onClick={(event) => this.handleInputClick(event)}
           onBlur={this.handleInputBlur}
