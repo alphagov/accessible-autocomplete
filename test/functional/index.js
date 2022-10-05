@@ -70,8 +70,8 @@ describe('Autocomplete', () => {
         expect(scratch.innerHTML).to.contain('class="bob__menu')
       })
 
-      it('renders an input with a custom width class', () => {
-        render(<Autocomplete width='fullwidth' />, scratch)
+      it('renders an input with a custom class', () => {
+        render(<Autocomplete customInputClassName='autocomplete__input--fullwidth' />, scratch)
 
         let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
         let inputElement = wrapperElement.getElementsByTagName('input')[0]
