@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Orangesk 3.0.0 - 2022-10-05
+
+### Breaking change
+
+- [Pull request #3: Remove width and use custom class prop](https://github.com/orangesk/accessible-autocomplete/pull/3)
+
 ## Orangesk 2.2.0 - 2022-09-23
 
 ### Feature
