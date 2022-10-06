@@ -514,7 +514,7 @@ export default class Autocomplete extends Component {
           aria-autocomplete={(this.hasAutoselect()) ? 'both' : 'list'}
           {...ariaDescribedProp}
           autoComplete='off'
-          className={`${inputClassName}${inputModifierFocused}${inputModifierType}${customInputClassName}`}
+          className={`${inputClassName}${inputModifierFocused}${inputModifierType}${customInputClassName ? ` ${customInputClassName}` : ''}`}
           id={id}
           onClick={(event) => this.handleInputClick(event)}
           onBlur={this.handleInputBlur}
