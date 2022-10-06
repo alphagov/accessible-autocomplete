@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Orangesk 3.0.1 - 2022-10-06
+
+### Fix
+
+- [fixes class doesnt have space when custom input class defined](https://github.com/orangesk/accessible-autocomplete/commit/77d9bce804ad25658ca37750ae2e2eed9f8f355d)
+
+
 ## Orangesk 3.0.0 - 2022-10-05
 
 ### Breaking change
