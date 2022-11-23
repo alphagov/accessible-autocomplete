@@ -1,7 +1,7 @@
 import webpack from 'webpack'
 import path from 'path'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
 const plugins = [
@@ -12,9 +12,11 @@ const plugins = [
 ]
 
 const developmentPlugins = [
-  new CopyWebpackPlugin({ patterns: [
-    { from: './autocomplete.css', to: 'accessible-autocomplete.min.css' }
-  ] })
+  new CopyWebpackPlugin({
+    patterns: [
+      { from: './autocomplete.css', to: 'accessible-autocomplete.min.css' }
+    ]
+  })
 ]
 
 const config = {
@@ -22,11 +24,9 @@ const config = {
 
   optimization: {
     minimize: ENV === 'production',
-    minimizer: [new UglifyJsPlugin({
-      cache: true,
+    minimizer: [new TerserPlugin({
       parallel: true,
-      sourceMap: true,
-      uglifyOptions: {
+      terserOptions: {
         compress: {
           negate_iife: false,
           properties: false,
@@ -71,35 +71,23 @@ const config = {
 
   node: {
     global: true,
-    process: false,
-    Buffer: false,
     __filename: false,
-    __dirname: false,
-    setImmediate: false
+    __dirname: false
   },
 
   mode: ENV === 'production' ? 'production' : 'development',
-  devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
+  devtool: ENV === 'production' ? 'source-map' : false,
 
   devServer: {
-    setup (app) {
-      // Grab potential subdirectory with :dir*?
-      app.get('/dist/:dir*?/:filename', (request, response) => {
-        if (!request.params.dir || request.params.dir === undefined) {
-          response.redirect('/' + request.params.filename)
-        } else {
-          response.redirect('/' + request.params.dir + '/' + request.params.filename)
-        }
-      })
-    },
-    port: process.env.PORT || 8080,
+    port: process.env.PORT || 'auto',
     host: '0.0.0.0',
-    publicPath: '/dist/',
-    contentBase: ['./examples', './src'],
+    devMiddleware: {
+      publicPath: '/dist/'
+    },
+    static: [path.join(__dirname, 'examples'), path.join(__dirname, 'src')],
     historyApiFallback: true,
     open: true,
-    watchContentBase: true,
-    disableHostCheck: true
+    allowedHosts: 'all'
   }
 }
 

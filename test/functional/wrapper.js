@@ -13,7 +13,7 @@ const injectSelectToEnhanceIntoDOM = (element, settings) => {
   settings.options = settings.options || DEFAULT_OPTIONS
   settings.id = settings.id !== undefined ? settings.id : 'location-picker-id'
   settings.name = settings.name !== undefined ? settings.name : 'location-picker-name'
-  var $select = document.createElement('select')
+  const $select = document.createElement('select')
   if (settings.id) {
     $select.id = settings.id
   }
