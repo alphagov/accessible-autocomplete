@@ -12,8 +12,12 @@ function accessibleAutocomplete (options) {
 }
 
 const createSimpleEngine = (values) => (query, syncResults) => {
-  const matches = values.filter(r => r.toLowerCase().indexOf(query.toLowerCase()) !== -1)
-  syncResults(matches)
+  if (!query) {
+    syncResults([])
+  } else {
+    var matches = values.filter(r => r.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+    syncResults(matches)
+  }
 }
 
 accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {

@@ -2,6 +2,51 @@
 
 ## Unreleased
 
+# 3.0.2 - Unreleased
+
+> some changes are in 3.0.0 also
+
+- Updated dependencies
+- Updated Webpack configuration
+- Updated tests
+- Moved to the latest version of React
+
+## 3.0.1 - 2022-11-23
+
+- Merged changes from the Financial Times (https://github.com/Financial-Times/accessible-autocomplete)
+
+## 3.0.0 - 2022-11-23
+
+- Fixed an issue where aria-activedescendant was being provided as false, which is invalid
+- Renamed the package so it can be published as a fork
+
+## 2.2.1 - 2021-07-21
+
+### Fixes
+
+- [Pull request #7](https://github.com/Financial-Times/accessible-autocomplete/pull/7): Sets the default value for the ariaLabelledBy property to `undefined`
+
+## 2.2.0 - 2021-07-21
+
+### Fixes
+
+- Adds the ariaLabelledBy property, addressing [an issue reported by AXE tests](https://github.com/alphagov/accessible-autocomplete/issues/361)
+
+## 2.1.2 - 2021-06-28
+
+### Fixes
+
+- [Pull request #5: Handle query change when the text length does not change](https://github.com/Financial-Times/accessible-autocomplete/pull/5).
+- [Pull request #3: If no option is focused, remove the aria-activedescendant attribute from the input](https://github.com/Financial-Times/accessible-autocomplete/pull/3)
+
+## 2.1.1 - 2021-06-24
+
+- A fix to prevent suggestions being cleared when the input is click.
+
+## 2.1.0 - 2021-05-24
+
+- The `source` function is now called even when the input value is completely deleted, this fixes a race condition which is present if using an async `source` function.
+
 ## 2.0.4 - 2022-02-07
 
 ### Fixes
