@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-# 3.0.2 - Unreleased
+# 3.1.0 - Unreleased
 
 > some changes are in 3.0.0 also
 
@@ -10,6 +10,10 @@
 - Updated Webpack configuration
 - Updated tests
 - Moved to the latest version of React
+
+## 3.0.2 - 2022-11-23
+
+- Merged https://github.com/alphagov/accessible-autocomplete/pull/496
 
 ## 3.0.1 - 2022-11-23
 

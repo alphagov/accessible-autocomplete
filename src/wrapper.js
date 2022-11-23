@@ -15,7 +15,7 @@ const createSimpleEngine = (values) => (query, syncResults) => {
   if (!query) {
     syncResults([])
   } else {
-    var matches = values.filter(r => r.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+    const matches = values.filter(r => r.toLowerCase().indexOf(query.toLowerCase()) !== -1)
     syncResults(matches)
   }
 }

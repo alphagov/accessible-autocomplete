@@ -466,10 +466,12 @@ export default class Autocomplete extends Component {
         }
       : null
 
-    const ariaActivedescendantProp = (optionFocused) ? {
-    'aria-activedescendant': `${id}__option--${focused}`
-    } : null
-    
+    const ariaActivedescendantProp = (optionFocused)
+      ? {
+          'aria-activedescendant': `${id}__option--${focused}`
+        }
+      : null
+
     let dropdownArrow
 
     // we only need a dropdown arrow if showAllValues is set to a truthy value

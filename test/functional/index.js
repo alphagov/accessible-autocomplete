@@ -188,7 +188,7 @@ describe('Autocomplete', () => {
         autocomplete.handleInputChange({ target: { value: 'fb' } })
         expect(autocomplete.state.options.length).to.equal(0)
       })
-      
+
       it('removes the aria-describedby attribute when query is non empty', () => {
         expect(autocomplete.state.ariaHint).to.equal(true)
         autocomplete.handleInputChange({ target: { value: 'a' } })
