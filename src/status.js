@@ -37,7 +37,9 @@ export default class Status extends Component {
     debounced: false
   }
 
-  UNSAFE_componentWillMount () {
+  constructor (props) {
+    super(props)
+
     const that = this
     this.debounceStatusUpdate = debounce(function () {
       if (!that.state.debounced) {
@@ -47,8 +49,11 @@ export default class Status extends Component {
     }, statusDebounceMillis)
   }
 
-  UNSAFE_componentWillReceiveProps ({ queryLength }) {
-    this.setState({ debounced: false })
+  static getDerivedStateFromProps () {
+    const that = this
+    if (that?.setState) {
+      that.setState({ debounced: false })
+    }
   }
 
   render () {

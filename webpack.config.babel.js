@@ -4,13 +4,6 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
-const plugins = [
-  new webpack.NoEmitOnErrorsPlugin(),
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(ENV)
-  })
-]
-
 const developmentPlugins = [
   new CopyWebpackPlugin({
     patterns: [
@@ -40,25 +33,13 @@ const config = {
           ie8: true
         }
       }
-    })]
-  },
-
-  resolve: {
-    extensions: ['.js'],
-    modules: [
-      path.resolve(__dirname, 'node_modules'),
-      'node_modules'
-    ]
+    })],
+    emitOnErrors: false,
+    splitChunks: false
   },
 
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        include: path.resolve(__dirname, 'src'),
-        enforce: 'pre',
-        loader: 'source-map-loader'
-      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -67,8 +48,6 @@ const config = {
     ]
   },
 
-  stats: { colors: true },
-
   node: {
     global: true,
     __filename: false,
@@ -76,7 +55,7 @@ const config = {
   },
 
   mode: ENV === 'production' ? 'production' : 'development',
-  devtool: ENV === 'production' ? 'source-map' : false,
+  devtool: ENV === 'production' ? 'source-map' : 'eval-cheap-module-source-map',
 
   devServer: {
     port: process.env.PORT || 'auto',
@@ -84,7 +63,7 @@ const config = {
     devMiddleware: {
       publicPath: '/dist/'
     },
-    static: [path.join(__dirname, 'examples'), path.join(__dirname, 'src')],
+    static: 'examples',
     historyApiFallback: true,
     open: true,
     allowedHosts: 'all'
@@ -93,21 +72,21 @@ const config = {
 
 const bundleStandalone = {
   ...config,
-  entry: {
-    'accessible-autocomplete.min': './wrapper.js'
-  },
+  name: 'standalone',
+  entry: './wrapper.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: '[name].js',
+    publicPath: ENV == 'production' ? '/' : undefined,
+    filename: 'accessible-autocomplete.min.js',
     library: 'accessibleAutocomplete',
     libraryExport: 'default',
     libraryTarget: 'umd'
   },
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
+  plugins: [
+    new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"PREACT"'
-    })])
+    })
+  ]
     .concat(ENV === 'development'
       ? developmentPlugins
       : []
@@ -116,13 +95,12 @@ const bundleStandalone = {
 
 const bundlePreact = {
   ...config,
-  entry: {
-    'lib/accessible-autocomplete.preact.min': './autocomplete.js'
-  },
+  name: 'preact',
+  entry: './autocomplete.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: '[name].js',
+    publicPath: ENV == 'production' ? '/' : undefined,
+    filename: 'lib/accessible-autocomplete.preact.min.js',
     library: 'Autocomplete',
     libraryTarget: 'umd'
   },
@@ -134,10 +112,11 @@ const bundlePreact = {
       root: 'preact'
     }
   },
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
+  plugins: [
+    new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"PREACT"'
-    })])
+    })
+  ]
     .concat(ENV === 'development'
       ? developmentPlugins
       : []
@@ -146,13 +125,12 @@ const bundlePreact = {
 
 const bundleReact = {
   ...config,
-  entry: {
-    'lib/accessible-autocomplete.react.min': './autocomplete.js'
-  },
+  name: 'react',
+  entry: './autocomplete.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: '[name].js',
+    publicPath: ENV == 'production' ? '/' : undefined,
+    filename: 'lib/accessible-autocomplete.react.min.js',
     library: 'Autocomplete',
     libraryTarget: 'umd',
     globalObject: 'this'
@@ -165,10 +143,11 @@ const bundleReact = {
       root: 'React'
     }
   },
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
+  plugins: [
+    new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"REACT"'
-    })])
+    })
+  ]
     .concat(ENV === 'development'
       ? developmentPlugins
       : []
