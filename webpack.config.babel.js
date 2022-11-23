@@ -18,7 +18,6 @@ const config = {
   optimization: {
     minimize: ENV === 'production',
     minimizer: [new TerserPlugin({
-      minify: TerserPlugin.uglifyJsMinify,
       parallel: true,
       terserOptions: {
         compress: {
@@ -77,7 +76,7 @@ const bundleStandalone = {
   entry: './wrapper.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: ENV == "production" ? "/" : undefined,
+    publicPath: ENV == 'production' ? '/' : undefined,
     filename: 'accessible-autocomplete.min.js',
     library: 'accessibleAutocomplete',
     libraryExport: 'default',
@@ -100,7 +99,7 @@ const bundlePreact = {
   entry: './autocomplete.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: ENV == "production" ? "/" : undefined,
+    publicPath: ENV == 'production' ? '/' : undefined,
     filename: 'lib/accessible-autocomplete.preact.min.js',
     library: 'Autocomplete',
     libraryTarget: 'umd'
@@ -130,7 +129,7 @@ const bundleReact = {
   entry: './autocomplete.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: ENV == "production" ? "/" : undefined,
+    publicPath: ENV == 'production' ? '/' : undefined,
     filename: 'lib/accessible-autocomplete.react.min.js',
     library: 'Autocomplete',
     libraryTarget: 'umd',
