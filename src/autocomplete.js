@@ -457,6 +457,10 @@ export default class Autocomplete extends Component {
       'aria-describedby': assistiveHintID
     } : null
 
+    const ariaActivedescendantProp = (optionFocused) ? {
+    'aria-activedescendant': `${id}__option--${focused}`
+    } : null
+    
     let dropdownArrow
 
     // we only need a dropdown arrow if showAllValues is set to a truthy value
@@ -492,7 +496,7 @@ export default class Autocomplete extends Component {
 
         <input
           aria-expanded={menuOpen ? 'true' : 'false'}
-          aria-activedescendant={optionFocused ? `${id}__option--${focused}` : false}
+          {...ariaActivedescendantProp}
           aria-owns={`${id}__listbox`}
           aria-autocomplete={(this.hasAutoselect()) ? 'both' : 'list'}
           {...ariaDescribedProp}
