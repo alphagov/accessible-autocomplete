@@ -49,10 +49,9 @@ export default class Status extends Component {
     }, statusDebounceMillis)
   }
 
-  static getDerivedStateFromProps () {
-    const that = this
-    if (that?.setState) {
-      that.setState({ debounced: false })
+  static getDerivedStateFromProps() {
+    return {
+      debounced: false
     }
   }
 
