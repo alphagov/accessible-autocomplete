@@ -153,7 +153,7 @@ git pull --rebase
 
 ### Publish the release
 
-  1. Sign in to npm (`npm login`) using the [npm/govuk-patterns-and-tools team credentials](https://github.com/alphagov/design-system-team-credentials/tree/main/npm/govuk-patterns-and-tools).
+  1. Sign in to npm (`npm login`) as `govuk-patterns-and-tools` using the credentials from BitWarden.
   2. Run `npm publish` to publish to npm.
   3. Open the ['create a new release' dialog](https://github.com/alphagov/accessible-autocomplete/releases/new) on GitHub.
   4. Select the latest tag version.
