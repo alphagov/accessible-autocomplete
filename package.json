@@ -22,7 +22,7 @@
   "scripts": {
     "build:css": "csso src/autocomplete.css -o dist/accessible-autocomplete.min.css",
     "build:js": "cross-env NODE_ENV=production webpack --progress --display-modules",
-    "build": "run-s 'build:js' 'build:css'",
+    "build": "run-s build:js build:css",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
     "karma:dev": "cross-env NODE_ENV=test karma start test/karma.config.js",
     "karma": "npm run karma:dev -- --single-run",
