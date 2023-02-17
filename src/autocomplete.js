@@ -184,31 +184,46 @@ export default class Autocomplete extends Component {
     })
   }
 
-  handleOptionBlur (event, index) {
-    const { focused, menuOpen, options, selected } = this.state
-    const focusingOutsideComponent = event.relatedTarget === null
-    const focusingInput = event.relatedTarget === this.elementReferences[-1]
-    const focusingAnotherOption = focused !== index && focused !== -1
-    const blurComponent = (!focusingAnotherOption && focusingOutsideComponent) || !(focusingAnotherOption || focusingInput)
+  handleOptionBlur(event, index) {
+    const { focused, menuOpen, options, selected } = this.state;
+    const focusingOutsideComponent = event.relatedTarget === null;
+    const focusingInput = event.relatedTarget === this.elementReferences[-1];
+    const focusingAnotherOption = focused !== index && focused !== -1;
+    const blurComponent =
+      (!focusingAnotherOption && focusingOutsideComponent) ||
+      !(focusingAnotherOption || focusingInput);
     if (blurComponent) {
-      const keepMenuOpen = menuOpen && isIosDevice()
+      const keepMenuOpen = menuOpen && isIosDevice() && !this.hasAutoselect();
       this.handleComponentBlur({
         menuOpen: keepMenuOpen,
-        query: this.templateInputValue(options[selected])
-      })
+        query: this.templateInputValue(options[selected]),
+      });
     }
   }
 
-  handleInputBlur (event) {
-    const { focused, menuOpen, options, query, selected } = this.state
-    const focusingAnOption = focused >= 0
-    if (!focusingAnOption) {
-      const keepMenuOpen = menuOpen && isIosDevice()
-      const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
+  handleInputBlur(event) {
+    const { focused, menuOpen, options, query, selected } = this.state;
+    const focusingAnOption = focused >= 0;
+    if (
+      isIosDevice() &&
+      !event.relatedTarget &&
+      !focusingAnOption &&
+      this.hasAutoselect()
+    ) {
+      const newQuery = this.templateInputValue(options[selected]);
+      this.handleComponentBlur({
+        menuOpen: false,
+        query: newQuery,
+      });
+    } else if (!focusingAnOption) {
+      const keepMenuOpen = menuOpen && isIosDevice();
+      const newQuery = isIosDevice()
+        ? query
+        : this.templateInputValue(options[selected]);
       this.handleComponentBlur({
         menuOpen: keepMenuOpen,
-        query: newQuery
-      })
+        query: newQuery,
+      });
     }
   }
 
