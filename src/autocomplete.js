@@ -50,7 +50,8 @@ export default class Autocomplete extends Component {
     required: false,
     tNoResults: () => 'No results found',
     tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
-    dropdownArrow: DropdownArrowDown
+    dropdownArrow: DropdownArrowDown,
+    menuAttributes: {}
   }
 
   elementReferences = {}
@@ -416,7 +417,8 @@ export default class Autocomplete extends Component {
       tStatusSelectedOption,
       tStatusResults,
       tAssistiveHint,
-      dropdownArrow: dropdownArrowFactory
+      dropdownArrow: dropdownArrowFactory,
+      menuAttributes
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
     const autoselect = this.hasAutoselect()
@@ -519,6 +521,7 @@ export default class Autocomplete extends Component {
           onMouseLeave={(event) => this.handleListMouseLeave(event)}
           id={`${id}__listbox`}
           role='listbox'
+          {...menuAttributes}
         >
           {options.map((option, index) => {
             const showFocused = focused === -1 ? selected === index : focused === index
