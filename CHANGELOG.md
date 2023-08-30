@@ -6,6 +6,7 @@
 - [Pull request #621: Handle query change when the text length does not change](https://github.com/alphagov/accessible-autocomplete/pull/621)
 - [Pull request #620: Add `className` attribute to status component](https://github.com/alphagov/accessible-autocomplete/pull/620)
 - [Pull request #591: Add menuAttributes to fix #361](https://github.com/alphagov/accessible-autocomplete/pull/591)
+- [Pull request #598: Make Accessible Autocomplete a GOV.UK Prototype Kit plugin](https://github.com/alphagov/accessible-autocomplete/pull/598)
 
 ## 2.0.4 - 2022-02-07
 
