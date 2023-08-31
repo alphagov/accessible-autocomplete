@@ -83,32 +83,31 @@ In your prototype folder, run:
 npm install accessible-autocomplete
 ```
 
-This will load the accessible autocomplete CSS and JavaScript for you.
-
-Then on the page you want to add the accessible autocomplete:
+To add the accessible autocomplete to a page in your prototype, first add a `select` component with your options. For example:
 
 ```html
-<label for="my-autocomplete">Select your country</label>
-<div id="my-autocomplete-container"></div>
+<div class="govuk-form-group">
+  <label class="govuk-label" for="country">
+    Country
+  </label>
+  <select class="govuk-select" id="country" name="country">
+    <option value="England">England</option>
+    <option value="Northern Ireland">Northern Ireland</option>
+    <option value="Scotland">Scotland</option>
+    <option value="Wales">Wales</option>
+  </select>
+</div>
 ```
 
-At the end of the file add a `pageScripts` block for the JavaScript:
+At the end of the same page add a `pageScripts` block for the JavaScript. This turns the `select` into an autocomplete.
 
 ```js
 <% block pageScripts %>
 
   <script>
 
-    const countries = [
-      'France',
-      'Germany',
-      'United Kingdom'
-    ]
-
-    accessibleAutocomplete({
-      element: document.querySelector('#my-autocomplete-container'),
-      id: 'my-autocomplete', // To match it to the existing <label>.
-      source: countries
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: document.querySelector('#country')
     })
 
   </script>
@@ -116,8 +115,6 @@ At the end of the file add a `pageScripts` block for the JavaScript:
 <% endblock %>
 
 ```
-
-If you want to use it as a replacement for a `<select>` element, read the [Progressive enhancement](#progressive-enhancement) section.
 
 ### Styling the autocomplete
 
