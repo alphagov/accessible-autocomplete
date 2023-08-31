@@ -1,4 +1,12 @@
 {
+  "meta": {
+    "description": "A component that helps users choose the right answer from a list as they type. It also helps you get more accurate and consistent answers from users.",
+    "urls": {
+      "releaseNotes": "https://github.com/alphagov/accessible-autocomplete/releases/tag/v{{version}}",
+      "documentation": "https://github.com/alphagov/accessible-autocomplete#readme",
+      "versionHistory": "https://github.com/alphagov/accessible-autocomplete/releases"
+    }
+  },
   "assets": [
     "/dist/"
   ],
