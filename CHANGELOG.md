@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 2.0.5 - 2023-04-25
+
+- [Pull request #591: Add menuAttributes to fix #361](https://github.com/alphagov/accessible-autocomplete/pull/591)
+
 ## 2.0.4 - 2022-02-07
 
 ### Fixes

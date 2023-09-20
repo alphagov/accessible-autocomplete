@@ -108,6 +108,17 @@ describe('Autocomplete', () => {
         })
       })
 
+      it('renders with an aria-labelledby attribute on the menu', () => {
+        render(<Autocomplete menuAttributes={{ 'aria-labelledby': 'autocomplete-default' }} id='autocomplete-default' />, scratch)
+
+        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        let dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
+        let inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+        expect(dropdownElement.getAttribute('aria-labelledby')).to.equal('autocomplete-default')
+        expect(inputElement.getAttribute('id')).to.equal('autocomplete-default')
+      })
+
       it('renders with the correct roles', () => {
         render(<Autocomplete required />, scratch)
 
