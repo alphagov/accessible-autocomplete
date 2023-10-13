@@ -119,6 +119,14 @@ describe('Autocomplete', () => {
         expect(inputElement.getAttribute('id')).to.equal('autocomplete-default')
       })
 
+      it('renders with extra class on the input', () => {
+        render(<Autocomplete inputClasses='govuk-input' id='autocomplete-default' />, scratch)
+
+        let inputElement = scratch.getElementsByClassName('autocomplete__input')[0]
+
+        expect(inputElement.getAttribute('class')).to.contain(' govuk-input')
+      })
+
       it('renders with the correct roles', () => {
         render(<Autocomplete required />, scratch)
 

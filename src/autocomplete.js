@@ -51,7 +51,8 @@ export default class Autocomplete extends Component {
     tNoResults: () => 'No results found',
     tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown,
-    menuAttributes: {}
+    menuAttributes: {},
+    inputClasses: ''
   }
 
   elementReferences = {}
@@ -418,7 +419,8 @@ export default class Autocomplete extends Component {
       tStatusResults,
       tAssistiveHint,
       dropdownArrow: dropdownArrowFactory,
-      menuAttributes
+      menuAttributes,
+      inputClasses
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
     const autoselect = this.hasAutoselect()
@@ -472,6 +474,11 @@ export default class Autocomplete extends Component {
       }
     }
 
+    let inputClassesFinal = ''
+    if (inputClasses) {
+      inputClassesFinal = ' ' + inputClasses
+    }
+
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
@@ -501,7 +508,7 @@ export default class Autocomplete extends Component {
           aria-autocomplete={(this.hasAutoselect()) ? 'both' : 'list'}
           {...ariaDescribedProp}
           autoComplete='off'
-          className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
+          className={`${inputClassName}${inputModifierFocused}${inputModifierType}${inputClassesFinal}`}
           id={id}
           onClick={(event) => this.handleInputClick(event)}
           onBlur={this.handleInputBlur}
