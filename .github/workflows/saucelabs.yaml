@@ -22,7 +22,8 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
 
       - name: Read node version from .nvmrc
         id: nvm
