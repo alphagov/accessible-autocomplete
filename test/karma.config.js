@@ -2,8 +2,8 @@ require('@babel/register')({
   rootMode: 'upward'
 })
 
-var puppeteer = require('puppeteer')
-var webpack = require('../webpack.config.babel.js')[0]
+const puppeteer = require('puppeteer')
+const webpack = require('../webpack.config.babel.js')[0]
 
 // Use Chrome headless
 process.env.CHROME_BIN = puppeteer.executablePath()
@@ -26,7 +26,7 @@ module.exports = function (config) {
       '**/*.js': ['sourcemap']
     },
 
-    webpack: webpack,
+    webpack,
     webpackMiddleware: {
       logLevel: 'error',
       stats: 'errors-only'

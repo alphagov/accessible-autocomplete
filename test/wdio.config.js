@@ -63,7 +63,7 @@ const puppeteerConfig = {
       }
     }
   ],
-  services: services
+  services
 }
 
 exports.config = Object.assign({

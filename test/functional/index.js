@@ -4,7 +4,7 @@ import Autocomplete from '../../src/autocomplete'
 import Status from '../../src/status'
 
 function suggest (query, syncResults) {
-  var results = [
+  const results = [
     'France',
     'Germany',
     'United Kingdom'
@@ -73,8 +73,8 @@ describe('Autocomplete', () => {
       it('renders with an aria-expanded attribute', () => {
         render(<Autocomplete required />, scratch)
 
-        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
-        let inputElement = wrapperElement.getElementsByTagName('input')[0]
+        const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        const inputElement = wrapperElement.getElementsByTagName('input')[0]
 
         expect(inputElement.getAttribute('aria-expanded')).to.equal('false')
       })
@@ -82,8 +82,8 @@ describe('Autocomplete', () => {
       it('renders with an aria-describedby attribute', () => {
         render(<Autocomplete id='autocomplete-default' />, scratch)
 
-        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
-        let inputElement = wrapperElement.getElementsByTagName('input')[0]
+        const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        const inputElement = wrapperElement.getElementsByTagName('input')[0]
 
         expect(inputElement.getAttribute('aria-describedby')).to.equal('autocomplete-default__assistiveHint')
       })
@@ -92,8 +92,8 @@ describe('Autocomplete', () => {
         it('of value "list", when autoselect is not enabled', () => {
           render(<Autocomplete required />, scratch)
 
-          let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
-          let inputElement = wrapperElement.getElementsByTagName('input')[0]
+          const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          const inputElement = wrapperElement.getElementsByTagName('input')[0]
 
           expect(inputElement.getAttribute('aria-autocomplete')).to.equal('list')
         })
@@ -101,8 +101,8 @@ describe('Autocomplete', () => {
         it('of value "both", when autoselect is enabled', () => {
           render(<Autocomplete required autoselect />, scratch)
 
-          let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
-          let inputElement = wrapperElement.getElementsByTagName('input')[0]
+          const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          const inputElement = wrapperElement.getElementsByTagName('input')[0]
 
           expect(inputElement.getAttribute('aria-autocomplete')).to.equal('both')
         })
@@ -111,9 +111,9 @@ describe('Autocomplete', () => {
       it('renders with an aria-labelledby attribute on the menu', () => {
         render(<Autocomplete menuAttributes={{ 'aria-labelledby': 'autocomplete-default' }} id='autocomplete-default' />, scratch)
 
-        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
-        let dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
-        let inputElement = wrapperElement.getElementsByTagName('input')[0]
+        const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        const dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
+        const inputElement = wrapperElement.getElementsByTagName('input')[0]
 
         expect(dropdownElement.getAttribute('aria-labelledby')).to.equal('autocomplete-default')
         expect(inputElement.getAttribute('id')).to.equal('autocomplete-default')
@@ -122,9 +122,9 @@ describe('Autocomplete', () => {
       it('renders with the correct roles', () => {
         render(<Autocomplete required />, scratch)
 
-        let wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
-        let inputElement = wrapperElement.getElementsByTagName('input')[0]
-        let dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
+        const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+        const inputElement = wrapperElement.getElementsByTagName('input')[0]
+        const dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
 
         expect(inputElement.getAttribute('role')).to.equal('combobox', 'input should have combobox role')
         expect(dropdownElement.getAttribute('role')).to.equal('listbox', 'menu should have listbox role')
@@ -649,9 +649,9 @@ describe('Status', () => {
       render(<Status />, scratch)
       expect(scratch.innerHTML).to.contain('div')
 
-      let wrapperElement = scratch.getElementsByTagName('div')[0]
-      let ariaLiveA = wrapperElement.getElementsByTagName('div')[0]
-      let ariaLiveB = wrapperElement.getElementsByTagName('div')[1]
+      const wrapperElement = scratch.getElementsByTagName('div')[0]
+      const ariaLiveA = wrapperElement.getElementsByTagName('div')[0]
+      const ariaLiveB = wrapperElement.getElementsByTagName('div')[1]
 
       expect(ariaLiveA.getAttribute('role')).to.equal('status', 'first aria live region should be marked as role=status')
       expect(ariaLiveA.getAttribute('aria-atomic')).to.equal('true', 'first aria live region should be marked as atomic')
@@ -664,7 +664,7 @@ describe('Status', () => {
     describe('behaviour', () => {
       describe('silences aria live announcement', () => {
         it('when a valid choice has been made and the input has focus', (done) => {
-          let status = new Status({
+          const status = new Status({
             ...Status.defaultProps,
             validChoiceMade: true,
             isInFocus: true
@@ -679,7 +679,7 @@ describe('Status', () => {
         })
 
         it('when the input no longer has focus', (done) => {
-          let status = new Status({
+          const status = new Status({
             ...Status.defaultProps,
             validChoiceMade: false,
             isInFocus: false
@@ -695,7 +695,7 @@ describe('Status', () => {
       })
       describe('does not silence aria live announcement', () => {
         it('when a valid choice has not been made and the input has focus', (done) => {
-          let status = new Status({
+          const status = new Status({
             ...Status.defaultProps,
             validChoiceMade: false,
             isInFocus: true
