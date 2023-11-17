@@ -3,14 +3,14 @@ name: Cross-browser tests
 # Our Sauce Labs account only allows 5 tests to run at a time.
 concurrency: saucelabs
 
-# Run for pull requests, or after changes to main branch, but not for any old
-# branch, to limit number of workflows contending for Sauce Labs access.
 on:
+  pull_request:
+
   push:
     branches:
       - main
-  pull_request:
 
+  workflow_dispatch:
 
 jobs:
   test-saucelabs:
