@@ -35,7 +35,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: "Run integration tests"
+      - name: Run browser tests (without Sauce Labs)
         run: npm run wdio:test
         env:
-          SAUCE_ENABLED: "false"  # ensure we don't use Sauce Labs
+          SAUCE_ENABLED: false
