@@ -6,13 +6,13 @@ If you want to help and want to get more familiar with the codebase, try startin
 
 ## Requirements
 
-You will need a recent version of Node and npm installed:
+You will need a recent version of Node and npm installed. Check the `.nvmrc` for a recommended version:
 
 ```bash
 $ node -v
-v7.10.0
+v14.21.3
 $ npm -v
-v5.0.0
+v6.14.18
 ```
 
 If you want to run the selenium tests, you will also need a local copy of the Java Development Kit:
@@ -24,10 +24,12 @@ Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
 Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
 ```
 
-To install Node (with npm) and Java locally on macOS, you can use [brew](https://brew.sh/):
+To install Node (with npm) and Java locally on macOS, we recommend [brew](https://brew.sh) with 
+[nvm](https://github.com/nvm-sh/nvm):
 
 ```bash
-brew install node
+brew install nvm
+nvm install
 brew cask install java
 ```
 
