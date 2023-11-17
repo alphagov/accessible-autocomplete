@@ -78,7 +78,7 @@ const config = {
   devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
 
   devServer: {
-    setup (app) {
+    before (app) {
       // Grab potential subdirectory with :dir*?
       app.get('/dist/:dir*?/:filename', (request, response) => {
         if (!request.params.dir || request.params.dir === undefined) {
