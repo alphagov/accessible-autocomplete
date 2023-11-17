@@ -1,8 +1,5 @@
 name: Cross-browser tests
 
-# Our Sauce Labs account only allows 5 tests to run at a time.
-concurrency: saucelabs
-
 on:
   pull_request:
 
@@ -12,8 +9,11 @@ on:
 
   workflow_dispatch:
 
+# Our Sauce Labs account only allows 5 tests to run at a time.
+concurrency: saucelabs
+
 jobs:
-  test-saucelabs:
+  saucelabs:
     name: Build & test (with Sauce Labs)
     runs-on: ubuntu-latest
     timeout-minutes: 15

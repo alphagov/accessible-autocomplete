@@ -9,8 +9,12 @@ on:
 
   workflow_dispatch:
 
+concurrency:
+  group: integration-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
-  test-saucelabs:
+  integration:
     name: Build & test
     runs-on: ubuntu-latest
 
