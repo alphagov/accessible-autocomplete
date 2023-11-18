@@ -249,6 +249,39 @@ describe('Autocomplete', () => {
       })
     })
 
+    describe('with debounceMs', () => {
+      beforeEach(() => {
+        autocomplete = new Autocomplete({
+          ...Autocomplete.defaultProps,
+          id: 'test',
+          debounceMs: 150,
+          source: suggest
+        })
+      })
+
+      it('doesn\'t search when time has not passed', () => {
+        autocomplete.handleInputChange({ target: { value: 'fra' } })
+        expect(autocomplete.state.menuOpen).to.equal(false)
+        expect(autocomplete.state.options.length).to.equal(0)
+        expect(autocomplete.state.debouncing).to.equal(true)
+      })
+
+      it('does search when time has passed', (done) => {
+        autocomplete.handleInputChange({ target: { value: 'fra' } })
+
+        setTimeout(() => {
+          try {
+            expect(autocomplete.state.menuOpen).to.equal(true)
+            expect(autocomplete.state.options).to.contain('France')
+            expect(autocomplete.state.debouncing).to.equal(false)
+            done()
+          } catch (error) {
+            done(error)
+          }
+        }, 300)
+      })
+    })
+
     describe('focusing input', () => {
       describe('when no query is present', () => {
         it('does not display menu', () => {

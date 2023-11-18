@@ -213,6 +213,15 @@ Type: `string`
 
 Use this property to override the [BEM](http://getbem.com/) block name that the JavaScript component will use. You will need to rewrite the CSS class names to use your specified block name.
 
+#### `debounceMs` (default: `0`)
+
+Type: `number`
+
+When set to a value above 0, wait this number of ms after the last input keystroke before calling `source`.
+If a second key is pressed within the interval, the timer is reset. This allows you to limit the number of 
+requests the autocomplete will make – for example, when `source` talks to an expensive API and one request 
+per keystroke with a large number of users would overwhelm the server.
+
 #### `defaultValue` (default: `''`)
 
 Type: `string`

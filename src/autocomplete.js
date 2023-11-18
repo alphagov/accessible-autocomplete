@@ -1,4 +1,5 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
+import { debounce } from './debounce'
 import Status from './status'
 import DropdownArrowDown from './dropdown-arrow-down'
 
@@ -41,6 +42,7 @@ export default class Autocomplete extends Component {
     defaultValue: '',
     displayMenu: 'inline',
     minLength: 0,
+    debounceMs: 0,
     name: 'input-autocomplete',
     placeholder: '',
     onConfirm: () => {},
@@ -70,6 +72,9 @@ export default class Autocomplete extends Component {
       selected: null,
       ariaHint: true
     }
+
+    const { source, debounceMs } = this.props
+    this.debouncedSource = debounceMs > 0 ? debounce(source, debounceMs) : source
 
     this.handleComponentBlur = this.handleComponentBlur.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
@@ -212,7 +217,7 @@ export default class Autocomplete extends Component {
   }
 
   handleInputChange (event) {
-    const { minLength, source, showAllValues } = this.props
+    const { minLength, showAllValues } = this.props
     const autoselect = this.hasAutoselect()
     const query = event.target.value
     const queryEmpty = query.length === 0
@@ -226,7 +231,7 @@ export default class Autocomplete extends Component {
 
     const searchForOptions = showAllValues || (!queryEmpty && queryChanged && queryLongEnough)
     if (searchForOptions) {
-      source(query, (options) => {
+      this.debouncedSource(query, (options) => {
         const optionsAvailable = options.length > 0
         this.setState({
           menuOpen: optionsAvailable,
