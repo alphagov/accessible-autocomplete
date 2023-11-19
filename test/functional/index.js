@@ -741,6 +741,22 @@ describe('Status', () => {
             done()
           }, 1500)
         })
+
+        it('when the parent autocomplete is debouncing', (done) => {
+          const status = new Status({
+            ...Status.defaultProps,
+            validChoiceMade: false,
+            isInFocus: true,
+            autocompleteDebouncing: true
+          })
+          status.componentWillMount()
+          status.render()
+
+          setTimeout(() => {
+            expect(status.state.silenced).to.equal(true)
+            done()
+          }, 1500)
+        })
       })
       describe('does not silence aria live announcement', () => {
         it('when a valid choice has not been made and the input has focus', (done) => {

@@ -5,6 +5,7 @@ const statusDebounceMillis = 1400
 
 export default class Status extends Component {
   static defaultProps = {
+    autocompleteDebouncing: false,
     tQueryTooShort: (minQueryLength) => `Type in ${minQueryLength} or more characters for results`,
     tNoResults: () => 'No search results',
     tSelectedOption: (selectedOption, length, index) => `${selectedOption} ${index + 1} of ${length} is highlighted`,
@@ -28,7 +29,7 @@ export default class Status extends Component {
     const that = this
     this.debounceStatusUpdate = debounce(function () {
       if (!that.state.debounced) {
-        const shouldSilence = !that.props.isInFocus || that.props.validChoiceMade
+        const shouldSilence = !that.props.isInFocus || that.props.validChoiceMade || that.props.autocompleteDebouncing
         that.setState(({ bump }) => ({ bump: !bump, debounced: true, silenced: shouldSilence }))
       }
     }, statusDebounceMillis)
