@@ -1,4 +1,6 @@
-/* global after, describe, before, beforeEach, expect, it */
+/* global after, describe, before, beforeEach, it */
+
+import { expect } from 'chai'
 import { createElement, render } from 'preact' /** @jsx createElement */
 import Autocomplete from '../../src/autocomplete'
 import Status from '../../src/status'

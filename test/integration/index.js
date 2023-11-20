@@ -1,5 +1,7 @@
 /* global $, afterEach, beforeEach, browser, describe, it */
-const expect = require('chai').expect
+
+const { expect } = require('chai')
+
 const { browserName, browserVersion } = browser.capabilities
 const isChrome = browserName === 'chrome'
 // const isFireFox = browserName === 'firefox'
