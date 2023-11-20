@@ -1,4 +1,9 @@
+
 require('dotenv').config()
+require('@babel/register')({
+  rootMode: 'upward'
+})
+
 const puppeteer = require('puppeteer')
 const staticServerPort = process.env.PORT || 4567
 const services = [

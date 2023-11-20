@@ -1,11 +1,20 @@
+/**
+ * Babel config
+ *
+ * @type {import('@babel/core').ConfigFunction}
+ */
 module.exports = {
   presets: [
-    ['@babel/preset-env', {
-      shippedProposals: true,
-      useBuiltIns: 'usage',
-      loose: true
-    }]
+    [
+      '@babel/preset-env',
+      {
+        shippedProposals: true,
+        useBuiltIns: 'usage',
+        loose: true
+      }
+    ]
   ],
+
   plugins: [
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     ['@babel/plugin-proposal-decorators', { legacy: true }],
@@ -16,11 +25,10 @@ module.exports = {
     '@babel/plugin-transform-member-expression-literals',
     '@babel/plugin-transform-property-literals'
   ],
+
   env: {
     test: {
-      plugins: [
-        'istanbul'
-      ]
+      plugins: ['istanbul']
     }
   }
-};
+}
