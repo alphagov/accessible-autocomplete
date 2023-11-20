@@ -70,6 +70,13 @@
       <label for="autocomplete-minLength">Country</label>
       <div id="tt-minLength" class="autocomplete-wrapper"></div>
 
+      <h3><code>{ debounceMs: 250 }</code></h3>
+      <p>
+        This option will prevent displaying suggestions until debounceMs has elapsed
+      </p>
+      <label for="autocomplete-debounceMs">Country</label>
+      <div id="tt-debounceMs" class="autocomplete-wrapper"></div>
+
       <h3><code>{ displayMenu: 'overlay' }</code></h3>
       <p>This option will display the menu as an absolutely positioned overlay.</p>
       <label for="autocomplete-overlay">Country</label>
@@ -451,6 +458,20 @@
           "aria-labelledby": id
         },
         inputClasses: "govuk-input"
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-debounceMs')
+      id = 'autocomplete-debounceMs'
+      accessibleAutocomplete({
+        element: element,
+        id: id,
+        source: countries,
+        debounceMs: 250,
+        menuAttributes: {
+          "aria-labelledby": id
+        }
       })
     </script>
 
