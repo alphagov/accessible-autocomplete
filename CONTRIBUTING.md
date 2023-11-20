@@ -15,22 +15,12 @@ $ npm -v
 v6.14.18
 ```
 
-If you want to run the selenium tests, you will also need a local copy of the Java Development Kit:
-
-```bash
-$ java -version
-java version "1.8.0_131"
-Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
-Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
-```
-
-To install Node (with npm) and Java locally on macOS, we recommend [brew](https://brew.sh) with 
+To install Node (with npm) locally on macOS, we recommend [brew](https://brew.sh) with
 [nvm](https://github.com/nvm-sh/nvm):
 
 ```bash
 brew install nvm
 nvm install
-brew cask install java
 ```
 
 ## Project structure
