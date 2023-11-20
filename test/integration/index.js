@@ -4,7 +4,6 @@ const { mkdir } = require('fs/promises')
 const { dirname, join } = require('path')
 const { cwd } = require('process')
 const { expect } = require('chai')
-const { Key } = require('webdriverio')
 
 const { browserName, browserVersion } = browser.capabilities
 const isChrome = browserName === 'chrome'
@@ -100,10 +99,10 @@ const basicExample = () => {
       const $option1 = await $(`${input} + ul li:nth-child(1)`)
       const $option2 = await $(`${input} + ul li:nth-child(2)`)
 
-      await browser.keys([Key.ArrowDown])
+      await browser.keys(['ArrowDown'])
       expect(await $option1.getAttribute('aria-selected')).to.equal('true')
       expect(await $option2.getAttribute('aria-selected')).to.equal('false')
-      await browser.keys([Key.ArrowDown])
+      await browser.keys(['ArrowDown'])
       expect(await $option1.getAttribute('aria-selected')).to.equal('false')
       expect(await $option2.getAttribute('aria-selected')).to.equal('true')
     })
@@ -122,10 +121,10 @@ const basicExample = () => {
         const $option1 = await $(`${input} + ul li:nth-child(1)`)
         const $option2 = await $(`${input} + ul li:nth-child(2)`)
 
-        await browser.keys([Key.ArrowDown])
+        await browser.keys(['ArrowDown'])
         expect(await $input.isFocused()).to.equal(false)
         expect(await $option1.isFocused()).to.equal(true)
-        await browser.keys([Key.ArrowDown])
+        await browser.keys(['ArrowDown'])
         expect(await $menu.isDisplayed()).to.equal(true)
         expect(await $input.getValue()).to.equal('ita')
         expect(await $option1.isFocused()).to.equal(false)
@@ -135,7 +134,7 @@ const basicExample = () => {
       it('should allow confirming an option', async () => {
         await $input.click()
         await $input.setValue('ita')
-        await browser.keys([Key.ArrowDown, Key.Enter])
+        await browser.keys(['ArrowDown', 'Enter'])
         await browser.waitUntil(async () => await $input.getValue() !== 'ita')
         expect(await $input.isFocused()).to.equal(true)
         expect(await $input.getValue()).to.equal('Italy')
@@ -148,7 +147,7 @@ const basicExample = () => {
 
           const $option1 = await $(`${input} + ul li:nth-child(1)`)
 
-          await browser.keys([Key.ArrowDown])
+          await browser.keys(['ArrowDown'])
           expect(await $input.isFocused()).to.equal(false)
           expect(await $option1.isFocused()).to.equal(true)
           await $option1.addValue('l')
