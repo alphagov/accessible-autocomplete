@@ -31,7 +31,6 @@ const config = {
           negate_iife: false,
           properties: false
         },
-        ie8: true,
         output: {
           comments: false
         }

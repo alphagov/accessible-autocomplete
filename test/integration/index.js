@@ -4,9 +4,6 @@ const { browserName, browserVersion } = browser.capabilities
 const isChrome = browserName === 'chrome'
 // const isFireFox = browserName === 'firefox'
 const isIE = browserName === 'internet explorer'
-// const isIE9 = isIE && browserVersion === '9'
-// const isIE10 = isIE && browserVersion === '10'
-// const isIE11 = isIE && browserVersion === '11.103'
 const liveRegionWaitTimeMillis = 10000
 
 const basicExample = () => {
@@ -136,7 +133,7 @@ const basicExample = () => {
           expect($(input).isFocused()).to.equal(true)
           expect($(input).getValue()).to.equal('ital')
         } else {
-          // FIXME: This feature does not work correctly on IE 9 to 11.
+          // FIXME: This feature does not work correctly on IE 11
         }
       })
     })
