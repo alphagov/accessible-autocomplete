@@ -19,7 +19,7 @@
   "scripts": {
     "build:css": "csso src/autocomplete.css -o dist/accessible-autocomplete.min.css",
     "build:js": "cross-env NODE_ENV=production webpack --progress --display-modules",
-    "build": "run-s 'build:js' 'build:css'",
+    "build": "run-s \"build:js\" \"build:css\"",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
     "karma:dev": "cross-env NODE_ENV=test karma start test/karma.config.js",
     "karma": "npm run karma:dev -- --single-run",
@@ -49,7 +49,7 @@
     "chalk": "^2.4.1",
     "copy-webpack-plugin": "^6.4.1",
     "core-js": "^3.33.3",
-    "cross-env": "^5.2.1",
+    "cross-env": "^7.0.3",
     "csso-cli": "^3.0.0",
     "dotenv": "^6.1.0",
     "husky": "^8.0.3",
