@@ -47,7 +47,6 @@
     "@wdio/sauce-service": "^7.16.13",
     "@wdio/spec-reporter": "^7.16.13",
     "@wdio/static-server-service": "^7.16.13",
-    "@wdio/sync": "^7.16.13",
     "babel-loader": "^8.3.0",
     "babel-plugin-istanbul": "^5.2.0",
     "chai": "^4.2.0",
