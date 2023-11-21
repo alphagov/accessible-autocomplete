@@ -1,6 +1,7 @@
 require('@babel/register')({
-  cwd: require('path').resolve(__dirname, '../')
+  rootMode: 'upward'
 })
+
 var puppeteer = require('puppeteer')
 var webpack = require('../webpack.config.babel.js')[0]
 
