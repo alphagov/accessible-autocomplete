@@ -11,7 +11,7 @@ process.env.CHROME_BIN = puppeteer.executablePath()
 module.exports = function (config) {
   config.set({
     basePath: '../',
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'webpack'],
     reporters: ['mocha'],
 
     browsers: ['ChromeHeadless'],
