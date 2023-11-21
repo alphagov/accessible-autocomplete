@@ -1,9 +1,10 @@
 module.exports = {
   presets: [
     ['@babel/preset-env', {
+      corejs: '2',
+      loose: true,
       shippedProposals: true,
       useBuiltIns: 'usage',
-      loose: true
     }]
   ],
   plugins: [
