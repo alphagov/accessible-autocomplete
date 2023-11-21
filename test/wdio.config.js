@@ -3,13 +3,15 @@ require('@babel/register')({
   rootMode: 'upward'
 })
 
+const { join } = require('path')
+const { cwd } = require('process')
 const puppeteer = require('puppeteer')
 const staticServerPort = process.env.PORT || 4567
 const services = [
   ['static-server', {
     folders: [
-      { mount: '/', path: './examples' },
-      { mount: '/dist/', path: './dist' }
+      { mount: '/', path: join(cwd(), 'examples') },
+      { mount: '/dist/', path: join(cwd(), 'dist') }
     ],
     port: staticServerPort
   }]
@@ -19,6 +21,7 @@ const sauceEnabled = process.env.SAUCE_ENABLED === 'true'
 const sauceUser = process.env.SAUCE_USERNAME
 const sauceKey = process.env.SAUCE_ACCESS_KEY
 const buildNumber = process.env.SAUCE_BUILD_NUMBER
+
 const sauceConfig = {
   user: sauceUser,
   key: sauceKey,
@@ -66,10 +69,9 @@ const puppeteerConfig = {
 }
 
 exports.config = Object.assign({
-  outputDir: './logs/',
-  specs: ['./test/integration/**/*.js'],
-  baseUrl: 'http://localhost:' + staticServerPort,
-  screenshotPath: './screenshots/',
+  outputDir: join(cwd(), 'logs'),
+  specs: [join(cwd(), 'test/integration/**/*.js')],
+  baseUrl: `http://localhost:${staticServerPort}`,
   reporters: ['spec'],
   framework: 'mocha',
   mochaOpts: { timeout: 30 * 1000 }

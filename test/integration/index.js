@@ -1,5 +1,10 @@
 /* global $, afterEach, beforeEach, browser, describe, it */
-const expect = require('chai').expect
+
+const { mkdir } = require('fs/promises')
+const { dirname, join } = require('path')
+const { cwd } = require('process')
+const { expect } = require('chai')
+
 const { browserName, browserVersion } = browser.capabilities
 const isChrome = browserName === 'chrome'
 // const isFireFox = browserName === 'firefox'
@@ -190,13 +195,14 @@ const customTemplatesExample = () => {
 }
 
 const takeScreenshotsIfFail = () => {
-  afterEach(function () {
+  afterEach(async function () {
     const testFailed = this.currentTest.state === 'failed'
     if (testFailed) {
       const timestamp = +new Date()
       const browserVariant = isIE ? `ie${browserVersion}` : browserName
       const testTitle = this.currentTest.title.replace(/\W/g, '-')
-      const filename = `./screenshots/${timestamp}-${browserVariant}-${testTitle}.png`
+      const filename = join(cwd(), `screenshots/${timestamp}-${browserVariant}-${testTitle}.png`)
+      await mkdir(dirname(filename), { recursive: true })
       browser.saveScreenshot(filename)
       console.log(`Test failed, created: ${filename}`)
     }
