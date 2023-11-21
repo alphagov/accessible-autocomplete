@@ -453,9 +453,11 @@ export default class Autocomplete extends Component {
       : ''
 
     const assistiveHintID = id + '__assistiveHint'
-    const ariaDescribedProp = (ariaHint) ? {
-      'aria-describedby': assistiveHintID
-    } : null
+    const ariaDescribedProp = (ariaHint)
+      ? {
+          'aria-describedby': assistiveHintID
+        }
+      : null
 
     let dropdownArrow
 
