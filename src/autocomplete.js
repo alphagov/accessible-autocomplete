@@ -49,6 +49,7 @@ export default class Autocomplete extends Component {
     showAllValues: false,
     required: false,
     tNoResults: () => 'No results found',
+    tAssistiveInfo: () => 'Start typing the name of the police force to see relevant results.',
     tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown,
     menuAttributes: {}
@@ -417,6 +418,7 @@ export default class Autocomplete extends Component {
       tStatusSelectedOption,
       tStatusResults,
       tAssistiveHint,
+      tAssistiveInfo,
       dropdownArrow: dropdownArrowFactory,
       menuAttributes
     } = this.props
@@ -454,9 +456,11 @@ export default class Autocomplete extends Component {
       ? query + selectedOptionText.substr(query.length)
       : ''
 
-    const assistiveHintID = id + '__assistiveHint'
+    const assistiveHintID = id + '-hint'
+    const assistiveInfoID = id + '-info'
+    const describByValues = assistiveInfoID + " " + assistiveHintID
     const ariaDescribedProp = (ariaHint) ? {
-      'aria-describedby': assistiveHintID
+      'aria-describedby': describByValues
     } : null
 
     let dropdownArrow
@@ -487,6 +491,8 @@ export default class Autocomplete extends Component {
           tSelectedOption={tStatusSelectedOption}
           tResults={tStatusResults}
         />
+
+        <span id={assistiveInfoID} class={'govuk-hint'}>{tAssistiveInfo()}</span>
 
         {hintValue && (
           <span><input className={hintClassName} readonly tabIndex='-1' value={hintValue} /></span>
