@@ -17,18 +17,18 @@
     "widget"
   ],
   "scripts": {
-    "build:css": "csso src/autocomplete.css -o dist/accessible-autocomplete.min.css",
+    "build:css": "csso --debug src/autocomplete.css -o dist/accessible-autocomplete.min.css",
     "build:js": "cross-env NODE_ENV=production webpack --progress --display-modules",
-    "build": "run-s 'build:js' 'build:css'",
+    "build": "npm run build:js && npm run build:css",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
     "karma:dev": "cross-env NODE_ENV=test karma start test/karma.config.js",
     "karma": "npm run karma:dev -- --single-run",
     "preversion": "npm test",
     "standard": "standard",
-    "test": "run-p standard karma wdio",
+    "test": "npm run standard && npm run karma && npm run wdio",
     "version": "npm run build && git add -A dist",
     "wdio:test": "cross-env NODE_ENV=test wdio test/wdio.config.js",
-    "wdio": "npm run build wdio:test && git checkout dist/"
+    "wdio": "npm run build && npm run wdio:test && git checkout dist/"
   },
   "husky": {
     "hooks": {
