@@ -1,25 +1,33 @@
 name: Integration tests
 
-on: [push, pull_request]
+on:
+  pull_request:
 
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+concurrency:
+  group: integration-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
-  test-saucelabs:
+  integration:
     name: Build & test
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
 
-      - name: Read node version from .nvmrc
-        id: nvm
-        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
-
-      - name: "Setup Node v${{ steps.nvm.outputs.NVMRC }}"
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.0
         with:
-          node-version: "${{ steps.nvm.outputs.NVMRC }}"
-          cache: 'npm'
+          cache: npm
+          check-latest: true
+          node-version-file: .nvmrc
 
       - name: Install dependencies
         run: npm ci
@@ -27,7 +35,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: "Run integration tests"
+      - name: Run browser tests (without Sauce Labs)
         run: npm run wdio:test
         env:
-          SAUCE_ENABLED: "false"  # ensure we don't use Sauce Labs
+          SAUCE_ENABLED: false

@@ -1,19 +1,19 @@
 name: Cross-browser tests
 
-# Our Sauce Labs account only allows 5 tests to run at a time.
-concurrency: saucelabs
-
-# Run for pull requests, or after changes to main branch, but not for any old
-# branch, to limit number of workflows contending for Sauce Labs access.
 on:
+  pull_request:
+
   push:
     branches:
       - main
-  pull_request:
 
+  workflow_dispatch:
+
+# Our Sauce Labs account only allows 5 tests to run at a time.
+concurrency: saucelabs
 
 jobs:
-  test-saucelabs:
+  saucelabs:
     name: Build & test (with Sauce Labs)
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -22,17 +22,15 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
 
-      - name: Read node version from .nvmrc
-        id: nvm
-        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
-
-      - name: "Setup Node v${{ steps.nvm.outputs.NVMRC }}"
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.0
         with:
-          node-version: "${{ steps.nvm.outputs.NVMRC }}"
-          cache: 'npm'
+          cache: npm
+          check-latest: true
+          node-version-file: .nvmrc
 
       - name: Install dependencies
         run: npm ci
@@ -40,10 +38,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: "Run cross-browser tests (using Sauce Labs)"
+      - name: Run browser tests (with Sauce Labs)
         run: npm run wdio:test
         env:
-          SAUCE_ENABLED: "true"
-          SAUCE_BUILD_NUMBER: "${{ github.run_id }}"
-          SAUCE_USERNAME: "${{ secrets.SAUCE_USERNAME }}"
-          SAUCE_ACCESS_KEY: "${{ secrets.SAUCE_ACCESS_KEY }}"
+          SAUCE_ENABLED: true
+          SAUCE_BUILD_NUMBER: ${{ github.run_id }}
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
