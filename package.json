@@ -51,7 +51,7 @@
     "core-js": "^3.33.3",
     "cross-env": "^7.0.3",
     "csso-cli": "^4.0.2",
-    "dotenv": "^6.1.0",
+    "dotenv": "^16.3.1",
     "husky": "^8.0.3",
     "karma": "^6.4.2",
     "karma-chrome-launcher": "^3.2.0",
