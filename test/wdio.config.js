@@ -45,21 +45,6 @@ const sauceConfig = {
       'sauce:options': {
         build: buildNumber
       }
-    },
-    {
-      browserName: 'internet explorer',
-      browserVersion: '10',
-      platformName: 'Windows 7',
-      'sauce:options': {
-        build: buildNumber
-      }
-    },
-    /* IE9 on Sauce Labs needs to use legacy JSON Wire Protocol */
-    {
-      browserName: 'internet explorer',
-      version: '9',
-      platform: 'Windows 7',
-      build: buildNumber
     }
   ],
   services: services.concat([['sauce', { sauceConnect: true }]])

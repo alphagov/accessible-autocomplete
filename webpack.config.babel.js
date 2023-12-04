@@ -29,15 +29,10 @@ const config = {
       uglifyOptions: {
         compress: {
           negate_iife: false,
-          properties: false,
-          ie8: true
-        },
-        mangle: {
-          ie8: true
+          properties: false
         },
         output: {
-          comments: false,
-          ie8: true
+          comments: false
         }
       }
     })]
