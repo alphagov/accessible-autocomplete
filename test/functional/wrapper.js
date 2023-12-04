@@ -1,4 +1,6 @@
-/* global before, beforeEach, after, describe, expect, it */
+/* global before, beforeEach, after, describe, it */
+
+import { expect } from 'chai'
 import accessibleAutocomplete from '../../src/wrapper'
 
 const DEFAULT_OPTIONS = {
