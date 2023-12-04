@@ -3,7 +3,7 @@ require('@babel/register')({
 })
 
 const puppeteer = require('puppeteer')
-const webpack = require('../webpack.config.babel.js')[0]
+const webpack = require('../webpack.config.mjs').default[0]
 
 // Use Chrome headless
 process.env.CHROME_BIN = puppeteer.executablePath()

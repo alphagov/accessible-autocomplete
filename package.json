@@ -18,9 +18,9 @@
   ],
   "scripts": {
     "build:css": "csso src/autocomplete.css -o dist/accessible-autocomplete.min.css",
-    "build:js": "cross-env NODE_ENV=production webpack --progress --display-modules",
+    "build:js": "cross-env NODE_ENV=production webpack --progress",
     "build": "run-s \"build:js\" \"build:css\"",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "karma:dev": "cross-env NODE_ENV=test karma start test/karma.config.js",
     "karma": "npm run karma:dev -- --single-run",
     "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
@@ -47,7 +47,6 @@
     "babel-plugin-istanbul": "^6.1.1",
     "chai": "^4.3.10",
     "chalk": "^5.3.0",
-    "copy-webpack-plugin": "^6.4.1",
     "core-js": "^3.33.3",
     "cross-env": "^7.0.3",
     "csso-cli": "^4.0.2",
@@ -68,8 +67,8 @@
     "terser-webpack-plugin": "^4.2.3",
     "webdriverio": "^7.33.0",
     "webpack": "^4.47.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.3"
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.15.1"
   },
   "peerDependencies": {
     "preact": "^8.0.0"
