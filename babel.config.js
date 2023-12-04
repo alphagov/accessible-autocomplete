@@ -8,6 +8,7 @@ module.exports = {
     [
       '@babel/preset-env',
       {
+        bugfixes: true,
         corejs: '2',
         loose: true,
         shippedProposals: true,
