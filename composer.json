@@ -1,5 +1,5 @@
 {
-    "name": "accessible-autocomplete",
+    "name": "alphagov/accessible-autocomplete",
     "description": "An autocomplete component, built to be accessible.",
     "version": "2.0.4",
     "keywords": [
