@@ -1,25 +1,25 @@
 {
-  "name": "accessible-autocomplete",
-  "description": "An autocomplete component, built to be accessible.",
-  "version": "2.0.4,
-  "keywords": [
-    "a11y",
-    "accessibility",
-    "autocomplete",
-    "component",
-    "plugin",
-    "typeahead",
-    "widget"
-  ],
-  "homepage": "https://alphagov.github.io/accessible-autocomplete/examples/",
-  "authors": [
-    {
-      "name": "Government Digital Service",
-      "homepage": "https://www.gov.uk/government/organisations/government-digital-service"
-    }
-  ],
-  "support": {
-    "issues": "https://github.com/alphagov/accessible-autocomplete/issuess"
-  },
-  "license": "MIT",
+    "name": "accessible-autocomplete",
+    "description": "An autocomplete component, built to be accessible.",
+    "version": "2.0.4",
+    "keywords": [
+        "a11y",
+        "accessibility",
+        "autocomplete",
+        "component",
+        "plugin",
+        "typeahead",
+        "widget"
+    ],
+    "homepage": "https://alphagov.github.io/accessible-autocomplete/examples/",
+    "authors": [
+        {
+            "name": "Government Digital Service",
+            "homepage": "https://www.gov.uk/government/organisations/government-digital-service"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/alphagov/accessible-autocomplete/issuess"
+    },
+    "license": "MIT",
 }
