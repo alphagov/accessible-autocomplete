@@ -300,25 +300,27 @@ A function that gets passed an object with the property `className` (`{ classNam
 
 Type: `Function`
 
-A function that receives no arguments and should return the text used in the dropdown to indicate that there are no results.
+A function that receives no arguments and returns the text used in the dropdown to indicate that there are no results.
 
 #### `tStatusQueryTooShort` (default: `` (minQueryLength) => `Type in ${minQueryLength} or more characters for results` ``)
 
 Type: `Function`
 
-A function that receives one argument that indicates the minimal amount of characters needed for the dropdown to trigger and should return the text used in the accessibility hint to indicate that the query is too short.
+A function that receives one argument that indicates the minimal amount of characters needed for the dropdown to trigger and returns the text used in the accessibility hint to indicate that the query is too short.
 
 #### `tStatusNoResults` (default: `() => 'No search results'`)
 
 Type: `Function`
 
-A function that receives no arguments and should return the text that is used in the accessibility hint to indicate that there are no results.
+A function that receives no arguments and returns the text that is used in the accessibility hint to indicate that there are no results.
 
 #### `tStatusSelectedOption` (default: `` (selectedOption, length, index) => `${selectedOption} ${index + 1} of ${length} is highlighted` ``)
 
 Type: `Function`
 
-A function that receives two arguments, the selectedOption and the amount of available options, and it should return the text used in the accessibility hint to indicate which option is selected.
+A function that receives three arguments -
+the selectedOption, the count of available options, and the (zero-based) index of the selected option -
+and returns the text used in the accessibility hint to indicate which option is selected.
 
 #### `tStatusResults`
 
@@ -337,13 +339,13 @@ Default:
 
 Type: `Function`
 
-A function that receives two arguments, the count of available options and the return value of `tStatusSelectedOption`, and should return the text used in the accessibility hint to indicate which options are available and which is selected.
+A function that receives two arguments - the count of available options and the return value of `tStatusSelectedOption` - and returns the text used in the accessibility hint to indicate which options are available and which is selected.
 
 #### `tAssistiveHint` (default: `() => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.'`)
 
 Type: `Function`
 
-A function that receives no arguments and should return the text to be assigned as the aria description of the html `input` element, via the `aria-describedby` attribute.
+A function that receives no arguments and returns the text to be assigned as the aria description of the html `input` element, via the `aria-describedby` attribute.
 This text is intended as an initial instruction to the assistive tech user. The `aria-describedby` attribute is automatically removed once user input is detected, in order to reduce screen reader verbosity.
 
 
