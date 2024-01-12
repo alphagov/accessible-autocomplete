@@ -2,8 +2,7 @@
 
 ## Unreleased
 
-## 2.0.5 - 2023-04-25
-
+- [Pull request #620: Add `className` attribute to status component](https://github.com/alphagov/accessible-autocomplete/pull/620)
 - [Pull request #591: Add menuAttributes to fix #361](https://github.com/alphagov/accessible-autocomplete/pull/591)
 
 ## 2.0.4 - 2022-02-07
