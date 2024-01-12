@@ -433,12 +433,7 @@ export default class Autocomplete extends Component {
       inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
 
     const wrapperClassName = `${cssNamespace}__wrapper`
-
-    const inputClassName = `${cssNamespace}__input`
     const statusClassName = `${cssNamespace}__status`
-    const componentIsFocused = focused !== null
-    const inputModifierFocused = componentIsFocused ? ` ${inputClassName}--focused` : ''
-    const inputModifierType = this.props.showAllValues ? ` ${inputClassName}--show-all-values` : ` ${inputClassName}--default`
     const dropdownArrowClassName = `${cssNamespace}__dropdown-arrow-down`
     const optionFocused = focused !== -1 && focused !== null
 
@@ -474,9 +469,19 @@ export default class Autocomplete extends Component {
       }
     }
 
-    let inputClassesFinal = ''
+    const inputClassName = `${cssNamespace}__input`
+    const inputClassList = [
+      inputClassName,
+      this.props.showAllValues ? `${inputClassName}--show-all-values` : `${inputClassName}--default`
+    ]
+
+    const componentIsFocused = focused !== null
+    if (componentIsFocused) {
+      inputClassList.push(`${inputClassName}--focused`)
+    }
+
     if (inputClasses) {
-      inputClassesFinal = ' ' + inputClasses
+      inputClassList.push(inputClasses)
     }
 
     return (
@@ -508,7 +513,7 @@ export default class Autocomplete extends Component {
           aria-autocomplete={(this.hasAutoselect()) ? 'both' : 'list'}
           {...ariaDescribedProp}
           autoComplete='off'
-          className={`${inputClassName}${inputModifierFocused}${inputModifierType}${inputClassesFinal}`}
+          className={inputClassList.join(' ')}
           id={id}
           onClick={(event) => this.handleInputClick(event)}
           onBlur={this.handleInputBlur}
