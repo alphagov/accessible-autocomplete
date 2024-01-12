@@ -183,6 +183,12 @@ function suggest (query, populateResults) {
 
 ### Other options
 
+#### `inputClasses` (default: `''`)
+
+Type: `string`
+
+Adds custom html classes to the generated `input` element.
+
 #### `menuAttributes` (default: `{}`)
 
 Type: `Object`

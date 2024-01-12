@@ -51,7 +51,8 @@ export default class Autocomplete extends Component {
     tNoResults: () => 'No results found',
     tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown,
-    menuAttributes: {}
+    menuAttributes: {},
+    inputClasses: ''
   }
 
   elementReferences = {}
@@ -418,7 +419,8 @@ export default class Autocomplete extends Component {
       tStatusResults,
       tAssistiveHint,
       dropdownArrow: dropdownArrowFactory,
-      menuAttributes
+      menuAttributes,
+      inputClasses
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
     const autoselect = this.hasAutoselect()
@@ -431,12 +433,7 @@ export default class Autocomplete extends Component {
       inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
 
     const wrapperClassName = `${cssNamespace}__wrapper`
-
-    const inputClassName = `${cssNamespace}__input`
     const statusClassName = `${cssNamespace}__status`
-    const componentIsFocused = focused !== null
-    const inputModifierFocused = componentIsFocused ? ` ${inputClassName}--focused` : ''
-    const inputModifierType = this.props.showAllValues ? ` ${inputClassName}--show-all-values` : ` ${inputClassName}--default`
     const dropdownArrowClassName = `${cssNamespace}__dropdown-arrow-down`
     const optionFocused = focused !== -1 && focused !== null
 
@@ -472,6 +469,21 @@ export default class Autocomplete extends Component {
       }
     }
 
+    const inputClassName = `${cssNamespace}__input`
+    const inputClassList = [
+      inputClassName,
+      this.props.showAllValues ? `${inputClassName}--show-all-values` : `${inputClassName}--default`
+    ]
+
+    const componentIsFocused = focused !== null
+    if (componentIsFocused) {
+      inputClassList.push(`${inputClassName}--focused`)
+    }
+
+    if (inputClasses) {
+      inputClassList.push(inputClasses)
+    }
+
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
@@ -501,7 +513,7 @@ export default class Autocomplete extends Component {
           aria-autocomplete={(this.hasAutoselect()) ? 'both' : 'list'}
           {...ariaDescribedProp}
           autoComplete='off'
-          className={`${inputClassName}${inputModifierFocused}${inputModifierType}`}
+          className={inputClassList.join(' ')}
           id={id}
           onClick={(event) => this.handleInputClick(event)}
           onBlur={this.handleInputBlur}
