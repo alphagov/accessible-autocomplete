@@ -1,15 +1,15 @@
 import { createElement, Component } from 'preact' /** @jsx createElement */
 
 const debounce = function (func, wait, immediate) {
-  var timeout
+  let timeout
   return function () {
-    var context = this
-    var args = arguments
-    var later = function () {
+    const context = this
+    const args = arguments
+    const later = function () {
       timeout = null
       if (!immediate) func.apply(context, args)
     }
-    var callNow = immediate && !timeout
+    const callNow = immediate && !timeout
     clearTimeout(timeout)
     timeout = setTimeout(later, wait)
     if (callNow) func.apply(context, args)
@@ -30,13 +30,14 @@ export default class Status extends Component {
 
       return `${length} ${words.result} ${words.is} available. ${contentSelectedOption}`
     }
-  };
+  }
 
   state = {
     bump: false,
     debounced: false
   }
 
+  /* eslint-disable react/no-deprecated -- https://github.com/alphagov/accessible-autocomplete/issues/418 */
   componentWillMount () {
     const that = this
     this.debounceStatusUpdate = debounce(function () {
@@ -47,6 +48,7 @@ export default class Status extends Component {
     }, statusDebounceMillis)
   }
 
+  /* eslint-disable react/no-deprecated -- https://github.com/alphagov/accessible-autocomplete/issues/418 */
   componentWillReceiveProps ({ queryLength }) {
     this.setState({ debounced: false })
   }
@@ -99,19 +101,22 @@ export default class Status extends Component {
           position: 'absolute',
           whiteSpace: 'nowrap',
           width: '1px'
-        }}>
+        }}
+      >
         <div
           id={id + '__status--A'}
           role='status'
           aria-atomic='true'
-          aria-live='polite'>
+          aria-live='polite'
+        >
           {(!silenced && debounced && bump) ? content : ''}
         </div>
         <div
           id={id + '__status--B'}
           role='status'
           aria-atomic='true'
-          aria-live='polite'>
+          aria-live='polite'
+        >
           {(!silenced && debounced && !bump) ? content : ''}
         </div>
       </div>

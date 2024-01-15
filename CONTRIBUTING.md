@@ -94,7 +94,7 @@ You should do this and commit it before you attempt to `git push`, otherwise the
 
 ## Prepush checks
 
-When you push to a branch, git will run a `npm run prepush` [script](scripts/check-staged.js) that will compile the build on your behalf to the `dist/` folder. If it then finds unstaged files in `dist/`, it will fail your push.
+When you push to a branch, git will run a `npm run prepush` [script](scripts/check-staged.mjs) that will compile the build on your behalf to the `dist/` folder. If it then finds unstaged files in `dist/`, it will fail your push.
 
 The solution is to commit the files, preferably as part of a separate commit:
 

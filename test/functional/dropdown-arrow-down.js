@@ -1,4 +1,6 @@
-/* global before, beforeEach, after, describe, expect, it */
+/* global before, beforeEach, after, describe, it */
+
+import { expect } from 'chai'
 import { createElement, render } from 'preact' /** @jsx createElement */
 import DropdownArrowDown from '../../src/dropdown-arrow-down'
 
