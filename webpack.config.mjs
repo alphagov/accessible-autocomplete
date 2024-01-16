@@ -164,6 +164,9 @@ const bundlePreact = {
 
   output: {
     ...config.output,
+
+    // Support `window.preact` when not bundled
+    // e.g. with all dependencies included via unpkg.com
     globalObject: 'window'
   },
 
@@ -199,6 +202,9 @@ const bundleReact = {
 
   output: {
     ...config.output,
+
+    // Support extending `window.React` when not bundled
+    // e.g. with all dependencies included via unpkg.com
     globalObject: 'window'
   },
 
