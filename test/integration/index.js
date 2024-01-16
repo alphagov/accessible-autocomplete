@@ -1,9 +1,10 @@
-/* global $, afterEach, beforeEach, browser, describe, it */
+/* global afterEach, beforeEach, describe, it */
 
 const { mkdir } = require('fs/promises')
 const { dirname, join } = require('path')
 const { cwd } = require('process')
-const { expect } = require('chai')
+const { $, browser, expect } = require('@wdio/globals')
+const { Key } = require('webdriverio')
 
 const { browserName, browserVersion } = browser.capabilities
 const isChrome = browserName === 'chrome'
@@ -25,19 +26,19 @@ const basicExample = () => {
 
     it('should show the input', async () => {
       await $input.waitForExist()
-      expect(await $input.isDisplayed()).to.equal(true)
+      expect(await $input.isDisplayed()).toEqual(true)
     })
 
     it('should allow focusing the input', async () => {
       await $input.click()
-      expect(await $input.isFocused()).to.equal(true)
+      expect(await $input.isFocused()).toEqual(true)
     })
 
     it('should display suggestions', async () => {
       await $input.click()
       await $input.setValue('ita')
       await $menu.waitForDisplayed()
-      expect(await $menu.isDisplayed()).to.equal(true)
+      expect(await $menu.isDisplayed()).toEqual(true)
     })
 
     // These tests are flakey when run through Saucelabs so we only run them
@@ -47,8 +48,8 @@ const basicExample = () => {
         const $regionA = await $('#autocomplete-default__status--A')
         const $regionB = await $('#autocomplete-default__status--B')
 
-        expect(await $regionA.getText()).to.equal('')
-        expect(await $regionB.getText()).to.equal('')
+        expect(await $regionA.getText()).toEqual('')
+        expect(await $regionB.getText()).toEqual('')
 
         await $input.click()
         await $input.setValue('a')
@@ -104,19 +105,19 @@ const basicExample = () => {
       const $option1 = await $(`${input} + ul li:nth-child(1)`)
       const $option2 = await $(`${input} + ul li:nth-child(2)`)
 
-      await browser.keys(['ArrowDown'])
-      expect(await $option1.getAttribute('aria-selected')).to.equal('true')
-      expect(await $option2.getAttribute('aria-selected')).to.equal('false')
-      await browser.keys(['ArrowDown'])
-      expect(await $option1.getAttribute('aria-selected')).to.equal('false')
-      expect(await $option2.getAttribute('aria-selected')).to.equal('true')
+      await browser.keys([Key.ArrowDown])
+      expect(await $option1.getAttribute('aria-selected')).toEqual('true')
+      expect(await $option2.getAttribute('aria-selected')).toEqual('false')
+      await browser.keys([Key.ArrowDown])
+      expect(await $option1.getAttribute('aria-selected')).toEqual('false')
+      expect(await $option2.getAttribute('aria-selected')).toEqual('true')
     })
 
     describe('keyboard use', () => {
       it('should allow typing', async () => {
         await $input.click()
         await $input.addValue('ita')
-        expect(await $input.getValue()).to.equal('ita')
+        expect(await $input.getValue()).toEqual('ita')
       })
 
       it('should allow selecting an option', async () => {
@@ -126,23 +127,23 @@ const basicExample = () => {
         const $option1 = await $(`${input} + ul li:nth-child(1)`)
         const $option2 = await $(`${input} + ul li:nth-child(2)`)
 
-        await browser.keys(['ArrowDown'])
-        expect(await $input.isFocused()).to.equal(false)
-        expect(await $option1.isFocused()).to.equal(true)
-        await browser.keys(['ArrowDown'])
-        expect(await $menu.isDisplayed()).to.equal(true)
-        expect(await $input.getValue()).to.equal('ita')
-        expect(await $option1.isFocused()).to.equal(false)
-        expect(await $option2.isFocused()).to.equal(true)
+        await browser.keys([Key.ArrowDown])
+        expect(await $input.isFocused()).toEqual(false)
+        expect(await $option1.isFocused()).toEqual(true)
+        await browser.keys([Key.ArrowDown])
+        expect(await $menu.isDisplayed()).toEqual(true)
+        expect(await $input.getValue()).toEqual('ita')
+        expect(await $option1.isFocused()).toEqual(false)
+        expect(await $option2.isFocused()).toEqual(true)
       })
 
       it('should allow confirming an option', async () => {
         await $input.click()
         await $input.setValue('ita')
-        await browser.keys(['ArrowDown', 'Enter'])
+        await browser.keys([Key.ArrowDown, Key.Enter])
         await browser.waitUntil(async () => await $input.getValue() !== 'ita')
-        expect(await $input.isFocused()).to.equal(true)
-        expect(await $input.getValue()).to.equal('Italy')
+        expect(await $input.isFocused()).toEqual(true)
+        expect(await $input.getValue()).toEqual('Italy')
       })
 
       it('should redirect keypresses on an option to input', async () => {
@@ -152,12 +153,12 @@ const basicExample = () => {
 
           const $option1 = await $(`${input} + ul li:nth-child(1)`)
 
-          await browser.keys(['ArrowDown'])
-          expect(await $input.isFocused()).to.equal(false)
-          expect(await $option1.isFocused()).to.equal(true)
+          await browser.keys([Key.ArrowDown])
+          expect(await $input.isFocused()).toEqual(false)
+          expect(await $option1.isFocused()).toEqual(true)
           await $option1.addValue('l')
-          expect(await $input.isFocused()).to.equal(true)
-          expect(await $input.getValue()).to.equal('ital')
+          expect(await $input.isFocused()).toEqual(true)
+          expect(await $input.getValue()).toEqual('ital')
         } else {
           // FIXME: This feature does not work correctly on IE 11
         }
@@ -172,8 +173,8 @@ const basicExample = () => {
         const $option1 = await $(`${input} + ul li:nth-child(1)`)
         await $option1.click()
 
-        expect(await $input.isFocused()).to.equal(true)
-        expect(await $input.getValue()).to.equal('Italy')
+        expect(await $input.isFocused()).toEqual(true)
+        expect(await $input.getValue()).toEqual('Italy')
       })
     })
   })
@@ -214,8 +215,8 @@ const customTemplatesExample = () => {
           }
         }
 
-        expect(await $input.isFocused()).to.equal(true)
-        expect(await $input.getValue()).to.equal('United Kingdom')
+        expect(await $input.isFocused()).toEqual(true)
+        expect(await $input.getValue()).toEqual('United Kingdom')
       })
     })
   })
@@ -242,7 +243,7 @@ describe('Accessible Autocomplete', () => {
   })
 
   it('should have the right title', async () => {
-    expect(await browser.getTitle()).to.equal('Accessible Autocomplete examples')
+    expect(await browser.getTitle()).toEqual('Accessible Autocomplete examples')
   })
 
   basicExample()
@@ -257,7 +258,7 @@ describe('Accessible Autocomplete Preact', () => {
   })
 
   it('should have the right title', async () => {
-    expect(await browser.getTitle()).to.equal('Accessible Autocomplete Preact examples')
+    expect(await browser.getTitle()).toEqual('Accessible Autocomplete Preact examples')
   })
 
   basicExample()
@@ -271,7 +272,7 @@ describe('Accessible Autocomplete React', () => {
   })
 
   it('should have the right title', async () => {
-    expect(await browser.getTitle()).to.equal('Accessible Autocomplete React examples')
+    expect(await browser.getTitle()).toEqual('Accessible Autocomplete React examples')
   })
 
   basicExample()
