@@ -167,7 +167,7 @@ const bundlePreact = {
 
     // Support `window.preact` when not bundled
     // e.g. with all dependencies included via unpkg.com
-    globalObject: 'window'
+    globalObject: 'this'
   },
 
   plugins: plugins
@@ -197,7 +197,12 @@ const bundleReact = {
   },
 
   externals: {
-    preact: 'React'
+    preact: {
+      amd: 'react',
+      commonjs: 'react',
+      commonjs2: 'react',
+      root: 'React'
+    }
   },
 
   output: {
@@ -205,7 +210,7 @@ const bundleReact = {
 
     // Support extending `window.React` when not bundled
     // e.g. with all dependencies included via unpkg.com
-    globalObject: 'window'
+    globalObject: 'this'
   },
 
   plugins: plugins
