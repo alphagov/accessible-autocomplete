@@ -1,5 +1,6 @@
 import { join } from 'path'
 import { cwd } from 'process'
+
 import TerserPlugin from 'terser-webpack-plugin'
 import webpack from 'webpack'
 
@@ -13,35 +14,23 @@ const plugins = [
   })
 ]
 
+/**
+ * Base webpack config
+ *
+ * @satisfies {WebpackConfiguration}
+ */
 const config = {
   context: join(cwd(), 'src'),
 
-  optimization: {
-    minimize: ENV === 'production',
-    minimizer: [new TerserPlugin({
-      extractComments: true,
-      sourceMap: true,
-      terserOptions: {
-        format: { comments: false },
+  devtool: ENV === 'development'
+    ? 'inline-source-map'
+    : 'source-map',
 
-        // Include sources content from dependency source maps
-        sourceMap: {
-          includeSources: true
-        },
+  externalsType: 'umd',
 
-        // Compatibility workarounds
-        safari10: true
-      }
-    })]
-  },
-
-  resolve: {
-    extensions: ['.js'],
-    modules: [
-      join(cwd(), 'node_modules'),
-      'node_modules'
-    ]
-  },
+  mode: ENV === 'development'
+    ? 'development'
+    : 'production',
 
   module: {
     rules: [
@@ -64,23 +53,48 @@ const config = {
     ]
   },
 
-  stats: { colors: true },
-
   node: {
     global: true,
-    process: false,
-    Buffer: false,
     __filename: false,
-    __dirname: false,
-    setImmediate: false
+    __dirname: false
   },
 
-  mode: ENV === 'production' ? 'production' : 'development',
-  devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map'
+  optimization: {
+    minimize: ENV === 'production',
+    minimizer: [new TerserPlugin({
+      extractComments: true,
+      terserOptions: {
+        format: { comments: false },
+
+        // Include sources content from dependency source maps
+        sourceMap: {
+          includeSources: true
+        },
+
+        // Compatibility workarounds
+        safari10: true
+      }
+    })]
+  },
+
+  output: {
+    path: join(cwd(), 'dist'),
+    publicPath: '/dist'
+  },
+
+  stats: {
+    colors: true
+  }
 }
 
+/**
+ * Bundle standalone 'accessible-autocomplete'
+ *
+ * @satisfies {WebpackConfiguration}
+ */
 const bundleStandalone = {
   ...config,
+
   devServer: {
     allowedHosts: 'all',
     host: '0.0.0.0',
@@ -105,62 +119,83 @@ const bundleStandalone = {
       }
     ]
   },
-  entry: {
-    'accessible-autocomplete.min': './wrapper.js'
-  },
-  output: {
-    path: join(cwd(), 'dist'),
-    publicPath: '/dist',
-    filename: '[name].js',
-    library: 'accessibleAutocomplete',
-    libraryExport: 'default',
-    libraryTarget: 'umd'
-  },
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
-      'process.env.COMPONENT_LIBRARY': '"PREACT"'
-    })])
-}
 
-const bundlePreact = {
-  ...config,
   entry: {
-    'lib/accessible-autocomplete.preact.min': './autocomplete.js'
-  },
-  output: {
-    path: join(cwd(), 'dist'),
-    publicPath: '/',
-    filename: '[name].js',
-    library: 'Autocomplete',
-    libraryTarget: 'umd'
-  },
-  externals: {
-    preact: {
-      amd: 'preact',
-      commonjs: 'preact',
-      commonjs2: 'preact',
-      root: 'preact'
+    'accessible-autocomplete': {
+      import: join(cwd(), 'src/wrapper.js'),
+      filename: '[name].min.js',
+      library: {
+        export: 'default',
+        name: 'accessibleAutocomplete',
+        type: 'umd'
+      }
     }
   },
+
   plugins: plugins
     .concat([new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"PREACT"'
     })])
 }
 
-const bundleReact = {
+/**
+ * Bundle for Preact 'accessible-autocomplete/preact.js'
+ *
+ * @satisfies {WebpackConfiguration}
+ */
+const bundlePreact = {
   ...config,
+
   entry: {
-    'lib/accessible-autocomplete.react.min': './autocomplete.js'
+    'accessible-autocomplete.preact': {
+      import: join(cwd(), 'src/autocomplete.js'),
+      filename: 'lib/[name].min.js',
+      library: {
+        name: 'Autocomplete',
+        type: 'umd',
+        umdNamedDefine: true
+      }
+    }
   },
+
+  externals: {
+    preact: 'preact'
+  },
+
   output: {
-    path: join(cwd(), 'dist'),
-    publicPath: '/',
-    filename: '[name].js',
-    library: 'Autocomplete',
-    libraryTarget: 'umd',
+    ...config.output,
+
+    // Support `window.preact` when not bundled
+    // e.g. with all dependencies included via unpkg.com
     globalObject: 'this'
   },
+
+  plugins: plugins
+    .concat([new webpack.DefinePlugin({
+      'process.env.COMPONENT_LIBRARY': '"PREACT"'
+    })])
+}
+
+/**
+ * Bundle for React 'accessible-autocomplete/react.js'
+ *
+ * @satisfies {WebpackConfiguration}
+ */
+const bundleReact = {
+  ...config,
+
+  entry: {
+    'accessible-autocomplete.react': {
+      import: join(cwd(), 'src/autocomplete.js'),
+      filename: 'lib/[name].min.js',
+      library: {
+        name: 'Autocomplete',
+        type: 'umd',
+        umdNamedDefine: true
+      }
+    }
+  },
+
   externals: {
     preact: {
       amd: 'react',
@@ -169,14 +204,30 @@ const bundleReact = {
       root: 'React'
     }
   },
+
+  output: {
+    ...config.output,
+
+    // Support extending `window.React` when not bundled
+    // e.g. with all dependencies included via unpkg.com
+    globalObject: 'this'
+  },
+
   plugins: plugins
     .concat([new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"REACT"'
     })])
 }
 
+/**
+ * Multiple webpack config export
+ */
 export default [
   bundleStandalone,
   bundlePreact,
   bundleReact
 ]
+
+/**
+ * @typedef {import('webpack-dev-server').WebpackConfiguration} WebpackConfiguration
+ */
