@@ -41,7 +41,7 @@
     "@wdio/globals": "8.27.0",
     "@wdio/local-runner": "8.27.0",
     "@wdio/mocha-framework": "8.27.0",
-    "@wdio/sauce-service": "8.27.0",
+    "@wdio/sauce-service": "8.27.2",
     "@wdio/spec-reporter": "8.27.0",
     "@wdio/static-server-service": "8.27.0",
     "babel-loader": "^9.1.3",
