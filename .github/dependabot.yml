@@ -1,0 +1,72 @@
+version: 2
+
+updates:
+  # Update npm packages
+  - package-ecosystem: npm
+    directory: /
+    open-pull-requests-limit: 10
+
+    # Group packages into shared PR
+    groups:
+      build:
+        patterns:
+          - '@babel/*'
+          - 'babel-*'
+          - 'core-js'
+          - 'csso-cli'
+          - 'preact'
+          - 'source-map-loader'
+          - 'terser-*'
+          - 'webpack'
+          - 'webpack-*'
+
+      test:
+        patterns:
+          - '@wdio/*'
+          - 'chai'
+          - 'devtools'
+          - 'karma'
+          - 'karma-*'
+          - 'mocha'
+          - 'puppeteer'
+          - 'standard'
+          - 'webdriverio'
+
+      tools:
+        patterns:
+          - 'chalk'
+          - 'cross-env'
+          - 'dotenv'
+          - 'husky'
+          - 'npm-run-all'
+
+    reviewers:
+      - alphagov/design-system-developers
+
+    # Schedule run on 1st of every month, local time
+    schedule:
+      interval: monthly
+      time: '10:30'
+      timezone: 'Europe/London'
+
+    versioning-strategy: increase
+
+    allow:
+      # Include direct package.json updates
+      - dependency-type: direct
+
+      # Include indirect browser data updates
+      # https://caniuse.com
+      - dependency-name: caniuse-lite
+
+  # Update GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    reviewers:
+      - alphagov/design-system-developers
+
+    # Schedule run on 1st of every month, local time
+    schedule:
+      interval: monthly
+      time: '10:30'
+      timezone: 'Europe/London'
