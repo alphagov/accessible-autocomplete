@@ -9,6 +9,8 @@
   border-radius: 0; /* Safari 10 on iOS adds implicit border rounding. */
   box-sizing: border-box;
   margin-bottom: 0; /* BUG: Safari 10 on macOS seems to add an implicit margin. */
+  line-height: 1.25;
+  height: 2.5rem;
   width: 100%;
 }
 
@@ -33,7 +35,7 @@
 }
 
 .autocomplete__input--show-all-values {
-  padding: 5px 34px 5px 5px; /* Space for arrow. Other padding should match .autocomplete__input--default. */
+  padding: 5px 35px 5px 5px; /* Space for arrow. Other padding should match .autocomplete__input--default. */
   cursor: pointer;
 }
 
@@ -146,8 +148,8 @@
 .autocomplete__hint,
 .autocomplete__input,
 .autocomplete__option {
-  font-size: 16px;
-  line-height: 1.25;
+  font-size: 1rem;
+  font-weight: 400;
 }
 
 .autocomplete__hint,
@@ -159,7 +161,7 @@
   .autocomplete__hint,
   .autocomplete__input,
   .autocomplete__option {
-    font-size: 19px;
-    line-height: 1.31579;
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
   }
 }
