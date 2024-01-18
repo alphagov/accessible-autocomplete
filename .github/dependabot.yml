@@ -6,6 +6,40 @@ updates:
     directory: /
     open-pull-requests-limit: 10
 
+    # Group packages into shared PR
+    groups:
+      build:
+        patterns:
+          - '@babel/*'
+          - 'babel-*'
+          - 'core-js'
+          - 'csso-cli'
+          - 'preact'
+          - 'source-map-loader'
+          - 'terser-*'
+          - 'webpack'
+          - 'webpack-*'
+
+      test:
+        patterns:
+          - '@wdio/*'
+          - 'chai'
+          - 'devtools'
+          - 'karma'
+          - 'karma-*'
+          - 'mocha'
+          - 'puppeteer'
+          - 'standard'
+          - 'webdriverio'
+
+      tools:
+        patterns:
+          - 'chalk'
+          - 'cross-env'
+          - 'dotenv'
+          - 'husky'
+          - 'npm-run-all'
+
     reviewers:
       - alphagov/design-system-developers
 
