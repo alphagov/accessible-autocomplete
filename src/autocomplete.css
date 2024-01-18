@@ -152,6 +152,15 @@
   font-weight: 400;
 }
 
+/* Try font "GDS Transport" for GOV.UK form groups */
+.govuk-form-group .autocomplete__hint,
+.govuk-form-group .autocomplete__input,
+.govuk-form-group .autocomplete__option {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .autocomplete__hint,
 .autocomplete__option {
   padding: 5px;
