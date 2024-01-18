@@ -8,7 +8,8 @@
     }
   },
   "assets": [
-    "/dist/"
+    "/dist",
+    "/dist/accessible-autocomplete.min.js.map"
   ],
   "scripts": [
     "/dist/accessible-autocomplete.min.js"
