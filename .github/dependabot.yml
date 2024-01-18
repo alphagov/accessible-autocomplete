@@ -9,9 +9,9 @@ updates:
     reviewers:
       - alphagov/design-system-developers
 
-    # Schedule run every Monday, local time
+    # Schedule run on 1st of every month, local time
     schedule:
-      interval: weekly
+      interval: monthly
       time: '10:30'
       timezone: 'Europe/London'
 
@@ -31,8 +31,8 @@ updates:
     reviewers:
       - alphagov/design-system-developers
 
-    # Schedule run every Monday, local time
+    # Schedule run on 1st of every month, local time
     schedule:
-      interval: weekly
+      interval: monthly
       time: '10:30'
       timezone: 'Europe/London'
