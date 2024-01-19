@@ -12,7 +12,7 @@ const {
 /**
  * Base webpack build mode
  */
-const mode = NODE_ENV === 'development'
+const mode = ['development', 'test'].includes(NODE_ENV)
   ? 'development'
   : 'production'
 
