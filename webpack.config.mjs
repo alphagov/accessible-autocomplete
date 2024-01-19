@@ -8,7 +8,6 @@ const ENV = process.env.NODE_ENV || 'development'
 const PORT = process.env.PORT || 8080
 
 const plugins = [
-  new webpack.NoEmitOnErrorsPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(ENV)
   })
@@ -20,6 +19,7 @@ const plugins = [
  * @satisfies {WebpackConfiguration}
  */
 const config = {
+  bail: ENV === 'production',
   context: join(cwd(), 'src'),
 
   devtool: ENV === 'development'
@@ -60,6 +60,7 @@ const config = {
   },
 
   optimization: {
+    emitOnErrors: ENV === 'production',
     minimize: ENV === 'production',
     minimizer: [new TerserPlugin({
       extractComments: true,
