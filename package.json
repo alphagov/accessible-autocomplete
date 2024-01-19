@@ -35,7 +35,7 @@
     "@babel/core": "^7.23.7",
     "@babel/eslint-parser": "^7.23.3",
     "@babel/plugin-transform-react-jsx": "^7.23.4",
-    "@babel/preset-env": "^7.23.7",
+    "@babel/preset-env": "^7.23.8",
     "@babel/register": "^7.23.7",
     "@wdio/cli": "^8.28.6",
     "@wdio/globals": "^8.28.6",
