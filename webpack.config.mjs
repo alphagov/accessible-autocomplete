@@ -4,15 +4,17 @@ import { cwd } from 'process'
 import TerserPlugin from 'terser-webpack-plugin'
 import webpack from 'webpack'
 
-const ENV = process.env.NODE_ENV || 'development'
-const PORT = process.env.PORT || 8080
+const {
+  NODE_ENV = 'development',
+  PORT = 8080
+} = process.env
 
-const plugins = [
-  new webpack.NoEmitOnErrorsPlugin(),
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(ENV)
-  })
-]
+/**
+ * Base webpack build mode
+ */
+const mode = ['development', 'test'].includes(NODE_ENV)
+  ? 'development'
+  : 'production'
 
 /**
  * Base webpack config
@@ -20,17 +22,15 @@ const plugins = [
  * @satisfies {WebpackConfiguration}
  */
 const config = {
+  bail: mode === 'production',
   context: join(cwd(), 'src'),
 
-  devtool: ENV === 'development'
+  devtool: mode === 'development'
     ? 'inline-source-map'
     : 'source-map',
 
   externalsType: 'umd',
-
-  mode: ENV === 'development'
-    ? 'development'
-    : 'production',
+  mode,
 
   module: {
     rules: [
@@ -60,7 +60,8 @@ const config = {
   },
 
   optimization: {
-    minimize: ENV === 'production',
+    emitOnErrors: mode === 'production',
+    minimize: mode === 'production',
     minimizer: [new TerserPlugin({
       extractComments: true,
       terserOptions: {
@@ -132,10 +133,12 @@ const bundleStandalone = {
     }
   },
 
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
-      'process.env.COMPONENT_LIBRARY': '"PREACT"'
-    })])
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.COMPONENT_LIBRARY': '"PREACT"',
+      'process.env.NODE_ENV': `"${mode}"`
+    })
+  ]
 }
 
 /**
@@ -170,10 +173,12 @@ const bundlePreact = {
     globalObject: 'this'
   },
 
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
-      'process.env.COMPONENT_LIBRARY': '"PREACT"'
-    })])
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.COMPONENT_LIBRARY': '"PREACT"',
+      'process.env.NODE_ENV': `"${mode}"`
+    })
+  ]
 }
 
 /**
@@ -213,10 +218,12 @@ const bundleReact = {
     globalObject: 'this'
   },
 
-  plugins: plugins
-    .concat([new webpack.DefinePlugin({
-      'process.env.COMPONENT_LIBRARY': '"REACT"'
-    })])
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.COMPONENT_LIBRARY': '"REACT"',
+      'process.env.NODE_ENV': `"${mode}"`
+    })
+  ]
 }
 
 /**
