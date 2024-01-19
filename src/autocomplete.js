@@ -51,8 +51,10 @@ export default class Autocomplete extends Component {
     tNoResults: () => 'No results found',
     tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown,
+    inputClasses: '',
     menuAttributes: {},
-    inputClasses: ''
+    menuClasses: '',
+    hintClasses: null
   }
 
   elementReferences = {}
@@ -166,7 +168,7 @@ export default class Autocomplete extends Component {
       newQuery = newState.query || query
       this.props.onConfirm(options[selected])
     } else {
-      newQuery = query
+      newQuery = query  
     }
     this.setState({
       focused: null,
@@ -420,7 +422,9 @@ export default class Autocomplete extends Component {
       tAssistiveHint,
       dropdownArrow: dropdownArrowFactory,
       menuAttributes,
-      inputClasses
+      inputClasses,
+      menuClasses,
+      hintClasses
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
     const autoselect = this.hasAutoselect()
@@ -436,11 +440,6 @@ export default class Autocomplete extends Component {
     const statusClassName = `${cssNamespace}__status`
     const dropdownArrowClassName = `${cssNamespace}__dropdown-arrow-down`
     const optionFocused = focused !== -1 && focused !== null
-
-    const menuClassName = `${cssNamespace}__menu`
-    const menuModifierDisplayMenu = `${menuClassName}--${displayMenu}`
-    const menuIsVisible = menuOpen || showNoOptionsFound
-    const menuModifierVisibility = `${menuClassName}--${(menuIsVisible) ? 'visible' : 'hidden'}`
 
     const optionClassName = `${cssNamespace}__option`
 
@@ -488,6 +487,27 @@ export default class Autocomplete extends Component {
       inputClassList.push(inputClasses)
     }
 
+    const menuClassName = `${cssNamespace}__menu`
+    const menuModifierDisplayMenu = `${menuClassName}--${displayMenu}`
+    const menuIsVisible = menuOpen || showNoOptionsFound
+    const menuModifierVisibility = `${menuClassName}--${(menuIsVisible) ? 'visible' : 'hidden'}`
+
+    const {id:_,className:__,role:___,...safeMenuAttributes} = menuAttributes;
+    
+    const menuClassList = [
+      menuClassName,
+      menuModifierDisplayMenu,
+      menuModifierVisibility
+    ]
+
+    if (menuAttributes && menuAttributes.className) {
+      menuClassList.push(menuAttributes.className)
+    }
+
+    if (menuClasses) {
+      menuClassList.push(menuClasses)
+    }
+
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
@@ -507,7 +527,7 @@ export default class Autocomplete extends Component {
         />
 
         {hintValue && (
-          <span><input className={hintClassName} readonly tabIndex='-1' value={hintValue} /></span>
+          <span><input className={[hintClassName, hintClasses === null ? inputClasses : hintClasses].filter(Boolean).join(' ')} readonly tabIndex='-1' value={hintValue} /></span>
         )}
 
         <input
@@ -531,11 +551,11 @@ export default class Autocomplete extends Component {
         {dropdownArrow}
 
         <ul
-          className={`${menuClassName} ${menuModifierDisplayMenu} ${menuModifierVisibility}`}
+          className={menuClassList.join(' ')}
           onMouseLeave={(event) => this.handleListMouseLeave(event)}
           id={`${id}__listbox`}
           role='listbox'
-          {...menuAttributes}
+          {...safeMenuAttributes}
         >
           {options.map((option, index) => {
             const showFocused = focused === -1 ? selected === index : focused === index
