@@ -26,7 +26,8 @@ The field with autocomplete must:
 1. Inform the user when there are matches, or if there are no matches
 1. (Optional) Inform the user how many matches are currently available
 1. Inform the user as the number of matches changes
-1. Enable the user to navigate the available matches using touch or keyboard
+1. Enable the user to navigate the available matches, using just one input method (pointer, mouse, touch or keyboard)
+1. Enable the user to navigate the available matches, with a single action at a time (no dragging movements or multi-key presses needed)
 1. Inform the user when a match is selected
 1. (Optional) Inform the user which number the currently selected match is (1 of 3 for example)
 1. Inform the user if a match is pre-selected
