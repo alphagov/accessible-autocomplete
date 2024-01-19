@@ -31,6 +31,12 @@ module.exports = function (config) {
       // than Preact [1] or React [2] configs
       ...webpackConfig.default[0],
 
+      // Use Karma managed test entry points
+      entry: undefined,
+
+      // Use Karma default `os.tmpdir()` output
+      output: undefined,
+
       // Suppress webpack performance warnings due to
       // Karma chunked output and inline source maps
       performance: { hints: false },
