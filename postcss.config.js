@@ -1,4 +1,6 @@
 const autoprefixer = require('autoprefixer')
+const cssnano = require('cssnano')
+const cssnanoPresetDefault = require('cssnano-preset-default')
 
 /**
  * PostCSS config
@@ -6,6 +8,9 @@ const autoprefixer = require('autoprefixer')
 module.exports = {
   plugins: [
     // Add vendor prefixes
-    autoprefixer({ env: 'stylesheets' })
+    autoprefixer({ env: 'stylesheets' }),
+
+    // Always minify CSS
+    cssnano({ preset: [cssnanoPresetDefault] })
   ]
 }

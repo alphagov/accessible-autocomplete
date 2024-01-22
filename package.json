@@ -50,6 +50,8 @@
     "core-js": "^3.35.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.9.1",
+    "cssnano": "^6.0.3",
+    "cssnano-preset-default": "^6.0.3",
     "devtools": "^8.28.6",
     "dotenv": "^16.3.1",
     "husky": "^8.0.3",
