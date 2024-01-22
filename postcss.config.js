@@ -1,6 +1,11 @@
+const autoprefixer = require('autoprefixer')
+
 /**
  * PostCSS config
  */
 module.exports = {
-  plugins: []
+  plugins: [
+    // Add vendor prefixes
+    autoprefixer({ env: 'stylesheets' })
+  ]
 }

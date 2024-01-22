@@ -5,11 +5,10 @@
 .autocomplete__hint,
 .autocomplete__input {
   -webkit-appearance: none;
+          appearance: none;
   border: 2px solid #0b0c0c;
   border-radius: 0; /* Safari 10 on iOS adds implicit border rounding. */
   box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   margin-bottom: 0; /* BUG: Safari 10 on macOS seems to add an implicit margin. */
   width: 100%;
 }

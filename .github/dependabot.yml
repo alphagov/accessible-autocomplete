@@ -11,6 +11,7 @@ updates:
       build:
         patterns:
           - '@babel/*'
+          - 'autoprefixer'
           - 'babel-*'
           - 'core-js'
           - 'css-loader'
