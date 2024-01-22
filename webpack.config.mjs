@@ -109,18 +109,7 @@ const bundleStandalone = {
     host: '0.0.0.0',
     open: '/dist',
     port: PORT,
-    proxy: {
-      '/dist/accessible-autocomplete.min.css': {
-        target: `http://0.0.0.0:${PORT}`,
-        pathRewrite: () => '/dist/autocomplete.css'
-      }
-    },
     static: [
-      {
-        directory: join(cwd(), 'src'),
-        publicPath: '/dist',
-        watch: true
-      },
       {
         directory: join(cwd(), 'examples'),
         publicPath: '/dist',
