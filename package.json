@@ -53,7 +53,7 @@
     "cssnano": "^6.0.3",
     "cssnano-preset-default": "^6.0.3",
     "devtools": "^8.28.6",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.3.2",
     "husky": "^8.0.3",
     "karma": "^6.4.2",
     "karma-chrome-launcher": "^3.2.0",
