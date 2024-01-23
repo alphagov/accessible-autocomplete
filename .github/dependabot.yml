@@ -11,9 +11,15 @@ updates:
       build:
         patterns:
           - '@babel/*'
+          - 'autoprefixer'
           - 'babel-*'
           - 'core-js'
-          - 'csso-cli'
+          - 'cssnano'
+          - 'cssnano-*'
+          - 'css-loader'
+          - 'mini-css-extract-plugin'
+          - 'postcss'
+          - 'postcss-*'
           - 'preact'
           - 'source-map-loader'
           - 'terser-*'

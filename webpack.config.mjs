@@ -1,6 +1,7 @@
 import { join } from 'path'
 import { cwd } from 'process'
 
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import webpack from 'webpack'
 
@@ -34,6 +35,14 @@ const config = {
 
   module: {
     rules: [
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader'
+        ]
+      },
       {
         test: /\.js$/,
         include: join(cwd(), 'src'),
@@ -101,18 +110,7 @@ const bundleStandalone = {
     host: '0.0.0.0',
     open: '/dist',
     port: PORT,
-    proxy: {
-      '/dist/accessible-autocomplete.min.css': {
-        target: `http://0.0.0.0:${PORT}`,
-        pathRewrite: () => '/dist/autocomplete.css'
-      }
-    },
     static: [
-      {
-        directory: join(cwd(), 'src'),
-        publicPath: '/dist',
-        watch: true
-      },
       {
         directory: join(cwd(), 'examples'),
         publicPath: '/dist',
@@ -123,7 +121,10 @@ const bundleStandalone = {
 
   entry: {
     'accessible-autocomplete': {
-      import: join(cwd(), 'src/wrapper.js'),
+      import: [
+        join(cwd(), 'src/autocomplete.css'),
+        join(cwd(), 'src/wrapper.js')
+      ],
       filename: '[name].min.js',
       library: {
         export: 'default',
@@ -137,6 +138,9 @@ const bundleStandalone = {
     new webpack.DefinePlugin({
       'process.env.COMPONENT_LIBRARY': '"PREACT"',
       'process.env.NODE_ENV': `"${mode}"`
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].min.css'
     })
   ]
 }
