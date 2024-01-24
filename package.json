@@ -24,10 +24,11 @@
     "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
     "preversion": "npm test",
     "standard": "standard",
+    "pretest": "npm run build",
     "test": "run-p standard karma wdio",
     "version": "npm run build && git add -A dist",
     "wdio:test": "cross-env NODE_ENV=test wdio test/wdio.config.js",
-    "wdio": "npm run build wdio:test && git checkout dist/"
+    "wdio": "npm run wdio:test && git checkout dist/"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",
