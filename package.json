@@ -26,9 +26,8 @@
     "standard": "standard",
     "pretest": "npm run build",
     "test": "run-p standard karma wdio",
-    "version": "npm run build && git add -A dist",
-    "wdio:test": "cross-env NODE_ENV=test wdio test/wdio.config.js",
-    "wdio": "npm run wdio:test && git checkout dist/"
+    "version": "git add -A dist",
+    "wdio": "cross-env NODE_ENV=test wdio test/wdio.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",

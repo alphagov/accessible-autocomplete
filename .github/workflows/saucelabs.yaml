@@ -38,7 +38,7 @@ jobs:
         run: npm run build
 
       - name: Run browser tests (with Sauce Labs)
-        run: npm run wdio:test
+        run: npm run wdio
         env:
           SAUCE_ENABLED: true
           SAUCE_BUILD_NUMBER: ${{ github.run_id }}
