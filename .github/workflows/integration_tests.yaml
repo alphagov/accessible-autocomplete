@@ -35,6 +35,6 @@ jobs:
         run: npm run build
 
       - name: Run browser tests (without Sauce Labs)
-        run: npm run wdio:test
+        run: npm run wdio
         env:
           SAUCE_ENABLED: false
