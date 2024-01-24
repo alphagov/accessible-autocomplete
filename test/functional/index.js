@@ -327,6 +327,39 @@ describe('Autocomplete', () => {
           expect(autocomplete.state.options[0]).to.equal('France')
           expect(autocomplete.state.query).to.equal('France')
         })
+
+        it('is prefilled with a simple custom inputValue template', () => {
+          autocomplete = new Autocomplete({
+            ...Autocomplete.defaultProps,
+            defaultValue: 'France',
+            id: 'test',
+            source: suggest,
+            templates: {
+              inputValue: suggestion => suggestion,
+              suggestion: suggestion => `<a href="/search?q=${suggestion}">${suggestion}</a>`
+            }
+          })
+
+          expect(autocomplete.state.options.length).to.equal(1)
+          expect(autocomplete.state.options[0]).to.equal('France')
+          expect(autocomplete.state.query).to.equal('France')
+        })
+
+        it('isn\'t prefilled with a custom inputValue template that returns a non-match', () => {
+          autocomplete = new Autocomplete({
+            ...Autocomplete.defaultProps,
+            defaultValue: 'France',
+            id: 'test',
+            source: suggest,
+            templates: {
+              inputValue: suggestion => suggestion && suggestion.title,
+              suggestion: suggestion => suggestion && `<a href="${suggestion.href}">${suggestion.title}</a>`
+            }
+          })
+
+          expect(autocomplete.state.options.length).to.equal(0)
+          expect(autocomplete.state.query).to.equal('France')
+        })
       })
     })
 

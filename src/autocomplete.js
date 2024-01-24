@@ -60,12 +60,15 @@ export default class Autocomplete extends Component {
   constructor (props) {
     super(props)
 
+    const { defaultValue } = props
+    const isQueryAnOption = defaultValue.length > 0 ? this.isQueryAnOption(defaultValue, [defaultValue]) : false
+
     this.state = {
       focused: null,
       hovered: null,
       menuOpen: false,
-      options: props.defaultValue ? [props.defaultValue] : [],
-      query: props.defaultValue,
+      options: isQueryAnOption ? [defaultValue] : [],
+      query: defaultValue,
       validChoiceMade: false,
       selected: null,
       ariaHint: true
@@ -95,7 +98,7 @@ export default class Autocomplete extends Component {
   }
 
   isQueryAnOption (query, options) {
-    return options.map(entry => this.templateInputValue(entry).toLowerCase()).indexOf(query.toLowerCase()) !== -1
+    return options.some(entry => (this.templateInputValue(entry) || '').toLowerCase() === query.toLowerCase())
   }
 
   componentDidMount () {

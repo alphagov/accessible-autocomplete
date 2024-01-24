@@ -17,6 +17,7 @@
 
 ### Fixes
 
+- [Pull request #425: Fix using templates and defaultValue resulting in an empty option on focus](https://github.com/alphagov/accessible-autocomplete/pull/425)
 - [Pull request #415: Make React bundle work server-side in a NodeJS environment](https://github.com/alphagov/accessible-autocomplete/pull/415)
 
 ## 2.0.2 - 2020-01-30
