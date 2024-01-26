@@ -53,7 +53,8 @@ export default class Autocomplete extends Component {
     dropdownArrow: DropdownArrowDown,
     menuAttributes: {},
     inputClasses: null,
-    hintClasses: null
+    hintClasses: null,
+    menuClasses: null
   }
 
   elementReferences = {}
@@ -422,7 +423,8 @@ export default class Autocomplete extends Component {
       dropdownArrow: dropdownArrowFactory,
       menuAttributes,
       inputClasses,
-      hintClasses
+      hintClasses,
+      menuClasses
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
     const autoselect = this.hasAutoselect()
@@ -495,6 +497,10 @@ export default class Autocomplete extends Component {
       menuModifierDisplayMenu,
       menuModifierVisibility
     ]
+
+    if (menuClasses) {
+      menuClassList.push(menuClasses)
+    }
 
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>

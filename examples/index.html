@@ -57,6 +57,10 @@
       .app-hint {
         box-shadow: inset 0 0 0 5px #44952e;
       }
+
+      .custom-menu-class {
+        box-shadow: 0 3px 0 0 #fd0, 3px 3px 0 0 #fd0, -3px 3px 0 0 #fd0;
+      }
     </style>
     <link rel="stylesheet" href="../dist/accessible-autocomplete.min.css">
   </head>
@@ -147,6 +151,14 @@
       </p>
       <label for="autocomplete-hintClasses">Country</label>
       <div id="tt-hintClasses" class="autocomplete-wrapper"></div>
+
+      <h3><code>{ menuClasses: 'custom-menu-class'}</code></h3>
+      <p>
+        The classes provided in <code>menuClasses</code> are added to
+        the menu displaying the suggestions.
+      </p>
+      <label for="autocomplete-menuClasses">Country</label>
+      <div id="tt-menuClasses" class="autocomplete-wrapper"></div>
 
       <h2>Advanced features</h2>
 
@@ -548,6 +560,21 @@
         },
         autoselect: true,
         hintClasses: 'app-hint'
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-menuClasses')
+      id = 'autocomplete-menuClasses'
+      accessibleAutocomplete({
+        element: element,
+        id: id,
+        source: countries,
+        menuAttributes: {
+          "aria-labelledby": id
+        },
+        autoselect: true,
+        menuClasses: 'custom-menu-class'
       })
     </script>
 

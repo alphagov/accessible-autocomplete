@@ -122,11 +122,19 @@ describe('Autocomplete', () => {
       })
 
       it('renders with extra class on the input', () => {
-        render(<Autocomplete inputClasses='govuk-input' id='autocomplete-default' />, scratch)
+        render(<Autocomplete inputClasses='custom-class' id='autocomplete-default' />, scratch)
 
         const inputElement = scratch.getElementsByClassName('autocomplete__input')[0]
 
-        expect(inputElement.getAttribute('class')).to.contain(' govuk-input')
+        expect(inputElement.getAttribute('class')).to.contain(' custom-class')
+      })
+
+      it('renders with extra class on the menu', () => {
+        render(<Autocomplete menuClasses='custom-class' id='autocomplete-default' />, scratch)
+
+        const menuElement = scratch.getElementsByClassName('autocomplete__menu')[0]
+
+        expect(menuElement.getAttribute('class')).to.contain('custom-class')
       })
 
       it('renders with the correct roles', () => {

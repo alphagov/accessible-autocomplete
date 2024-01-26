@@ -209,6 +209,12 @@ Type: `Object`
 
 Sets html attributes and their values on the `menu`. Useful for adding `aria-labelledby` and setting to the value of the `id` attribute on your existing label, to provide context to an assistive technology user.
 
+#### `menuClasses` (default: `null`)
+
+Type: `string | null`
+
+Adds custom html classes to the menu elements.
+
 #### `autoselect` (default: `false`)
 
 Type: `Boolean`
