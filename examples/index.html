@@ -46,6 +46,17 @@
         max-width: 20em;
         margin-bottom: 4rem;
       }
+
+      /* Custom classes for the `XYZClasses` props with visual changes to see their effect without inspecting */ 
+      .custom-input-class {
+        /* Adjust the font to check that both hint and input get the class by default,
+           if they don't text won't overlap properly */
+        font-family: serif;
+      }
+
+      .custom-hint-class {
+        box-shadow: inset 0 0 0 5px #44952e;
+      }
     </style>
     <link rel="stylesheet" href="../dist/accessible-autocomplete.min.css">
   </head>
@@ -121,13 +132,21 @@
       <label for="autocomplete-customDropdownArrow">Country</label>
       <div id="tt-customDropdownArrow" class="autocomplete-wrapper"></div>
 
-      <h3><code>{ inputClasses: 'custom-class'}</code></h3>
+      <h3><code>{ inputClasses: 'custom-input-class'}</code></h3>
       <p>
         The classes provided in <code>inputClasses</code> are added to
         the component's <code>&lt;input&gt;</code>.
       </p>
       <label for="autocomplete-inputClasses">Country</label>
       <div id="tt-inputClasses" class="autocomplete-wrapper"></div>
+
+      <h3><code>{ hintClasses: 'custom-hint-class'}</code></h3>
+      <p>
+        The classes provided in <code>hintClasses</code> are added to
+        the component's hint that appears when the value matches the start of a suggestion.
+      </p>
+      <label for="autocomplete-hintClasses">Country</label>
+      <div id="tt-hintClasses" class="autocomplete-wrapper"></div>
 
       <h2>Advanced features</h2>
 
@@ -512,7 +531,23 @@
         menuAttributes: {
           "aria-labelledby": id
         },
-        inputClasses: 'custom-class'
+        autoselect: true,
+        inputClasses: 'custom-input-class'
+      })
+    </script>
+
+    <script type="text/javascript">
+      element = document.querySelector('#tt-hintClasses')
+      id = 'autocomplete-hintClasses'
+      accessibleAutocomplete({
+        element: element,
+        id: id,
+        source: countries,
+        menuAttributes: {
+          "aria-labelledby": id
+        },
+        autoselect: true,
+        hintClasses: 'custom-hint-class'
       })
     </script>
 
