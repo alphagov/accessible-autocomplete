@@ -93,7 +93,7 @@ You can also import it using Sass:
 
 > [!NOTE]
 >
-> If you add extra styles to adjust the `.autocomplete__input` elements, be aware that when using the `autoselect` option, the component overlays it above a second `.autocomplete__hint` input. That element displays the completions when what the user typed matches the start of a suggestion. It may need adjustment to account for the changes you may have made to `.autocomplete__input` so that the text of both align properly.
+> When styling the `.autocomplete__input` element, be aware that the `autoselect` option will render a second `.autocomplete__hint` input element for suggestion text. Both elements should be styled to ensure suggestions exactly align with the typed input text.
 
 ### Using with Preact
 
