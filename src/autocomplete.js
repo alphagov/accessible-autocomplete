@@ -502,6 +502,25 @@ export default class Autocomplete extends Component {
       menuClassList.push(menuClasses)
     }
 
+    if (menuAttributes?.class || menuAttributes?.className) {
+      menuClassList.push(menuAttributes?.class || menuAttributes?.className)
+    }
+
+    const computedMenuAttributes = {
+      // Copy the attributes passed as props
+      ...menuAttributes,
+      // And add the values computed for the autocomplete
+      id: `${id}__listbox`,
+      role: 'listbox',
+      className: menuClassList.join(' '),
+      onMouseLeave: this.handleListMouseLeave
+    }
+
+    // Preact would override our computed `className`
+    // with the `class` from the `menuAttributes` so
+    // we need to clean it up from the computed attributes
+    delete computedMenuAttributes.class
+
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
@@ -544,13 +563,7 @@ export default class Autocomplete extends Component {
 
         {dropdownArrow}
 
-        <ul
-          className={menuClassList.join(' ')}
-          onMouseLeave={(event) => this.handleListMouseLeave(event)}
-          id={`${id}__listbox`}
-          role='listbox'
-          {...menuAttributes}
-        >
+        <ul {...computedMenuAttributes}>
           {options.map((option, index) => {
             const showFocused = focused === -1 ? selected === index : focused === index
             const optionModifierFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
