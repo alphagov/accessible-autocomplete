@@ -91,6 +91,10 @@ You can also import it using Sass:
 @import "accessible-autocomplete";
 ```
 
+> [!NOTE]
+>
+> If you add extra styles to adjust the `.autocomplete__input` elements, be aware that when using the `autoselect` option, the component overlays it above a second `.autocomplete__hint` input. That element displays the completions when what the user typed matches the start of a suggestion. It may need adjustment to account for the changes you may have made to `.autocomplete__input` so that the text of both align properly.
+
 ### Using with Preact
 
 If you already use Preact in your application, you can import a bundle that will use that:
