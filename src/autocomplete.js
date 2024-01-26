@@ -439,11 +439,6 @@ export default class Autocomplete extends Component {
     const dropdownArrowClassName = `${cssNamespace}__dropdown-arrow-down`
     const optionFocused = focused !== -1 && focused !== null
 
-    const menuClassName = `${cssNamespace}__menu`
-    const menuModifierDisplayMenu = `${menuClassName}--${displayMenu}`
-    const menuIsVisible = menuOpen || showNoOptionsFound
-    const menuModifierVisibility = `${menuClassName}--${(menuIsVisible) ? 'visible' : 'hidden'}`
-
     const optionClassName = `${cssNamespace}__option`
 
     const hintClassName = `${cssNamespace}__hint`
@@ -490,6 +485,17 @@ export default class Autocomplete extends Component {
       inputClassList.push(inputClasses)
     }
 
+    const menuClassName = `${cssNamespace}__menu`
+    const menuModifierDisplayMenu = `${menuClassName}--${displayMenu}`
+    const menuIsVisible = menuOpen || showNoOptionsFound
+    const menuModifierVisibility = `${menuClassName}--${(menuIsVisible) ? 'visible' : 'hidden'}`
+
+    const menuClassList = [
+      menuClassName,
+      menuModifierDisplayMenu,
+      menuModifierVisibility
+    ]
+
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
@@ -533,7 +539,7 @@ export default class Autocomplete extends Component {
         {dropdownArrow}
 
         <ul
-          className={`${menuClassName} ${menuModifierDisplayMenu} ${menuModifierVisibility}`}
+          className={menuClassList.join(' ')}
           onMouseLeave={(event) => this.handleListMouseLeave(event)}
           id={`${id}__listbox`}
           role='listbox'
