@@ -189,19 +189,19 @@ function suggest (query, populateResults) {
 
 #### `inputClasses` (default: `null`)
 
-Type: `string`
+Type: `string | null`
 
-Adds custom html classes to the `input` elements of the component:
-- the one the user types in
-- the one used to display the completion hint when `autoselect` is set to `true` (see `hintClasses` hereafter)
+Adds custom html classes to the generated `input` element.
+
+If [`autoselect`](#autoselect) is set to `true`, the option [`hintClasses`](#hintClasses) can be configured separately or it will default to the `inputClasses` value.
 
 #### `hintClasses` (default: `null`)
 
-Type: `string`
+Type: `string | null`
 
-Adds custom html classes to the hint element that appears when what the user typed matches the start of a suggestion (and `autoselect` is set to `true`).
+Adds custom html classes to the additional `input` element that appears when what the user typed matches the start of a suggestion.
 
-If `inputClasses` is set, it'll default to the value of `inputClasses`. You can set an empty string `''` to prevent the `inputClasses` being set on the hint as well.
+If [`autoselect`](#autoselect) is set to `true`, the option [`inputClasses`](#inputClasses) will be used as the default value unless `hintClasses` is set to an empty string `''`.
 
 #### `menuAttributes` (default: `{}`)
 
