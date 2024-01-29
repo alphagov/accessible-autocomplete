@@ -226,14 +226,14 @@ const classesPropsExamples = () => {
   describe('classes properties', () => {
     it('should set `inputClasses` on both hint and input', async () => {
       const $input = await $('input#autocomplete-inputClasses')
-      await expect($input).toHaveElementClass('custom-input-class')
+      await expect($input).toHaveElementClass('app-input')
 
       // Trigger the display of the hint
       await $input.setValue('fra')
 
       const $hint = $input.parentElement().$('.autocomplete__hint')
       await expect($hint).toBeDisplayed()
-      await expect($hint).toHaveElementClass('custom-input-class')
+      await expect($hint).toHaveElementClass('app-input')
     })
 
     it('should set `hintClasses` on the hint', async () => {
@@ -244,7 +244,7 @@ const classesPropsExamples = () => {
 
       const $hint = $input.parentElement().$('.autocomplete__hint')
       await expect($hint).toBeDisplayed()
-      await expect($hint).toHaveElementClass('custom-hint-class')
+      await expect($hint).toHaveElementClass('app-hint')
     })
   })
 }
