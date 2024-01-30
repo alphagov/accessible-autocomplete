@@ -222,6 +222,33 @@ const customTemplatesExample = () => {
   })
 }
 
+const classesPropsExamples = () => {
+  describe('classes properties', () => {
+    it('should set `inputClasses` on both hint and input', async () => {
+      const $input = await $('input#autocomplete-inputClasses')
+      await expect($input).toHaveElementClass('app-input')
+
+      // Trigger the display of the hint
+      await $input.setValue('fra')
+
+      const $hint = $input.parentElement().$('.autocomplete__hint')
+      await expect($hint).toBeDisplayed()
+      await expect($hint).toHaveElementClass('app-input')
+    })
+
+    it('should set `hintClasses` on the hint', async () => {
+      const $input = await $('input#autocomplete-hintClasses')
+
+      // Trigger the display of the hint
+      await $input.setValue('fra')
+
+      const $hint = $input.parentElement().$('.autocomplete__hint')
+      await expect($hint).toBeDisplayed()
+      await expect($hint).toHaveElementClass('app-hint')
+    })
+  })
+}
+
 const takeScreenshotsIfFail = () => {
   afterEach(async function () {
     const testFailed = this.currentTest.state === 'failed'
@@ -248,6 +275,7 @@ describe('Accessible Autocomplete', () => {
 
   basicExample()
   customTemplatesExample()
+  classesPropsExamples()
 
   takeScreenshotsIfFail()
 })

@@ -52,7 +52,8 @@ export default class Autocomplete extends Component {
     tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown,
     menuAttributes: {},
-    inputClasses: ''
+    inputClasses: null,
+    hintClasses: null
   }
 
   elementReferences = {}
@@ -420,7 +421,8 @@ export default class Autocomplete extends Component {
       tAssistiveHint,
       dropdownArrow: dropdownArrowFactory,
       menuAttributes,
-      inputClasses
+      inputClasses,
+      hintClasses
     } = this.props
     const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
     const autoselect = this.hasAutoselect()
@@ -507,7 +509,7 @@ export default class Autocomplete extends Component {
         />
 
         {hintValue && (
-          <span><input className={hintClassName} readonly tabIndex='-1' value={hintValue} /></span>
+          <span><input className={[hintClassName, hintClasses === null ? inputClasses : hintClasses].filter(Boolean).join(' ')} readonly tabIndex='-1' value={hintValue} /></span>
         )}
 
         <input

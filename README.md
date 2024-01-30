@@ -91,6 +91,10 @@ You can also import it using Sass:
 @import "accessible-autocomplete";
 ```
 
+> [!NOTE]
+>
+> When styling the `.autocomplete__input` element, be aware that the `autoselect` option will render a second `.autocomplete__hint` input element for suggestion text. Both elements should be styled to ensure suggestions exactly align with the typed input text.
+
 ### Using with Preact
 
 If you already use Preact in your application, you can import a bundle that will use that:
@@ -183,11 +187,21 @@ function suggest (query, populateResults) {
 
 ### Other options
 
-#### `inputClasses` (default: `''`)
+#### `inputClasses` (default: `null`)
 
-Type: `string`
+Type: `string | null`
 
 Adds custom html classes to the generated `input` element.
+
+If [`autoselect`](#autoselect) is set to `true`, the option [`hintClasses`](#hintClasses) can be configured separately or it will default to the `inputClasses` value.
+
+#### `hintClasses` (default: `null`)
+
+Type: `string | null`
+
+Adds custom html classes to the additional `input` element that appears when what the user typed matches the start of a suggestion.
+
+If [`autoselect`](#autoselect) is set to `true`, the option [`inputClasses`](#inputClasses) will be used as the default value unless `hintClasses` is set to an empty string `''`.
 
 #### `menuAttributes` (default: `{}`)
 
