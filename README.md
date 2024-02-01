@@ -207,7 +207,7 @@ If [`autoselect`](#autoselect) is set to `true`, the option [`inputClasses`](#in
 
 Type: `Object`
 
-Sets html attributes and their values on the `menu`. Useful for adding `aria-labelledby` and setting to the value of the `id` attribute on your existing label, to provide context to an assistive technology user.
+Sets html attributes and their values on the generated `ul` menu element. Useful for adding `aria-labelledby` and setting to the value of the `id` attribute on your existing label, to provide context to an assistive technology user.
 
 > [!NOTE]
 >
@@ -218,7 +218,7 @@ Sets html attributes and their values on the `menu`. Useful for adding `aria-lab
 
 Type: `string | null`
 
-Adds custom html classes to the menu elements.
+Adds custom html classes to the generated `ul` menu element.
 
 #### `autoselect` (default: `false`)
 

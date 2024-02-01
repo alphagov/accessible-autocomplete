@@ -548,7 +548,7 @@ export default class Autocomplete extends Component {
           autoComplete='off'
           className={inputClassList.join(' ')}
           id={id}
-          onClick={(event) => this.handleInputClick(event)}
+          onClick={this.handleInputClick}
           onBlur={this.handleInputBlur}
           {...onChangeCrossLibrary(this.handleInputChange)}
           onFocus={this.handleInputFocus}
