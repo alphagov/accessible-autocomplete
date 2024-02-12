@@ -207,7 +207,18 @@ If [`autoselect`](#autoselect) is set to `true`, the option [`inputClasses`](#in
 
 Type: `Object`
 
-Sets html attributes and their values on the `menu`. Useful for adding `aria-labelledby` and setting to the value of the `id` attribute on your existing label, to provide context to an assistive technology user.
+Sets html attributes and their values on the generated `ul` menu element. Useful for adding `aria-labelledby` and setting to the value of the `id` attribute on your existing label, to provide context to an assistive technology user.
+
+> [!NOTE]
+>
+> To maintain assistive technology support, menu attributes `id`, `role` and `onMouseLeave` cannot be overridden using `menuAttributes`. Setting `className` will append to the component default and [`menuClasses`](#menuClasses) values.
+
+
+#### `menuClasses` (default: `null`)
+
+Type: `string | null`
+
+Adds custom html classes to the generated `ul` menu element.
 
 #### `autoselect` (default: `false`)
 

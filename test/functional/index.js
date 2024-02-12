@@ -110,23 +110,86 @@ describe('Autocomplete', () => {
         })
       })
 
-      it('renders with an aria-labelledby attribute on the menu', () => {
-        render(<Autocomplete menuAttributes={{ 'aria-labelledby': 'autocomplete-default' }} id='autocomplete-default' />, scratch)
+      describe('menuAttributes', () => {
+        it('renders with the extra attribute on the menu', () => {
+          render(<Autocomplete menuAttributes={{ 'aria-labelledby': 'autocomplete-default' }} id='autocomplete-default' />, scratch)
 
-        const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
-        const dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
-        const inputElement = wrapperElement.getElementsByTagName('input')[0]
+          const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          const dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
+          const inputElement = wrapperElement.getElementsByTagName('input')[0]
 
-        expect(dropdownElement.getAttribute('aria-labelledby')).to.equal('autocomplete-default')
-        expect(inputElement.getAttribute('id')).to.equal('autocomplete-default')
+          expect(dropdownElement.getAttribute('aria-labelledby')).to.equal('autocomplete-default')
+          expect(inputElement.getAttribute('id')).to.equal('autocomplete-default')
+        })
+
+        describe('attributes computed by the component', () => {
+          it('does not override attributes computed by the component', () => {
+            const menuAttributes = {
+              id: 'custom-id',
+              role: 'custom-role'
+            }
+
+            render(<Autocomplete menuAttributes={menuAttributes} id='autocomplete-default' />, scratch)
+
+            // Check that the computed values are the ones expected in the HTML
+            const menuElement = scratch.getElementsByClassName('autocomplete__menu')[0]
+            expect(menuElement.id).to.equal('autocomplete-default__listbox', 'HTML id')
+            expect(menuElement.role).to.equal('listbox', 'HTML role')
+
+            // Check that in protecting the menu, we don't affect the object passed as option
+            expect(menuAttributes.id).to.equal('custom-id', 'options id')
+            expect(menuAttributes.role).to.equal('custom-role', 'options role')
+          })
+        })
+
+        it('adds `className` to the computed value of the `class` attribute', () => {
+          const menuAttributes = {
+            className: 'custom-className'
+          }
+
+          render(<Autocomplete menuAttributes={menuAttributes} id='autocomplete-default' />, scratch)
+
+          // Check that the computed values are the ones expected in the HTML
+          const menuElement = scratch.getElementsByClassName('autocomplete__menu')[0]
+          expect(menuElement.getAttribute('class')).to.equal('autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden custom-className')
+
+          // Check that in protecting the menu, we don't affect the object passed as option
+          expect(menuAttributes.className).to.equal('custom-className')
+        })
+
+        // Align with Preact's behaviour where `class` takes precedence
+        it('adds `class` to the computed value of the `class` attribute, ignoring `className` if present', () => {
+          const menuAttributes = {
+            className: 'custom-className',
+            class: 'custom-class'
+          }
+
+          render(<Autocomplete menuAttributes={menuAttributes} id='autocomplete-default' />, scratch)
+
+          // Check that the computed values are the ones expected in the HTML
+          const menuElement = scratch.getElementsByClassName('autocomplete__menu')[0]
+          expect(menuElement.getAttribute('class')).to.equal('autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden custom-class')
+
+          // Check that in protecting the menu, we don't affect the object passed as option
+          expect(menuAttributes.className).to.equal('custom-className')
+          expect(menuAttributes.class).to.equal('custom-class')
+        })
       })
 
       it('renders with extra class on the input', () => {
-        render(<Autocomplete inputClasses='govuk-input' id='autocomplete-default' />, scratch)
+        render(<Autocomplete inputClasses='custom-class' id='autocomplete-default' />, scratch)
 
         const inputElement = scratch.getElementsByClassName('autocomplete__input')[0]
 
-        expect(inputElement.getAttribute('class')).to.contain(' govuk-input')
+        expect(inputElement.getAttribute('class')).to.contain(' custom-class')
+      })
+
+      it('renders with extra class on the menu', () => {
+        render(<Autocomplete menuClasses='custom-class' id='autocomplete-default' />, scratch)
+
+        const menuElement = scratch.getElementsByClassName('autocomplete__menu')[0]
+
+        expect(menuElement.getAttribute('class')).to.contain('custom-class')
       })
 
       it('renders with the correct roles', () => {
