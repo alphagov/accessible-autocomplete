@@ -21,7 +21,7 @@
     "dev": "cross-env NODE_ENV=development webpack serve",
     "karma:dev": "cross-env NODE_ENV=test karma start test/karma.config.js",
     "karma": "npm run karma:dev -- --single-run",
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
+    "prepare": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "preversion": "npm test",
     "standard": "standard",
     "pretest": "npm run build",
