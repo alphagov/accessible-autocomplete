@@ -66,15 +66,15 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.35",
     "postcss-loader": "^8.1.0",
-    "preact": "^8.5.3",
+    "preact": "^10.19.6",
     "puppeteer": "^22.2.0",
     "source-map-loader": "^5.0.0",
     "standard": "^17.1.0",
     "terser-webpack-plugin": "^5.3.9",
     "webdriverio": "^8.28.6",
-    "webpack": "^5.90.1",
+    "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.1"
+    "webpack-dev-server": "^5.0.2"
   },
   "peerDependencies": {
     "preact": "^8.0.0"
