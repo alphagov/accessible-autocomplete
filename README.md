@@ -75,6 +75,47 @@ You can copy the [dist/accessible-autocomplete.min.js](dist/accessible-autocompl
 <script type="text/javascript" src="assets/js/accessible-autocomplete.min.js"></script>
 ```
 
+### As a GOV.UK Prototype Kit plugin
+
+In your prototype folder, run:
+
+```bash
+npm install accessible-autocomplete
+```
+
+To add the accessible autocomplete to a page in your prototype, first add a `select` component with your options. For example:
+
+```html
+<div class="govuk-form-group">
+  <label class="govuk-label" for="country">
+    Country
+  </label>
+  <select class="govuk-select" id="country" name="country">
+    <option value="England">England</option>
+    <option value="Northern Ireland">Northern Ireland</option>
+    <option value="Scotland">Scotland</option>
+    <option value="Wales">Wales</option>
+  </select>
+</div>
+```
+
+At the end of the same page add a `pageScripts` block for the JavaScript. This turns the `select` into an autocomplete.
+
+```js
+<% block pageScripts %>
+
+  <script>
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: document.querySelector('#country')
+    })
+
+  </script>
+
+<% endblock %>
+
+```
+
 ### Styling the autocomplete
 
 A stylesheet is included with the package at [dist/accessible-autocomplete.min.css](dist/accessible-autocomplete.min.css).
