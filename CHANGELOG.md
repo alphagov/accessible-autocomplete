@@ -2,10 +2,55 @@
 
 ## Unreleased
 
-- [Pull request #601: Add input classes to implement a part of #428](https://github.com/alphagov/accessible-autocomplete/pull/601)
-- [Pull request #621: Handle query change when the text length does not change](https://github.com/alphagov/accessible-autocomplete/pull/621)
-- [Pull request #620: Add `className` attribute to status component](https://github.com/alphagov/accessible-autocomplete/pull/620)
-- [Pull request #591: Add menuAttributes to fix #361](https://github.com/alphagov/accessible-autocomplete/pull/591)
+### Breaking changes
+
+#### Verify your code does not rely on removed polyfills
+
+Following on from [our previous announcement](https://github.com/alphagov/design-system-team-internal/issues/561), the accessible autocomplete code is no longer transpiled and polyfilled to support IE8-10.
+
+However, because the polyfills create or extend global objects, you might have other code in your service unintentionally relying on the inclusion of these polyfills. You might need to introduce your own polyfills or rewrite your JavaScript to avoid using the polyfilled features.
+
+This change was introduced in [pull request #612: Update packages, configs + Node.js 20](https://github.com/alphagov/accessible-autocomplete/pull/612).
+
+#### Check for minor visual changes in the rendering of the component
+
+We've made some style adjustments to the stylesheet shipped with the component to make its colours, height, line-height and padding match those of the latest version of GOV.UK Frontend's `<input>`.
+
+If you're using this stylesheet:
+- check if our style update affects the rendering of the component in your service, and adjust if necessary
+- if you were adding to the default style's to match GOV.UK Frontend's input,
+look for CSS declarations you may now be able to remove
+
+This change was introduced in [pull request #644: Align CSS styles with GOV.UK Frontend](https://github.com/alphagov/accessible-autocomplete/pull/644).
+
+### New features
+
+#### Options to add classes to parts of the component
+
+Use these new options to add your own classes to parts of the component:
+- `inputClasses` for the `input` element
+- `hintClasses` for the suggestion hint (`input` element appearing when the text typed by the user matches the start of an option)
+- `menuClasses` for the `ul` element listing the options
+
+You can also add custom classes to the `ul` listing the options through the new `menuAttributes` option, providing a `className` or `class` property.
+
+This change was introduced in:
+- [pull request #602: Add `inputClasses` option](https://github.com/alphagov/accessible-autocomplete/pull/602). Thanks to @andreyyudin for contributing this change.
+- [pull request #649: Update options for styling component inputs](https://github.com/alphagov/accessible-autocomplete/pull/649)
+- [pull request #650: Update ways of configuring menu attributes](https://github.com/alphagov/accessible-autocomplete/pull/650)
+
+#### New class on the component's status
+
+Use the new `autocomplete__status` class in your CSS (or `<CSS_NAMESPACE>__status` if you set [the `cssNamespace` option](https://github.com/alphagov/accessible-autocomplete?tab=readme-ov-file#cssnamespace-default-autocomplete)) to customise the styles of the component's status element (hidden element that makes announcements to assistive technologies).
+
+This change was introduced in [pull request #620: Add className attribute to status component](https://github.com/alphagov/accessible-autocomplete/pull/620). Thanks to @lennym for contributing this change.
+
+### Fixes
+
+- [Pull request #621: Handle query change when the text length does not change](https://github.com/alphagov/accessible-autocomplete/pull/621). Thanks to @archferns for contributing this change.
+- [Pull request #591: Add `menuAttributes` to fix Axe's 'aria-input-field-name' error](https://github.com/alphagov/accessible-autocomplete/pull/591). Thanks to @mchughbri for contributing this change.
+- [Pull request #600: Fix null aria attributes](https://github.com/alphagov/accessible-autocomplete/pull/600). Thanks to @mark-roberts-ho for contributing this change.
+- [Pull request #606: Correct description of tStatusSelectedOption i18n option in README and tweak some wording for consistency with other parts of the README](https://github.com/alphagov/accessible-autocomplete/pull/606). Thanks to @ellamdav for contributing this change.
 
 ## 2.0.4 - 2022-02-07
 
