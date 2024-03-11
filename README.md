@@ -133,7 +133,9 @@ ReactDOM.render(
 React v15.5.4 has been tested to work with the Accessible Autocomplete - although make sure to check
 out [documented issues](https://github.com/alphagov/accessible-autocomplete/issues).
 
-React v15.6.2 and 16.0 have been incompletely tested with the Accessible Autocomplete: while no undocumented issues were found, we recommend you carry out thorough testing if you wish to use these or later versions of React.
+React v15.6.2, v16.14.0, v17.0.2, and v18.2.0 have been incompletely tested with the Accessible Autocomplete. No undocumented issues were found (though be aware that [React 18 dropped support for Internet Explorer](https://react.dev/blog/2022/03/08/react-18-upgrade-guide#dropping-support-for-internet-explorer))
+
+We recommend you carry out thorough testing if you wish to use this or later versions of React.
 
 ## API documentation
 
