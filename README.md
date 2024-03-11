@@ -111,6 +111,14 @@ preact.render(
 
 [Try out the Preact example!](https://alphagov.github.io/accessible-autocomplete/examples/preact/)
 
+#### Preact versions
+
+Preact v8.5.3 has been tested to work with the Accessible Autocomplete - although make sure to check out [documented issues](https://github.com/alphagov/accessible-autocomplete/issues).
+
+Preact 10.19.6 has been incompletely tested with the Accessible Autocomplete. No issues were found in Chrome and Firefox, but our automated tests for picking an option using the keyboard failed in Internet Explorer 11 (an issue we could not replicate when testing manually, though). 
+
+We recommend you carry out thorough testing if you wish to use this or later versions of Preact. 
+
 ### Using with React
 
 If you already use React in your application, you can import a bundle that will use that:
