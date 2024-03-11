@@ -60,8 +60,8 @@
     </main>
 
     <!-- We include the development version of React for debugging purposes. -->
-    <script type="text/javascript" src="https://unpkg.com/react@15.5.4/dist/react.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/react-dom@15.5.4/dist/react-dom.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
     <script type="text/javascript" src="../../dist/lib/accessible-autocomplete.react.min.js"></script>
     <script type="text/javascript">
       function suggest (query, syncResults) {
@@ -334,13 +334,14 @@
 
     <script type="text/javascript">
       var element = document.querySelector('#tt-default')
+      var root = ReactDOM.createRoot(element);
+
       var id = 'autocomplete-default'
-      ReactDOM.render(
+      root.render(
         React.createElement(Autocomplete.default, {
           id: id,
           source: suggest
-        }),
-        element
+        })
       )
     </script>
   </body>
