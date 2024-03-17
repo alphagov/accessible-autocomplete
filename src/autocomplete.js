@@ -90,6 +90,7 @@ export default class Autocomplete extends Component {
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleInputClick = this.handleInputClick.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
 
     this.pollInputElement = this.pollInputElement.bind(this)
