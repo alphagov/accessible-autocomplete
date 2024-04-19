@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 3.0.0 - 2024-04-19
+
 ### Breaking changes
 
 #### Verify your code does not rely on removed polyfills
