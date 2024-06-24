@@ -64,7 +64,6 @@ export default class Autocomplete extends Component {
 
     this.state = {
       focused: null,
-      hovered: null,
       menuOpen: false,
       options: props.defaultValue ? [props.defaultValue] : [],
       query: props.defaultValue,
@@ -80,13 +79,10 @@ export default class Autocomplete extends Component {
     this.handleEnter = this.handleEnter.bind(this)
     this.handlePrintableKey = this.handlePrintableKey.bind(this)
 
-    this.handleListMouseLeave = this.handleListMouseLeave.bind(this)
-
     this.handleOptionBlur = this.handleOptionBlur.bind(this)
     this.handleOptionClick = this.handleOptionClick.bind(this)
     this.handleOptionFocus = this.handleOptionFocus.bind(this)
     this.handleOptionMouseDown = this.handleOptionMouseDown.bind(this)
-    this.handleOptionMouseEnter = this.handleOptionMouseEnter.bind(this)
 
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -180,12 +176,6 @@ export default class Autocomplete extends Component {
     })
   }
 
-  handleListMouseLeave (event) {
-    this.setState({
-      hovered: null
-    })
-  }
-
   handleOptionBlur (event, index) {
     const { focused, menuOpen, options, selected } = this.state
     const focusingOutsideComponent = event.relatedTarget === null
@@ -265,19 +255,8 @@ export default class Autocomplete extends Component {
   handleOptionFocus (index) {
     this.setState({
       focused: index,
-      hovered: null,
       selected: index
     })
-  }
-
-  handleOptionMouseEnter (event, index) {
-    // iOS Safari prevents click event if mouseenter adds hover background colour
-    // See: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html#//apple_ref/doc/uid/TP40006511-SW4
-    if (!isIosDevice()) {
-      this.setState({
-        hovered: index
-      })
-    }
   }
 
   handleOptionClick (event, index) {
@@ -427,7 +406,7 @@ export default class Autocomplete extends Component {
       hintClasses,
       menuClasses
     } = this.props
-    const { focused, hovered, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
+    const { focused, menuOpen, options, query, selected, ariaHint, validChoiceMade } = this.state
     const autoselect = this.hasAutoselect()
 
     const inputFocused = focused === -1
@@ -513,8 +492,7 @@ export default class Autocomplete extends Component {
       // And add the values computed for the autocomplete
       id: `${id}__listbox`,
       role: 'listbox',
-      className: menuClassList.join(' '),
-      onMouseLeave: this.handleListMouseLeave
+      className: menuClassList.join(' ')
     }
 
     // Preact would override our computed `className`
@@ -567,7 +545,7 @@ export default class Autocomplete extends Component {
         <ul {...computedMenuAttributes}>
           {options.map((option, index) => {
             const showFocused = focused === -1 ? selected === index : focused === index
-            const optionModifierFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
+            const optionModifierFocused = showFocused ? ` ${optionClassName}--focused` : ''
             const optionModifierOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
             const iosPosinsetHtml = (isIosDevice())
               ? `<span id=${id}__option-suffix--${index} style="border:0;clip:rect(0 0 0 0);height:1px;` +
@@ -585,7 +563,6 @@ export default class Autocomplete extends Component {
                 onBlur={(event) => this.handleOptionBlur(event, index)}
                 onClick={(event) => this.handleOptionClick(event, index)}
                 onMouseDown={this.handleOptionMouseDown}
-                onMouseEnter={(event) => this.handleOptionMouseEnter(event, index)}
                 ref={(optionEl) => { this.elementReferences[index] = optionEl }}
                 role='option'
                 tabIndex='-1'
