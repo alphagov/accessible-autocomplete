@@ -466,26 +466,6 @@ describe('Autocomplete', () => {
       })
     })
 
-    describe('hovering option', () => {
-      it('sets the option as hovered, does not change focused, does not change selected', () => {
-        autocomplete.setState({ options: ['France'], hovered: null, focused: -1, selected: -1 })
-        autocomplete.handleOptionMouseEnter({}, 0)
-        expect(autocomplete.state.hovered).to.equal(0)
-        expect(autocomplete.state.focused).to.equal(-1)
-        expect(autocomplete.state.selected).to.equal(-1)
-      })
-    })
-
-    describe('hovering out option', () => {
-      it('sets focus back on selected, sets hovered to null', () => {
-        autocomplete.setState({ options: ['France'], hovered: 0, focused: -1, selected: -1 })
-        autocomplete.handleListMouseLeave({ toElement: 'mock' }, 0)
-        expect(autocomplete.state.hovered).to.equal(null)
-        expect(autocomplete.state.focused).to.equal(-1)
-        expect(autocomplete.state.selected).to.equal(-1)
-      })
-    })
-
     describe('up key', () => {
       it('focuses previous element', () => {
         autocomplete.setState({ menuOpen: true, options: ['France'], focused: 0 })

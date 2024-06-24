@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Fixes
+ - Fix performance when hovering very large lists
+
 ## 3.0.0 - 2024-04-19
 
 ### Breaking changes
