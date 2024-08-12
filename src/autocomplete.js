@@ -596,7 +596,7 @@ export default class Autocomplete extends Component {
           })}
 
           {showNoOptionsFound && (
-            <li className={`${optionClassName} ${optionClassName}--no-results`}>{tNoResults()}</li>
+            <li className={`${optionClassName} ${optionClassName}--no-results`} role='option' aria-disabled='true'>{tNoResults()}</li>
           )}
         </ul>
 

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [Pull request #727: Add `aria-controls` to aria props](https://github.com/alphagov/accessible-autocomplete/pull/727)
+- [Pull request #724: Add accessibility controls to 'No results' list item](https://github.com/alphagov/accessible-autocomplete/pull/724)
+
+
 ## 3.0.0 - 2024-04-19
 
 ### Breaking changes
