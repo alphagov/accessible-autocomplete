@@ -457,7 +457,7 @@ export default class Autocomplete extends Component {
       'aria-describedby': ariaHint ? assistiveHintID : null,
       'aria-expanded': menuOpen ? 'true' : 'false',
       'aria-activedescendant': optionFocused ? `${id}__option--${focused}` : null,
-      'aria-owns': `${id}__listbox`,
+      'aria-controls': `${id}__listbox`,
       'aria-autocomplete': (this.hasAutoselect()) ? 'both' : 'list'
     }
 
