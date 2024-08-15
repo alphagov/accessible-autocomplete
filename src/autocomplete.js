@@ -458,6 +458,7 @@ export default class Autocomplete extends Component {
       'aria-expanded': menuOpen ? 'true' : 'false',
       'aria-activedescendant': optionFocused ? `${id}__option--${focused}` : null,
       'aria-controls': `${id}__listbox`,
+      'aria-owns': `${id}__listbox`,
       'aria-autocomplete': (this.hasAutoselect()) ? 'both' : 'list'
     }
 
