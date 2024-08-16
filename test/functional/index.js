@@ -111,15 +111,13 @@ describe('Autocomplete', () => {
       })
 
       describe('menuAttributes', () => {
-        it('renders with the extra attribute on the menu', () => {
-          render(<Autocomplete menuAttributes={{ 'aria-labelledby': 'autocomplete-default' }} id='autocomplete-default' />, scratch)
+        it('renders with extra attributes on the menu', () => {
+          render(<Autocomplete menuAttributes={{ 'data-test': 'test' }} id='autocomplete-default' />, scratch)
 
           const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
           const dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
-          const inputElement = wrapperElement.getElementsByTagName('input')[0]
 
-          expect(dropdownElement.getAttribute('aria-labelledby')).to.equal('autocomplete-default')
-          expect(inputElement.getAttribute('id')).to.equal('autocomplete-default')
+          expect(dropdownElement.getAttribute('data-test')).to.equal('test')
         })
 
         describe('attributes computed by the component', () => {
@@ -173,6 +171,24 @@ describe('Autocomplete', () => {
           // Check that in protecting the menu, we don't affect the object passed as option
           expect(menuAttributes.className).to.equal('custom-className')
           expect(menuAttributes.class).to.equal('custom-class')
+        })
+
+        it('adds `aria-labelledby` by default, based on the ID', () => {
+          render(<Autocomplete id='autocomplete-default' />, scratch)
+
+          const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          const dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
+
+          expect(dropdownElement.getAttribute('aria-labelledby')).to.equal('autocomplete-default')
+        })
+
+        it('overrides `aria-labelledby` if passed in menuAttributes', () => {
+          render(<Autocomplete menuAttributes={{ 'aria-labelledby': 'test' }} id='autocomplete-default' />, scratch)
+
+          const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          const dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
+
+          expect(dropdownElement.getAttribute('aria-labelledby')).to.equal('test')
         })
       })
 

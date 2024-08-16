@@ -470,10 +470,7 @@
       accessibleAutocomplete({
         element: element,
         id: id,
-        source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        }
+        source: countries
       })
     </script>
 
@@ -484,10 +481,7 @@
         element: element,
         id: id,
         minLength: 2,
-        source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        }
+        source: countries
       })
     </script>
 
@@ -498,10 +492,7 @@
         autoselect: true,
         element: element,
         id: id,
-        source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        }
+        source: countries
       })
     </script>
 
@@ -512,10 +503,7 @@
         displayMenu: 'overlay',
         element: element,
         id: id,
-        source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        }
+        source: countries
       })
     </script>
 
@@ -526,10 +514,7 @@
         defaultValue: 'Germany',
         element: element,
         id: id,
-        source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        }
+        source: countries
       })
     </script>
 
@@ -540,9 +525,6 @@
         element: element,
         id: id,
         source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        },
         autoselect: true,
         inputClasses: 'app-input'
       })
@@ -555,9 +537,6 @@
         element: element,
         id: id,
         source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        },
         autoselect: true,
         hintClasses: 'app-hint'
       })
@@ -570,9 +549,6 @@
         element: element,
         id: id,
         source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        },
         autoselect: true,
         menuClasses: 'custom-menu-class'
       })
@@ -617,9 +593,6 @@
         element: element,
         id: id,
         source: customSuggest,
-        menuAttributes: {
-          "aria-labelledby": id
-        },
         templates: {
           inputValue: inputValueTemplate,
           suggestion: suggestionTemplate
@@ -635,9 +608,6 @@
         id: id,
         confirmOnBlur: false,
         source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        }
       })
     </script>
 
@@ -649,9 +619,6 @@
         id: id,
         placeholder: 'Search for a country',
         source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        }
       })
     </script>
 
@@ -662,10 +629,7 @@
         element: element,
         id: id,
         showNoOptionsFound: false,
-        source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        }
+        source: countries
       })
     </script>
 
@@ -676,10 +640,7 @@
         element: element,
         id: id,
         showAllValues: true,
-        source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        }
+        source: countries
       })
     </script>
 
@@ -690,9 +651,6 @@
         element: element,
         id: id,
         showAllValues: false,
-        menuAttributes: {
-          "aria-labelledby": id
-        },
         source: countries,
         tStatusQueryTooShort: function (minQueryLength) {
           return 'Tippe mindestens ' + minQueryLength + ' Zeichen ein für Resultate.'
@@ -725,9 +683,6 @@
         id: id,
         showAllValues: true,
         source: countries,
-        menuAttributes: {
-          "aria-labelledby": id
-        },
         dropdownArrow: function (config) {
           return '<svg class="' + config.className + '" style="top: 8px;" viewBox="0 0 512 512" ><path d="M256,298.3L256,298.3L256,298.3l174.2-167.2c4.3-4.2,11.4-4.1,15.8,0.2l30.6,29.9c4.4,4.3,4.5,11.3,0.2,15.5L264.1,380.9  c-2.2,2.2-5.2,3.2-8.1,3c-3,0.1-5.9-0.9-8.1-3L35.2,176.7c-4.3-4.2-4.2-11.2,0.2-15.5L66,131.3c4.4-4.3,11.5-4.4,15.8-0.2L256,298.3  z"/></svg>'
         }
