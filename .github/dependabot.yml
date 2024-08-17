@@ -20,7 +20,6 @@ updates:
           - 'mini-css-extract-plugin'
           - 'postcss'
           - 'postcss-*'
-          - 'preact'
           - 'source-map-loader'
           - 'terser-*'
           - 'webpack'

@@ -1,37 +1,48 @@
-import { createElement, Component } from 'preact' /** @jsx createElement */
-import Status from './status'
-import DropdownArrowDown from './dropdown-arrow-down'
+import { createElement, Component } from 'preact'; /** @jsx createElement */
+import Status from './status';
+import DropdownArrowDown from './dropdown-arrow-down';
 
-const IS_PREACT = process.env.COMPONENT_LIBRARY === 'PREACT'
-const IS_REACT = process.env.COMPONENT_LIBRARY === 'REACT'
+const IS_PREACT = process.env.COMPONENT_LIBRARY === 'PREACT';
+const IS_REACT = process.env.COMPONENT_LIBRARY === 'REACT';
 
 const keyCodes = {
   13: 'enter',
   27: 'escape',
   32: 'space',
   38: 'up',
-  40: 'down'
+  40: 'down',
+};
+
+function isIosDevice() {
+  return (
+    typeof navigator !== 'undefined' &&
+    !!(
+      navigator.userAgent.match(/(iPod|iPhone|iPad)/g) &&
+      navigator.userAgent.match(/AppleWebKit/g)
+    )
+  );
 }
 
-function isIosDevice () {
-  return typeof navigator !== 'undefined' && !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
-}
-
-function isPrintableKeyCode (keyCode) {
+function isPrintableKeyCode(keyCode) {
   return (
     (keyCode > 47 && keyCode < 58) || // number keys
-    keyCode === 32 || keyCode === 8 || // spacebar or backspace
+    keyCode === 32 ||
+    keyCode === 8 || // spacebar or backspace
     (keyCode > 64 && keyCode < 91) || // letter keys
     (keyCode > 95 && keyCode < 112) || // numpad keys
     (keyCode > 185 && keyCode < 193) || // ;=,-./` (in order)
     (keyCode > 218 && keyCode < 223) // [\]' (in order)
-  )
+  );
 }
 
 // Preact does not implement onChange on inputs, but React does.
-function onChangeCrossLibrary (handler) {
-  if (IS_PREACT) { return { onInput: handler } }
-  if (IS_REACT) { return { onChange: handler } }
+function onChangeCrossLibrary(handler) {
+  if (IS_PREACT) {
+    return { onInput: handler };
+  }
+  if (IS_REACT) {
+    return { onChange: handler };
+  }
 }
 
 export default class Autocomplete extends Component {
@@ -496,7 +507,7 @@ export default class Autocomplete extends Component {
       'aria-activedescendant': optionFocused
         ? `${id}__option--${focused}`
         : null,
-      'aria-owns': `${id}__listbox`,
+      'aria-controls': `${id}__listbox`,
       'aria-autocomplete': this.hasAutoselect() ? 'both' : 'list',
     };
 
