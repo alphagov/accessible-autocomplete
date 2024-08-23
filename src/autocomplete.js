@@ -508,6 +508,8 @@ export default class Autocomplete extends Component {
     }
 
     const computedMenuAttributes = {
+      // set aria-labelledby first so that users can override it with menuAttributes
+      'aria-labelledby': id,
       // Copy the attributes passed as props
       ...menuAttributes,
       // And add the values computed for the autocomplete
