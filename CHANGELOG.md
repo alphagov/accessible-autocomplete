@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 3.0.1 - 2024-09-12
+
+### Fixes
+
 - [Pull request #727: Add `aria-controls` to aria props](https://github.com/alphagov/accessible-autocomplete/pull/727)
 - [Pull request #724: Add accessibility controls to 'No results' list item](https://github.com/alphagov/accessible-autocomplete/pull/724)
 - [Pull request #729: Move `aria-labelledby` into computed menu props](https://github.com/alphagov/accessible-autocomplete/pull/729)
