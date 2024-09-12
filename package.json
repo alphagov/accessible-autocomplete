@@ -72,7 +72,7 @@
     "standard": "^17.1.0",
     "terser-webpack-plugin": "^5.3.9",
     "webdriverio": "^8.28.6",
-    "webpack": "^5.90.1",
+    "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.1"
   },
