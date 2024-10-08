@@ -484,6 +484,10 @@ export default class Autocomplete extends Component {
       inputClassList.push(`${inputClassName}--focused`)
     }
 
+    if (menuOpen || showNoOptionsFound) {
+      inputClassList.push(`${inputClassName}--bottomless`)
+    }
+
     if (inputClasses) {
       inputClassList.push(inputClasses)
     }

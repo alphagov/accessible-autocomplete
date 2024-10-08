@@ -39,6 +39,14 @@
   cursor: pointer;
 }
 
+.autocomplete__input--bottomless {
+  border-bottom: 0;
+}
+
+.autocomplete__input--bottomless.autocomplete__input--focused {
+  box-shadow: inset 2px 2px 0 0, inset -2px 0 0 0;
+}
+
 .autocomplete__dropdown-arrow-down {
   z-index: -1;
   display: inline-block;
@@ -54,12 +62,21 @@
   border: 2px solid #0b0c0c;
   border-top: 0;
   color: #0b0c0c;
-  margin: 0;
+  margin: 0 0 0 2px;
   max-height: 342px;
   overflow-x: hidden;
   padding: 0;
   width: 100%;
-  width: calc(100% - 4px);
+  width: calc(100% - 8px);
+}
+
+.autocomplete__input--bottomless ~ .autocomplete__menu:before {
+  content: "";
+  display: block;
+  background-color: #0b0c0c;
+  height: 1px;
+  width: calc(100% - 20px);
+  margin: 0 0 0 10px;
 }
 
 .autocomplete__menu--visible {
