@@ -136,6 +136,15 @@
       <label for="autocomplete-customDropdownArrow">Country</label>
       <div id="tt-customDropdownArrow" class="autocomplete-wrapper"></div>
 
+      <h3><code>{ useBottomlessInput: true }</code></h3>
+      <p>
+        This option will toggle the input losing it's bottom border and 'flowing'
+        into the dialog box below when suggestions or the 'no results' dialog
+        are visible.
+      </p>
+      <label for="autocomplete-useBottomlessInput">Country</label>
+      <div id="tt-useBottomlessInput" class="autocomplete-wrapper"></div>
+
       <h3><code>{ inputClasses: 'app-input'}</code></h3>
       <p>
         The classes provided in <code>inputClasses</code> are added to
@@ -689,5 +698,15 @@
       })
     </script>
 
+    <script type="text/javascript">
+      element = document.querySelector('#tt-useBottomlessInput')
+      id = 'autocomplete-useBottomlessInput'
+      accessibleAutocomplete({
+        element: element,
+        id: id,
+        source: countries,
+        useBottomlessInput: true
+      })
+    </script>
   </body>
 </html>

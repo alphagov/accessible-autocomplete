@@ -51,6 +51,7 @@ export default class Autocomplete extends Component {
     tNoResults: () => 'No results found',
     tAssistiveHint: () => 'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.',
     dropdownArrow: DropdownArrowDown,
+    useBottomlessInput: false,
     menuAttributes: {},
     inputClasses: null,
     hintClasses: null,
@@ -422,6 +423,7 @@ export default class Autocomplete extends Component {
       tStatusResults,
       tAssistiveHint,
       dropdownArrow: dropdownArrowFactory,
+      useBottomlessInput,
       menuAttributes,
       inputClasses,
       hintClasses,
@@ -482,6 +484,10 @@ export default class Autocomplete extends Component {
     const componentIsFocused = focused !== null
     if (componentIsFocused) {
       inputClassList.push(`${inputClassName}--focused`)
+    }
+
+    if (useBottomlessInput && (menuOpen || showNoOptionsFound)) {
+      inputClassList.push(`${inputClassName}--bottomless`)
     }
 
     if (inputClasses) {

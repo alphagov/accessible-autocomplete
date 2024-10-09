@@ -335,6 +335,20 @@ Type: `Function`
 
 A function that gets passed an object with the property `className` (`{ className: '' }`) and should return a string of HTML or a (P)React element. :warning: **Caution:** because this function allows you to output arbitrary HTML, you should [make sure it's trusted](https://en.wikipedia.org/wiki/Cross-site_scripting), and accessible.
 
+#### `useBottomlessInput` (default: `false`)
+
+Type: `Boolean`
+
+If this is set to `true`, the input will it's bottom border and 'flow' into the dialog box below when suggestions or the 'no results' dialog are visible. This is a 'feature flag' for a visual enhancement to help users using zoom notice that there is more information available below the input when they're zoomed in very close to the input.
+
+If using this and the `cssNamespace` option, you will need to create CSS rules for:
+
+- `[namespace]__input--bottomless`
+- `[namespace]__input--bottomless.[namespace]__input--focused`
+- `[namespace]__menu:before`
+
+If not, this enhancement will not be applied. See `autocomplete.css` for how we've applied these styles.
+
 ### Internationalization
 
 #### `tNoResults` (default: `() => 'No results found'`)
