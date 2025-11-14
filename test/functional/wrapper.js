@@ -336,4 +336,27 @@ describe('Wrapper', () => {
       }, 250)
     }, 250)
   })
+
+  it('does not add a form attribute by default', () => {
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInput = scratch.querySelector('.autocomplete__input')
+    expect(autocompleteInput.getAttribute('form')).to.equal(null)
+  })
+
+  it('can define a custom form for the autocomplete element', () => {
+    const select = injectSelectToEnhanceIntoDOM(scratch)
+
+    accessibleAutocomplete.enhanceSelectElement({
+      form: 'myForm',
+      selectElement: select
+    })
+
+    const autocompleteInput = scratch.querySelector('.autocomplete__input')
+    expect(autocompleteInput.getAttribute('form')).to.equal('myForm')
+  })
 })
