@@ -292,8 +292,7 @@
         var submittedEl = document.querySelector('.submitted')
         submittedEl.classList.remove('submitted--hidden')
         var params = new URLSearchParams(document.location.search.split('?')[1])
-        document.querySelector('.submitted__last-location').innerHTML = params.get('last-location')
-        document.querySelector('.submitted__passport-location').innerHTML = params.get('passport-location')
+        document.querySelector('.submitted__last-location').textContent = params.get('last-location')
       }
     </script>
   </body>
