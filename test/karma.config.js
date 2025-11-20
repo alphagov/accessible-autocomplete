@@ -14,7 +14,16 @@ module.exports = function (config) {
     frameworks: ['mocha', 'webpack'],
     reporters: ['mocha'],
 
-    browsers: ['ChromeHeadless'],
+    // Chrome won't run on CI unless the `--no-sandbox` and `--disable-setuid-sandbox` flags are applied
+    // Karma's Chrome Headless seems based on Puppeteer and runs into this issue:
+    // https://github.com/Googlechrome/puppeteer/issues/290
+    browsers: ['ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-setuid-sandbox']
+      }
+    },
 
     files: [
       'test/functional/**/*.js'
