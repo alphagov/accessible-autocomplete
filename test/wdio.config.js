@@ -1,4 +1,6 @@
-require('dotenv').config()
+require('dotenv').config({
+  quiet: true
+})
 require('@babel/register')({
   rootMode: 'upward'
 })
@@ -72,15 +74,12 @@ exports.config = {
   key: SAUCE_ACCESS_KEY,
 
   // Use DevTools prototype for Puppeteer
-  automationProtocol: SAUCE_ENABLED === 'true'
-    ? 'webdriver'
-    : 'devtools',
+  automationProtocol: SAUCE_ENABLED === 'true' ? 'webdriver' : 'devtools',
 
   baseUrl: `http://localhost:${PORT}`,
 
-  capabilities: SAUCE_ENABLED === 'true'
-    ? capabilitiesSauce
-    : capabilitiesLocal,
+  capabilities:
+    SAUCE_ENABLED === 'true' ? capabilitiesSauce : capabilitiesLocal,
 
   framework: 'mocha',
   outputDir: join(cwd(), 'logs'),
@@ -92,23 +91,29 @@ exports.config = {
      *
      * @type {[string, StaticServerOptions]}
      */
-    ['static-server', {
-      folders: [
-        { mount: '/', path: join(cwd(), 'examples') },
-        { mount: '/dist/', path: join(cwd(), 'dist') }
-      ],
-      port: PORT
-    }],
+    [
+      'static-server',
+      {
+        folders: [
+          { mount: '/', path: join(cwd(), 'examples') },
+          { mount: '/dist/', path: join(cwd(), 'dist') }
+        ],
+        port: PORT
+      }
+    ],
 
     /**
      * Browser testing options
      *
      * @type {[string, SauceServiceConfig]}
      */
-    ['sauce', {
-      // Optionally connect to Sauce Labs
-      sauceConnect: SAUCE_ENABLED === 'true'
-    }]
+    [
+      'sauce',
+      {
+        // Optionally connect to Sauce Labs
+        sauceConnect: SAUCE_ENABLED === 'true'
+      }
+    ]
   ],
 
   specs: [join(cwd(), 'test/integration/**/*.js')],
