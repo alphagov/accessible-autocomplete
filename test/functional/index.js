@@ -594,13 +594,13 @@ describe('Autocomplete', () => {
 
       describe('on the input', () => {
         describe('with menu opened', () => {
-          it('prevents default, does nothing', () => {
+          it('triggers search', () => {
             let preventedDefault = false
             autocomplete.setState({ menuOpen: true, options: [], query: 'asd', focused: -1, selected: -1 })
             const stateBefore = autocomplete.state
-            autocomplete.handleKeyDown({ preventDefault: () => { preventedDefault = true }, keyCode: 13 })
+            autocomplete.handleKeyDown({ preventDefault: () => { preventedDefault = false }, keyCode: 13 })
             expect(autocomplete.state).to.equal(stateBefore)
-            expect(preventedDefault).to.equal(true)
+            expect(preventedDefault).to.equal(false)
           })
         })
 
