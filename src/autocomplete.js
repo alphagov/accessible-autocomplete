@@ -42,6 +42,7 @@ export default class Autocomplete extends Component {
     displayMenu: 'inline',
     minLength: 0,
     name: 'input-autocomplete',
+    form: '',
     placeholder: '',
     onConfirm: () => {},
     confirmOnBlur: true,
@@ -405,6 +406,12 @@ export default class Autocomplete extends Component {
     }
   }
 
+  setFormAttribute (element) {
+    if (element && this.props.form) {
+      element.setAttribute('form', this.props.form)
+    }
+  }
+
   render () {
     const {
       cssNamespace,
@@ -557,7 +564,10 @@ export default class Autocomplete extends Component {
           onFocus={this.handleInputFocus}
           name={name}
           placeholder={placeholder}
-          ref={(inputElement) => { this.elementReferences[-1] = inputElement }}
+          ref={(inputElement) => {
+            this.elementReferences[-1] = inputElement
+            this.setFormAttribute(inputElement)
+          }}
           type='text'
           role='combobox'
           required={required}

@@ -90,6 +90,26 @@ describe('Autocomplete', () => {
         expect(inputElement.getAttribute('aria-describedby')).to.equal('autocomplete-default__assistiveHint')
       })
 
+      describe('renders with an form attribute', () => {
+        it('is not present', () => {
+          render(<Autocomplete  />, scratch)
+
+          const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          const inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+          expect(inputElement.getAttribute('form')).to.equal(null)
+        })
+
+        it('is not present', () => {
+          render(<Autocomplete form={'myForm'} />, scratch)
+
+          const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          const inputElement = wrapperElement.getElementsByTagName('input')[0]
+
+          expect(inputElement.getAttribute('form')).to.equal('myForm')
+        })
+      })
+
       describe('renders with an aria-autocomplete attribute', () => {
         it('of value "list", when autoselect is not enabled', () => {
           render(<Autocomplete required />, scratch)
