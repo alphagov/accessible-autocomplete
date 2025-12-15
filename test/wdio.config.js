@@ -24,7 +24,10 @@ const capabilitiesLocal = [
   {
     browserName: 'chrome',
     'goog:chromeOptions': {
-      args: ['--headless=new'],
+      // Chrome won't run on CI unless the `--no-sandbox` and `--disable-setuid-sandbox` flags are applied
+      // otherwise, it runs into the same kind of issue as Karma and Puppeteer:
+      // https://github.com/Googlechrome/puppeteer/issues/290
+      args: ['--headless=new', '--no-sandbox', '--disable-setuid-sandbox'],
       binary: puppeteer.executablePath()
     }
   }
