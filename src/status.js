@@ -32,25 +32,31 @@ export default class Status extends Component {
     }
   }
 
-  state = {
-    bump: false,
-    debounced: false
-  }
+  constructor (props) {
+    super(props)
 
-  /* eslint-disable react/no-deprecated -- https://github.com/alphagov/accessible-autocomplete/issues/418 */
-  componentWillMount () {
+    this.state = {
+      bump: false,
+      debounced: false
+    }
+
     const that = this
     this.debounceStatusUpdate = debounce(function () {
       if (!that.state.debounced) {
         const shouldSilence = !that.props.isInFocus || that.props.validChoiceMade
-        that.setState(({ bump }) => ({ bump: !bump, debounced: true, silenced: shouldSilence }))
+        that.setState(({ bump }) => ({
+          bump: !bump,
+          debounced: true,
+          silenced: shouldSilence
+        }))
       }
     }, statusDebounceMillis)
   }
 
-  /* eslint-disable react/no-deprecated -- https://github.com/alphagov/accessible-autocomplete/issues/418 */
-  componentWillReceiveProps ({ queryLength }) {
-    this.setState({ debounced: false })
+  componentDidUpdate (prevProps) {
+    if (prevProps.queryLength !== this.props.queryLength) {
+      this.setState({ debounced: false })
+    }
   }
 
   render () {
