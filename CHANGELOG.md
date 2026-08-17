@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixes
+
+- [Pull request #794: Copy iOS suffix inline styles to the stylesheet, to allow the component to be rendered correctly without specific CSP exceptions](https://github.com/alphagov/accessible-autocomplete/pull/794)
+
 ## 3.0.1 - 2024-09-12
 
 ### Fixes

@@ -438,6 +438,7 @@ export default class Autocomplete extends Component {
       inputFocused && noOptionsAvailable && queryNotEmpty && queryLongEnough
 
     const wrapperClassName = `${cssNamespace}__wrapper`
+    const visuallyHiddenClassName = `${cssNamespace}__visually-hidden`
     const statusClassName = `${cssNamespace}__status`
     const dropdownArrowClassName = `${cssNamespace}__dropdown-arrow-down`
     const optionFocused = focused !== -1 && focused !== null
@@ -539,7 +540,7 @@ export default class Autocomplete extends Component {
           tNoResults={tStatusNoResults}
           tSelectedOption={tStatusSelectedOption}
           tResults={tStatusResults}
-          className={statusClassName}
+          className={`${statusClassName} ${visuallyHiddenClassName}`}
         />
 
         {hintValue && (
@@ -572,9 +573,10 @@ export default class Autocomplete extends Component {
             const optionModifierFocused = showFocused && hovered === null ? ` ${optionClassName}--focused` : ''
             const optionModifierOdd = (index % 2) ? ` ${optionClassName}--odd` : ''
             const iosPosinsetHtml = (isIosDevice())
-              ? `<span id=${id}__option-suffix--${index} style="border:0;clip:rect(0 0 0 0);height:1px;` +
-                'marginBottom:-1px;marginRight:-1px;overflow:hidden;padding:0;position:absolute;' +
-                'whiteSpace:nowrap;width:1px">' + ` ${index + 1} of ${options.length}</span>`
+              ? `<span id=${id}__option-suffix--${index} class="${visuallyHiddenClassName}" ` +
+                'style="border:0;clip:rect(0 0 0 0);height:1px;marginBottom:-1px;marginRight:-1px;overflow:hidden;' +
+                'padding:0;position:absolute;whiteSpace:nowrap;width:1px">' +
+              ` ${index + 1} of ${options.length}</span>`
               : ''
 
             return (

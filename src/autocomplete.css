@@ -165,3 +165,16 @@
     line-height: 1.3157894737;
   }
 }
+
+.autocomplete__visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin-bottom: -1px;
+  margin-right: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
