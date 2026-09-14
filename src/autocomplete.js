@@ -202,16 +202,32 @@ export default class Autocomplete extends Component {
   }
 
   handleInputBlur (event) {
-    const { focused, menuOpen, options, query, selected } = this.state
-    const focusingAnOption = focused !== -1
-    if (!focusingAnOption) {
-      const keepMenuOpen = menuOpen && isIosDevice()
-      const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
-      this.handleComponentBlur({
-        menuOpen: keepMenuOpen,
-        query: newQuery
-      })
+    const relatedTarget = event.relatedTarget
+
+    // If focus is moving to another element inside the component (e.g. an option receiving
+    // real DOM focus), bail immediately — handleOptionBlur will take care of closing.
+    const inputEl = this.elementReferences[-1]
+    const wrapper = inputEl && inputEl.parentElement
+    if (wrapper && relatedTarget && wrapper.contains(relatedTarget)) {
+      return
     }
+
+    // Defer so that any setState queued by a concurrent keydown handler (e.g.
+    // handleDownArrow) is committed before we read this.state.focused.  Without
+    // this, VoiceOver can fire blur before Preact flushes the focused update,
+    // causing the menu to close when it should stay open.
+    setTimeout(() => {
+      const { focused, menuOpen, options, query, selected } = this.state
+      const focusingAnOption = focused !== -1
+      if (!focusingAnOption) {
+        const keepMenuOpen = menuOpen && isIosDevice()
+        const newQuery = isIosDevice() ? query : this.templateInputValue(options[selected])
+        this.handleComponentBlur({
+          menuOpen: keepMenuOpen,
+          query: newQuery
+        })
+      }
+    }, 0)
   }
 
   handleInputChange (event) {
@@ -281,6 +297,12 @@ export default class Autocomplete extends Component {
   }
 
   handleOptionClick (event, index) {
+    // VoiceOver fires synthetic click events (detail === 0) when moving its virtual
+    // cursor over options, which would unintentionally confirm a selection.  Real
+    // mouse clicks always have detail >= 1.  Keyboard activations (Enter/Space) reach
+    // this method with a KeyboardEvent whose type is not 'click', so they are unaffected.
+    if (event.type === 'click' && event.detail === 0) { return }
+
     const selectedOption = this.state.options[index]
     const newQuery = this.templateInputValue(selectedOption)
     this.props.onConfirm(selectedOption)
@@ -459,7 +481,8 @@ export default class Autocomplete extends Component {
       'aria-expanded': menuOpen ? 'true' : 'false',
       'aria-activedescendant': optionFocused ? `${id}__option--${focused}` : null,
       'aria-controls': `${id}__listbox`,
-      'aria-autocomplete': (this.hasAutoselect()) ? 'both' : 'list'
+      'aria-autocomplete': (this.hasAutoselect()) ? 'both' : 'list',
+      'aria-haspopup': 'listbox'
     }
 
     let dropdownArrow
