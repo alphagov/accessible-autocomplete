@@ -12,6 +12,10 @@ Make sure you're using the latest version of the [`dist/accessible-autocomplete.
 
 We made this change in [pull request #794: Ensure hidden suffix for iOS is not visible when CSP block inline styles](https://github.com/alphagov/accessible-autocomplete/pull/794).
 
+### Fixes
+
+- [Pull request #800: Fix iOS option suffix inline CSS property name](https://github.com/alphagov/accessible-autocomplete/pull/800)
+
 ## 3.0.1 - 2024-09-12
 
 ### Fixes
