@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 3.0.2 (Fix release)
+
 ### Recommended change
 
 #### Make sure visually hidden elements are not visible when Content Security Policies block inline styles
