@@ -10,49 +10,46 @@ updates:
     groups:
       build:
         patterns:
-          - '@babel/*'
-          - 'autoprefixer'
-          - 'babel-*'
-          - 'core-js'
-          - 'cssnano'
-          - 'cssnano-*'
-          - 'css-loader'
-          - 'mini-css-extract-plugin'
-          - 'postcss'
-          - 'postcss-*'
-          - 'source-map-loader'
-          - 'terser-*'
-          - 'webpack'
-          - 'webpack-*'
+          - "@babel/*"
+          - "autoprefixer"
+          - "babel-*"
+          - "core-js"
+          - "cssnano"
+          - "cssnano-*"
+          - "css-loader"
+          - "mini-css-extract-plugin"
+          - "postcss"
+          - "postcss-*"
+          - "source-map-loader"
+          - "terser-*"
+          - "webpack"
+          - "webpack-*"
 
       test:
         patterns:
-          - '@wdio/*'
-          - 'chai'
-          - 'devtools'
-          - 'karma'
-          - 'karma-*'
-          - 'mocha'
-          - 'puppeteer'
-          - 'standard'
-          - 'webdriverio'
+          - "@wdio/*"
+          - "chai"
+          - "devtools"
+          - "karma"
+          - "karma-*"
+          - "mocha"
+          - "puppeteer"
+          - "standard"
+          - "webdriverio"
 
       tools:
         patterns:
-          - 'chalk'
-          - 'cross-env'
-          - 'dotenv'
-          - 'husky'
-          - 'npm-run-all'
-
-    reviewers:
-      - alphagov/design-system-developers
+          - "chalk"
+          - "cross-env"
+          - "dotenv"
+          - "husky"
+          - "npm-run-all"
 
     # Schedule run on 1st of every month, local time
     schedule:
       interval: monthly
-      time: '10:30'
-      timezone: 'Europe/London'
+      time: "10:30"
+      timezone: "Europe/London"
 
     versioning-strategy: increase
 
@@ -67,11 +64,9 @@ updates:
   # Update GitHub Actions
   - package-ecosystem: github-actions
     directory: /
-    reviewers:
-      - alphagov/design-system-developers
 
     # Schedule run on 1st of every month, local time
     schedule:
       interval: monthly
-      time: '10:30'
-      timezone: 'Europe/London'
+      time: "10:30"
+      timezone: "Europe/London"
