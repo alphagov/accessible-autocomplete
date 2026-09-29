@@ -336,4 +336,30 @@ describe('Wrapper', () => {
       }, 250)
     }, 250)
   })
+
+  it('resets original select to null option when onConfirm is called with empty query', () => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
+    const config = { selectElement: select }
+    accessibleAutocomplete.enhanceSelectElement(config)
+
+    expect(select.value).to.equal('de')
+    config.onConfirm('')
+    expect(select.value).to.equal('')
+  })
+
+  it('resets original select selectedIndex to -1 when onConfirm is called with empty query and no null option exists', () => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, {
+      options: {
+        fr: 'France',
+        de: 'Germany'
+      },
+      selected: 'de'
+    })
+    const config = { selectElement: select }
+    accessibleAutocomplete.enhanceSelectElement(config)
+
+    expect(select.value).to.equal('de')
+    config.onConfirm('')
+    expect(select.selectedIndex).to.equal(-1)
+  })
 })

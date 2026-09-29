@@ -26,7 +26,16 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
   }
   configurationOptions.onConfirm = configurationOptions.onConfirm || (query => {
     const requestedOption = [].filter.call(configurationOptions.selectElement.options, option => (option.textContent || option.innerText) === query)[0]
-    if (requestedOption) { requestedOption.selected = true }
+    if (requestedOption) {
+      requestedOption.selected = true
+    } else {
+      const nullOption = [].filter.call(configurationOptions.selectElement.options, option => !option.value)[0]
+      if (nullOption) {
+        nullOption.selected = true
+      } else {
+        configurationOptions.selectElement.selectedIndex = -1
+      }
+    }
   })
 
   if (configurationOptions.selectElement.value || configurationOptions.defaultValue === undefined) {
