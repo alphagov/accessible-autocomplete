@@ -1,3 +1,5 @@
+# Renamed the Workflow so we only get vulnerability dependabot activity
+
 version: 2
 
 updates:
