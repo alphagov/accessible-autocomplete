@@ -122,7 +122,6 @@ git push --no-verify
 ### Tagging a new release on GitHub
 
 1. Check out the **main** branch and pull the latest changes.
-```
 
 2. Ensure you're running the version of NodeJS matching [`.nvmrc`](/.nvmrc).
 
@@ -134,37 +133,50 @@ git push --no-verify
 4. Pick a new version number according to the [versioning documentation](/docs/contributing/versioning.md) and apply it by running:
 
    ```shell
-   npm version <NEW VERSION NUMBER> --no-git-tag-version --workspace govuk-frontend
+   npm version <NEW VERSION NUMBER> --no-git-tag-version
    ```
 
-   This step will update [`govuk-frontend`'s `package.json`](/packages/govuk-frontend/package.json) and project [`package-lock.json`](/package-lock.json) files.
+   This step will update the project's [`package.json`](/package.json) and [`package-lock.json`](/package-lock.json) files.
 
    Do not commit the changes.
 
 5. Create and check out a new branch (`release-[version]`)
 
    ```shell
-   git switch -c "release-$(npm run version --silent --workspace govuk-frontend)"
+   git switch -c "release-$(npm pkg get version | jq -r 'last(..)')"
+   ```
 
 6. Update the [`CHANGELOG.md`](/CHANGELOG.md) by:
 
    - changing the 'Unreleased' heading to the new version number and release type. For example, '3.11.0 (Feature release)'
    - adding a new 'Unreleased' heading above the new version number and release type, so users will know where to add PRs to the changelog
-   - if the changelog has headings from [pre-releases](/docs/releasing/publishing-a-pre-release.md#publish-a-new-version-of-govuk-frontend), regroup the content under those headings in a single block
+   - if the changelog has headings from pre-releases, regroup the content under those headings in a single block
    - saving your changes
 
 7. Commit the changes and push them to GitHub
 
-```bash
-git commit -m "Release v$(npm run version --silent --workspace govuk-frontend)"
-git tag "v$(npm run version --silent --workspace govuk-frontend)"
-git push --tags
-```
+   ```bash
+   git add .
+   git commit -m "Release v$(npm pkg get version | jq -r 'last(..)')"
+   git push
+   ```
 
-8. Create a pull request and copy the changelog text.
+8. Create a pull request
+
+   Use the changelog entry as the summary for the pull request.
+
    When reviewing the PR, check that the version numbers have been updated.
 
 9. Once a reviewer approves the pull request, merge it to **main**.
+
+10. Create and push the tag for this release
+
+   ```bash
+   git switch main
+   git pull
+   git tag "v$(npm pkg get version | jq -r 'last(..)')"
+   git push --tags
+   ```
 
 ### Publish the release to npm
 
@@ -178,7 +190,7 @@ git push --tags
 
 To create a new GitHub release, do the following:
 
-1. Select the tag corresponding to the release in [the list of tags on GitHub](https://github.com/alphagov/govuk-frontend/tags)
+1. Select the tag corresponding to the release in [the list of tags on GitHub](https://github.com/alphagov/accessible-autocomplete/tags)
 2. Press **Create release from tag**
 3. Set `v<VERSION_NUMBER>` as the title
 4. Add release notes from [`CHANGELOG.md`](/CHANGELOG.md)
