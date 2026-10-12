@@ -5,7 +5,6 @@ require('@babel/register')({
 
 const { join } = require('path')
 const { cwd } = require('process')
-const puppeteer = require('puppeteer')
 
 const {
   PORT = 4567,
@@ -27,8 +26,11 @@ const capabilitiesLocal = [
       // Chrome won't run on CI unless the `--no-sandbox` and `--disable-setuid-sandbox` flags are applied
       // otherwise, it runs into the same kind of issue as Karma and Puppeteer:
       // https://github.com/Googlechrome/puppeteer/issues/290
-      args: ['--headless=new', '--no-sandbox', '--disable-setuid-sandbox'],
-      binary: puppeteer.executablePath()
+      args: [
+        '--headless=new',
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ]
     }
   }
 ]
@@ -70,20 +72,10 @@ const capabilitiesSauce = [
  *
  * @type {Testrunner}
  */
-exports.config = {
-  user: SAUCE_USERNAME,
-  key: SAUCE_ACCESS_KEY,
-
-  // Use DevTools prototype for Puppeteer
-  automationProtocol: SAUCE_ENABLED === 'true'
-    ? 'webdriver'
-    : 'devtools',
-
+const config = {
   baseUrl: `http://localhost:${PORT}`,
 
-  capabilities: SAUCE_ENABLED === 'true'
-    ? capabilitiesSauce
-    : capabilitiesLocal,
+  capabilities: capabilitiesLocal,
 
   framework: 'mocha',
   outputDir: join(cwd(), 'logs'),
@@ -101,22 +93,23 @@ exports.config = {
         { mount: '/dist/', path: join(cwd(), 'dist') }
       ],
       port: PORT
-    }],
-
-    /**
-     * Browser testing options
-     *
-     * @type {[string, SauceServiceConfig]}
-     */
-    ['sauce', {
-      // Optionally connect to Sauce Labs
-      sauceConnect: SAUCE_ENABLED === 'true'
     }]
   ],
 
   specs: [join(cwd(), 'test/integration/**/*.js')],
   waitforTimeout: 30 * 10000
 }
+
+if (SAUCE_ENABLED === 'true') {
+  config.user = SAUCE_USERNAME
+  config.key = SAUCE_ACCESS_KEY
+  config.capabilities = capabilitiesSauce
+  config.services.push([
+    'sauce', { sauceConnect: true }
+  ])
+}
+
+exports.config = config
 
 /**
  * @typedef {import('@wdio/types').Options.Testrunner} Testrunner
