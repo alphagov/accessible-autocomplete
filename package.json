@@ -35,6 +35,8 @@
     "@babel/plugin-transform-react-jsx": "^7.23.4",
     "@babel/preset-env": "^7.23.9",
     "@babel/register": "^7.23.7",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
     "@wdio/cli": "^8.39.1",
     "@wdio/globals": "^8.39.1",
     "@wdio/local-runner": "^8.39.1",
