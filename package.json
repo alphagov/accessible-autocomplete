@@ -26,6 +26,7 @@
     "standard": "standard",
     "pretest": "npm run build",
     "test": "run-p standard karma wdio",
+    "test:end-to-end": "npx playwright test",
     "version": "git add -A dist",
     "wdio": "cross-env NODE_ENV=test wdio test/wdio.config.js"
   },
