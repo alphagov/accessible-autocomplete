@@ -26,6 +26,7 @@
     "standard": "standard",
     "pretest": "npm run build",
     "test": "run-p standard karma wdio",
+    "test:end-to-end": "npx playwright test",
     "version": "git add -A dist",
     "wdio": "cross-env NODE_ENV=test wdio test/wdio.config.js"
   },
@@ -35,6 +36,8 @@
     "@babel/plugin-transform-react-jsx": "^7.23.4",
     "@babel/preset-env": "^7.23.9",
     "@babel/register": "^7.23.7",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
     "@wdio/cli": "^8.39.1",
     "@wdio/globals": "^8.39.1",
     "@wdio/local-runner": "^8.39.1",
