@@ -19,9 +19,9 @@ const basicExample = () => {
 
   beforeEach(async ({ page }) => {
     await page.reload()
-    $wrapper = page.locator("#tt-default")
-    $input = $wrapper.getByRole("combobox")
-    $menu = $wrapper.getByRole("listbox")
+    $wrapper = page.locator('#tt-default')
+    $input = $wrapper.getByRole('combobox')
+    $menu = $wrapper.getByRole('listbox')
   })
 
   describe('basic example', () => {
@@ -33,13 +33,13 @@ const basicExample = () => {
       await $input.click()
       await expect($input).toBeFocused()
     })
-    
+
     test('should display suggestions', async () => {
       await $input.click()
       await $input.fill('ita')
       await expect($menu).toBeVisible()
     })
-    
+
     test('should set aria-selected to true on selected option and false on other options', async ({ page }) => {
       await $input.click()
       await $input.fill('ita')
@@ -70,7 +70,7 @@ const basicExample = () => {
       await expect($regionA.or($regionB).filter({ hasText: /\S/ })).toHaveCount(1)
 
       const regionAText = await $regionA.textContent()
-    
+
       if (regionAText !== '') {
         await $input.fill('s')
         await expect($regionA).toBeEmpty()
@@ -109,7 +109,7 @@ const basicExample = () => {
       await expect($menu).toBeVisible()
       await expect($input).not.toBeFocused()
       await expect($option1).toBeFocused()
-      
+
       await page.keyboard.press('ArrowDown')
       await expect($menu).toBeVisible()
       await expect($input).toHaveValue('ita')
@@ -174,9 +174,9 @@ const customTemplatesExample = () => {
 
     beforeEach(async ({ page }) => {
       await page.reload()
-      $wrapper = page.locator("#tt-customTemplates")
-      $input = $wrapper.getByRole("combobox")
-      $menu = $wrapper.getByRole("listbox")
+      $wrapper = page.locator('#tt-customTemplates')
+      $input = $wrapper.getByRole('combobox')
+      $menu = $wrapper.getByRole('listbox')
     })
 
     describe('mouse use', () => {
@@ -211,10 +211,10 @@ const classesPropsExamples = () => {
   describe('classes properties', () => {
     test('should set `inputClasses` on both hint and input', async ({ page, browserName, isMobile }) => {
       // Skip this test in Safari where it's not available
-      test.skip(isMobile && browserName === "webkit")
+      test.skip(isMobile && browserName === 'webkit')
 
-      $wrapper = page.locator("#tt-inputClasses")
-      $input = $wrapper.getByRole("combobox")
+      $wrapper = page.locator('#tt-inputClasses')
+      $input = $wrapper.getByRole('combobox')
 
       await expect($input).toContainClass('app-input')
 
@@ -228,10 +228,10 @@ const classesPropsExamples = () => {
 
     test('should set `hintClasses` on the hint', async ({ page, browserName, isMobile }) => {
       // Skip this test in Safari where it's not available
-      test.skip(isMobile && browserName === "webkit")
+      test.skip(isMobile && browserName === 'webkit')
 
-      $wrapper = page.locator("#tt-hintClasses")
-      $input = $wrapper.getByRole("combobox")
+      $wrapper = page.locator('#tt-hintClasses')
+      $input = $wrapper.getByRole('combobox')
 
       // Trigger the display of the hint
       await $input.fill('fra')
