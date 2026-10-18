@@ -511,6 +511,10 @@ export default class Autocomplete extends Component {
     const computedMenuAttributes = {
       // set aria-labelledby first so that users can override it with menuAttributes
       'aria-labelledby': id,
+      // Browsers make a scrollable element a tab stop if it has no focusable children,
+      // which the options (tabindex="-1") are not. Keep the menu out of the tab sequence,
+      // otherwise tabbing from the input focuses the menu, which closes and loses focus
+      tabIndex: '-1',
       // Copy the attributes passed as props
       ...menuAttributes,
       // And add the values computed for the autocomplete

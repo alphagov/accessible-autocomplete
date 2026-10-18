@@ -249,6 +249,37 @@ const classesPropsExamples = () => {
   })
 }
 
+const scrollableMenuExample = () => {
+  describe('scrollable menu', () => {
+    const input = 'input#autocomplete-default'
+
+    it('should move focus to the next focusable element when tabbing away from the input', async () => {
+      const $input = await $(input)
+      const $menu = await $(`${input} + ul`)
+      const $nextInput = await $('input#autocomplete-minLength')
+
+      await $input.click()
+      // 'a' matches most countries, so the menu overflows its `max-height` and scrolls
+      await $input.setValue('a')
+      await $menu.waitForDisplayed()
+
+      const menuIsScrollable = await browser.execute((selector) => {
+        const menu = document.querySelector(selector)
+        return menu.scrollHeight > menu.clientHeight
+      }, `${input} + ul`)
+      expect(menuIsScrollable).toEqual(true)
+
+      // Browsers can make a scrollable element a tab stop. Tabbing from the input
+      // must reach the next focusable element rather than the menu, which closes
+      // as soon as the input loses focus and would leave focus on `<body>`
+      await browser.keys([Key.Tab])
+
+      expect(await $menu.isDisplayed()).toEqual(false)
+      expect(await $nextInput.isFocused()).toEqual(true)
+    })
+  })
+}
+
 const takeScreenshotsIfFail = () => {
   afterEach(async function () {
     const testFailed = this.currentTest.state === 'failed'
@@ -276,6 +307,7 @@ describe('Accessible Autocomplete', () => {
   basicExample()
   customTemplatesExample()
   classesPropsExamples()
+  scrollableMenuExample()
 
   takeScreenshotsIfFail()
 })
