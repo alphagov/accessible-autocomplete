@@ -65,7 +65,7 @@ npm run karma:dev
 To run the end-to-end tests locally:
 
 ```bash
-npx run test:end-to-end
+npx run test:end-to-end:ui
 ```
 
 To build the project for distribution:

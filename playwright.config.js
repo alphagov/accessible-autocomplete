@@ -56,7 +56,7 @@ export default defineConfig({
 
   /* Run the server before starting the tests */
   webServer: {
-    command: process.env.CI ? 'npm start' : 'npm run dev',
+    command: process.env.NODE_ENV === 'development' ? 'npm run dev' : 'npm start',
     url: baseURL
   }
 })

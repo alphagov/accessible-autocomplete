@@ -26,10 +26,11 @@
     "preversion": "npm test",
     "standard": "standard",
     "pretest": "npm run build",
-    "test": "run-p standard karma test:end-to-end",
+    "test": "run-p standard karma test:end-to-end:dev",
     "test:end-to-end": "npx playwright test",
-    "version": "git add -A dist",
-    "wdio": "cross-env NODE_ENV=test wdio test/wdio.config.js"
+    "test:end-to-end:dev": "cross-env NODE_ENV=development npx playwright test --project=chromium",
+    "test:end-to-end:ui": "cross-env NODE_ENV=development npx playwright test --ui",
+    "version": "git add -A dist"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
