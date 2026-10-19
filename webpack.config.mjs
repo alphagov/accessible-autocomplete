@@ -112,7 +112,7 @@ const bundleStandalone = {
     static: [
       {
         directory: join(cwd(), 'examples'),
-        publicPath: '/dist',
+        publicPath: '/',
         watch: true
       }
     ]

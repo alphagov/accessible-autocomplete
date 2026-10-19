@@ -245,7 +245,7 @@ const classesPropsExamples = () => {
 
 describe('Accessible Autocomplete', () => {
   beforeEach(async ({ page }) => {
-    await page.goto('')
+    await page.goto('/')
   })
 
   test('should have the right title', async ({ page }) => {
@@ -259,7 +259,7 @@ describe('Accessible Autocomplete', () => {
 
 describe('Accessible Autocomplete Preact', () => {
   beforeEach(async ({ page }) => {
-    await page.goto('preact')
+    await page.goto('/preact')
   })
 
   test('should have the right title', async ({ page }) => {
@@ -271,7 +271,7 @@ describe('Accessible Autocomplete Preact', () => {
 
 describe('Accessible Autocomplete React', () => {
   beforeEach(async ({ page }) => {
-    await page.goto('react')
+    await page.goto('/react')
   })
 
   test('should have the right title', async ({ page }) => {

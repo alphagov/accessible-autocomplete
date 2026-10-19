@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test'
 
-const baseURL = 'http://localhost:8080/dist/'
+const baseURL = 'http://localhost:8080/'
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -54,10 +54,9 @@ export default defineConfig({
     }
   ],
 
-  /* Run your local dev server before starting the tests */
+  /* Run the server before starting the tests */
   webServer: {
-    command: 'npm run dev',
-    url: baseURL,
-    reuseExistingServer: !process.env.CI
+    command: process.env.CI ? 'npm start' : 'npm run dev',
+    url: baseURL
   }
 })
