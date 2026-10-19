@@ -18,7 +18,9 @@
   ],
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress",
-    "dev": "cross-env NODE_ENV=development webpack serve",
+    "dev": "npm run serve:development",
+    "serve:development": "cross-env NODE_ENV=development webpack serve",
+    "serve:production": "node test/production-static-assets-server.js",
     "karma:dev": "cross-env NODE_ENV=test karma start test/karma.config.js",
     "karma": "npm run karma:dev -- --single-run",
     "prepare": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
@@ -57,6 +59,7 @@
     "cssnano-preset-default": "^6.0.3",
     "devtools": "^8.39.1",
     "dotenv": "^16.4.5",
+    "express": "^5.3.0",
     "husky": "^9.1.5",
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
