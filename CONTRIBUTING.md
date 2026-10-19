@@ -62,27 +62,11 @@ To run the functional tests in dev mode (automatically reruns when a file change
 npm run karma:dev
 ```
 
-To run the integration tests locally with Chrome (specified in [wdio.config.js](test/wdio.config.js)):
+To run the end-to-end tests locally:
 
 ```bash
-npm run wdio
+npx run test:end-to-end
 ```
-
-To run the integration tests on [Sauce Labs](https://saucelabs.com/), create a `.env` file with the following:
-
-```bash
-SAUCE_ENABLED="true"
-SAUCE_USERNAME="XXXXXXXX"
-SAUCE_ACCESS_KEY="YYYYYYYY"
-```
-
-And run the same command:
-
-```bash
-npm run wdio
-```
-
-Failed integration tests should output screenshots to the `./screenshots/` folder.
 
 To build the project for distribution:
 

@@ -28,15 +28,12 @@ updates:
   #
   #     test:
   #       patterns:
-  #         - "@wdio/*"
   #         - "chai"
-  #         - "devtools"
   #         - "karma"
   #         - "karma-*"
-  #         - "mocha"
+  #         - "mocha"`
   #         - "puppeteer"
   #         - "standard"
-  #         - "webdriverio"
 
   #     tools:
   #       patterns:
