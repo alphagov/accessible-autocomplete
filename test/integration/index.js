@@ -267,9 +267,6 @@ const takeScreenshotsIfFail = () => {
 describe('Accessible Autocomplete', () => {
   beforeEach(async () => {
     await browser.url('/')
-  })
-
-  it('should have the right title', async () => {
     expect(await browser.getTitle()).toEqual('Accessible Autocomplete examples')
   })
 
@@ -283,9 +280,6 @@ describe('Accessible Autocomplete', () => {
 describe('Accessible Autocomplete Preact', () => {
   beforeEach(async () => {
     await browser.url('/preact')
-  })
-
-  it('should have the right title', async () => {
     expect(await browser.getTitle()).toEqual('Accessible Autocomplete Preact examples')
   })
 
@@ -297,9 +291,6 @@ describe('Accessible Autocomplete Preact', () => {
 describe('Accessible Autocomplete React', () => {
   beforeEach(async () => {
     await browser.url('/react')
-  })
-
-  it('should have the right title', async () => {
     expect(await browser.getTitle()).toEqual('Accessible Autocomplete React examples')
   })
 
