@@ -26,9 +26,8 @@
     "preversion": "npm test",
     "standard": "standard",
     "pretest": "npm run build",
-    "test": "run-p standard karma test:end-to-end:dev",
-    "test:end-to-end": "npx playwright test",
-    "test:end-to-end:dev": "cross-env NODE_ENV=development npx playwright test --project=chromium",
+    "test": "run-p standard karma test:end-to-end",
+    "test:end-to-end": "cross-env NODE_ENV=development npx playwright test --project=chromium",
     "test:end-to-end:ui": "cross-env NODE_ENV=development npx playwright test --ui",
     "version": "git add -A dist"
   },
