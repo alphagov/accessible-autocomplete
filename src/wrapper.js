@@ -25,6 +25,16 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
     configurationOptions.source = availableOptions.map(option => option.textContent || option.innerText)
   }
   configurationOptions.onConfirm = configurationOptions.onConfirm || (query => {
+    // so that we don't retain previous selection
+    configurationOptions.selectElement.value = '';
+
+    // for example, given an autocomplete of locations without auto select
+    //   1. user enters "United"
+    //   2. user clicks "United States" by mistake
+    //   3. user edits the field with "United Kingdom" but does not select the option
+    //   4. user submits the form
+    //   5. server receives "United States"
+
     const requestedOption = [].filter.call(configurationOptions.selectElement.options, option => (option.textContent || option.innerText) === query)[0]
     if (requestedOption) { requestedOption.selected = true }
   })
@@ -55,6 +65,16 @@ accessibleAutocomplete.enhanceSelectElement = (configurationOptions) => {
 
   configurationOptions.selectElement.style.display = 'none'
   configurationOptions.selectElement.id = configurationOptions.selectElement.id + '-select'
+
+  // so that screen readers will announce hint and error when interacting with the new input
+  const autocompleteInput = element.getElementById(configurationOptions.id);
+  const hintAndErrorLinks = configurationOptions.selectElement.getAttribute('aria-describedby')
+  if (autocompleteInput && hintAndErrorLinks !== null) {
+    autocompleteInput.setAttribute(
+        'aria-describedby',
+        hintAndErrorLinks + ' ' + autocompleteInput.getAttribute('aria-describedby')
+    )
+  }
 }
 
 export default accessibleAutocomplete
