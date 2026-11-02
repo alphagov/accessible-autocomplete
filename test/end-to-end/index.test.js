@@ -18,7 +18,6 @@ const basicExample = () => {
   let $menu
 
   beforeEach(async ({ page }) => {
-    await page.reload()
     $wrapper = page.locator('#tt-default')
     $input = $wrapper.getByRole('combobox')
     $menu = $wrapper.getByRole('listbox')
@@ -173,7 +172,6 @@ const customTemplatesExample = () => {
     let $menu
 
     beforeEach(async ({ page }) => {
-      await page.reload()
       $wrapper = page.locator('#tt-customTemplates')
       $input = $wrapper.getByRole('combobox')
       $menu = $wrapper.getByRole('listbox')
@@ -203,10 +201,6 @@ const classesPropsExamples = () => {
    * @type {import("playwright-core").Locator}
    */
   let $input
-
-  beforeEach(async ({ page }) => {
-    await page.reload()
-  })
 
   describe('classes properties', () => {
     test('should set `inputClasses` on both hint and input', async ({ page, browserName, isMobile }) => {
