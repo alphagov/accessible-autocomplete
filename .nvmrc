@@ -1,1 +1,4 @@
-lts/iron
+24.22
+# When updating this version, remember to:
+# - run `nvm install` to install the matching version and update your local version of Node
+# - run `npm install` to update `package-lock.json`
