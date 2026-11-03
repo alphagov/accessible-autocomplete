@@ -190,6 +190,15 @@ describe('Autocomplete', () => {
 
           expect(dropdownElement.getAttribute('aria-labelledby')).to.equal('test')
         })
+
+        it('adds `tabindex="-1"` so a scrollable menu is not a tab stop', () => {
+          render(<Autocomplete id='autocomplete-default' />, scratch)
+
+          const wrapperElement = scratch.getElementsByClassName('autocomplete__wrapper')[0]
+          const dropdownElement = wrapperElement.getElementsByTagName('ul')[0]
+
+          expect(dropdownElement.getAttribute('tabindex')).to.equal('-1')
+        })
       })
 
       it('renders with extra class on the input', () => {
