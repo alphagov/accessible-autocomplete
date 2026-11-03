@@ -336,4 +336,124 @@ describe('Wrapper', () => {
       }, 250)
     }, 250)
   })
+
+  it('triggers change event on original select when an option is selected', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
+    let changeEventFired = false
+    select.addEventListener('change', () => {
+      changeEventFired = true
+    })
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+    const autocompleteOption = autocompleteInstance.querySelector('.autocomplete__option')
+
+    autocompleteInput.value = 'United'
+    setTimeout(() => {
+      expect(autocompleteOption.textContent).to.equal('United Kingdom of Great Britain & Northern Ireland')
+      autocompleteOption.click()
+      expect(select.value).to.equal('gb')
+      expect(changeEventFired).to.equal(true)
+      done()
+    }, 250)
+  })
+
+  it('resets original select to empty option when input is cleared and blurred', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
+    let changeEventFired = false
+    select.addEventListener('change', () => {
+      changeEventFired = true
+    })
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+
+    expect(select.value).to.equal('de')
+
+    autocompleteInput.focus()
+    autocompleteInput.value = ''
+    autocompleteInput.dispatchEvent(new Event('input'))
+
+    setTimeout(() => {
+      autocompleteInput.blur()
+      setTimeout(() => {
+        expect(select.value).to.equal('')
+        const emptyOption = Array.prototype.filter.call(select.options, o => o.value === '')[0]
+        expect(emptyOption.selected).to.equal(true)
+        expect(changeEventFired).to.equal(true)
+        done()
+      }, 250)
+    }, 250)
+  })
+
+  it('deselects all options when input is cleared and select has no empty option', (done) => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, {
+      options: { fr: 'France', de: 'Germany' },
+      selected: 'de'
+    })
+    let changeEventFired = false
+    select.addEventListener('change', () => {
+      changeEventFired = true
+    })
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: select
+    })
+
+    const autocompleteInstances = document.querySelectorAll('.autocomplete__wrapper')
+    const autocompleteInstance = autocompleteInstances[0]
+    const autocompleteInput = autocompleteInstance.querySelector('.autocomplete__input')
+
+    expect(select.value).to.equal('de')
+
+    autocompleteInput.focus()
+    autocompleteInput.value = ''
+    autocompleteInput.dispatchEvent(new Event('input'))
+
+    setTimeout(() => {
+      autocompleteInput.blur()
+      setTimeout(() => {
+        expect(select.value).to.equal('')
+        expect(select.selectedIndex).to.equal(-1)
+        expect(changeEventFired).to.equal(true)
+        done()
+      }, 250)
+    }, 250)
+  })
+
+  it('resets select when onConfirm is called with an empty string', () => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, { selected: 'de' })
+    const config = { selectElement: select }
+    accessibleAutocomplete.enhanceSelectElement(config)
+
+    expect(select.value).to.equal('de')
+    config.onConfirm('')
+    expect(select.value).to.equal('')
+    const emptyOption = Array.prototype.filter.call(select.options, o => o.value === '')[0]
+    expect(emptyOption.selected).to.equal(true)
+  })
+
+  it('deselects all options when onConfirm is called with an empty string on select without empty option', () => {
+    const select = injectSelectToEnhanceIntoDOM(scratch, {
+      options: { fr: 'France', de: 'Germany' },
+      selected: 'de'
+    })
+    const config = { selectElement: select }
+    accessibleAutocomplete.enhanceSelectElement(config)
+
+    expect(select.value).to.equal('de')
+    config.onConfirm('')
+    expect(select.value).to.equal('')
+    expect(select.selectedIndex).to.equal(-1)
+  })
 })
